@@ -145,6 +145,29 @@ class sale_product_attribute(models.Model):
     #OFERTA
     oferta_ids = fields.One2many('sale.offer.oferta', 'attribute_id', string="Ofertas")
     
+    def get_price(self, num_pallets, state_id, country_id):
+        #3p
+        #5p
+        #8p
+        #Si son 12 -> 8p
+        #Si son 7 -> 5p
+        #Si son 2 -> Error
+        
+        if self.referencia_cliente_id.state != 'RCL':
+            return -1
+        
+        npal = -1
+        precio = -1
+        
+        for of in self.oferta_ids:
+            if state_id == of.state_id and country_id == of.country_id:
+                if num_pallets >= of.npallets and of.npallets > npal:
+                    npal = of.npallets
+                    precio = of.get_valor()
+                    
+        return precio
+
+    
     
     
     
@@ -168,6 +191,8 @@ class sale_offer_oferta(models.Model):
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
     
+    def get_valor(self):
+        return self.eton
     
     
     

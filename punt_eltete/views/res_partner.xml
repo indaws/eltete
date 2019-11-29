@@ -2,6 +2,51 @@
 <odoo>
 
 
+    <act_window id="launch_wizard_partner_sale_order"
+            name="Crear pedido"
+            src_model="res.partner"
+            res_model="wizard.partner.sale.order"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+            
+            
+    <record model="ir.ui.view" id="wizard_form_view">
+        <field name="name">wizard.partner.sale.order.form</field>
+        <field name="model">wizard.partner.sale.order</field>
+        <field name="arch" type="xml">
+            <form string="Crear pedido">
+                <group>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="state_id"/>
+                    <field name="country_id"/>
+                </group>
+                
+                <group colspan="2" >
+                    <field name="line_ids" >
+                        <tree string="Líneas" editable="top">
+                            <field name='partner_id' invisible="1"/>
+                            <field name='referencia_cliente_id' domain="[('partner_id', '=', partner_id)]" />
+                            <field name='attribute_id' domain="[('referencia_cliente_id', '=', referencia_cliente_id)]"/>
+                            <field name='num_pallets' />
+                        </tree>
+                    </field>   
+                </group>
+                
+                <footer>
+                    <button name="create_sale_order" type="object"
+                            string="Generar pedido" class="oe_highlight"/>
+                    
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+
 
     <record id="act_res_partner_2_sale_referencia_cliente" model="ir.actions.act_window">
             <field name="name">Referencia cliente</field>
