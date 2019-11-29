@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_sale_offer_tree">
+            <field name="name">sale.offer.tree</field>
+            <field name="model">sale.offer</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="product_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_sale_offer_form">
+            <field name="name">sale.offer.form</field>
+            <field name="model">sale.offer</field>
+            <field name="arch" type="xml">
+                <form string="Ofertas">
+                    <header>
+                        <button name="prepare_offer" type="object" string="Preparar oferta" states="BOR" />
+                        <button name="confirm_offer" type="object" string="Confirmar oferta" states="PRE" />
+                        <button name="modify_offer" type="object" string="Modificar oferta" states="OFE" />
+                        <button name="cancel_offer" type="object" string="Cancelar oferta" states="OFE" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                            <field name="date"/>
+                            <field name="type_id" domain="[('product_type','=',True)]"/>
+                        </group>
+                        
+                        <group>
+                            <field name='ala_1' />
+                            <field name='base' />
+                            <field name='ala_2' />
+                            <field name='grosor' />
+                            <field name='longitud' />
+                            <field name='alas' />
+                        </group>
+                        
+                        <group attrs="{'invisible': [('state', 'in', ['BOR',])]}">
+                            <field name='color_id' />
+                            <field name='especial_id' />
+                            <field name='corte_v' />
+                            <field name='ancho_pallet_id' />
+                            <field name='impresion_id' />
+                        </group>
+                        
+                        
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_sale_offer_search">
+            <field name="name">sale.offer.search</field>
+            <field name="model">sale.offer</field>
+            <field name="arch" type="xml">
+                <search string="Ofertas">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="product_id"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_sale_offer">
+            <field name="name">Ofertas</field>
+            <field name="res_model">sale.offer</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Ofertas" parent="sale.sale_order_menu" id="menu_sale_offer" action="action_sale_offer" sequence="26"/>
+    
+   
+    
+    
+    
+</odoo>

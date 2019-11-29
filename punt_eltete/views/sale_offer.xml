@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_sale_referencia_cliente_tree">
+            <field name="name">sale.referencia.cliente.tree</field>
+            <field name="model">sale.referencia.cliente</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>                    
+                    <field name="product_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_sale_referencia_cliente_form">
+            <field name="name">sale.referencia.cliente.form</field>
+            <field name="model">sale.referencia.cliente</field>
+            <field name="arch" type="xml">
+                <form string="Ofertas">
+                    <header>
+                        <button name="bor_to_ref" type="object" string="Comprobar referencia" states="BOR" />
+                        <button name="ref_to_rcl" type="object" string="Guardar ref cliente" states="REF" />
+                        <button name="cancel_offer" type="object" string="Cancelar" states="REF,RCL" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                            <field name="date"/>
+                            <field name="type_id" domain="[('product_type','=',True)]"/>
+                        </group>
+                        
+                        <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
+                        <group attrs="{'invisible': [('state', '!=', 'BOR')], 'readonly': [('state','!=','BOR')]}" >
+                            <field name='ala_1' />
+                            <field name='base' />
+                            <field name='ala_2' />
+                            <field name='grosor' />
+                            <field name='longitud' />
+                        </group>
+                        
+                        <group attrs="{'invisible': [('state', 'in', ['BOR',])]}">
+                            <field name='product_id' />                            
+                        </group>
+                        
+
+                        
+                        <br/><br/>
+                        <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Referencia cliente</h3>
+                        <group attrs="{'invisible': [('state', 'in', ['BOR'])]}" >
+                            <group>
+                                <field name='ancho_pallet_id' />
+                                <field name='paletizado' />
+                                <field name='und_paquete' />
+                                <field name='paquetes_fila' />
+                                <field name='alturas' />
+                            </group>
+                            <group>
+                                <field name='und_pallet' />
+                                <field name='und_paquete_cliente' />
+                                <field name='alto_maximo_cliente' />
+                                <field name='und_pallet_cliente' />
+                                <field name='comment' />
+                            </group>
+                        </group>
+                        
+                        <br/><br/>
+                        <h3 attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">ATRIBUTOS</h3>
+                        <field name="attribute_ids" context="{'referencia_cliente_id': active_id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
+                            <tree string="Atributos" >
+                                <field name='name' />
+                                <field name='color_id' />
+                                <field name='corte_v' />
+                                <field name='redondo' />
+                                <field name='especial_id' />
+                                <field name='reciclable_id' />
+                                <field name='impresion_id' />
+                                <field name='texto_impresion' />
+                            </tree>
+                        </field>   
+                        
+                        <br/><br/>
+                        <h3 attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">OFERTAS</h3>
+                        <field name="oferta_ids" context="{'referencia_cliente_id': active_id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
+                            <tree string="Ofertas">
+                                <field name='referencia_cliente_id' invisible="1" />
+                                <field name='attribute_id' domain="[('referencia_cliente_id','=', referencia_cliente_id)]" />
+                                <field name='date' />
+                                <field name='npallets' />
+                                <field name='emetro' />
+                                <field name='eton' />
+                                <field name='state_id' />
+                                <field name='country_id' />
+                            </tree>
+                        </field>   
+                        
+                        
+                        
+                        
+                        
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        
+        
+        
+        
+        <record model="ir.ui.view" id="view_sale_referencia_cliente_search">
+            <field name="name">sale.referencia.cliente.search</field>
+            <field name="model">sale.referencia.cliente</field>
+            <field name="arch" type="xml">
+                <search string="Ofertas">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="product_id"/>
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_sale_referencia_cliente">
+            <field name="name">Referencias cliente</field>
+            <field name="res_model">sale.referencia.cliente</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Referencias cliente" parent="sale.sale_order_menu" id="menu_sale_referencia_cliente" action="action_sale_referencia_cliente" sequence="26"/>
+        
+        
+        <!--- ATRIBUTOS -->
+        
+        <record model="ir.ui.view" id="view_sale_product_attribute_form">
+            <field name="name">sale.product.attribute.form</field>
+            <field name="model">sale.product.attribute</field>
+            <field name="arch" type="xml">
+                <form string="Ofertas">
+                    
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name='name' />
+                                <field name='color_id' />
+                                <field name='corte_v' />
+                                <field name='redondo' />
+                                <field name='especial_id' />
+                                <field name='reciclable_id' />
+                            </group>
+                            <group>
+                                <field name='impresion_id' />
+                                <field name='texto_impresion' />
+                                <field name='comentario_producto' />
+                                <field name='producto_fabricado' />
+                            </group>
+                        </group>
+                        
+                        <br/><br/><h3>Ofertas</h3>
+                        <field name="oferta_ids" create='false'>
+                            <tree string="Ofertas" editable="top">
+                                <field name='date' />
+                                <field name='npallets' />
+                                <field name='emetro' />
+                                <field name='eton' />
+                                <field name='state_id' />
+                                <field name='country_id' />
+                            </tree>
+                        </field>   
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <!--- OFERTAS -->
+        
+        <record model="ir.ui.view" id="view_sale_offer_oferta_tree">
+            <field name="name">sale.offer.oferta.tree</field>
+            <field name="model">sale.offer.oferta</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="partner_id"/>
+                    <field name="referencia_cliente_id"/>
+                    <field name="attribute_id"/>
+                    <field name="user_id"/>                    
+                    <field name="date"/>
+                    <field name="npallets"/>
+                    <field name="emetro"/>
+                    <field name="eton"/>
+                    <field name="state_id"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_sale_offer_oferta_search">
+            <field name="name">sale.offer.oferta.search</field>
+            <field name="model">sale.offer.oferta</field>
+            <field name="arch" type="xml">
+                <search string="Ofertas">
+                    <field name="referencia_cliente_id"/>
+                    <field name="attribute_id"/>
+                    <field name="user_id"/>                    
+                    <field name="date"/>                    
+                    <field name="state_id"/>
+                    <field name="country_id"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_sale_offer_oferta">
+            <field name="name">Detalle ofertas</field>
+            <field name="res_model">sale.offer.oferta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    
+   
+    
+    
+    
+</odoo>

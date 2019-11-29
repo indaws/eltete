@@ -18,6 +18,8 @@
     "data": [
         "security/ir.model.access.csv",
         "views/res_partner.xml",
+        "views/product_template.xml",
+        "views/sale_offer.xml",
     ],
 
 }

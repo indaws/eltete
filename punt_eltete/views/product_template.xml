@@ -1,0 +1,357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_eltete_form" model="ir.ui.view">
+        <field name="name">product.template.eltete.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page string="Atributos">
+                    
+                    <group colspan="2" >
+                        <field name='ala_1' />
+                        <field name='base' />
+                        <field name='ala_2' />
+                        <field name='grosor' />
+                        <field name='longitud' />
+                        <field name='alas' />
+                        <field name='interior' />
+                        <field name='peso' />
+                    </group>
+
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    
+    <record id="view_product_category_form_eltete" model="ir.ui.view">
+        <field name="name">product.category.form.eltete</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="product_type" class="oe_inline"/>
+                <field name="is_cantonera" class="oe_inline"/>
+                <field name="is_perfilu" class="oe_inline"/>
+                
+            </xpath>
+        </field>
+    </record>
+    
+    
+    
+    <!-- ############################################
+                 product.caracteristica.color
+        ############################################# -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_color_tree">
+            <field name="name">product.caracteristica.color.tree</field>
+            <field name="model">product.caracteristica.color</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_color_form">
+            <field name="name">product.caracteristica.color.form</field>
+            <field name="model">product.caracteristica.color</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_color_search">
+            <field name="name">product.caracteristica.color.search</field>
+            <field name="model">product.caracteristica.color</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_color">
+            <field name="name">Color</field>
+            <field name="res_model">product.caracteristica.color</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Color" parent="stock.menu_product_in_config_stock" id="menu_product_caracteristica_color" action="action_product_caracteristica_color" sequence="20"/>
+        
+        
+        <!-- ############################################
+                 product.caracteristica.especial
+        ############################################# -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_especial_tree">
+            <field name="name">product.caracteristica.especial.tree</field>
+            <field name="model">product.caracteristica.especial</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Especial">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_especial_form">
+            <field name="name">product.caracteristica.especial.form</field>
+            <field name="model">product.caracteristica.especial</field>
+            <field name="arch" type="xml">
+                <form string="Especial">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_especial_search">
+            <field name="name">product.caracteristica.especial.search</field>
+            <field name="model">product.caracteristica.especial</field>
+            <field name="arch" type="xml">
+                <search string="Especial">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_especial">
+            <field name="name">Especial</field>
+            <field name="res_model">product.caracteristica.especial</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Especial" parent="stock.menu_product_in_config_stock" id="menu_product_caracteristica_especial" action="action_product_caracteristica_especial" sequence="21"/>
+        
+        
+        
+        <!-- ############################################
+                 product.caracteristica.ancho
+        ############################################# -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_ancho_tree">
+            <field name="name">product.caracteristica.ancho.tree</field>
+            <field name="model">product.caracteristica.ancho</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Ancho">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_ancho_form">
+            <field name="name">product.caracteristica.ancho.form</field>
+            <field name="model">product.caracteristica.ancho</field>
+            <field name="arch" type="xml">
+                <form string="Ancho">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_ancho_search">
+            <field name="name">product.caracteristica.ancho.search</field>
+            <field name="model">product.caracteristica.ancho</field>
+            <field name="arch" type="xml">
+                <search string="Ancho">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_ancho">
+            <field name="name">Ancho</field>
+            <field name="res_model">product.caracteristica.ancho</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Ancho" parent="stock.menu_product_in_config_stock" id="menu_product_caracteristica_ancho" action="action_product_caracteristica_ancho" sequence="22"/>
+        
+        
+        
+        <!-- ############################################
+                 product.caracteristica.impresion
+        ############################################# -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_impresion_tree">
+            <field name="name">product.caracteristica.impresion.tree</field>
+            <field name="model">product.caracteristica.impresion</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Impresion">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_impresion_form">
+            <field name="name">product.caracteristica.impresion.form</field>
+            <field name="model">product.caracteristica.impresion</field>
+            <field name="arch" type="xml">
+                <form string="Impresion">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_impresion_search">
+            <field name="name">product.caracteristica.impresion.search</field>
+            <field name="model">product.caracteristica.impresion</field>
+            <field name="arch" type="xml">
+                <search string="Impresion">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_impresion">
+            <field name="name">Impresion</field>
+            <field name="res_model">product.caracteristica.impresion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="impresion" parent="stock.menu_product_in_config_stock" id="menu_product_caracteristica_impresion" action="action_product_caracteristica_impresion" sequence="24"/>
+        
+        
+        
+        <!-- ############################################
+                 product.caracteristica.reciclable
+        ############################################# -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_reciclable_tree">
+            <field name="name">product.caracteristica.reciclable.tree</field>
+            <field name="model">product.caracteristica.reciclable</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Reciclable">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_reciclable_form">
+            <field name="name">product.caracteristica.reciclable.form</field>
+            <field name="model">product.caracteristica.reciclable</field>
+            <field name="arch" type="xml">
+                <form string="Reciclable">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_reciclable_search">
+            <field name="name">product.caracteristica.reciclable.search</field>
+            <field name="model">product.caracteristica.reciclable</field>
+            <field name="arch" type="xml">
+                <search string="Reciclable">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_reciclable">
+            <field name="name">Reciclable</field>
+            <field name="res_model">product.caracteristica.reciclable</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Reciclable" parent="stock.menu_product_in_config_stock" id="menu_product_caracteristica_reciclable" action="action_product_caracteristica_reciclable" sequence="26"/>
+        
+        
+   
+    
+    
+    
+</odoo>
