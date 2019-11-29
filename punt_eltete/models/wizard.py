@@ -48,7 +48,7 @@ class WizardPartnerSaleOrder(models.TransientModel):
         for line in self.line_ids:
         
             i = 0
-            while i < num_pallets:
+            while i < line.num_pallets:
                 i = i+1
                 sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
                                                     'name':line.referencia_cliente_id.name, 
