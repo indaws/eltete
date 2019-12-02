@@ -10,7 +10,17 @@ class ResPartner(models.Model):
     uploading_time = fields.Text('Horarios descarga')
     ice = fields.Char('ICE')
     
+
+    num_bailen = fields.Integer('Num Bailén')
+    
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
+    
+    MOL = [('ML','MUELLE O LATERAL'),   
+              ('SM','SOLO MUELLE'),
+              ('SL','SOLO LATERAL'),
+             ]
+    carga = fields.Selection(selection=MOL, string='Carga', default='ML', )
+
     
     
     referencia_cliente_count = fields.Integer(compute='_compute_referencia_cliente_count', string='Referencia cliente Count')
