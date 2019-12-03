@@ -35,12 +35,14 @@
                             <field name="user_id"/>
                             <field name="date"/>
                             <field name="type_id" domain="[('product_type','=',True)]"/>
+                            <field name="is_cantonera" invisible="1"/>
+                            <field name="is_perfilu" invisible="1"/>
                         </group>
                         
                         <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
                         <group attrs="{'invisible': [('state', '!=', 'BOR')], 'readonly': [('state','!=','BOR')]}" >
                             <field name='ala_1' />
-                            <field name='base' />
+                            <field name='base' attrs="{'invisible': [('is_cantonera', '=', True)]}"/>
                             <field name='ala_2' />
                             <field name='grosor' />
                             <field name='longitud' />
@@ -57,16 +59,16 @@
                         <group attrs="{'invisible': [('state', 'in', ['BOR'])]}" >
                             <group>
                                 <field name='ancho_pallet_id' />
-                                <field name='paletizado' />
+                                <field name='paletizado' attrs="{'invisible': [('is_perfilu', '=', True)]}"/>
                                 <field name='und_paquete' />
                                 <field name='paquetes_fila' />
                                 <field name='alturas' />
                             </group>
                             <group>
-                                <field name='und_pallet' />
-                                <field name='und_paquete_cliente' />
+                                <field name='und_pallet' attrs="{'invisible': [('is_cantonera', '=', True)]}"/>
+                                <field name='und_paquete_cliente' attrs="{'invisible': [('is_perfilu', '=', True)]}"/>
                                 <field name='alto_maximo_cliente' />
-                                <field name='und_pallet_cliente' />
+                                <field name='und_pallet_cliente' attrs="{'invisible': [('is_perfilu', '=', True)]}"/>
                                 <field name='comment' />
                             </group>
                         </group>

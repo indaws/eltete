@@ -26,6 +26,11 @@ class sale_referencia_cliente(models.Model):
     
     #REFERENCIAS
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
+    
+    is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
+    is_perfilu = fields.Boolean('¿Es Perfil U?', related='type_id.is_perfilu')
+    
+    
     ala_1 = fields.Integer('Ala 1')
     base = fields.Integer('Base')
     ala_2 = fields.Integer('Ala 2')
