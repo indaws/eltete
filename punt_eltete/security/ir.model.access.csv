@@ -8,3 +8,5 @@
 "access_sale_referencia_cliente","sale_referencia_cliente group","model_sale_referencia_cliente","sales_team.group_sale_salesman",1,1,1,1
 "access_sale_product_attribute","sale_product_attribute group","model_sale_product_attribute","sales_team.group_sale_salesman",1,1,1,1
 "access_sale_offer_oferta","sale_offer_oferta group","model_sale_offer_oferta","sales_team.group_sale_salesman",1,1,1,1
+"access_sale_cotizacion","sale_cotizacion group","model_sale_cotizacion","sales_team.group_sale_salesman",1,1,1,1
+"access_sale_cotizacion_line","sale_cotizacion_line group","model_sale_cotizacion_line","sales_team.group_sale_salesman",1,1,1,1

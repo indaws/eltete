@@ -20,6 +20,7 @@
         "views/res_partner.xml",
         "views/product_template.xml",
         "views/sale_offer.xml",
+        "views/sale_cotizacion.xml",
     ],
 
 }

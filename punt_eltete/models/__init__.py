@@ -2,4 +2,5 @@
 from . import res_partner
 from . import product_template
 from . import sale_offer
+from . import sale_cotizacion
 from . import wizard

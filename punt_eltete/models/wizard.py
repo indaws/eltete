@@ -85,7 +85,17 @@ class WizardPartnerSaleOrder(models.TransientModel):
     wizard_id = fields.Many2one('wizard.partner.sale.order', string="Wizard", required=True)
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', required=True)
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True)
+    
     num_pallets = fields.Integer(string="Num pallets")
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 
     

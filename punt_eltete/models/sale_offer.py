@@ -186,7 +186,11 @@ class sale_offer_oferta(models.Model):
     npallets = fields.Integer('Num pallets')
     emetro = fields.Float('Emetro')
     eton = fields.Float('Eton')
-    #etipo = fields.Integer('Etipo')
+    
+    TIPOS = [('EM','€/metro'),   
+             ('ET','€/ton'),
+            ]
+    etipo = fields.Selection(selection=TIPOS, string='Etipo', default='EM')
     state_id = fields.Many2one('res.country.state', string="Provincia")
     country_id = fields.Many2one('res.country', string="País")
     activa = fields.Boolean("Activa")
@@ -197,7 +201,20 @@ class sale_offer_oferta(models.Model):
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
     
     def get_valor(self):
+        if self.etipo == "EM":
+            return self.emetro
         return self.eton
+        
+    def name_get(self):
+        result = []
+        for of in self:
+            name = str(of.npallets) + 'P: '
+            if of.emetro:
+                name = name + str(of.emetro) + ' € / m'
+            else:
+                name = name + str(of.eton) + ' € / ton'
+            result.append((of.id, name))
+        return result
     
     
     
