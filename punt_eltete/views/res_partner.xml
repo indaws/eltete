@@ -123,6 +123,9 @@
             
             <field name="vat" position="after">
                 <field name='ice' />
+            </field>
+            
+            <field name="category_id" position="after">
                 <field name='num_bailen' />
             </field>
             
