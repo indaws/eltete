@@ -136,12 +136,12 @@
                     icon="fa-usd">
                     <field string="Referencias" name="referencia_cliente_count" widget="statinfo"/>
                 </button>
-                <!--<button class="oe_stat_button" type="action" name="%(act_res_partner_2_sale_offer_oferta)d" 
+                <button class="oe_stat_button" type="action" name="%(act_res_partner_2_sale_offer_oferta)d" 
                     groups="sales_team.group_sale_salesman"
                     attrs="{'invisible': [('customer', '=', False)]}"
                     icon="fa-usd">
                     <field string="Det ofertas" name="sale_oferta_count" widget="statinfo"/>
-                </button>-->
+                </button>
                 <button class="oe_stat_button" type="action" name="%(act_res_partner_2_sale_cotizacion)d" 
                     groups="sales_team.group_sale_salesman"
                     attrs="{'invisible': [('customer', '=', False)]}"
