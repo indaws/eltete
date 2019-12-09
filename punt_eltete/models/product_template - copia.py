@@ -14,33 +14,24 @@ class ProductTemplate(models.Model):
     alas = fields.Integer('Alas')
     interior = fields.Integer('Interior')
     peso = fields.Float('Peso')
+    
     entrada_1 = fields.Char('Entrada 1')
-    entrada_2 = fields.Char('Entrada 2')
-    entrada_3 = fields.Char('Entrada 3')
-    entrada_4 = fields.Char('Entrada 4')
+	entrada_2 = fields.Char('Entrada 2')
+	entrada_3 = fields.Char('Entrada 3')
+	entrada_4 = fields.Char('Entrada 4')
     
     ala_3 = fields.Integer('Solapa 3')
     ala_4 = fields.Integer('Solapa 4')
     
-    diametro = fields.Integer('Diámetro')
-    gramaje = fields.Integer('Gramaje')
-    
-    TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
+    PIE_SEL = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
                ('3', 'Alto 60 con Adhesivo'), 				
                ('4', 'Alto 60 sin Adhesivo'), 		#La coma final?
                ]
-    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+	pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
     
-    @api.multi
-    def create_bom_from_ref(self, bomref):
-        for bom in self.env['mrp.bom'].search([('code', '=', bomref),]):
-            newbom = bom.copy()
-            newbom.code = ''
-            newbom.product_tmpl_id = self.id
-            break
-            
-
+    diametro = fields.Integer('Diametro')
+	gramaje = fields.Integer('Gramaje')
     
     
     
@@ -56,7 +47,6 @@ class ProductCategory(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
     is_varios = fields.Boolean('¿Es Varios?')
-
     
     
     @api.multi
@@ -170,9 +160,6 @@ class ProductCategory(models.Model):
                                                           'interior': interior,
                                                           'peso': peso,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE CANTONERA")
-
-        #Buscamos TEMPLATE CANTONERA
         return product_id, None
         
         
@@ -222,7 +209,6 @@ class ProductCategory(models.Model):
                                                           'interior': interior,
                                                           'peso': peso,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE PERFIL U")
         return product_id, None
         
         
@@ -260,13 +246,13 @@ class ProductCategory(models.Model):
         product_name = "SLIP SHEET ("
         if ala1 > 0:
             product_name = product_name + str(ala1) + " + "
-        product_name = product_name + str(base)
+        product_name = product_name + str(ancho)
         if ala2 > 0:
             product_name = product_name + " + " + str(ala2)
         product_name = product_name + ") x ("
         if ala3 > 0:
             product_name = product_name + str(ala3) + " + "
-        product_name = product_name + str(longitud)
+        product_name = product_name + longitud
         if ala4 > 0:
             product_name = product_name + " + " + str(ala4)
         product_name = product_name + ") x " + str(grosor)
@@ -282,129 +268,7 @@ class ProductCategory(models.Model):
                                                           'grosor': grosor,
                                                           'longitud': longitud,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE SLIP SHEET")
         return product_id, None
-        
-        
-    @api.multi
-    def create_prod_solidboard(self, base, grosor, longitud):
-    
-    
-        if base < 50 or base > 1200:
-            return None, "Error: Base debe estar entre 50 y 1200"
-        if longitud < 500 or longitud > 1600:
-            return None, "Error: Longitud debe estar entre 500 y 1600"
-        if grosor < 0.6 or grosor > 5.5:
-            return None, "Error: Grosor debe estar entre 0.6 y 5.5"
-            
-
-        #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('base', '=', base), ('grosor', '=', grosor), ('longitud', '=', longitud), ]):
-            return prod, None
-
-
-        product_name = "SOLID BOARD " + str(base) + " x " + str(longitud) + " x " + str(grosor)
-            
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
-                                                          'base': base,
-                                                          'grosor': grosor,
-                                                          'longitud': longitud,
-                                                         })
-        product_id.create_bom_from_ref("TEMPLATE SOLID BOARD")
-        return product_id, None
-        
-        
-        
-    @api.multi
-    def create_prod_formato(self, base, longitud, gramaje):
-    
-    
-        if base < 500 or base > 1400:
-            return None, "Error: Base debe estar entre 500 y 1400"
-        if longitud < 500 or longitud > 1800:
-            return None, "Error: Longitud debe estar entre 500 y 1800"
-            
-
-        #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('base', '=', base), ('longitud', '=', longitud), ('gramaje', '=', gramaje), ]):
-            return prod, None
-
-
-        product_name = "FORMATO " + str(base) + " x " + str(longitud) + " - " + str(gramaje) + "g"
-            
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
-                                                          'base': base,
-                                                          'longitud': longitud,
-                                                          'gramaje': gramaje,
-                                                         })
-        product_id.create_bom_from_ref("TEMPLATE FORMATO")
-        return product_id, None
-        
-        
-    @api.multi
-    def create_prod_bobina(self, base, diametro, gramaje):
-    
-    
-        if base < 20 or base > 2800:
-            return None, "Error: Base debe estar entre 20 y 2800"
-        if diametro < 300 or diametro > 1400:
-            return None, "Error: Diámetro debe estar entre 300 y 1400"
-            
-
-        #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('base', '=', base), ('diametro', '=', diametro), ('gramaje', '=', gramaje), ]):
-            return prod, None
-
-
-        product_name = "BOBINA Ancho " + str(base) + "mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
-            
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
-                                                          'base': base,
-                                                          'diametro': diametro,
-                                                          'gramaje': gramaje,
-                                                         })
-        product_id.create_bom_from_ref("TEMPLATE BOBINA")
-        return product_id, None
-        
-        
-    @api.multi
-    def create_prod_pieballet(self, longitud, pie):
-    
-    
-        if longitud < 190 or longitud > 1800:
-            return None, "Error: Longitud debe estar entre 190 y 1800"
-            
-
-        #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('longitud', '=', longitud), ('pie', '=', pie), ]):
-            return prod, None
-
-        
-        product_name = ""
-        if pie == '1':
-            product_name = "PIE DE BALLET 100 x 90 x " + str(longitud) + " - Adhesivo"
-        elif pie == '2':
-            product_name = "PIE DE BALLET 100 x 90 x " + str(longitud)
-        elif pie == '3':
-            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud) + " - Adhesivo"
-        elif pie == '4':
-            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud)		
-            
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
-                                                          'longitud': longitud,
-                                                          'pie': pie,
-                                                         })
-        product_id.create_bom_from_ref("TEMPLATE PIE BALLET")
-        return product_id, None
-    
          
         
     

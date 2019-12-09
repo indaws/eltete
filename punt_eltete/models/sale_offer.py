@@ -12,7 +12,7 @@ class sale_referencia_cliente(models.Model):
     
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
-    date = fields.Date('Fecha', default=fields.Date.today(), required=True)
+    date = fields.Date('Fecha', default=fields.Date.today(), required=True, copy=False)
     
     ETAPAS = [('BOR','BORRADOR'),   
               ('REF','REFERENCIA'),
@@ -29,6 +29,12 @@ class sale_referencia_cliente(models.Model):
     
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
     is_perfilu = fields.Boolean('¿Es Perfil U?', related='type_id.is_perfilu')
+    is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='type_id.is_slipsheet')
+    is_solidboard = fields.Boolean('¿Es Solid Board?', related='type_id.is_solidboard')
+    is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
+    is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
+    is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
+    is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
     
     ala_1 = fields.Integer('Ala 1')
@@ -37,6 +43,19 @@ class sale_referencia_cliente(models.Model):
     grosor = fields.Float('Grosor')
     longitud = fields.Integer('Longitud')
     alas = fields.Integer('Alas')
+    ala_3 = fields.Integer('Solapa 3')
+    ala_4 = fields.Integer('Solapa 4')
+    
+    diametro = fields.Integer('Diámetro')
+    gramaje = fields.Integer('Gramaje')
+    
+    TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
+               ('2', 'Alto 100 sin Adhesivo'),
+               ('3', 'Alto 60 con Adhesivo'), 				
+               ('4', 'Alto 60 sin Adhesivo'), 		#La coma final?
+               ]
+    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    
     product_id = fields.Many2one('product.template', string="Producto", readonly=True)
     
     
@@ -52,7 +71,7 @@ class sale_referencia_cliente(models.Model):
     und_pallet_cliente = fields.Integer('Und pallet cliente')
     comment = fields.Text("Comentario")
     
-    attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos")
+    attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos", copy=True)
     #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
     oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas")
     
@@ -115,6 +134,95 @@ class sale_referencia_cliente(models.Model):
             self.name = self.product_id.name
             
             
+        if self.type_id.is_slipsheet == True:
+        
+            
+            if not self.base or self.base <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.grosor or self.grosor <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en GROSOR")
+            if not self.longitud or self.longitud <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                
+            product_id, error = self.type_id.create_prod_slipsheet(self.ala_1, self.base, self.ala_2, self.grosor, self.longitud, self.ala_3, self.ala_4)
+            
+            if not product_id:
+                raise ValidationError(error)
+            self.product_id = product_id    
+            self.state = 'REF'
+            self.name = self.product_id.name
+            
+            
+        if self.type_id.is_solidboard == True:
+        
+            if not self.base or self.base <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.grosor or self.grosor <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en GROSOR")
+            if not self.longitud or self.longitud <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                
+            product_id, error = self.type_id.create_prod_solidboard(self.base, self.grosor, self.longitud)
+            
+            if not product_id:
+                raise ValidationError(error)
+            self.product_id = product_id    
+            self.state = 'REF'
+            self.name = self.product_id.name
+            
+            
+        if self.type_id.is_formato == True:
+        
+            if not self.base or self.base <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.gramaje or self.gramaje <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
+            if not self.longitud or self.longitud <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                
+            product_id, error = self.type_id.create_prod_formato(self.base, self.longitud, self.gramaje)
+            
+            if not product_id:
+                raise ValidationError(error)
+            self.product_id = product_id    
+            self.state = 'REF'
+            self.name = self.product_id.name
+            
+            
+        if self.type_id.is_bobina == True:
+        
+            if not self.base or self.base <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.gramaje or self.gramaje <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
+            if not self.diametro or self.diametro <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en DIÁMETRO")
+                
+            product_id, error = self.type_id.create_prod_bobina(self.base, self.diametro, self.gramaje)
+            
+            if not product_id:
+                raise ValidationError(error)
+            self.product_id = product_id    
+            self.state = 'REF'
+            self.name = self.product_id.name
+            
+            
+        if self.type_id.is_pieballet == True:
+        
+            if not self.longitud or self.longitud <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+            if not self.pie:
+                raise ValidationError("Error: Hay que indicar un valor en PIE")
+                
+            product_id, error = self.type_id.create_prod_pieballet(self.longitud, self.pie)
+            
+            if not product_id:
+                raise ValidationError(error)
+            self.product_id = product_id    
+            self.state = 'REF'
+            self.name = self.product_id.name
+            
+            
         
     @api.multi
     def ref_to_rcl(self):
@@ -148,7 +256,7 @@ class sale_product_attribute(models.Model):
     producto_fabricado = fields.Boolean("Producto fabricado")
     
     #OFERTA
-    oferta_ids = fields.One2many('sale.offer.oferta', 'attribute_id', string="Ofertas")
+    oferta_ids = fields.One2many('sale.offer.oferta', 'attribute_id', string="Ofertas", copy=True)
     
     def get_price(self, num_pallets, state_id, country_id):
         #3p

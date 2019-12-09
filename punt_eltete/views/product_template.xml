@@ -9,14 +9,24 @@
                 <page string="Atributos">
                     
                     <group colspan="2" >
-                        <field name='ala_1' />
-                        <field name='base' />
-                        <field name='ala_2' />
-                        <field name='grosor' />
-                        <field name='longitud' />
-                        <field name='alas' />
-                        <field name='interior' />
-                        <field name='peso' />
+                        <field name='ala_1' attrs="{'readonly': True}"/>
+                        <field name='base'  attrs="{'readonly': True}"/>
+                        <field name='ala_2'  attrs="{'readonly': True}"/>
+                        <field name='grosor'  attrs="{'readonly': True}"/>
+                        <field name='longitud'  attrs="{'readonly': True}"/>
+                        <field name='alas'  attrs="{'readonly': True}"/>
+                        <field name='interior'  attrs="{'readonly': True}"/>
+                        <field name='peso'  attrs="{'readonly': True}"/>
+                        
+                        <field name='entrada_1'  attrs="{'readonly': True}"/>
+                        <field name='entrada_2'  attrs="{'readonly': True}"/>
+                        <field name='entrada_3'  attrs="{'readonly': True}"/>
+                        <field name='entrada_4'  attrs="{'readonly': True}"/>
+                        <field name='ala_3'  attrs="{'readonly': True}"/>
+                        <field name='ala_4'  attrs="{'readonly': True}"/>
+                        <field name='diametro'  attrs="{'readonly': True}"/>
+                        <field name='gramaje'  attrs="{'readonly': True}"/>
+                        <field name='pie'  attrs="{'readonly': True}"/>
                     </group>
 
                 </page>
@@ -35,6 +45,12 @@
                 <field name="product_type" class="oe_inline"/>
                 <field name="is_cantonera" class="oe_inline"/>
                 <field name="is_perfilu" class="oe_inline"/>
+                <field name="is_slipsheet" class="oe_inline"/>
+                <field name="is_solidboard" class="oe_inline"/>
+                <field name="is_formato" class="oe_inline"/>
+                <field name="is_bobina" class="oe_inline"/>
+                <field name="is_pieballet" class="oe_inline"/>
+                <field name="is_varios" class="oe_inline"/>
                 
             </xpath>
         </field>

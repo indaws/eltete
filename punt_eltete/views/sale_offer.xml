@@ -30,22 +30,33 @@
                     </header>
                     <sheet>
                         <group>
-                            <field name="name"/>
+                            
                             <field name="partner_id"/>
                             <field name="user_id"/>
                             <field name="date"/>
                             <field name="type_id" domain="[('product_type','=',True)]"/>
                             <field name="is_cantonera" invisible="1"/>
                             <field name="is_perfilu" invisible="1"/>
+                            <field name="is_slipsheet" invisible="1"/>
+                            <field name="is_solidboard" invisible="1"/>
+                            <field name="is_formato" invisible="1"/>
+                            <field name="is_bobina" invisible="1"/>
+                            <field name="is_pieballet" invisible="1"/>
+                            <field name="is_varios" invisible="1"/>
                         </group>
                         
                         <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
                         <group attrs="{'invisible': [('state', '!=', 'BOR')], 'readonly': [('state','!=','BOR')]}" >
-                            <field name='ala_1' />
-                            <field name='base' attrs="{'invisible': [('is_cantonera', '=', True)]}"/>
-                            <field name='ala_2' />
-                            <field name='grosor' />
-                            <field name='longitud' />
+                            <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
+                            <field name='base' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
+                            <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
+                            <field name='grosor' attrs="{'invisible': ['|','|',('is_formato', '=', True),('is_bobina', '=', True),('is_pieballet', '=', True),]}" />
+                            <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
+                            <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
+                            <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
+                            <field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
+                            <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
+                            <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
                         </group>
                         
                         <group attrs="{'invisible': [('state', 'in', ['BOR',])]}">
@@ -58,6 +69,7 @@
                         <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Referencia cliente</h3>
                         <group attrs="{'invisible': [('state', 'in', ['BOR'])]}" >
                             <group>
+                                <field name="name"/>
                                 <field name='ancho_pallet_id' />
                                 <field name='paletizado' attrs="{'invisible': [('is_perfilu', '=', True)]}"/>
                                 <field name='und_paquete' />
