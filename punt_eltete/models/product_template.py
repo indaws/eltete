@@ -2,18 +2,29 @@
 from odoo import fields, models, api
 
 
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+class ProductReferencia(models.Model):
+    _name = 'product.referencia'
 
     
+    name = fields.Char('Nombre', readonly=True)
+    type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
+    
+    is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
+    is_perfilu = fields.Boolean('¿Es Perfil U?', related='type_id.is_perfilu')
+    is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='type_id.is_slipsheet')
+    is_solidboard = fields.Boolean('¿Es Solid Board?', related='type_id.is_solidboard')
+    is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
+    is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
+    is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
+    is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
+    
     ala_1 = fields.Integer('Ala 1')
-    base = fields.Integer('Base')
+    ancho = fields.Integer('Ancho')
     ala_2 = fields.Integer('Ala 2')
     grosor = fields.Float('Grosor')
     longitud = fields.Integer('Longitud')
     alas = fields.Integer('Alas')
     interior = fields.Integer('Interior')
-    peso = fields.Float('Peso')
     entrada_1 = fields.Char('Entrada 1')
     entrada_2 = fields.Char('Entrada 2')
     entrada_3 = fields.Char('Entrada 3')
@@ -27,10 +38,259 @@ class ProductTemplate(models.Model):
     
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
-               ('3', 'Alto 60 con Adhesivo'), 				
-               ('4', 'Alto 60 sin Adhesivo'), 		#La coma final?
+               ('3', 'Alto 60 con Adhesivo'),                 
+               ('4', 'Alto 60 sin Adhesivo'),         #La coma final?
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    
+    ancho_interior = fields.Integer('Ancho Interior')
+    ancho_superficie = fields.Integer('Ancho Superficie')
+    
+    #varios
+    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
+    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
+    
+    
+    #calculados
+    peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, compute = "_get_peso_metro")
+    metros_unidad = fields.Float('Metros Unidad', digits = (10,4), readonly = True, compute = "_get_valores_referencia")
+    j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_valores_referencia")
+    j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores_referencia")
+    j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
+    
+    
+    @api.depends('type_id',)
+    def _get_peso_metro(self):
+        
+        peso1 = 0
+
+        #Varios
+        if self.type_id.is_varios == True and self.peso_metro_user > 0:
+            peso1 = self.peso_metro_user
+            
+        #Cantonera
+        elif self.type_id.is_cantonera == True:
+            sumaAlas = self.ala_1 + self.ala_2
+            if sumaAlas == 60:
+                peso1 = 385
+            elif sumaAlas < 66:
+                peso1 = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
+            elif sumaAlas == 66:
+                peso1 = 425
+            elif sumaAlas < 70:
+                peso1 = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
+            elif sumaAlas == 70:
+                peso1 = 450
+            elif sumaAlas < 76:
+                peso1 = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
+            elif sumaAlas == 76:
+                peso1 = 510
+            elif sumaAlas < 80:
+                peso1 = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
+            elif sumaAlas == 80:
+                peso1 = 535
+            elif sumaAlas < 84:
+                peso1 = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
+            elif sumaAlas == 84:
+                peso1 = 560
+            elif sumaAlas < 90:
+                peso1 = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
+            elif sumaAlas == 90:
+                peso1 = 600
+            elif sumaAlas < 100:
+                peso1 = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
+            elif sumaAlas == 100:
+                peso1 = 700
+            elif sumaAlas < 120:
+                peso1 = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
+            elif sumaAlas == 120:
+                peso1 = 835
+            elif sumaAlas < 140:
+                peso1 = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
+            elif sumaAlas == 140:
+                peso1 = 875
+            elif sumaAlas < 150:
+                peso1 = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
+            elif sumaAlas == 150:
+                peso1 = 940
+            elif sumaAlas < 160:
+                peso1 = (1000 - 940) / (160 - 150) * (sumaAlas - 150) + 940
+            elif sumaAlas == 160:
+                peso1 = 1000
+            elif sumaAlas < 180:
+                peso1 = (1125 - 1000) / (180 - 160) * (sumaAlas - 160) + 1000
+            elif sumaAlas == 180:
+                peso1 = 1125
+            elif sumaAlas < 200:
+                peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+            elif sumaAlas == 200:
+                peso1 = 1250
+            peso1 = int(peso1 * self.grosor)
+            peso1 = peso1 / 10000
+            
+        #Perfil U
+        elif self.type_id.is_perfilu == True:
+            sumaAlas = self.ala_1 + self.ancho + self.ala_2 + self.grosor * 2
+            if sumaAlas == 60:
+                peso1 = 385
+            elif sumaAlas < 66:
+                peso1 = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
+            elif sumaAlas == 66:
+                peso1 = 425
+            elif sumaAlas < 70:
+                peso1 = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
+            elif sumaAlas == 70:
+                peso1 = 450
+            elif sumaAlas < 76:
+                peso1 = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
+            elif sumaAlas == 76:
+                peso1 = 510
+            elif sumaAlas < 80:
+                peso1 = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
+            elif sumaAlas == 80:
+                peso1 = 535
+            elif sumaAlas < 84:
+                peso1 = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
+            elif sumaAlas == 84:
+                peso1 = 560
+            elif sumaAlas < 90:
+                peso1 = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
+            elif sumaAlas == 90:
+                peso1 = 600
+            elif sumaAlas < 100:
+                peso1 = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
+            elif sumaAlas == 100:
+                peso1 = 700
+            elif sumaAlas < 120:
+                peso1 = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
+            elif sumaAlas == 120:
+                peso1 = 835
+            elif sumaAlas < 140:
+                peso1 = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
+            elif sumaAlas == 140:
+                peso1 = 875
+            elif sumaAlas < 150:
+                peso1 = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
+            elif sumaAlas == 150:
+                peso1 = 940
+            elif sumaAlas < 160:
+                peso1 = (1000 - 940) / (160 - 150) * (sumaAlas - 150) + 940
+            elif sumaAlas == 160:
+                peso1 = 1000
+            elif sumaAlas < 180:
+                peso1 = (1125 - 1000) / (180 - 160) * (sumaAlas - 160) + 1000
+            elif sumaAlas == 180:
+                peso1 = 1125
+            elif sumaAlas < 200:
+                peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+            elif sumaAlas == 200:
+                peso1 = 1250
+            #Añadido
+            elif sumaAlas <= 240:
+                peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+            peso1 = int(peso1 * self.grosor)
+            peso1 = peso1 / 10000
+            
+        #Slip Sheet
+        elif self.type_id.is_slipsheet == True:
+            peso1 = int((self.grosor * 1000 / 1.4 + 30) / 50) * 50
+            peso1 = peso1 / 1000
+            
+        #Solid Board
+        elif self.type_id.is_solidboard == True:
+            peso1 = int((self.grosor * 1000 / 1.4 + 30) / 50) * 50
+            peso1 = peso1 / 1000
+            
+        #Formato
+        elif self.type_id.is_formato == True:
+            peso1 = self.gramaje / 1000
+            
+        #Bobina
+        elif self.type_id.is_bobina == True:
+            peso1 = self.gramaje / 1000
+            
+        #Pie de Pallet
+        elif self.type_id.is_pieballet == True:
+            if self.pie == 1 or self.pie == 2:
+                peso1 = 1.25
+            elif self.pie == 3 or self.pie == 4:
+                peso1 = 0.75
+                    
+        self.peso_metro = peso1
+    
+    
+    
+    @api.depends('type_id',)
+    def _get_valores_referencia(self):
+        metros = 0
+        gram = 0
+        interior = 0
+        superficie = 0
+
+        #Varios
+        if self.type_id.is_varios == True:
+            metros = self.metros_unidad_user
+        #Cantonera
+        elif self.type_id.is_cantonera == True:
+            metros = self.longitud / 1000
+            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
+            interior = int(self.ala_1 + self.ala_2 - self.grosor * 2 - 1)
+            superficie = int(((self.ala_1 + self.ala_2 - self.grosor - 1) * 2 + 5) / 5) * 5
+            if superficie > 280:
+                superficie = 280
+        #Perfil U
+        elif self.type_id.is_perfilu == True:
+            metros = self.longitud / 1000
+            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
+            interior = int(self.ala_1 + self.ancho + self.ala_2 - 1)
+            superficie = int(((self.ala_1 + self.ancho + self.ala_2 - 1 + self.grosor) * 2 + 5) / 5) * 5
+            if superficie > 280:
+                superficie = 280
+        #Slip Sheets
+        elif self.type_id.is_slipsheet == True:
+            sumaAncho = self.ancho
+            if self.ala_1 > 0:
+                sumaAncho = sumaAncho + self.ala_1
+            if self.ala_2 > 0:
+                sumaAncho = sumaAncho + self.ala_2
+            sumaLargo = self.longitud
+            if self.ala_3 > 0:
+                sumaLargo = sumaLargo + self.ala_3
+            if self.ala_4 > 0:
+                sumaLargo = sumaLargo + self.ala_4
+            metros = sumaAncho * sumaLargo / 1000000
+            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
+            interior = self.ancho
+            if self.ala_1 != None and self.ala_1 > 0:
+                interior = interior + self.ala_1
+            if self.ala_2 != None and self.ala_2 > 0:
+                interior = interior + self.ala_2
+        #Solid Board
+        elif self.type_id.is_solidboard == True:
+            metros = self.ancho * self.longitud / 1000000
+            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
+            interior = self.ancho + 30
+        #Formato
+        elif self.type_id.is_formato == True:
+            metros = self.ancho * self.longitud / 1000000
+            gram = self.gram
+            interior = self.ancho
+        #Bobina
+        elif self.type_id.is_bobina == True:
+            metros = (self.diametro * self.diametro - 10000) * 0.61 / self.gramaje
+            gram = self.gram
+            interior = self.ancho
+            
+        #Pie de Pallet
+        elif self.type_id.is_pieballet == True:
+            metros = self.longitud / 1000
+    
+    
+        self.metros_unidad = metros
+        self.j_gram = gram
+        self.j_interior = interior
+        self.j_superficie = superficie
+    
     
     @api.multi
     def create_bom_from_ref(self, bomref):
@@ -93,97 +353,34 @@ class ProductCategory(models.Model):
             return None, "Error: Ala2 * 2 debe ser menor que Ala1"
             
         #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud)]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud)]):
             return prod, None
             
-            
-        interior = int(ala1 + ala2 - grosor * 2 - 1)
-        peso = 0
-        
-        if sumaAlas == 60:
-            peso = 385
-        elif sumaAlas < 66:
-            peso = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
-        elif sumaAlas == 66:
-            peso = 425
-        elif sumaAlas < 70:
-            peso = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
-        elif sumaAlas == 70:
-            peso = 450
-        elif sumaAlas < 76:
-            peso = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
-        elif sumaAlas == 76:
-            peso = 510
-        elif sumaAlas < 80:
-            peso = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
-        elif sumaAlas == 80:
-            peso = 535
-        elif sumaAlas < 84:
-            peso = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
-        elif sumaAlas == 84:
-            peso = 560
-        elif sumaAlas < 90:
-            peso = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
-        elif sumaAlas == 90:
-            peso = 600
-        elif sumaAlas < 100:
-            peso = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
-        elif sumaAlas == 100:
-            peso = 700
-        elif sumaAlas < 120:
-            peso = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
-        elif sumaAlas == 120:
-            peso = 835
-        elif sumaAlas < 140:
-            peso = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
-        elif sumaAlas == 140:
-            peso = 875
-        elif sumaAlas < 150:
-            peso = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
-        elif sumaAlas == 150:
-            peso = 940
-        elif sumaAlas < 160:
-            peso = (1000 - 940) / (160 - 150) * (sumaAlas - 150) + 940
-        elif sumaAlas == 160:
-            peso = 1000
-        elif sumaAlas < 180:
-            peso = (1125 - 1000) / (180 - 160) * (sumaAlas - 160) + 1000
-        elif sumaAlas == 180:
-            peso = 1125
-        elif sumaAlas < 200:
-            peso = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
-        elif sumaAlas == 200:
-            peso = 1250
-            
-        peso = int(peso * grosor)
-        peso = peso / 10000
+
         
         product_name = "CANTONERA " + str(ala1) + " x " + str(ala2) + " x " + str(grosor) + " x " + str(longitud)
         
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'type_id': self.id, 
                                                           'ala_1': ala1,
                                                           'ala_2': ala2,
                                                           'grosor': grosor,
                                                           'longitud': longitud,
-                                                          'interior': interior,
-                                                          'peso': peso,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE CANTONERA")
+        #product_id.create_bom_from_ref("TEMPLATE CANTONERA")
 
         #Buscamos TEMPLATE CANTONERA
-        return product_id, None
+        return referencia_id, None
         
         
         
         
     @api.multi
-    def create_prod_perfilu(self, ala1, base, ala2, grosor, longitud):
+    def create_prod_perfilu(self, ala1, ancho, ala2, grosor, longitud):
         if ala1 < 18 or ala1 > 70:
             return None, "Error: Ala1 debe estar entre 18 y 70"
-        if base < 16 or base > 125:
-            return None, "Error: Base debe estar entre 16 y 125"
+        if ancho < 16 or ancho > 125:
+            return None, "Error: ancho debe estar entre 16 y 125"
         if ala2 < 18 or ala2 > 70:
             return None, "Error: Ala2 debe estar entre 18 y 70"
         if grosor < 2 or grosor > 5.5:
@@ -201,35 +398,31 @@ class ProductCategory(models.Model):
             ala2 = ala1
 
         #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('ala_1', '=', ala1), ('base', '=', base), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud)]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud)]):
             return prod, None
             
             
-        interior = sumaAlas
-        peso = ((grosor * 1000 / 1.4 - 300) * interior / 1000 + 160 /1000 * interior * 2) / 1000
+        
         
 
-        product_name = "PERFIL U " + str(ala1) + " x " + str(base) + " x "  + str(ala2) + " x " + str(grosor) + " x " + str(longitud)
+        product_name = "PERFIL U " + str(ala1) + " x " + str(ancho) + " x "  + str(ala2) + " x " + str(grosor) + " x " + str(longitud)
         
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'type_id': self.id, 
                                                           'ala_1': ala1,
-                                                          'base': base,
+                                                          'ancho': ancho,
                                                           'ala_2': ala2,
                                                           'grosor': grosor,
                                                           'longitud': longitud,
-                                                          'interior': interior,
-                                                          'peso': peso,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE PERFIL U")
-        return product_id, None
+        
+        return referencia_id, None
         
         
     @api.multi
-    def create_prod_slipsheet(self, ala1, base, ala2, grosor, longitud, ala3, ala4):
+    def create_prod_slipsheet(self, ala1, ancho, ala2, grosor, longitud, ala3, ala4):
     
-        sumaAncho = base
+        sumaAncho = ancho
         if ala1 > 0:
             sumaAncho = sumaAncho + ala1
         if ala2 > 0:
@@ -251,7 +444,7 @@ class ProductCategory(models.Model):
             
 
         #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('ala_1', '=', ala1), ('base', '=', base), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud), ('ala_3', '=', ala3), ('ala_4', '=', ala4),]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud), ('ala_3', '=', ala3), ('ala_4', '=', ala4),]):
             return prod, None
             
             
@@ -260,7 +453,7 @@ class ProductCategory(models.Model):
         product_name = "SLIP SHEET ("
         if ala1 > 0:
             product_name = product_name + str(ala1) + " + "
-        product_name = product_name + str(base)
+        product_name = product_name + str(ancho)
         if ala2 > 0:
             product_name = product_name + " + " + str(ala2)
         product_name = product_name + ") x ("
@@ -271,27 +464,26 @@ class ProductCategory(models.Model):
             product_name = product_name + " + " + str(ala4)
         product_name = product_name + ") x " + str(grosor)
         
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'type_id': self.id, 
                                                           'ala_1': ala1,
-                                                          'base': base,
+                                                          'ancho': ancho,
                                                           'ala_2': ala2,
                                                           'ala_3': ala3,
                                                           'ala_4': ala4,
                                                           'grosor': grosor,
                                                           'longitud': longitud,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE SLIP SHEET")
-        return product_id, None
+
+        return referencia_id, None
         
         
     @api.multi
-    def create_prod_solidboard(self, base, grosor, longitud):
+    def create_prod_solidboard(self, ancho, grosor, longitud):
     
     
-        if base < 50 or base > 1200:
-            return None, "Error: Base debe estar entre 50 y 1200"
+        if ancho < 50 or ancho > 1200:
+            return None, "Error: ancho debe estar entre 50 y 1200"
         if longitud < 500 or longitud > 1600:
             return None, "Error: Longitud debe estar entre 500 y 1600"
         if grosor < 0.6 or grosor > 5.5:
@@ -299,78 +491,75 @@ class ProductCategory(models.Model):
             
 
         #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('base', '=', base), ('grosor', '=', grosor), ('longitud', '=', longitud), ]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('grosor', '=', grosor), ('longitud', '=', longitud), ]):
             return prod, None
 
 
-        product_name = "SOLID BOARD " + str(base) + " x " + str(longitud) + " x " + str(grosor)
+        product_name = "SOLID BOARD " + str(ancho) + " x " + str(longitud) + " x " + str(grosor)
             
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
-                                                          'base': base,
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'type_id': self.id, 
+                                                          'ancho': ancho,
                                                           'grosor': grosor,
                                                           'longitud': longitud,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE SOLID BOARD")
-        return product_id, None
+
+        return referencia_id, None
         
         
         
     @api.multi
-    def create_prod_formato(self, base, longitud, gramaje):
+    def create_prod_formato(self, ancho, longitud, gramaje):
     
     
-        if base < 500 or base > 1400:
-            return None, "Error: Base debe estar entre 500 y 1400"
+        if ancho < 500 or ancho > 1400:
+            return None, "Error: ancho debe estar entre 500 y 1400"
         if longitud < 500 or longitud > 1800:
             return None, "Error: Longitud debe estar entre 500 y 1800"
             
 
         #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('base', '=', base), ('longitud', '=', longitud), ('gramaje', '=', gramaje), ]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('longitud', '=', longitud), ('gramaje', '=', gramaje), ]):
             return prod, None
 
 
-        product_name = "FORMATO " + str(base) + " x " + str(longitud) + " - " + str(gramaje) + "g"
+        product_name = "FORMATO " + str(ancho) + " x " + str(longitud) + " - " + str(gramaje) + "g"
             
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
-                                                          'base': base,
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'type_id': self.id, 
+                                                          'ancho': ancho,
                                                           'longitud': longitud,
                                                           'gramaje': gramaje,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE FORMATO")
-        return product_id, None
+
+        return referencia_id, None
         
         
     @api.multi
-    def create_prod_bobina(self, base, diametro, gramaje):
+    def create_prod_bobina(self, ancho, diametro, gramaje):
     
     
-        if base < 20 or base > 2800:
-            return None, "Error: Base debe estar entre 20 y 2800"
+        if ancho < 20 or ancho > 2800:
+            return None, "Error: ancho debe estar entre 20 y 2800"
         if diametro < 300 or diametro > 1400:
             return None, "Error: Diámetro debe estar entre 300 y 1400"
             
 
         #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('base', '=', base), ('diametro', '=', diametro), ('gramaje', '=', gramaje), ]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('diametro', '=', diametro), ('gramaje', '=', gramaje), ]):
             return prod, None
 
 
-        product_name = "BOBINA Ancho " + str(base) + "mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
+        product_name = "BOBINA Ancho " + str(ancho) + "mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
             
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
-                                                          'base': base,
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'type_id': self.id, 
+                                                          'ancho': ancho,
                                                           'diametro': diametro,
                                                           'gramaje': gramaje,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE BOBINA")
-        return product_id, None
+
+        return referencia_id, None
         
         
     @api.multi
@@ -382,7 +571,7 @@ class ProductCategory(models.Model):
             
 
         #Buscamos
-        for prod in self.env['product.template'].search([('categ_id', '=', self.id), ('longitud', '=', longitud), ('pie', '=', pie), ]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('longitud', '=', longitud), ('pie', '=', pie), ]):
             return prod, None
 
         
@@ -394,57 +583,162 @@ class ProductCategory(models.Model):
         elif pie == '3':
             product_name = "PIE DE BALLET 60 x 90 x " + str(longitud) + " - Adhesivo"
         elif pie == '4':
-            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud)		
+            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud)        
             
-        product_id = self.env['product.template'].create({'name': product_name, 
-                                                          'categ_id': self.id, 
-                                                          'type':'product', 
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'type_id': self.id, 
                                                           'longitud': longitud,
                                                           'pie': pie,
                                                          })
-        product_id.create_bom_from_ref("TEMPLATE PIE BALLET")
-        return product_id, None
+
+        return referencia_id, None
     
          
         
     
     
-class ProductCaracteristicaColor(models.Model):
-    _name = 'product.caracteristica.color'
+
+###############################
+# CARACTERISTICAS REF CLIENTE #
+###############################    
+
+class ProductCaracteristicaPalletEspecial(models.Model):
+    _name = 'product.caracteristica.pallet.especial'
     _order = 'number'
     
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
+    active = fields.Boolean('Activo', default=True)
     description = fields.Char('Descripción')
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    
+    TIPO_SEL = [('1', 'Metro de Producto'), 
+               ('2', 'Unidad de Producto'),
+               ('3', 'Porcentaje de Producto'),                 
+               ('4', 'Por Pallet'),
+               ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo')
     
 
-class ProductCaracteristicaEspecial(models.Model):
-    _name = 'product.caracteristica.especial'
+
+############################
+# CARACTERISTICAS ATRIBUTO #
+############################  
+
+## CANTONERA ##
+
+
+
+class ProductCaracteristicaCantoneraColor(models.Model):
+    _name = 'product.caracteristica.cantonera.color'
     _order = 'number'
     
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
     
+    active = fields.Boolean('Activo', default = True)
+    valido = fields.Boolean('Valido para Fabricar', default = False)
+
+    incremento = fields.Float('Incremento', digits=(8, 4), default = 0, required = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
-class ProductCaracteristicaAncho(models.Model):
-    _name = 'product.caracteristica.ancho'
+    
+    
+class ProductCaracteristicaCantoneraForma(models.Model):
+    _name = 'product.caracteristica.cantonera.forma'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3','Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+    cantonera_1 = fields.Boolean('Cantonera 1', default = False)
+    cantonera_2 = fields.Boolean('Cantonera 2', default = False)
+    cantonera_3 = fields.Boolean('Cantonera 3', default = False)
+    cantonera_4 = fields.Boolean('Cantonera 4', default = False)
+
+
+
+class ProductCaracteristicaCantoneraEspecial(models.Model):
+    _name = 'product.caracteristica.cantonera.especial'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+    cantonera_1 = fields.Boolean('Cantonera 1', default = False)
+    cantonera_2 = fields.Boolean('Cantonera 2', default = False)
+    cantonera_3 = fields.Boolean('Cantonera 3', default = False)
+    cantonera_4 = fields.Boolean('Cantonera 4', default = False)
+
+
+
+class ProductCaracteristicaCantoneraImpresion(models.Model):
+    _name = 'product.caracteristica.cantonera.impresion'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    num_tintas = fields.Integer('Numero de Tintas')
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+    cantonera_1 = fields.Boolean('Cantonera 1', default = False)
+    cantonera_2 = fields.Boolean('Cantonera 2', default = False)
+    cantonera_3 = fields.Boolean('Cantonera 3', default = False)
+    cantonera_4 = fields.Boolean('Cantonera 4', default = False)
+
+
+## PERFILU ##
+
+
+class ProductCaracteristicaPerfiluColor(models.Model):
+    _name = 'product.caracteristica.perfilu.color'
     _order = 'number'
     
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
     
+    active = fields.Boolean('Activo', default = True)
+    valido = fields.Boolean('Valido para Fabricar', default = False)
+    incremento = fields.Float('Incremento', digits=(8, 4), default = 0, required = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
-    
-class ProductCaracteristicaImpresion(models.Model):
-    _name = 'product.caracteristica.impresion'
-    _order = 'number'
-    
-    name = fields.Char('Nombre', required=True)
-    number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
-    
+
+
+## TODOS ##        
     
 class ProductCaracteristicaReciclable(models.Model):
     _name = 'product.caracteristica.reciclable'
@@ -453,15 +747,94 @@ class ProductCaracteristicaReciclable(models.Model):
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+    cantonera_1 = fields.Boolean('Cantonera 1', default = False)
+    cantonera_2 = fields.Boolean('Cantonera 2', default = False)
+    cantonera_3 = fields.Boolean('Cantonera 3', default = False)
+    cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
     
-    
-class ProductCaracteristicaPaletizado(models.Model):
-    _name = 'product.caracteristica.paletizado'
+
+class ProductCaracteristicaInglete(models.Model):
+    _name = 'product.caracteristica.inglete'
     _order = 'number'
     
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    
+    incremento = fields.Float('Incremento', digits=(8, 4), default = 0, required = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+
+
+
+class ProductCaracteristicaPlanchacolor(models.Model):
+    _name = 'product.caracteristica.planchacolor'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    
+    valido = fields.Boolean('Valido para Fabricar', default = False)
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    TIPO_SEL = [('1', 'Metro Cuadrado de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+
+
+
+
     
     
+class ProductCaracteristicaTroquelado(models.Model):
+    _name = 'product.caracteristica.troquelado'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    TIPO_SEL = [('1', 'Metro Cuadrado de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+    troqueladora_1 = fields.Boolean('Troqueladora 1', default = False)
+    troqueladora_2 = fields.Boolean('Troqueladora 2', default = False)
+    
+    
+class ProductCaracteristicaPapelCalidad(models.Model):
+    _name = 'product.caracteristica.papelcalidad'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    TIPO_SEL = [('1', 'Metro Cuadrado de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)

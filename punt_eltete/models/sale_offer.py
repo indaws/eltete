@@ -39,6 +39,7 @@ class sale_referencia_cliente(models.Model):
     
     ala_1 = fields.Integer('Ala 1')
     base = fields.Integer('Base')
+    ancho = fields.Integer('Ancho')
     ala_2 = fields.Integer('Ala 2')
     grosor = fields.Float('Grosor')
     longitud = fields.Integer('Longitud')
@@ -49,31 +50,245 @@ class sale_referencia_cliente(models.Model):
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     
+    
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
-               ('3', 'Alto 60 con Adhesivo'), 				
-               ('4', 'Alto 60 sin Adhesivo'), 		#La coma final?
+               ('3', 'Alto 60 con Adhesivo'),                 
+               ('4', 'Alto 60 sin Adhesivo'),         #La coma final?
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
     
-    product_id = fields.Many2one('product.template', string="Producto", readonly=True)
+    ancho_interior = fields.Integer('Ancho Interior')
+    ancho_superficie = fields.Integer('Ancho Superficie')
+    
+    #varios
+    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
+    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
+    referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
+    
+    
+    #product_id = fields.Many2one('product.template', string="Producto", readonly=True)
     
     
     #REFERENCIA CLIENTE
-    ancho_pallet_id = fields.Many2one('product.caracteristica.ancho', string="Ancho pallet")
-    paletizado = fields.Integer('Paletizado')
-    und_paquete = fields.Integer('Und Paquete') #
-    paquetes_fila = fields.Integer('Paquetes Fila') #
-    alturas = fields.Integer('Alturas')
-    und_pallet = fields.Integer('Und pallet')
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
+    
+    PALETIZADO_SEL = [('1', 'Compacto'),                 
+                      ('2', 'Columnas'),
+                      ]
+    paletizado_cliente = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado Cliente', default = '1')
+    
+    ANCHO_PALLET_SEL = [('1200', '1200'),     
+                        ('1150', '1150'),
+                        ('1000', '1000'),
+                        ('800', '800'), 
+                        ]
+    ancho_pallet_cliente = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet Cliente')
+    contenedor = fields.Boolean('Contenedor', default = False)
+    
     und_paquete_cliente = fields.Integer('Und pallet cliente')
-    alto_maximo_cliente = fields.Integer('Alto máximo cliente')
-    und_pallet_cliente = fields.Integer('Und pallet cliente')
-    comment = fields.Text("Comentario")
+    und_pallet_cliente = fields.Integer('Unidades Exactas')
+    alto_max_cliente = fields.Integer('Alto máximo cliente')
+    peso_max_cliente = fields.Integer('Peso máximo cliente')
+    
+    comentario_paletizado = fields.Text('Comentario Paletizado')
+    PRECIO_SEL = [('1', 'metro / metro2'),     
+                  ('2', 'unidad'),
+                  ('3', 'millar'),
+                  ('4', 'kilos'), 
+                  ]
+    precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:')
+
+
+    
+    #CALCULOS
+    paletizado = fields.Integer('Paletizado', compute="_get_valores")
+    ancho_pallet = fields.Integer('Ancho Pallet', compute="_get_valores")
+    und_paquete = fields.Integer('Und Paquete', compute="_get_valores")
+    paquetes_fila = fields.Integer('Paquetes Fila', compute="_get_valores")
+    alto_fila = fields.Integer('Alto Fila', compute="_get_valores")
+    
     
     attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos", copy=True)
     #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
     oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas")
+    
+    
+    
+    @api.depends('type_id',)
+    def _get_valores(self):
+        paletizado = 0
+        ancho_pallet = 0
+        und_paquete = 0
+        paquetes = 0
+        alto_fila = 0
+
+        if self.referencia_id:
+            #Varios
+            if self.type_id.is_varios == True:
+                if self.und_paquete_cliente > 0:
+                    und_paquete = self.und_paquete_cliente
+                paquetes = 1
+                alto_fila = 10
+            #Cantonera
+            elif self.type_id.is_cantonera == True:
+                paletizado = 1
+                if self.paletizado_cliente == '2':
+                    paletizado = 2
+                    if self.und_paquete_cliente > 0:     
+                        paletizado = 1
+                    if self.und_pallet_cliente > 0:     
+                        paletizado = 1
+                alto_fila = (self.referencia_id.ala_1 + self.referencia_id.ala_2) * 0.7071
+                        
+                if paletizado == 2:
+                    ancho_pallet = 1150
+                if self.contenedor == True and self.referencia_id.longitud > 2300:
+                    ancho_pallet = 1000
+                if self.ancho_pallet_cliente:
+                    if int(self.ancho_pallet_cliente) < ancho_pallet:
+                        ancho_pallet = self.ancho_pallet_cliente
+                        
+                ##Unidades paquetes_fila
+                if self.referencia_id.longitud < 250:
+                    und_paquete = 4000
+                        
+                elif self.und_paquete_cliente > 0:
+                    und_paquete = self.und_paquete_cliente
+                #compacto    
+                elif paletizado == 1:
+                    und_paquete = 25
+                    if self.referencia_id.grosor >= 5:
+                        und_paquete = 10
+                    elif self.referencia_id.grosor >= 4:
+                        und_paquete = 20
+                    pesoPaquete = und_paquete * self.referencia_id.peso_metro * self.referencia_id.metros_unidad
+                    while pesoPaquete > 20:
+                        und_paquete = und_paquete - 5
+                        pesoPaquete = und_paquete * self.referencia_id.peso_metro * self.referencia_id.metros_unidad
+                #Columnas
+                elif paletizado == 2:
+                    mediaAlas = (self.referencia_id.ala_1 + self.referencia_id.ala_2) / 2
+                    undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (self.referencia_id.grosor * 1.5))
+                    paquetesColumna = 2
+                    und_paquete = int(undColumna / paquetesColumna)
+                    pesoPaquete = und_paquete * self.referencia_id.peso_metro * self.referencia_id.metros_unidad
+                    while pesoPaquete > 20:
+                        paquetesColumna = paquetesColumna + 1
+                        und_paquete = int(undColumna / paquetesColumna)
+                        pesoPaquete = und_paquete * self.referencia_id.peso_metro * self.referencia_id.metros_unidad
+                ##Fin unidades paquete
+                
+                ##Paquetes filas
+                mediaAlas = (self.referencia_id.ala_1 + self.referencia_id.ala_2) / 2
+                if paletizado == 1:
+                    if self.referencia_id.grosor != 0:
+                        undFilaMax = int((ancho_pallet - 0.7071 * mediaAlas) / (self.referencia_id.grosor * 1.5))
+                        paquetes = int(undFilaMax / und_paquete)
+                elif paletizado == 2:
+                    undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (self.referencia_id.grosor * 1.5))
+                    paquetes = undColumna / und_paquete
+                    
+                #Dobles, Triples
+                repetido = 1
+                if self.referencia_id.longitud == 250:
+                    repetido = 4
+                elif self.referencia_id.longitud > 250 and self.referencia_id.longitud <= 350:
+                    repetido = 3
+                elif self.referencia_id.longitud > 350 and self.referencia_id.longitud <= 650:
+                    repetido = 2
+                paquetes = paquetes * repetido
+                ##Fin paquetes filas
+                    
+            #Perfil U
+            elif self.type_id.is_perfilu == True:
+                if self.ancho_pallet_cliente:
+                    ancho_pallet = int(self.ancho_pallet_cliente)
+                    paquetes = int(ancho_pallet / (self.referencia_id.ancho + self.referencia_id.grosor * 3))
+                    if self.longitud <= 600:
+                        paquetes = paquetes * 2
+                
+                und_paquete = 2
+                alto_fila = self.referencia_id.ala_1 + self.referencia_id.grosor
+                
+            #Slip Sheets
+            elif self.type_id.is_slipsheet == True:
+                und_paquete = 50
+                lado1 = 1
+                lado2 = 1
+                if self.referencia_id.ancho <= 650:
+                    lado1 = int(1300 / self.referencia_id.ancho)
+                if self.referencia_id.longitud <= 650:
+                    lado2 = int(1300 / self.referencia_id.longitud)
+                paquetes = lado1 * lado2
+                
+                alto_fila = self.referencia_id.grosor * 50
+                
+            #Solid Board
+            elif self.type_id.is_solidboard == True:
+                und_paquete = 50
+                lado1 = 1
+                lado2 = 1
+                if self.referencia_id.ancho <= 650:
+                    lado1 = int(1300 / self.referencia_id.ancho)
+                if self.referencia_id.longitud <= 650:
+                    lado2 = int(1300 / self.referencia_id.longitud)
+                paquetes = lado1 * lado2
+                alto_fila = self.referencia_id.grosor * 50
+                
+            #Formato
+            elif self.type_id.is_formato == True:
+                und_paquete = 50
+                if self.und_paquete_cliente > 0:
+                    und_paquete = self.und_paquete_cliente
+                lado1 = 1
+                lado2 = 1
+                if self.referencia_id.ancho <= 650:
+                    lado1 = int(1300 / self.referencia_id.ancho)
+                if self.referencia_id.longitud <= 650:
+                    lado2 = int(1300 / self.referencia_id.longitud)
+                paquetes = lado1 * lado2
+                if self.und_paquete_cliente > 0:
+                    alto_fila = self.referencia_id.gramaje * 1.4 * self.und_paquete_cliente
+                else:
+                    alto_fila = self.referencia_id.grosor * 50
+            #Bobina
+            elif self.type_id.is_bobina == True:
+                und_paquete = 1
+                if self.referencia_id.diametro > 650:
+                    paquetes = 1
+                else:
+                    lado1 = int(1300 / self.referencia_id.diametro)
+                    lado2 = int(1100 / self.referencia_id.diametro)
+                    paquetes = lado1 * lado2
+                    
+                alto_fila = self.referencia_id.ancho
+                
+            #Pie de Pallet
+            elif self.type_id.is_pieballet == True:
+                und_paquete = 1
+                if self.longitud == 190:
+                    paquetes = 65
+                elif self.longitud >= 200 and self.longitud < 350:
+                    paquetes = 52
+                elif self.longitud >= 350 and self.longitud < 400:
+                    paquetes = 39
+                elif self.longitud >= 400 and self.longitud < 660:
+                    paquetes = 26
+                else:
+                    paquetes = 13
+                    
+                if self.pie == "1" or self.pie == "2":
+                    alto_fila = 100
+                elif self.pie == "3" or self.pie == "4":
+                    alto_fila = 60
+    
+    
+        self.paletizado = paletizado
+        self.ancho_pallet = ancho_pallet
+        self.und_paquete = und_paquete
+        self.paquetes_fila = paquetes
+        self.alto_fila = alto_fila
     
     
     
@@ -103,21 +318,21 @@ class sale_referencia_cliente(models.Model):
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            product_id, error = self.type_id.create_prod_cantonera(self.ala_1, self.ala_2, self.grosor, self.longitud)
+            referencia_id, error = self.type_id.create_prod_cantonera(self.ala_1, self.ala_2, self.grosor, self.longitud)
             
-            if not product_id:
+            if not referencia_id:
                 raise ValidationError(error)
-            self.product_id = product_id    
+            self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.product_id.name
+            self.name = self.referencia_id.name
             
             
         if self.type_id.is_perfilu == True:
         
             if not self.ala_1 or self.ala_1 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en ALA 1")
-            if not self.base or self.base <= 0:
-                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.ancho or self.ancho <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en ancho")
             if not self.ala_2 or self.ala_2 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en ALA 2")
             if not self.grosor or self.grosor <= 0:
@@ -125,86 +340,86 @@ class sale_referencia_cliente(models.Model):
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            product_id, error = self.type_id.create_prod_perfilu(self.ala_1, self.base, self.ala_2, self.grosor, self.longitud)
+            referencia_id, error = self.type_id.create_prod_perfilu(self.ala_1, self.ancho, self.ala_2, self.grosor, self.longitud)
             
-            if not product_id:
+            if not referencia_id:
                 raise ValidationError(error)
-            self.product_id = product_id    
+            self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.product_id.name
+            self.name = self.referencia_id.name
             
             
         if self.type_id.is_slipsheet == True:
         
             
-            if not self.base or self.base <= 0:
-                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.ancho or self.ancho <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en ancho")
             if not self.grosor or self.grosor <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GROSOR")
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            product_id, error = self.type_id.create_prod_slipsheet(self.ala_1, self.base, self.ala_2, self.grosor, self.longitud, self.ala_3, self.ala_4)
+            referencia_id, error = self.type_id.create_prod_slipsheet(self.ala_1, self.ancho, self.ala_2, self.grosor, self.longitud, self.ala_3, self.ala_4)
             
-            if not product_id:
+            if not referencia_id:
                 raise ValidationError(error)
-            self.product_id = product_id    
+            self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.product_id.name
+            self.name = self.referencia_id.name
             
             
         if self.type_id.is_solidboard == True:
         
-            if not self.base or self.base <= 0:
-                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.ancho or self.ancho <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en ancho")
             if not self.grosor or self.grosor <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GROSOR")
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            product_id, error = self.type_id.create_prod_solidboard(self.base, self.grosor, self.longitud)
+            referencia_id, error = self.type_id.create_prod_solidboard(self.ancho, self.grosor, self.longitud)
             
-            if not product_id:
+            if not referencia_id:
                 raise ValidationError(error)
-            self.product_id = product_id    
+            self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.product_id.name
+            self.name = self.referencia_id.name
             
             
         if self.type_id.is_formato == True:
         
-            if not self.base or self.base <= 0:
-                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.ancho or self.ancho <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en ancho")
             if not self.gramaje or self.gramaje <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            product_id, error = self.type_id.create_prod_formato(self.base, self.longitud, self.gramaje)
+            referencia_id, error = self.type_id.create_prod_formato(self.ancho, self.longitud, self.gramaje)
             
-            if not product_id:
+            if not referencia_id:
                 raise ValidationError(error)
-            self.product_id = product_id    
+            self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.product_id.name
+            self.name = self.referencia_id.name
             
             
         if self.type_id.is_bobina == True:
         
-            if not self.base or self.base <= 0:
-                raise ValidationError("Error: Hay que indicar un valor en BASE")
+            if not self.ancho or self.ancho <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en ancho")
             if not self.gramaje or self.gramaje <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
             if not self.diametro or self.diametro <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en DIÁMETRO")
                 
-            product_id, error = self.type_id.create_prod_bobina(self.base, self.diametro, self.gramaje)
+            referencia_id, error = self.type_id.create_prod_bobina(self.ancho, self.diametro, self.gramaje)
             
-            if not product_id:
+            if not referencia_id:
                 raise ValidationError(error)
-            self.product_id = product_id    
+            self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.product_id.name
+            self.name = self.referencia_id.name
             
             
         if self.type_id.is_pieballet == True:
@@ -214,13 +429,13 @@ class sale_referencia_cliente(models.Model):
             if not self.pie:
                 raise ValidationError("Error: Hay que indicar un valor en PIE")
                 
-            product_id, error = self.type_id.create_prod_pieballet(self.longitud, self.pie)
+            referencia_id, error = self.type_id.create_prod_pieballet(self.longitud, self.pie)
             
-            if not product_id:
+            if not referencia_id:
                 raise ValidationError(error)
-            self.product_id = product_id    
+            self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.product_id.name
+            self.name = self.referencia_id.name
             
             
         

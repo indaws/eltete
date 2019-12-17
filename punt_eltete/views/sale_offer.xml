@@ -10,7 +10,7 @@
                     <field name="date"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>                    
-                    <field name="product_id"/>
+                    <field name="referencia_id"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -48,7 +48,7 @@
                         <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
                         <group attrs="{'invisible': [('state', '!=', 'BOR')], 'readonly': [('state','!=','BOR')]}" >
                             <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
-                            <field name='base' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
+                            <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
                             <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                             <field name='grosor' attrs="{'invisible': ['|','|',('is_formato', '=', True),('is_bobina', '=', True),('is_pieballet', '=', True),]}" />
                             <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
@@ -57,33 +57,49 @@
                             <field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                             <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                             <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
+                            <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                            <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                            <field name='peso_metro_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+                            <field name='metros_unidad_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
                         </group>
                         
                         <group attrs="{'invisible': [('state', 'in', ['BOR',])]}">
-                            <field name='product_id' />                            
+                            <field name='referencia_id' />                            
                         </group>
                         
 
                         
                         <br/><br/>
-                        <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Referencia cliente</h3>
+                        
                         <group attrs="{'invisible': [('state', 'in', ['BOR'])]}" >
                             <group>
+                                <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Referencia cliente</h3><br/>
                                 <field name="name"/>
-                                <field name='ancho_pallet_id' />
-                                <field name='paletizado' attrs="{'invisible': [('is_perfilu', '=', True)]}"/>
-                                <field name='und_paquete' />
-                                <field name='paquetes_fila' />
-                                <field name='alturas' />
+								<field name="pallet_especial_id"/>
+								<field name="paletizado_cliente" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+								<field name="ancho_pallet_cliente" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_varios', '=', False),]}"/>
+								<field name="contenedor" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_varios', '=', False),]}"/>
+								<field name="und_paquete_cliente" attrs="{'invisible': [('is_cantonera', '=', False),('is_formato', '=', False),('is_varios', '=', False),]}"/>
+								<field name="und_pallet_cliente"/>
+								<field name="alto_max_cliente"/>
+								<field name="peso_max_cliente"/>
+								<field name="comentario_paletizado"/>
+								<field name="precio_cliente"/>
+								
                             </group>
                             <group>
-                                <field name='und_pallet' attrs="{'invisible': [('is_cantonera', '=', True)]}"/>
-                                <field name='und_paquete_cliente' attrs="{'invisible': [('is_perfilu', '=', True)]}"/>
-                                <field name='alto_maximo_cliente' />
-                                <field name='und_pallet_cliente' attrs="{'invisible': [('is_perfilu', '=', True)]}"/>
-                                <field name='comment' />
+                                <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Campos calculados</h3><br/>
+                                <field name="paletizado"/>
+								<field name="ancho_pallet"/>
+								<field name="und_paquete"/>
+								<field name="paquetes_fila"/>
+								<field name="alto_fila"/>
                             </group>
                         </group>
+						
+
+                        
+                        
                         
                         <br/><br/>
                         <h3 attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">ATRIBUTOS</h3>
@@ -140,7 +156,7 @@
                     <field name="partner_id"/>
                     <field name="user_id"/>
                     <field name="date"/>
-                    <field name="product_id"/>
+                    <field name="referencia_id"/>
                     <field name="state"/>
                 </search>
             </field>
