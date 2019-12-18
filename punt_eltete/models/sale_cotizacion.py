@@ -89,10 +89,9 @@ class WizardSaleCotizacion(models.TransientModel):
                                                                     'referencia_cliente_id':self.referencia_cliente_id.id, 
                                                                     'attribute_id': self.attribute_id.id,
                                                                     'oferta_id': oferta.id,
-                                                                    'npallets': oferta.npallets,
+                                                                    'npallets': oferta.num_pallets,
                                                                     'emetro': oferta.emetro,
                                                                     'eton': oferta.eton,
-                                                                    'etipo': oferta.etipo,
                                                                     'sequence': sequence,
                                                                   })
                     sequence = sequence + 1

@@ -61,235 +61,239 @@ class ProductReferencia(models.Model):
     
     @api.depends('type_id',)
     def _get_peso_metro(self):
+    
+        for record in self:
         
-        peso1 = 0
+            peso1 = 0
 
-        #Varios
-        if self.type_id.is_varios == True and self.peso_metro_user > 0:
-            peso1 = self.peso_metro_user
-            
-        #Cantonera
-        elif self.type_id.is_cantonera == True:
-            sumaAlas = self.ala_1 + self.ala_2
-            if sumaAlas == 60:
-                peso1 = 385
-            elif sumaAlas < 66:
-                peso1 = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
-            elif sumaAlas == 66:
-                peso1 = 425
-            elif sumaAlas < 70:
-                peso1 = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
-            elif sumaAlas == 70:
-                peso1 = 450
-            elif sumaAlas < 76:
-                peso1 = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
-            elif sumaAlas == 76:
-                peso1 = 510
-            elif sumaAlas < 80:
-                peso1 = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
-            elif sumaAlas == 80:
-                peso1 = 535
-            elif sumaAlas < 84:
-                peso1 = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
-            elif sumaAlas == 84:
-                peso1 = 560
-            elif sumaAlas < 90:
-                peso1 = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
-            elif sumaAlas == 90:
-                peso1 = 600
-            elif sumaAlas < 100:
-                peso1 = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
-            elif sumaAlas == 100:
-                peso1 = 700
-            elif sumaAlas < 120:
-                peso1 = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
-            elif sumaAlas == 120:
-                peso1 = 835
-            elif sumaAlas < 140:
-                peso1 = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
-            elif sumaAlas == 140:
-                peso1 = 875
-            elif sumaAlas < 150:
-                peso1 = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
-            elif sumaAlas == 150:
-                peso1 = 940
-            elif sumaAlas < 160:
-                peso1 = (1000 - 940) / (160 - 150) * (sumaAlas - 150) + 940
-            elif sumaAlas == 160:
-                peso1 = 1000
-            elif sumaAlas < 180:
-                peso1 = (1125 - 1000) / (180 - 160) * (sumaAlas - 160) + 1000
-            elif sumaAlas == 180:
-                peso1 = 1125
-            elif sumaAlas < 200:
-                peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
-            elif sumaAlas == 200:
-                peso1 = 1250
-            peso1 = int(peso1 * self.grosor)
-            peso1 = peso1 / 10000
-            
-        #Perfil U
-        elif self.type_id.is_perfilu == True:
-            sumaAlas = self.ala_1 + self.ancho + self.ala_2 + self.grosor * 2
-            if sumaAlas == 60:
-                peso1 = 385
-            elif sumaAlas < 66:
-                peso1 = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
-            elif sumaAlas == 66:
-                peso1 = 425
-            elif sumaAlas < 70:
-                peso1 = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
-            elif sumaAlas == 70:
-                peso1 = 450
-            elif sumaAlas < 76:
-                peso1 = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
-            elif sumaAlas == 76:
-                peso1 = 510
-            elif sumaAlas < 80:
-                peso1 = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
-            elif sumaAlas == 80:
-                peso1 = 535
-            elif sumaAlas < 84:
-                peso1 = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
-            elif sumaAlas == 84:
-                peso1 = 560
-            elif sumaAlas < 90:
-                peso1 = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
-            elif sumaAlas == 90:
-                peso1 = 600
-            elif sumaAlas < 100:
-                peso1 = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
-            elif sumaAlas == 100:
-                peso1 = 700
-            elif sumaAlas < 120:
-                peso1 = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
-            elif sumaAlas == 120:
-                peso1 = 835
-            elif sumaAlas < 140:
-                peso1 = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
-            elif sumaAlas == 140:
-                peso1 = 875
-            elif sumaAlas < 150:
-                peso1 = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
-            elif sumaAlas == 150:
-                peso1 = 940
-            elif sumaAlas < 160:
-                peso1 = (1000 - 940) / (160 - 150) * (sumaAlas - 150) + 940
-            elif sumaAlas == 160:
-                peso1 = 1000
-            elif sumaAlas < 180:
-                peso1 = (1125 - 1000) / (180 - 160) * (sumaAlas - 160) + 1000
-            elif sumaAlas == 180:
-                peso1 = 1125
-            elif sumaAlas < 200:
-                peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
-            elif sumaAlas == 200:
-                peso1 = 1250
-            #Añadido
-            elif sumaAlas <= 240:
-                peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
-            peso1 = int(peso1 * self.grosor)
-            peso1 = peso1 / 10000
-            
-        #Slip Sheet
-        elif self.type_id.is_slipsheet == True:
-            peso1 = int((self.grosor * 1000 / 1.4 + 30) / 50) * 50
-            peso1 = peso1 / 1000
-            
-        #Solid Board
-        elif self.type_id.is_solidboard == True:
-            peso1 = int((self.grosor * 1000 / 1.4 + 30) / 50) * 50
-            peso1 = peso1 / 1000
-            
-        #Formato
-        elif self.type_id.is_formato == True:
-            peso1 = self.gramaje / 1000
-            
-        #Bobina
-        elif self.type_id.is_bobina == True:
-            peso1 = self.gramaje / 1000
-            
-        #Pie de Pallet
-        elif self.type_id.is_pieballet == True:
-            if self.pie == 1 or self.pie == 2:
-                peso1 = 1.25
-            elif self.pie == 3 or self.pie == 4:
-                peso1 = 0.75
-                    
-        self.peso_metro = peso1
+            #Varios
+            if record.type_id.is_varios == True and record.peso_metro_user > 0:
+                peso1 = record.peso_metro_user
+                
+            #Cantonera
+            elif record.type_id.is_cantonera == True:
+                sumaAlas = record.ala_1 + record.ala_2
+                if sumaAlas == 60:
+                    peso1 = 385
+                elif sumaAlas < 66:
+                    peso1 = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
+                elif sumaAlas == 66:
+                    peso1 = 425
+                elif sumaAlas < 70:
+                    peso1 = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
+                elif sumaAlas == 70:
+                    peso1 = 450
+                elif sumaAlas < 76:
+                    peso1 = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
+                elif sumaAlas == 76:
+                    peso1 = 510
+                elif sumaAlas < 80:
+                    peso1 = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
+                elif sumaAlas == 80:
+                    peso1 = 535
+                elif sumaAlas < 84:
+                    peso1 = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
+                elif sumaAlas == 84:
+                    peso1 = 560
+                elif sumaAlas < 90:
+                    peso1 = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
+                elif sumaAlas == 90:
+                    peso1 = 600
+                elif sumaAlas < 100:
+                    peso1 = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
+                elif sumaAlas == 100:
+                    peso1 = 700
+                elif sumaAlas < 120:
+                    peso1 = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
+                elif sumaAlas == 120:
+                    peso1 = 835
+                elif sumaAlas < 140:
+                    peso1 = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
+                elif sumaAlas == 140:
+                    peso1 = 875
+                elif sumaAlas < 150:
+                    peso1 = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
+                elif sumaAlas == 150:
+                    peso1 = 940
+                elif sumaAlas < 160:
+                    peso1 = (1000 - 940) / (160 - 150) * (sumaAlas - 150) + 940
+                elif sumaAlas == 160:
+                    peso1 = 1000
+                elif sumaAlas < 180:
+                    peso1 = (1125 - 1000) / (180 - 160) * (sumaAlas - 160) + 1000
+                elif sumaAlas == 180:
+                    peso1 = 1125
+                elif sumaAlas < 200:
+                    peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+                elif sumaAlas == 200:
+                    peso1 = 1250
+                peso1 = int(peso1 * record.grosor)
+                peso1 = peso1 / 10000
+                
+            #Perfil U
+            elif record.type_id.is_perfilu == True:
+                sumaAlas = record.ala_1 + record.ancho + record.ala_2 + record.grosor * 2
+                if sumaAlas == 60:
+                    peso1 = 385
+                elif sumaAlas < 66:
+                    peso1 = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
+                elif sumaAlas == 66:
+                    peso1 = 425
+                elif sumaAlas < 70:
+                    peso1 = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
+                elif sumaAlas == 70:
+                    peso1 = 450
+                elif sumaAlas < 76:
+                    peso1 = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
+                elif sumaAlas == 76:
+                    peso1 = 510
+                elif sumaAlas < 80:
+                    peso1 = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
+                elif sumaAlas == 80:
+                    peso1 = 535
+                elif sumaAlas < 84:
+                    peso1 = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
+                elif sumaAlas == 84:
+                    peso1 = 560
+                elif sumaAlas < 90:
+                    peso1 = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
+                elif sumaAlas == 90:
+                    peso1 = 600
+                elif sumaAlas < 100:
+                    peso1 = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
+                elif sumaAlas == 100:
+                    peso1 = 700
+                elif sumaAlas < 120:
+                    peso1 = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
+                elif sumaAlas == 120:
+                    peso1 = 835
+                elif sumaAlas < 140:
+                    peso1 = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
+                elif sumaAlas == 140:
+                    peso1 = 875
+                elif sumaAlas < 150:
+                    peso1 = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
+                elif sumaAlas == 150:
+                    peso1 = 940
+                elif sumaAlas < 160:
+                    peso1 = (1000 - 940) / (160 - 150) * (sumaAlas - 150) + 940
+                elif sumaAlas == 160:
+                    peso1 = 1000
+                elif sumaAlas < 180:
+                    peso1 = (1125 - 1000) / (180 - 160) * (sumaAlas - 160) + 1000
+                elif sumaAlas == 180:
+                    peso1 = 1125
+                elif sumaAlas < 200:
+                    peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+                elif sumaAlas == 200:
+                    peso1 = 1250
+                #Añadido
+                elif sumaAlas <= 240:
+                    peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+                peso1 = int(peso1 * record.grosor)
+                peso1 = peso1 / 10000
+                
+            #Slip Sheet
+            elif record.type_id.is_slipsheet == True:
+                peso1 = int((record.grosor * 1000 / 1.4 + 30) / 50) * 50
+                peso1 = peso1 / 1000
+                
+            #Solid Board
+            elif record.type_id.is_solidboard == True:
+                peso1 = int((record.grosor * 1000 / 1.4 + 30) / 50) * 50
+                peso1 = peso1 / 1000
+                
+            #Formato
+            elif record.type_id.is_formato == True:
+                peso1 = record.gramaje / 1000
+                
+            #Bobina
+            elif record.type_id.is_bobina == True:
+                peso1 = record.gramaje / 1000
+                
+            #Pie de Pallet
+            elif record.type_id.is_pieballet == True:
+                if record.pie == '1' or record.pie == '2':
+                    peso1 = 1.25
+                elif record.pie == '3' or record.pie == '4':
+                    peso1 = 0.75
+                        
+            record.peso_metro = peso1
     
     
     
     @api.depends('type_id',)
     def _get_valores_referencia(self):
-        metros = 0
-        gram = 0
-        interior = 0
-        superficie = 0
+    
+        for record in self:
+            metros = 0
+            gram = 0
+            interior = 0
+            superficie = 0
 
-        #Varios
-        if self.type_id.is_varios == True:
-            metros = self.metros_unidad_user
-        #Cantonera
-        elif self.type_id.is_cantonera == True:
-            metros = self.longitud / 1000
-            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
-            interior = int(self.ala_1 + self.ala_2 - self.grosor * 2 - 1)
-            superficie = int(((self.ala_1 + self.ala_2 - self.grosor - 1) * 2 + 5) / 5) * 5
-            if superficie > 280:
-                superficie = 280
-        #Perfil U
-        elif self.type_id.is_perfilu == True:
-            metros = self.longitud / 1000
-            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
-            interior = int(self.ala_1 + self.ancho + self.ala_2 - 1)
-            superficie = int(((self.ala_1 + self.ancho + self.ala_2 - 1 + self.grosor) * 2 + 5) / 5) * 5
-            if superficie > 280:
-                superficie = 280
-        #Slip Sheets
-        elif self.type_id.is_slipsheet == True:
-            sumaAncho = self.ancho
-            if self.ala_1 > 0:
-                sumaAncho = sumaAncho + self.ala_1
-            if self.ala_2 > 0:
-                sumaAncho = sumaAncho + self.ala_2
-            sumaLargo = self.longitud
-            if self.ala_3 > 0:
-                sumaLargo = sumaLargo + self.ala_3
-            if self.ala_4 > 0:
-                sumaLargo = sumaLargo + self.ala_4
-            metros = sumaAncho * sumaLargo / 1000000
-            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
-            interior = self.ancho
-            if self.ala_1 != None and self.ala_1 > 0:
-                interior = interior + self.ala_1
-            if self.ala_2 != None and self.ala_2 > 0:
-                interior = interior + self.ala_2
-        #Solid Board
-        elif self.type_id.is_solidboard == True:
-            metros = self.ancho * self.longitud / 1000000
-            gram = int((self.grosor * 1000 / 1.4 - 300) / 50) * 50
-            interior = self.ancho + 30
-        #Formato
-        elif self.type_id.is_formato == True:
-            metros = self.ancho * self.longitud / 1000000
-            gram = self.gram
-            interior = self.ancho
-        #Bobina
-        elif self.type_id.is_bobina == True:
-            metros = (self.diametro * self.diametro - 10000) * 0.61 / self.gramaje
-            gram = self.gram
-            interior = self.ancho
-            
-        #Pie de Pallet
-        elif self.type_id.is_pieballet == True:
-            metros = self.longitud / 1000
-    
-    
-        self.metros_unidad = metros
-        self.j_gram = gram
-        self.j_interior = interior
-        self.j_superficie = superficie
+            #Varios
+            if record.type_id.is_varios == True:
+                metros = record.metros_unidad_user
+            #Cantonera
+            elif record.type_id.is_cantonera == True:
+                metros = record.longitud / 1000
+                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
+                interior = int(record.ala_1 + record.ala_2 - record.grosor * 2 - 1)
+                superficie = int(((record.ala_1 + record.ala_2 - record.grosor - 1) * 2 + 5) / 5) * 5
+                if superficie > 280:
+                    superficie = 280
+            #Perfil U
+            elif record.type_id.is_perfilu == True:
+                metros = record.longitud / 1000
+                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
+                interior = int(record.ala_1 + record.ancho + record.ala_2 - 1)
+                superficie = int(((record.ala_1 + record.ancho + record.ala_2 - 1 + record.grosor) * 2 + 5) / 5) * 5
+                if superficie > 280:
+                    superficie = 280
+            #Slip Sheets
+            elif record.type_id.is_slipsheet == True:
+                sumaAncho = record.ancho
+                if record.ala_1 > 0:
+                    sumaAncho = sumaAncho + record.ala_1
+                if record.ala_2 > 0:
+                    sumaAncho = sumaAncho + record.ala_2
+                sumaLargo = record.longitud
+                if record.ala_3 > 0:
+                    sumaLargo = sumaLargo + record.ala_3
+                if record.ala_4 > 0:
+                    sumaLargo = sumaLargo + record.ala_4
+                metros = sumaAncho * sumaLargo / 1000000
+                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
+                interior = record.ancho
+                if record.ala_1 != None and record.ala_1 > 0:
+                    interior = interior + record.ala_1
+                if record.ala_2 != None and record.ala_2 > 0:
+                    interior = interior + record.ala_2
+            #Solid Board
+            elif record.type_id.is_solidboard == True:
+                metros = record.ancho * record.longitud / 1000000
+                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
+                interior = record.ancho + 30
+            #Formato
+            elif record.type_id.is_formato == True:
+                metros = record.ancho * record.longitud / 1000000
+                gram = record.gramaje
+                interior = record.ancho
+            #Bobina
+            elif record.type_id.is_bobina == True:
+                metros = (record.diametro * record.diametro - 10000) * 0.61 / record.gramaje
+                gram = record.gramaje
+                interior = record.ancho
+                
+            #Pie de Pallet
+            elif record.type_id.is_pieballet == True:
+                metros = record.longitud / 1000
+        
+        
+            record.metros_unidad = metros
+            record.j_gram = gram
+            record.j_interior = interior
+            record.j_superficie = superficie
     
     
     @api.multi
@@ -302,6 +306,15 @@ class ProductReferencia(models.Model):
             
 
     
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+    
+    und_pallet = fields.Integer('Unidades pallet', readonly=True)
+    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
+    referencia_id = fields.Many2one('product.referencia', string='Referencia', store=True, related='attribute_id.referencia_cliente_id.referencia_id')
+
     
     
 class ProductCategory(models.Model):
@@ -658,6 +671,7 @@ class ProductCaracteristicaCantoneraForma(models.Model):
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
     active = fields.Boolean('Activo', default = True)
+    incremento = fields.Float('Incremento', digits=(8, 4), default = 0, required = True)
     TIPO_SEL = [('1', 'Metro de Producto'),   
                 ('2', 'Unidad de Producto'),
                 ('3','Porcentaje de Producto'),
@@ -760,6 +774,26 @@ class ProductCaracteristicaReciclable(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
+    
+class ProductCaracteristicaFSC(models.Model):
+    _name = 'product.caracteristica.fsc'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    active = fields.Boolean('Activo', default = True)
+    incremento = fields.Float('Incremento', digits=(8, 4), required = True)
+    TIPO_SEL = [('1', 'Metro de Producto'),   
+                ('2', 'Unidad de Producto'),
+                ('3', 'Porcentaje de Producto'),
+                ('4', 'Por Pallet'),
+                ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+    cantonera_1 = fields.Boolean('Cantonera 1', default = False)
+    cantonera_2 = fields.Boolean('Cantonera 2', default = False)
+    cantonera_3 = fields.Boolean('Cantonera 3', default = False)
+    cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
 
 class ProductCaracteristicaInglete(models.Model):

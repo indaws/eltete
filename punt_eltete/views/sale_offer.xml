@@ -103,32 +103,24 @@
                         
                         <br/><br/>
                         <h3 attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">ATRIBUTOS</h3>
-                        <field name="attribute_ids" context="{'referencia_cliente_id': active_id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
+                        <field name="attribute_ids" context="{'default_referencia_cliente_id': active_id,  }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
                             <tree string="Atributos" >
                                 <field name='name' />
-                                <field name='color_id' />
-                                <field name='corte_v' />
-                                <field name='redondo' />
-                                <field name='especial_id' />
-                                <field name='reciclable_id' />
-                                <field name='impresion_id' />
-                                <field name='texto_impresion' />
                             </tree>
                         </field>   
                         
                         <br/><br/>
                         <h3 attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">OFERTAS</h3>
-                        <field name="oferta_ids" context="{'referencia_cliente_id': active_id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
+                        <field name="oferta_ids" context="{'default_referencia_cliente_id': active_id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
                             <tree string="Ofertas">
                                 <field name='referencia_cliente_id' invisible="1" />
                                 <field name='attribute_id' domain="[('referencia_cliente_id','=', referencia_cliente_id)]" />
                                 <field name='date' />
-                                <field name='npallets' />
-                                <field name="etipo"/>
-                                <field name='emetro' />
-                                <field name='eton' />
+                                <field name='num_pallets' />
+                                <field name='und_pallet' />
                                 <field name='state_id' />
                                 <field name='country_id' />
+                                <field name='name' />
                             </tree>
                         </field>   
                         
@@ -185,31 +177,70 @@
                     <sheet>
                         <group>
                             <group>
+                            
+                                
+
+                                
                                 <field name='name' />
-                                <field name='color_id' />
-                                <field name='corte_v' />
-                                <field name='redondo' />
-                                <field name='especial_id' />
-                                <field name='reciclable_id' />
+                                <field name='cantonera_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                                <field name='cantonera_forma_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                                <field name='cantonera_especial_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                                <field name='cantonera_impresion_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                                <field name='perfilu_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_perfilu', '=', False)]}"/>
+                                <field name='plancha_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_solidboard', '=', False)]}"/>
+                                <field name='papel_calidad_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
+                                <field name='troquelado_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),]}"/>
+                                <field name='description' />
+                                
+                                <field name="referencia_cliente_id" invisible="1"  />
+                                <field name="type_id"  invisible="1" />
+                                <field name="is_cantonera" invisible="1"/>
+                                <field name="is_perfilu" invisible="1"/>
+                                <field name="is_slipsheet" invisible="1"/>
+                                <field name="is_solidboard" invisible="1"/>
+                                <field name="is_formato" invisible="1"/>
+                                <field name="is_bobina" invisible="1"/>
+                                <field name="is_pieballet" invisible="1"/>
+                                <field name="is_varios" invisible="1"/>
                             </group>
                             <group>
-                                <field name='impresion_id' />
-                                <field name='texto_impresion' />
-                                <field name='comentario_producto' />
-                                <field name='producto_fabricado' />
+                                <field name='codigo_cliente' />
+                                <field name='fsc_id' options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name='reciclable_id' options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
+                                <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
+                                <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
+                            </group>
+                        </group>
+                        
+                        <br/><br/><h3>Campos calculados</h3>
+                        <group>
+                            <group>
+                                <field name='cantonera_1' />
+                                <field name='cantonera_2' />
+                                <field name='cantonera_3' />
+                                <field name='cantonera_4' />
+                                <field name='sierra' />
+                                <field name='fila_max' />
+                                <field name='fila_buena' />
+                            </group>
+                            <group>
+                                <field name='incremento_metro' />
+                                <field name='incremento_unidad' />
+                                <field name='incremento_porcentaje' />
+                                <field name='incremento_pallet' />
                             </group>
                         </group>
                         
                         <br/><br/><h3>Ofertas</h3>
-                        <field name="oferta_ids" create='false'>
-                            <tree string="Ofertas" editable="top">
+                        <field name="oferta_ids" context="{'default_attribute_id': active_id,  }">
+                            <tree string="Ofertas">
                                 <field name='date' />
-                                <field name='npallets' />
-                                <field name="etipo"/>
-                                <field name='emetro' />
-                                <field name='eton' />
+                                <field name='num_pallets' />
+                                <field name='und_pallet' />
                                 <field name='state_id' />
                                 <field name='country_id' />
+                                <field name='name' />
                             </tree>
                         </field>   
 
@@ -227,18 +258,60 @@
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <tree string="Producto">
-                    <field name="partner_id"/>
-                    <field name="referencia_cliente_id"/>
-                    <field name="attribute_id"/>
-                    <field name="user_id"/>                    
-                    <field name="date"/>
-                    <field name="npallets"/>
-                    <field name="etipo"/>
-                    <field name="emetro"/>
-                    <field name="eton"/>
-                    <field name="state_id"/>
-                    <field name="country_id"/>
+                    <field name='date' />
+                    <field name='num_pallets' />
+                    <field name='state_id' />
+                    <field name='country_id' />
                 </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_sale_offer_oferta_form">
+            <field name="name">sale.offer.oferta.form</field>
+            <field name="model">sale.offer.oferta</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Ofertas">
+                    
+                    <sheet>
+                        <group>
+                            <group>
+                            
+                                <field name='user_id' />
+                                <field name='date' />
+                                <field name='state_id' />
+                                <field name='country_id' />
+                                <field name='tarifa' />
+                                <field name="attribute_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name='num_pallets' />
+                                <field name='emetro_user' />
+                                <field name='eton_user' />
+                                <button name="resta_filas" type="object" string="-" />
+                                <field name='num_filas' />
+                                <button name="suma_filas" type="object" string="+" />
+                            </group>
+                        </group>
+                        
+                        <br/><br/><h3>CÁLCULOS OFERTA</h3>
+                        <group>
+                            <group>
+                                <field name='name' />
+                                <field name='und_pallet' />
+                                <field name='peso_neto' />
+                                <field name='peso_bruto' />
+                                <field name='alto_pallet' />
+                            </group>
+                            <group>
+                                <field name='emetro' />
+                                <field name='eton' />
+                            </group>
+                        </group>
+                        
+                    </sheet>
+                </form>
             </field>
         </record>
         
