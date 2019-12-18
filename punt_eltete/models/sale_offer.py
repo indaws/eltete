@@ -122,7 +122,7 @@ class sale_referencia_cliente(models.Model):
             paletizado = 1
             ancho_pallet = 1200
             und_paquete = 0
-            paquetes = 0
+            paquetes = 1
             alto_fila = 0
 
             if record.referencia_id:
@@ -149,14 +149,17 @@ class sale_referencia_cliente(models.Model):
                         ancho_pallet = 1000
                     if record.ancho_pallet_cliente:
                         if int(record.ancho_pallet_cliente) < ancho_pallet:
-                            ancho_pallet = record.ancho_pallet_cliente
+                            ancho_pallet = int(record.ancho_pallet_cliente)
                             
                     ##Unidades paquetes_fila
                     if record.referencia_id.longitud < 250:
                         und_paquete = 4000
+                        paquetes = 1
                             
                     elif record.und_paquete_cliente > 0:
                         und_paquete = record.und_paquete_cliente
+                        #paquetes = ancho_pallet 
+                        
                     #compacto    
                     elif paletizado == 1:
                         und_paquete = 25
@@ -189,7 +192,7 @@ class sale_referencia_cliente(models.Model):
                             paquetes = int(undFilaMax / und_paquete)
                     elif paletizado == 2:
                         undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor * 1.5))
-                        paquetes = undColumna / und_paquete
+                        paquetes = (undColumna / und_paquete) * 4
                         
                     #Dobles, Triples
                     repetido = 1
