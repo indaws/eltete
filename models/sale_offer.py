@@ -122,7 +122,7 @@ class sale_referencia_cliente(models.Model):
             paletizado = 1
             ancho_pallet = 1200
             und_paquete = 0
-            paquetes = 0
+            paquetes = 1
             alto_fila = 0
 
             if record.referencia_id:
@@ -192,7 +192,7 @@ class sale_referencia_cliente(models.Model):
                             paquetes = int(undFilaMax / und_paquete)
                     elif paletizado == 2:
                         undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor * 1.5))
-                        paquetes = undColumna / und_paquete * 4
+                        paquetes = (undColumna / und_paquete) * 4
                         
                     #Dobles, Triples
                     repetido = 1
