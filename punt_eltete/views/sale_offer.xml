@@ -51,6 +51,8 @@
                             <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
                             <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                             <field name='grosor' attrs="{'invisible': ['|','|',('is_formato', '=', True),('is_bobina', '=', True),('is_pieballet', '=', True),]}" />
+                            <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
+                            <field name='grosor_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}" />
                             <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
                             <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                             <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
@@ -85,6 +87,7 @@
 								<field name="peso_max_cliente"/>
 								<field name="comentario_paletizado"/>
 								<field name="precio_cliente"/>
+								<field name="comentario_referencia"/>
 								
                             </group>
                             <group>
@@ -94,6 +97,8 @@
 								<field name="und_paquete"/>
 								<field name="paquetes_fila"/>
 								<field name="alto_fila"/>
+                                <field name="fila_max"/>
+                                <field name="fila_buena"/>
                             </group>
                         </group>
 						
@@ -120,6 +125,7 @@
                                 <field name='und_pallet' />
                                 <field name='state_id' />
                                 <field name='country_id' />
+                                <field name='titulo' />
                                 <field name='name' />
                             </tree>
                         </field>   
@@ -241,6 +247,7 @@
                                 <field name='state_id' />
                                 <field name='country_id' />
                                 <field name='name' />
+                                <field name='titulo' />
                             </tree>
                         </field>   
 
@@ -262,6 +269,8 @@
                     <field name='num_pallets' />
                     <field name='state_id' />
                     <field name='country_id' />
+                    <field name='titulo' />
+                    <field name='name' />
                 </tree>
             </field>
         </record>
@@ -298,6 +307,7 @@
                         <br/><br/><h3>CÁLCULOS OFERTA</h3>
                         <group>
                             <group>
+                                <field name='titulo' />
                                 <field name='name' />
                                 <field name='und_pallet' />
                                 <field name='peso_neto' />
