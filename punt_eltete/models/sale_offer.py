@@ -7,7 +7,7 @@ from odoo.addons import decimal_precision as dp
 class sale_referencia_cliente(models.Model):
     _name = 'sale.referencia.cliente'
 
-    name = fields.Char(string='Ref cliente nombre', required=True, default=lambda self: "/")
+    name = fields.Char(string='Ref cliente nombre', required=True, default=lambda self: "/") ##POR DEFERCTO EL TITULO, no el name
     
     
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
@@ -73,7 +73,7 @@ class sale_referencia_cliente(models.Model):
     #REFERENCIA CLIENTE
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
     
-    PALETIZADO_SEL = [('1', 'Compacto'),                 
+    PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
                       ('2', 'Columnas'),
                       ]
     paletizado_cliente = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado Cliente', default = '1')
@@ -119,8 +119,8 @@ class sale_referencia_cliente(models.Model):
     def _get_valores(self):
     
         for record in self:
-            paletizado = 0
-            ancho_pallet = 0
+            paletizado = 1
+            ancho_pallet = 1200
             und_paquete = 0
             paquetes = 0
             alto_fila = 0
@@ -134,12 +134,12 @@ class sale_referencia_cliente(models.Model):
                     alto_fila = 10
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
-                    paletizado = 1
+
                     if record.paletizado_cliente == '2':
                         paletizado = 2
                         if record.und_paquete_cliente > 0:     
                             paletizado = 1
-                        if record.und_pallet_cliente > 0:     
+                        elif record.und_pallet_cliente > 0:     
                             paletizado = 1
                     alto_fila = (record.referencia_id.ala_1 + record.referencia_id.ala_2) * 0.7071
                             

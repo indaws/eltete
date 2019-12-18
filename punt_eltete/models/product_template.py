@@ -7,6 +7,10 @@ class ProductReferencia(models.Model):
 
     
     name = fields.Char('Nombre', readonly=True)
+    
+    #Se calcuculan cuando texto_error == ""
+	####### - AÑADIR --> también al crear   -> titulo = fields.Char('Titulo', readonly = True, compute = getTitulo())
+	
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
     
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
