@@ -1,0 +1,1023 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_eltete_form" model="ir.ui.view">
+        <field name="name">product.template.eltete.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            
+                <field name="categ_id" position="after">
+                    <field name="und_pallet"/>
+                    <field name="attribute_id"/>
+                    <field name="referencia_cliente_id"/>
+                    <field name="referencia_id"/>
+                </field>
+
+            
+        </field>
+    </record>
+    
+    
+    <record id="view_product_category_form_eltete" model="ir.ui.view">
+        <field name="name">product.category.form.eltete</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="product_type" class="oe_inline"/>
+                <field name="is_cantonera" class="oe_inline"/>
+                <field name="is_perfilu" class="oe_inline"/>
+                <field name="is_slipsheet" class="oe_inline"/>
+                <field name="is_solidboard" class="oe_inline"/>
+                <field name="is_formato" class="oe_inline"/>
+                <field name="is_bobina" class="oe_inline"/>
+                <field name="is_pieballet" class="oe_inline"/>
+                <field name="is_varios" class="oe_inline"/>
+                
+            </xpath>
+        </field>
+    </record>
+    
+    
+    
+    <!-- ######################################
+                 product.referencia
+        ####################################### -->  
+        
+        
+    <record model="ir.ui.view" id="view_product_referencia_tree">
+        <field name="name">product.referencia.tree</field>
+        <field name="model">product.referencia</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <tree string="Producto">
+                <field name="name"/>
+                <field name="type_id"/>
+            </tree>
+        </field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="view_product_referencia_form">
+        <field name="name">product.referencia.form</field>
+        <field name="model">product.referencia</field>
+        <field name="arch" type="xml">
+            <form string="Ofertas">
+                <sheet>
+                    <group>
+                        
+                        <field name="type_id" domain="[('product_type','=',True)]"/>
+                        <field name="is_cantonera" invisible="1"/>
+                        <field name="is_perfilu" invisible="1"/>
+                        <field name="is_slipsheet" invisible="1"/>
+                        <field name="is_solidboard" invisible="1"/>
+                        <field name="is_formato" invisible="1"/>
+                        <field name="is_bobina" invisible="1"/>
+                        <field name="is_pieballet" invisible="1"/>
+                        <field name="is_varios" invisible="1"/>
+                    </group>
+                    
+                    <h3>Campos referencia</h3>
+                    <group>
+                        <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
+                        <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
+                        <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
+                        <field name='grosor' attrs="{'invisible': ['|','|',('is_formato', '=', True),('is_bobina', '=', True),('is_pieballet', '=', True),]}" />
+                        <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
+                        <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
+                        <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
+                        <field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
+                        <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
+                        <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
+                        <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                        <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                        <field name='peso_metro_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+                        <field name='metros_unidad_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+                    </group>
+                    
+                    <h3>Cálculos</h3>
+                    <group>
+                        <field name='peso_metro' />
+                        <field name='metros_unidad' />
+                        <field name='j_gram' />
+                        <field name='j_interior' />
+                        <field name='j_superficie' />
+                    </group>
+                    
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    
+    
+    
+    
+    
+    <record model="ir.ui.view" id="view_product_referencia_search">
+        <field name="name">product.referencia.search</field>
+        <field name="model">product.referencia</field>
+        <field name="arch" type="xml">
+            <search string="Ofertas">
+                <field name="name"/>
+                <field name="type_id"/>
+            </search>
+        </field>
+    </record>
+
+            
+    <record model="ir.actions.act_window" id="action_product_referencia">
+        <field name="name">Referencias</field>
+        <field name="res_model">product.referencia</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    
+    <menuitem name="Referencias" parent="sale.sale_order_menu" id="menu_product_referencia" action="action_product_referencia" sequence="25"/>
+    
+    
+    
+    
+    <!-- #######################################################
+                 product.caracteristica.pallet.especial
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_pallet_especial_tree">
+            <field name="name">product.caracteristica.pallet.especial.tree</field>
+            <field name="model">product.caracteristica.pallet.especial</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_pallet_especial_form">
+            <field name="name">product.caracteristica.pallet.especial.form</field>
+            <field name="model">product.caracteristica.pallet.especial</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_pallet_especial_search">
+            <field name="name">product.caracteristica.pallet.especial.search</field>
+            <field name="model">product.caracteristica.pallet.especial</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_pallet_especial">
+            <field name="name">Pallet especial</field>
+            <field name="res_model">product.caracteristica.pallet.especial</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Pallet especial" parent="sale.prod_config_main" id="menu_product_caracteristica_pallet_especial" action="action_product_caracteristica_pallet_especial" sequence="19"/>
+        
+    
+    
+    
+    <!-- #######################################################
+                 product.caracteristica.cantonera.color
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_color_tree">
+            <field name="name">product.caracteristica.cantonera.color.tree</field>
+            <field name="model">product.caracteristica.cantonera.color</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="valido"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_color_form">
+            <field name="name">product.caracteristica.cantonera.color.form</field>
+            <field name="model">product.caracteristica.cantonera.color</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="valido"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_color_search">
+            <field name="name">product.caracteristica.cantonera.color.search</field>
+            <field name="model">product.caracteristica.cantonera.color</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_cantonera_color">
+            <field name="name">Cantonera Color</field>
+            <field name="res_model">product.caracteristica.cantonera.color</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Cantonera color" parent="sale.prod_config_main" id="menu_product_caracteristica_cantonera_color" action="action_product_caracteristica_cantonera_color" sequence="20"/>
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.cantonera.forma
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_forma_tree">
+            <field name="name">product.caracteristica.cantonera.forma.tree</field>
+            <field name="model">product.caracteristica.cantonera.forma</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                    <field name="cantonera_1"/>
+                    <field name="cantonera_2"/>
+                    <field name="cantonera_3"/>
+                    <field name="cantonera_4"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_forma_form">
+            <field name="name">product.caracteristica.cantonera.forma.form</field>
+            <field name="model">product.caracteristica.cantonera.forma</field>
+            <field name="arch" type="xml">
+                <form string="forma">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                            <field name="cantonera_1"/>
+                            <field name="cantonera_2"/>
+                            <field name="cantonera_3"/>
+                            <field name="cantonera_4"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_forma_search">
+            <field name="name">product.caracteristica.cantonera.forma.search</field>
+            <field name="model">product.caracteristica.cantonera.forma</field>
+            <field name="arch" type="xml">
+                <search string="forma">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="tipo"/>
+                    <field name="cantonera_1"/>
+                    <field name="cantonera_2"/>
+                    <field name="cantonera_3"/>
+                    <field name="cantonera_4"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_cantonera_forma">
+            <field name="name">Cantonera forma</field>
+            <field name="res_model">product.caracteristica.cantonera.forma</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Cantonera forma" parent="sale.prod_config_main" id="menu_product_caracteristica_cantonera_forma" action="action_product_caracteristica_cantonera_forma" sequence="21"/>
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.cantonera.especial
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_especial_tree">
+            <field name="name">product.caracteristica.cantonera.especial.tree</field>
+            <field name="model">product.caracteristica.cantonera.especial</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                    <field name="cantonera_1"/>
+                    <field name="cantonera_2"/>
+                    <field name="cantonera_3"/>
+                    <field name="cantonera_4"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_especial_form">
+            <field name="name">product.caracteristica.cantonera.especial.form</field>
+            <field name="model">product.caracteristica.cantonera.especial</field>
+            <field name="arch" type="xml">
+                <form string="especial">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                            <field name="cantonera_1"/>
+                            <field name="cantonera_2"/>
+                            <field name="cantonera_3"/>
+                            <field name="cantonera_4"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_especial_search">
+            <field name="name">product.caracteristica.cantonera.especial.search</field>
+            <field name="model">product.caracteristica.cantonera.especial</field>
+            <field name="arch" type="xml">
+                <search string="especial">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                    <field name="cantonera_1"/>
+                    <field name="cantonera_2"/>
+                    <field name="cantonera_3"/>
+                    <field name="cantonera_4"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_cantonera_especial">
+            <field name="name">Cantonera especial</field>
+            <field name="res_model">product.caracteristica.cantonera.especial</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Cantonera especial" parent="sale.prod_config_main" id="menu_product_caracteristica_cantonera_especial" action="action_product_caracteristica_cantonera_especial" sequence="22"/>
+        
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.cantonera.impresion
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_impresion_tree">
+            <field name="name">product.caracteristica.cantonera.impresion.tree</field>
+            <field name="model">product.caracteristica.cantonera.impresion</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="num_tintas"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                    <field name="cantonera_1"/>
+                    <field name="cantonera_2"/>
+                    <field name="cantonera_3"/>
+                    <field name="cantonera_4"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_impresion_form">
+            <field name="name">product.caracteristica.cantonera.impresion.form</field>
+            <field name="model">product.caracteristica.cantonera.impresion</field>
+            <field name="arch" type="xml">
+                <form string="impresion">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="num_tintas"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                            <field name="cantonera_1"/>
+                            <field name="cantonera_2"/>
+                            <field name="cantonera_3"/>
+                            <field name="cantonera_4"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cantonera_impresion_search">
+            <field name="name">product.caracteristica.cantonera.impresion.search</field>
+            <field name="model">product.caracteristica.cantonera.impresion</field>
+            <field name="arch" type="xml">
+                <search string="impresion">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_cantonera_impresion">
+            <field name="name">Cantonera impresión</field>
+            <field name="res_model">product.caracteristica.cantonera.impresion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Cantonera impresión" parent="sale.prod_config_main" id="menu_product_caracteristica_cantonera_impresion" action="action_product_caracteristica_cantonera_impresion" sequence="23"/>
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.perfilu.color
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_perfilu_color_tree">
+            <field name="name">product.caracteristica.perfilu.color.tree</field>
+            <field name="model">product.caracteristica.perfilu.color</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="valido"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_perfilu_color_form">
+            <field name="name">product.caracteristica.perfilu.color.form</field>
+            <field name="model">product.caracteristica.perfilu.color</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="valido"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_perfilu_color_search">
+            <field name="name">product.caracteristica.perfilu.color.search</field>
+            <field name="model">product.caracteristica.perfilu.color</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_perfilu_color">
+            <field name="name">Perfil U Color</field>
+            <field name="res_model">product.caracteristica.perfilu.color</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Perfil U color" parent="sale.prod_config_main" id="menu_product_caracteristica_perfilu_color" action="action_product_caracteristica_perfilu_color" sequence="24"/>
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.reciclable
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_reciclable_tree">
+            <field name="name">product.caracteristica.reciclable.tree</field>
+            <field name="model">product.caracteristica.reciclable</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                    <field name="cantonera_1"/>
+                    <field name="cantonera_2"/>
+                    <field name="cantonera_3"/>
+                    <field name="cantonera_4"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_reciclable_form">
+            <field name="name">product.caracteristica.reciclable.form</field>
+            <field name="model">product.caracteristica.reciclable</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                            <field name="cantonera_1"/>
+                            <field name="cantonera_2"/>
+                            <field name="cantonera_3"/>
+                            <field name="cantonera_4"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_reciclable_search">
+            <field name="name">product.caracteristica.reciclable.search</field>
+            <field name="model">product.caracteristica.reciclable</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_reciclable">
+            <field name="name">Reciclable</field>
+            <field name="res_model">product.caracteristica.reciclable</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Reciclable" parent="sale.prod_config_main" id="menu_product_caracteristica_reciclable" action="action_product_caracteristica_reciclable" sequence="25"/>
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.inglete
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_inglete_tree">
+            <field name="name">product.caracteristica.inglete.tree</field>
+            <field name="model">product.caracteristica.inglete</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_inglete_form">
+            <field name="name">product.caracteristica.inglete.form</field>
+            <field name="model">product.caracteristica.inglete</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_inglete_search">
+            <field name="name">product.caracteristica.inglete.search</field>
+            <field name="model">product.caracteristica.inglete</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_inglete">
+            <field name="name">Inglete</field>
+            <field name="res_model">product.caracteristica.inglete</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Inglete" parent="sale.prod_config_main" id="menu_product_caracteristica_inglete" action="action_product_caracteristica_inglete" sequence="26"/>
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.planchacolor
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_planchacolor_tree">
+            <field name="name">product.caracteristica.planchacolor.tree</field>
+            <field name="model">product.caracteristica.planchacolor</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="valido"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_planchacolor_form">
+            <field name="name">product.caracteristica.planchacolor.form</field>
+            <field name="model">product.caracteristica.planchacolor</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="valido"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_planchacolor_search">
+            <field name="name">product.caracteristica.planchacolor.search</field>
+            <field name="model">product.caracteristica.planchacolor</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_planchacolor">
+            <field name="name">Plancha color</field>
+            <field name="res_model">product.caracteristica.planchacolor</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Plancha color" parent="sale.prod_config_main" id="menu_product_caracteristica_planchacolor" action="action_product_caracteristica_planchacolor" sequence="27"/>
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.troquelado
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_troquelado_tree">
+            <field name="name">product.caracteristica.troquelado.tree</field>
+            <field name="model">product.caracteristica.troquelado</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                    <field name="troqueladora_1"/>
+                    <field name="troqueladora_2"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_troquelado_form">
+            <field name="name">product.caracteristica.troquelado.form</field>
+            <field name="model">product.caracteristica.troquelado</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                            <field name="troqueladora_1"/>
+                            <field name="troqueladora_2"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_troquelado_search">
+            <field name="name">product.caracteristica.troquelado.search</field>
+            <field name="model">product.caracteristica.troquelado</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_troquelado">
+            <field name="name">Troquelado</field>
+            <field name="res_model">product.caracteristica.troquelado</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Troquelado" parent="sale.prod_config_main" id="menu_product_caracteristica_troquelado" action="action_product_caracteristica_troquelado" sequence="28"/>
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.papelcalidad
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_papelcalidad_tree">
+            <field name="name">product.caracteristica.papelcalidad.tree</field>
+            <field name="model">product.caracteristica.papelcalidad</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_papelcalidad_form">
+            <field name="name">product.caracteristica.papelcalidad.form</field>
+            <field name="model">product.caracteristica.papelcalidad</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_papelcalidad_search">
+            <field name="name">product.caracteristica.papelcalidad.search</field>
+            <field name="model">product.caracteristica.papelcalidad</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_papelcalidad">
+            <field name="name">Papel calidad</field>
+            <field name="res_model">product.caracteristica.papelcalidad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Papel calidad" parent="sale.prod_config_main" id="menu_product_caracteristica_papelcalidad" action="action_product_caracteristica_papelcalidad" sequence="29"/>
+   
+   
+        <!-- #######################################################
+                 product.caracteristica.fsc
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_fsc_tree">
+            <field name="name">product.caracteristica.fsc.tree</field>
+            <field name="model">product.caracteristica.fsc</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="active"/>
+                    <field name="incremento"/>
+                    <field name="tipo"/>
+                    <field name="cantonera_1"/>
+                    <field name="cantonera_2"/>
+                    <field name="cantonera_3"/>
+                    <field name="cantonera_4"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_fsc_form">
+            <field name="name">product.caracteristica.fsc.form</field>
+            <field name="model">product.caracteristica.fsc</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                            <field name="incremento"/>
+                            <field name="tipo"/>
+                            <field name="cantonera_1"/>
+                            <field name="cantonera_2"/>
+                            <field name="cantonera_3"/>
+                            <field name="cantonera_4"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_fsc_search">
+            <field name="name">product.caracteristica.fsc.search</field>
+            <field name="model">product.caracteristica.fsc</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_fsc">
+            <field name="name">FSC</field>
+            <field name="res_model">product.caracteristica.fsc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="FSC" parent="sale.prod_config_main" id="menu_product_caracteristica_fsc" action="action_product_caracteristica_fsc" sequence="30"/>
+    
+    
+    
+</odoo>

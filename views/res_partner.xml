@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <act_window id="launch_wizard_partner_sale_order"
+            name="Crear pedido"
+            src_model="res.partner"
+            res_model="wizard.partner.sale.order"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+            
+            
+    <record model="ir.ui.view" id="wizard_form_view">
+        <field name="name">wizard.partner.sale.order.form</field>
+        <field name="model">wizard.partner.sale.order</field>
+        <field name="arch" type="xml">
+            <form string="Crear pedido">
+                <group>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="state_id"/>
+                    <field name="country_id"/>
+                </group>
+                
+                <group colspan="2" >
+                    <field name="line_ids" context="{'default_wizard_id': active_id, 'default_state_id': state_id, 'default_country_id': country_id, }">
+                        <tree string="Líneas" editable="top">
+                            <field name='partner_id' invisible="1"/>
+                            <field name='wizard_id' invisible="1"/>
+                            <field name='state_id' invisible="1"/>
+                            <field name='country_id' invisible="1" />
+                            <field name='referencia_cliente_id' domain="[('partner_id', '=', partner_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name='attribute_id' domain="[('referencia_cliente_id', '=', referencia_cliente_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name='num_pallets' sum="Pallets"/>
+                            <field name='oferta_id' domain="[('attribute_id', '=', attribute_id), ('state_id', '=', state_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                        </tree>
+                    </field>   
+                </group>
+                
+                <footer>
+                    <button name="create_sale_order" type="object"
+                            string="Generar pedido" class="oe_highlight"/>
+                    
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+
+
+    <record id="act_res_partner_2_sale_referencia_cliente" model="ir.actions.act_window">
+        <field name="name">Referencia cliente</field>
+        <field name="res_model">sale.referencia.cliente</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_partner_id': active_id}</field>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Crea una nueva referencia cliente
+          </p>
+        </field>
+    </record>
+        
+        
+    <record id="act_res_partner_2_sale_offer_oferta" model="ir.actions.act_window">
+        <field name="name">Detalle ofertas</field>
+        <field name="res_model">sale.offer.oferta</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_partner_id': active_id}</field>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Crea una nueva oferta
+          </p>
+        </field>
+    </record>
+    
+    <record id="act_res_partner_2_sale_cotizacion" model="ir.actions.act_window">
+        <field name="name">Cotizaciones</field>
+        <field name="res_model">sale.cotizacion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_partner_id': active_id}</field>
+        <field name="groups_id" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Crea una nueva cotización
+          </p>
+        </field>
+    </record>
+
+
+
+
+    <record id="view_res_partner_siur_form" model="ir.ui.view">
+        <field name="name">res.partner.eltete.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page string="Productos">
+                    <group colspan="2" >
+                        <field name="prod_comment_ids" context="{'partner_id': active_id, }">
+                            <tree string="Líneas" editable="top">
+                                <field name='product_id' />
+                                <field name='comments' />
+                            </tree>
+                        </field>   
+                    </group>
+                    
+                    <group colspan="2" >
+                        <field name='special_conditions' />
+                        <field name='uploading_time' />
+                        
+                    </group>
+                    
+
+
+                </page>
+            </xpath>
+            
+            <field name="vat" position="after">
+                <field name='ice' />
+            </field>
+            
+            <field name="category_id" position="after">
+                <field name='num_bailen' />
+            </field>
+            
+            <button name="toggle_active" position="before">
+                <button class="oe_stat_button" type="action" name="%(act_res_partner_2_sale_referencia_cliente)d" 
+                    groups="sales_team.group_sale_salesman"
+                    attrs="{'invisible': [('customer', '=', False)]}"
+                    icon="fa-usd">
+                    <field string="Referencias" name="referencia_cliente_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" type="action" name="%(act_res_partner_2_sale_offer_oferta)d" 
+                    groups="sales_team.group_sale_salesman"
+                    attrs="{'invisible': [('customer', '=', False)]}"
+                    icon="fa-usd">
+                    <field string="Det ofertas" name="sale_oferta_count" widget="statinfo"/>
+                </button>
+                <button class="oe_stat_button" type="action" name="%(act_res_partner_2_sale_cotizacion)d" 
+                    groups="sales_team.group_sale_salesman"
+                    attrs="{'invisible': [('customer', '=', False)]}"
+                    icon="fa-usd">
+                    <field string="Cotizaciones" name="sale_cotizacion_count" widget="statinfo"/>
+                </button>
+            </button>
+            
+        </field>
+    </record>
+    
+    
+    
+
+    
+
+    
+   
+    
+    
+    
+</odoo>
