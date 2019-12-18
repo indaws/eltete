@@ -443,6 +443,8 @@ class sale_referencia_cliente(models.Model):
         
     @api.multi
     def ref_to_rcl(self):
+        if not self.precio_cliente:
+            raise ValidationError("Error: Hay que indicar un valor en el campo PRECIO CLIENTE")
         self.state = 'RCL'
         
     
@@ -683,7 +685,7 @@ class sale_product_attribute(models.Model):
                 elif record.type_id.is_pieballet == True:
                     altoMax = 1250
                         
-                if record.referencia_cliente_id.alto_max_cliente < alto_max:
+                if record.referencia_cliente_id.alto_max_cliente < altoMax:
                     altoMax = record.referencia_cliente_id.und_pallet_cliente    
                 filaMax = int((altoMax - 150) / record.referencia_cliente_id.alto_fila)
                 
@@ -970,7 +972,7 @@ class sale_offer_oferta(models.Model):
             record.und_pallet = und
     
     
-    @api.depends('attribute_id',)
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_peso_neto(self):
         und = self.und_pallet
         pesoUnd = self.attribute_id.referencia_cliente_id.referencia_id.peso_metro * self.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
@@ -978,7 +980,7 @@ class sale_offer_oferta(models.Model):
         self.peso_neto = peso
     
     
-    @api.depends('attribute_id',)
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_peso_bruto(self):
         peso = self.peso_neto
         pesoMadera = 0
@@ -992,13 +994,13 @@ class sale_offer_oferta(models.Model):
         return peso
         
         
-    @api.depends('attribute_id',)
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_alto_pallet(self):
         for record in self:
             record.alto_pallet = record.attribute_id.referencia_cliente_id.alto_fila * record.num_filas + 150
         
         
-    @api.depends('attribute_id',)
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_emetro(self):
         for record in self:
             valor = 0
@@ -1019,7 +1021,8 @@ class sale_offer_oferta(models.Model):
             valor = valor + self.attribute_id.incremento_unidad
             if self.attribute_id.sierra == True:
                 valor = valor + 0.017
-            valor = valor + self.attribute_id.incremento_pallet / self.und_pallet
+            if self.und_pallet != 0:
+                valor = valor + self.attribute_id.incremento_pallet / self.und_pallet
             valor = valor / self.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             valor = int(valor * 1000) / 1000
         else:
@@ -1032,7 +1035,7 @@ class sale_offer_oferta(models.Model):
         return valor
     
     
-    @api.depends('attribute_id',)
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_eton(self):
         for record in self:
             valor = 0
@@ -1046,7 +1049,7 @@ class sale_offer_oferta(models.Model):
     
     
     
-    @api.depends('attribute_id',)
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_precio(self):
         for record in self:
             texto = ""
