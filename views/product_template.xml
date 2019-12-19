@@ -52,7 +52,9 @@
         <field name="arch" type="xml">
             <tree string="Producto">
                 <field name="name"/>
-                <field name="type_id"/>
+                <field name="ancho_interior"/>
+				<field name="ancho_superficie"/>
+				<field name="comentario"/>
             </tree>
         </field>
     </record>
@@ -69,6 +71,7 @@
                         <field name="type_id" domain="[('product_type','=',True)]"/>
 						<field name="name" />
 						<field name="titulo" />
+						<field name="orden"/>
                         <field name="is_cantonera" invisible="1"/>
                         <field name="is_perfilu" invisible="1"/>
                         <field name="is_slipsheet" invisible="1"/>
