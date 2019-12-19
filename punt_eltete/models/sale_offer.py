@@ -647,7 +647,7 @@ class sale_referencia_cliente(models.Model):
 class sale_product_attribute(models.Model):
     _name = 'sale.product.attribute'
 
-    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string="Referencia cliente")
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string="Referencia cliente", ondelete='cascade')
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='referencia_cliente_id.partner_id')
     type_id = fields.Many2one('product.category', string="Tipo de producto", store=True, related='referencia_cliente_id.type_id')
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
@@ -704,7 +704,7 @@ class sale_product_attribute(models.Model):
     incremento_pallet = fields.Float('Incremento Pallet', digits = (10,4), readonly = True, compute = "_get_incremento_param")
     
     fila_max = fields.Integer('Fila Max', readonly = True, compute = "_get_fila_max")
-    fila_buena = fields.Integer('Fila Buena', readonly = True, compute = "_get_valores")
+
     
     
     
@@ -712,7 +712,7 @@ class sale_product_attribute(models.Model):
     oferta_ids = fields.One2many('sale.offer.oferta', 'attribute_id', string="Ofertas", copy=True)
     
     
-    @api.depends('type_id',)
+    @api.depends('type_id', 'cantonera_color_id', 'cantonera_forma_id', 'cantonera_especial_id', 'inglete_num', 'inglete_id', 'perfilu_color_id', 'troquelado_id', 'papel_calidad_id', 'fsc_id', 'reciclable_id')
     def _get_titulo(self):
         for record in self:
             nombre = ''
@@ -831,161 +831,28 @@ class sale_product_attribute(models.Model):
         
 
     
-    @api.depends('type_id',)
-    def _get_fila_max(self):
     
-        for record in self:
-    
-            filaMax = 0
-            undFila = record.referencia_cliente_id.und_paquete * record.referencia_cliente_id.paquetes_fila
-            pesoUnidad = record.referencia_cliente_id.referencia_id.peso_metro * record.referencia_cliente_id.referencia_id.metros_unidad
-            pesoFila = pesoUnidad * record.referencia_cliente_id.und_paquete * record.referencia_cliente_id.paquetes_fila
-            
-            #Unidades exactas
-            if record.referencia_cliente_id.und_pallet_cliente and record.referencia_cliente_id.und_pallet_cliente > 0:
-                if undFila != 0:
-                    filaMax = int(record.referencia_cliente_id.und_pallet_cliente / undFila)
-                    if filaMax * undFila < record.referencia_cliente_id.und_pallet_cliente:
-                        filaMax = filaMax + 1    
-            #Varios
-            elif record.type_id.is_varios == True:
-                if pesoFila != 0:
-                    filaMax = int(1750 / pesoFila)
-            #Cantonera
-            elif record.type_id.is_cantonera == True and record.referencia_cliente_id.referencia_id.longitud < 250:
-                if pesoFila != 0:
-                    filaMax = int(1750 / pesoFila)
-            #Perfil U
-            elif record.type_id.is_perfilu == True and record.referencia_cliente_id.referencia_id.longitud < 250:
-                if pesoFila != 0:
-                    filaMax = int(1750 / pesoFila)
-                
-            else:
-                altoMax = 1600
-                if record.referencia_cliente_id.contenedor == True:
-                    altoMax = 1100
-                elif record.type_id.is_slipsheet == True:
-                    altoMax = 1100
-                elif record.type_id.is_solidboard == True:
-                    altoMax = 1100
-                elif record.type_id.is_formato == True:
-                    altoMax = 1100
-                elif record.type_id.is_bobina == True:
-                    altoMax = 2200
-                elif record.type_id.is_pieballet == True:
-                    altoMax = 1250
-                        
-                if record.referencia_cliente_id.alto_max_cliente < altoMax:
-                    altoMax = record.referencia_cliente_id.und_pallet_cliente    
-                filaMax = int((altoMax - 150) / record.referencia_cliente_id.alto_fila)
-                
-                #Por peso
-                pesoPallet = pesoFila * filaMax
-                pesoMadera = 0
-                if record.referencia_cliente_id.referencia_id.longitud < 1500:
-                    pesoMadera = 20
-                elif record.referencia_cliente_id.referencia_id.longitud < 2000:
-                    pesoMadera = 30
-                else:
-                    pesoMadera = int(record.referencia_cliente_id.referencia_id.longitud / 1000) * 20
-                        
-                pesoMax = 1750 - pesoMadera        
-                if record.referencia_cliente_id.peso_max_cliente and record.referencia_cliente_id.peso_max_cliente > 0:
-                    if record.referencia_cliente_id.peso_max_cliente < pesoMax:
-                        pesoMax = record.referencia_cliente_id.peso_max_cliente
-                while pesoPallet > pesoMax:
-                    filaMax = filaMax - 1
-                    pesoPallet = pesoFila * filaMax
-        
-            record.fila_max = filaMax
     
     @api.depends('type_id',)
     def _get_valores(self):
         for record in self:
             sierra = False
-            
-            buena = 0
-            if record.referencia_cliente_id.und_pallet_cliente != None and record.referencia_cliente_id.und_pallet_cliente > 0:
-                buena = record.fila_max
 
             if record.referencia_cliente_id:
-                #Varios
-                if record.type_id.is_varios == True:
-                    sierra = False
-                    
+
                 #Cantonera
-                elif record.type_id.is_cantonera == True:
+                if record.type_id.is_cantonera == True:
                     if record.referencia_cliente_id.longitud < 500:
                         sierra = True
-                        
-                    undFila = record.referencia_cliente_id.und_paquete * record.referencia_cliente_id.paquetes_fila
-                    pesoUnidad = record.referencia_cliente_id.referencia_id.peso_metro * record.referencia_cliente_id.referencia_id.metros_unidad
-                    pesoFila = pesoUnidad * record.referencia_cliente_id.und_paquete * record.referencia_cliente_id.paquetes_fila
-                    buena = record.fila_max
-                    #Por peso
-                    pesoMax = 1500
-                    if record.referencia_cliente_id.referencia_id.longitud <= 4500:
-                        pesoMax = 1300
-                    pesoPallet = pesoFila * buena
-                    while pesoPallet > pesoMax:
-                        buena = buena - 1
-                        pesoPallet = pesoFila * buena
-                    #Repetido
-                    repetido = 1
-                    if record.referencia_cliente_id.referencia_id.longitud == 250:
-                        repetido = 4
-                    elif record.referencia_cliente_id.referencia_id.longitud > 250 and record.referencia_cliente_id.referencia_id.longitud <= 350:
-                        repetido = 3
-                    elif record.referencia_cliente_id.referencia_id.longitud > 350 and record.referencia_cliente_id.referencia_id.longitud <= 650:
-                        repetido = 2    
-                    while undFila * buena / repetido > 7000:
-                        buena = buena - 1
+
                     
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
                     if record.referencia_cliente_id.longitud < 400:
                         sierra = True
-                        
-                    buena = record.fila_max
-                    
-                #Slip Sheets
-                elif record.type_id.is_slipsheet == True:
-                    buena = 10
-                    
-                #Solid Board
-                elif record.type_id.is_solidboard == True:
-                    buena = 10
-                    
-                #Formato
-                elif record.type_id.is_formato == True:
-                    buena = record.fila_max
-                    pesoMax = 1300
-                    pesoUnidad = record.referencia_cliente_id.referencia_id.peso_metro * record.referencia_cliente_id.referencia_id.metros_unidad
-                    pesoFila = pesoUnidad * record.referencia_cliente_id.und_paquete * record.referencia_cliente_id.paquetes_fila
-                    pesoPallet = pesoFila * buena
-                    while pesoPallet > pesoMax:
-                        buena = buena - 1
-                        pesoPallet = pesoFila * buena
-                    
-                #Bobina
-                elif record.type_id.is_bobina == True:
-                    buena = record.fila_max
-                    pesoMax = 1300
-                    pesoUnidad = record.referencia_cliente_id.referencia_id.peso_metro * record.referencia_cliente_id.referencia_id.metros_unidad
-                    pesoFila = pesoUnidad * record.referencia_cliente_id.und_paquete * record.referencia_cliente_id.paquetes_fila
-                    pesoPallet = pesoFila * buena
-                    while pesoPallet > pesoMax:
-                        buena = buena - 1
-                        pesoPallet = pesoFila * buena
-                    
-                    
-                #Pie de Pallet
-                elif record.type_id.is_pieballet == True:
-                    buena = record.fila_max
-            
 
             record.sierra = sierra
-            record.fila_buena = buena
+            
     
     
     
@@ -1096,10 +963,11 @@ class sale_offer_oferta(models.Model):
     
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, )
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
-    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente')
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
     
+    peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
     num_pallets = fields.Integer('Num pallets')
     emetro_user = fields.Float('Emetro (user)')
     eton_user = fields.Float('Eton (user)')
@@ -1173,7 +1041,7 @@ class sale_offer_oferta(models.Model):
         else:
             pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
         peso = peso + pesoMadera
-        return peso
+        self.peso_bruto = peso
         
         
     @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')

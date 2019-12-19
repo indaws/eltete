@@ -35,7 +35,7 @@ class sale_presupuesto_line(models.Model):
     _name = 'sale.cotizacion.line'
     
     sequence = fields.Integer('Secuencia')
-    cotizacion_id = fields.Many2one('sale.cotizacion', string="Presupuesto", required=True, readonly=True)
+    cotizacion_id = fields.Many2one('sale.cotizacion', string="Presupuesto", required=True, readonly=True, ondelete='cascade')
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', required=True, readonly=True)
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, readonly=True)
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta", required=True, readonly=True)
