@@ -7,10 +7,9 @@ class ProductReferencia(models.Model):
 
     
     name = fields.Char('Nombre', readonly=True)
+    titulo = fields.Char('Título', readonly=True)
     
-    #Se calcuculan cuando texto_error == ""
-	####### - AÑADIR --> también al crear   -> titulo = fields.Char('Titulo', readonly = True, compute = getTitulo())
-	
+    
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
     
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
@@ -25,7 +24,6 @@ class ProductReferencia(models.Model):
     ala_1 = fields.Integer('Ala 1')
     ancho = fields.Integer('Ancho')
     ala_2 = fields.Integer('Ala 2')
-    grosor = fields.Float('Grosor')
     grosor_1 = fields.Float('Grosor 1', digits=(6,1))
     grosor_2 = fields.Float('Grosor 2', digits=(8,2))
     longitud = fields.Integer('Longitud')
@@ -374,14 +372,15 @@ class ProductCategory(models.Model):
             return None, "Error: Ala2 * 2 debe ser menor que Ala1"
             
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor', '=', grosor_2), ('longitud', '=', longitud)]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor_2', '=', grosor_2), ('longitud', '=', longitud)]):
             return prod, None
             
 
-        
-        product_name = "CANTONERA " + str(ala1) + " x " + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
+        titulo = str(ala1) + " x " + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
+        product_name = "CANTONERA " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'ala_1': ala1,
                                                           'ala_2': ala2,
@@ -425,10 +424,11 @@ class ProductCategory(models.Model):
             
         
         
-
-        product_name = "PERFIL U " + str(ala1) + " x " + str(ancho) + " x "  + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
+        titulo = str(ala1) + " x " + str(ancho) + " x "  + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
+        product_name = "PERFIL U " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'ala_1': ala1,
                                                           'ancho': ancho,
@@ -471,22 +471,25 @@ class ProductCategory(models.Model):
             
         
 
-        product_name = "SLIP SHEET ("
+        titulo = "("
         if ala1 > 0:
-            product_name = product_name + str(ala1) + " + "
-        product_name = product_name + str(ancho)
+            titulo = titulo + str(ala1) + " + "
+        titulo = titulo + str(ancho)
         if ala2 > 0:
-            product_name = product_name + " + " + str(ala2)
-        product_name = product_name + ") x ("
+            titulo = titulo + " + " + str(ala2)
+        titulo = titulo + ") x ("
         if ala3 > 0:
-            product_name = product_name + str(ala3) + " + "
-        product_name = product_name + str(longitud)
+            titulo = titulo + str(ala3) + " + "
+        titulo = titulo + str(longitud)
         if ala4 > 0:
-            product_name = product_name + " + " + str(ala4)
-        product_name = product_name + ") x " + str(grosor_1)
+            titulo = titulo + " + " + str(ala4)
+        titulo = titulo + ") x " + str(grosor_1)
+        
+        product_name = "SLIP SHEET " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
-                                                          'type_id': self.id, 
+                                                          'titulo': titulo, 
+                                                          'type_id': self.id,
                                                           'ala_1': ala1,
                                                           'ancho': ancho,
                                                           'ala_2': ala2,
@@ -516,9 +519,11 @@ class ProductCategory(models.Model):
             return prod, None
 
 
-        product_name = "SOLID BOARD " + str(ancho) + " x " + str(longitud) + " x " + str(grosor_1)
+        titulo = str(ancho) + " x " + str(longitud) + " x " + str(grosor_1)
+        product_name = "SOLID BOARD " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo,
                                                           'type_id': self.id, 
                                                           'ancho': ancho,
                                                           'grosor_1': grosor_1,
@@ -544,9 +549,11 @@ class ProductCategory(models.Model):
             return prod, None
 
 
-        product_name = "FORMATO " + str(ancho) + " x " + str(longitud) + " - " + str(gramaje) + "g"
+        titulo = str(ancho) + " x " + str(longitud) + " - " + str(gramaje) + "g"
+        product_name = "FORMATO " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo,
                                                           'type_id': self.id, 
                                                           'ancho': ancho,
                                                           'longitud': longitud,
@@ -571,9 +578,11 @@ class ProductCategory(models.Model):
             return prod, None
 
 
-        product_name = "BOBINA Ancho " + str(ancho) + "mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
+        titulo = "Ancho " + str(ancho) + " mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
+        product_name = "BOBINA " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'ancho': ancho,
                                                           'diametro': diametro,
@@ -596,17 +605,20 @@ class ProductCategory(models.Model):
             return prod, None
 
         
-        product_name = ""
+        titulo = ""
         if pie == '1':
-            product_name = "PIE DE BALLET 100 x 90 x " + str(longitud) + " - Adhesivo"
+            titulo = "100 x 90 x " + str(longitud) + " - Adhesivo"
         elif pie == '2':
-            product_name = "PIE DE BALLET 100 x 90 x " + str(longitud)
+            titulo = "100 x 90 x " + str(longitud)
         elif pie == '3':
-            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud) + " - Adhesivo"
+            titulo = "60 x 90 x " + str(longitud) + " - Adhesivo"
         elif pie == '4':
-            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud)        
+            titulo = "60 x 90 x " + str(longitud)    
+
+        product_name = "PIE DE BALLET " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'longitud': longitud,
                                                           'pie': pie,

@@ -7,8 +7,8 @@ from odoo.addons import decimal_precision as dp
 class sale_referencia_cliente(models.Model):
     _name = 'sale.referencia.cliente'
 
-    name = fields.Char(string='Ref cliente nombre', required=True, default=lambda self: "/") ##POR DEFERCTO EL TITULO, no el name
-    
+    name = fields.Char(string='Título', compute="_get_name", store=True) ##POR DEFERCTO EL TITULO, no el name
+    referencia_cliente_nombre = fields.Char(string='Ref cliente nombre')
     
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
@@ -41,7 +41,6 @@ class sale_referencia_cliente(models.Model):
     base = fields.Integer('Base')
     ancho = fields.Integer('Ancho')
     ala_2 = fields.Integer('Ala 2')
-    grosor = fields.Float('Grosor')
     grosor_1 = fields.Float('Grosor 1', digits=(6,1))
     grosor_2 = fields.Float('Grosor 2', digits=(8,2))
     longitud = fields.Integer('Longitud')
@@ -99,7 +98,7 @@ class sale_referencia_cliente(models.Model):
                   ('3', 'millar'),
                   ('4', 'kilos'), 
                   ]
-    precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:')
+    precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:', required=True)
     
     comentario_referencia = fields.Text('Comentario Referencia', related='referencia_id.comentario', readonly=False)
 
@@ -119,6 +118,21 @@ class sale_referencia_cliente(models.Model):
     #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
     oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas", readonly=True)
     
+    
+    @api.depends('type_id', 'referencia_id', 'referencia_cliente_nombre')
+    def _get_name(self):
+    
+        for record in self:
+            titulo = ''
+            if record.referencia_id.titulo:
+                titulo = record.referencia_id.titulo
+            type_id_name = ''
+            if record.type_id:
+                type_id_name = record.type_id.name
+            referencia_cliente_nombre = ''
+            if record.referencia_cliente_nombre:
+                referencia_cliente_nombre = record.referencia_cliente_nombre
+            record.name = type_id_name + " " + referencia_cliente_nombre + " (" + titulo + ")" 
     
     
     @api.depends('type_id',)
@@ -421,6 +435,12 @@ class sale_referencia_cliente(models.Model):
     
     
     @api.multi
+    def bor_to_rcl(self):
+        self.bor_to_ref()
+        self.ref_to_rcl()
+    
+    
+    @api.multi
     def bor_to_ref(self):
         if self.type_id.is_cantonera == True:
         
@@ -439,7 +459,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_perfilu == True:
@@ -461,7 +481,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_slipsheet == True:
@@ -480,7 +500,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_solidboard == True:
@@ -498,7 +518,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_formato == True:
@@ -516,7 +536,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_bobina == True:
@@ -534,7 +554,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_pieballet == True:
@@ -550,7 +570,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         
