@@ -100,11 +100,12 @@ class sale_referencia_cliente(models.Model):
                   ]
     precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:', required=True)
     
-    comentario_referencia = fields.Text('Comentario Referencia', related='referencia_id.comentario', readonly=False)
+    comentario_referencia = fields.Text('Comentario común', related='referencia_id.comentario', readonly=False)
 
 
     
     #CALCULOS
+    ocultar = fields.Boolean('Ocultar datos', default = True)
     paletizado = fields.Integer('Paletizado', compute="_get_valores")
     ancho_pallet = fields.Integer('Ancho Pallet', compute="_get_valores")
     und_paquete = fields.Integer('Und Paquete', compute="_get_valores")
@@ -116,7 +117,7 @@ class sale_referencia_cliente(models.Model):
     
     attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos", copy=True)
     #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
-    oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas", readonly=True)
+    oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas")
     
     
     @api.depends('type_id', 'referencia_id', 'referencia_cliente_nombre')
@@ -421,7 +422,13 @@ class sale_referencia_cliente(models.Model):
     
     
     
-    
+    @api.multi
+    def ocultar_datos(self):
+        if self.ocultar == True:
+            self.ocultar = False
+        else:
+            self.ocultar = True
+        
     
     
 
@@ -440,6 +447,13 @@ class sale_referencia_cliente(models.Model):
         self.ref_to_rcl()
     
     
+    
+    def check_duplicado_referencia(self, referencia_id):
+        if len(self.env['sale.referencia.cliente'].search([('partner_id', '=', self.partner_id.id), ('referencia_id', '=', referencia_id.id)])) > 0:
+            return True
+        return False
+    
+    
     @api.multi
     def bor_to_ref(self):
         if self.type_id.is_cantonera == True:
@@ -455,8 +469,14 @@ class sale_referencia_cliente(models.Model):
                 
             referencia_id, error = self.type_id.create_prod_cantonera(self.ala_1, self.ala_2, self.grosor_2, self.longitud)
             
+            
+            
             if not referencia_id:
                 raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
             self.referencia_id = referencia_id    
             self.state = 'REF'
             self.referencia_cliente_nombre = self.referencia_id.titulo
@@ -477,8 +497,14 @@ class sale_referencia_cliente(models.Model):
                 
             referencia_id, error = self.type_id.create_prod_perfilu(self.ala_1, self.ancho, self.ala_2, self.grosor_2, self.longitud)
             
+            
+            
             if not referencia_id:
                 raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
             self.referencia_id = referencia_id    
             self.state = 'REF'
             self.referencia_cliente_nombre = self.referencia_id.titulo
@@ -496,8 +522,14 @@ class sale_referencia_cliente(models.Model):
                 
             referencia_id, error = self.type_id.create_prod_slipsheet(self.ala_1, self.ancho, self.ala_2, self.grosor_1, self.longitud, self.ala_3, self.ala_4)
             
+            
+            
             if not referencia_id:
                 raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
             self.referencia_id = referencia_id    
             self.state = 'REF'
             self.referencia_cliente_nombre = self.referencia_id.titulo
@@ -514,8 +546,14 @@ class sale_referencia_cliente(models.Model):
                 
             referencia_id, error = self.type_id.create_prod_solidboard(self.ancho, self.grosor_1, self.longitud)
             
+            
+            
             if not referencia_id:
                 raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
             self.referencia_id = referencia_id    
             self.state = 'REF'
             self.referencia_cliente_nombre = self.referencia_id.titulo
@@ -532,8 +570,14 @@ class sale_referencia_cliente(models.Model):
                 
             referencia_id, error = self.type_id.create_prod_formato(self.ancho, self.longitud, self.gramaje)
             
+            
+            
             if not referencia_id:
                 raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
             self.referencia_id = referencia_id    
             self.state = 'REF'
             self.referencia_cliente_nombre = self.referencia_id.titulo
@@ -550,8 +594,13 @@ class sale_referencia_cliente(models.Model):
                 
             referencia_id, error = self.type_id.create_prod_bobina(self.ancho, self.diametro, self.gramaje)
             
+            
             if not referencia_id:
                 raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
             self.referencia_id = referencia_id    
             self.state = 'REF'
             self.referencia_cliente_nombre = self.referencia_id.titulo
@@ -566,8 +615,14 @@ class sale_referencia_cliente(models.Model):
                 
             referencia_id, error = self.type_id.create_prod_pieballet(self.longitud, self.pie)
             
+            
+            
             if not referencia_id:
                 raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
             self.referencia_id = referencia_id    
             self.state = 'REF'
             self.referencia_cliente_nombre = self.referencia_id.titulo
@@ -729,7 +784,7 @@ class sale_product_attribute(models.Model):
                 nombre = nombre[:-2]
 
             if nombre == '':
-                nombre = 'Ninguno'
+                nombre = 'Nuevo'
             record.name = nombre
     
 
@@ -1041,7 +1096,7 @@ class sale_offer_oferta(models.Model):
     
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, )
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
-    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente')
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
     

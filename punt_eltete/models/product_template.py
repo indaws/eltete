@@ -4,6 +4,7 @@ from odoo import fields, models, api
 
 class ProductReferencia(models.Model):
     _name = 'product.referencia'
+    _order = 'orden'
 
     
     name = fields.Char('Nombre', readonly=True)
@@ -63,6 +64,120 @@ class ProductReferencia(models.Model):
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_valores_referencia")
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores_referencia")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
+    
+    orden = fields.Char('Orden', readonly = True, store=True, compute = "_get_ordenado")
+    
+    
+    @api.depends('type_id',)
+    def _get_ordenado(self):
+        ordenado1 = ""
+        for record in self:
+        
+            #Varios
+            if record.type_id.is_varios == True:
+                ordenado1 = "99-" + record.entrada_1
+        
+            #Cantonera
+            elif record.type_id.is_cantonera == True:
+                ordenado1 = "01-"
+                if record.ala_1 < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ala_1) + "x"
+                if record.ala_2 < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ala_2) + "x"
+                ordenado1 = ordenado1 + "x" + str(record.grosor_2) + "x"
+                if record.longitud < 100:
+                    ordenado1 = ordenado1 + "00"
+                elif record.longitud < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.longitud)
+
+            #Perfil U
+            elif record.type_id.is_perfilu == True:
+                ordenado1 = "02-"
+                if record.ancho < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ancho) + "x"
+                if record.ala_1 < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ala_1) + "x"
+                if record.ala_2 < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ala_2) + "x"
+                ordenado1 = ordenado1 + "x" + str(record.grosor_2) + "x"
+                if record.longitud < 100:
+                    ordenado1 = ordenado1 + "00"
+                elif record.longitud < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.longitud)
+                
+            #Slip Sheet
+            elif record.type_id.is_slipsheet == True:
+                ordenado1 = "03-"
+                if record.ancho < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ancho) + "x"
+                if record.longitud < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.longitud) + "x" + str(record.grosor_1)
+
+            #Solid Board
+            elif record.type_id.is_solidboard == True:
+                ordenado1 = "04-"
+                if record.ancho < 100:
+                    ordenado1 = ordenado1 + "00"
+                elif record.ancho < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ancho) + "x"
+                if record.longitud < 100:
+                    ordenado1 = ordenado1 + "00"
+                elif record.longitud < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.longitud) + "x" + str(record.grosor_1)
+                
+            #Formato
+            elif record.type_id.is_formato == True:
+                ordenado1 = "05-"
+                if record.ancho < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ancho) + "x"
+                if record.longitud < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.longitud) + "x"
+                if record.gramaje < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.gramaje)
+                
+            #Bobina
+            elif record.type_id.is_bobina == True:
+                ordenado1 = "06-"
+                if record.ancho < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ancho) + "x"
+                if record.gramaje < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.gramaje) + "x"
+                if record.diametro < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.diametro)
+                    
+            #Pie de Pallet
+            elif record.type_id.is_pieballet == True:
+                ordenado1 = "07-"
+                if record.pie == 1:
+                    ordenado1 = ordenado1 + "100x"
+                elif record.pie == 2:
+                    ordenado1 = ordenado1 + "100x"
+                elif record.pie == 3:
+                    ordenado1 = ordenado1 + "060x"
+                elif record.pie == 4:
+                    ordenado1 = ordenado1 + "060x"
+                if record.longitud < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 + ordenado1 + str(record.longitud)
+                
+        record.orden = ordenado1
     
     
     @api.depends('type_id',)
