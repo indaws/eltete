@@ -7,8 +7,8 @@ from odoo.addons import decimal_precision as dp
 class sale_referencia_cliente(models.Model):
     _name = 'sale.referencia.cliente'
 
-    name = fields.Char(string='Ref cliente nombre', required=True, default=lambda self: "/") ##POR DEFERCTO EL TITULO, no el name
-    
+    name = fields.Char(string='Título', compute="_get_name", store=True) ##POR DEFERCTO EL TITULO, no el name
+    referencia_cliente_nombre = fields.Char(string='Ref cliente nombre')
     
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
@@ -41,7 +41,8 @@ class sale_referencia_cliente(models.Model):
     base = fields.Integer('Base')
     ancho = fields.Integer('Ancho')
     ala_2 = fields.Integer('Ala 2')
-    grosor = fields.Float('Grosor')
+    grosor_1 = fields.Float('Grosor 1', digits=(6,1))
+    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
     longitud = fields.Integer('Longitud')
     alas = fields.Integer('Alas')
     ala_3 = fields.Integer('Solapa 3')
@@ -97,7 +98,9 @@ class sale_referencia_cliente(models.Model):
                   ('3', 'millar'),
                   ('4', 'kilos'), 
                   ]
-    precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:')
+    precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:', required=True)
+    
+    comentario_referencia = fields.Text('Comentario Referencia', related='referencia_id.comentario', readonly=False)
 
 
     
@@ -107,12 +110,29 @@ class sale_referencia_cliente(models.Model):
     und_paquete = fields.Integer('Und Paquete', compute="_get_valores")
     paquetes_fila = fields.Integer('Paquetes Fila', compute="_get_valores")
     alto_fila = fields.Integer('Alto Fila', compute="_get_valores")
+    fila_max = fields.Integer('Fila Max', compute="_get_valores")
+    fila_buena = fields.Integer('Fila Buena', compute="_get_valores")
     
     
     attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos", copy=True)
     #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
     oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas", readonly=True)
     
+    
+    @api.depends('type_id', 'referencia_id', 'referencia_cliente_nombre')
+    def _get_name(self):
+    
+        for record in self:
+            titulo = ''
+            if record.referencia_id.titulo:
+                titulo = record.referencia_id.titulo
+            type_id_name = ''
+            if record.type_id:
+                type_id_name = record.type_id.name
+            referencia_cliente_nombre = ''
+            if record.referencia_cliente_nombre:
+                referencia_cliente_nombre = record.referencia_cliente_nombre
+            record.name = type_id_name + " " + referencia_cliente_nombre + " (" + titulo + ")" 
     
     
     @api.depends('type_id',)
@@ -124,110 +144,181 @@ class sale_referencia_cliente(models.Model):
             und_paquete = 0
             paquetes = 1
             alto_fila = 0
+            fila_max = 0
+            fila_buena = 0
 
             if record.referencia_id:
+            
+                pesoUnd  = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
+            
                 #Varios
                 if record.type_id.is_varios == True:
+                    if int(record.ancho_pallet_cliente) > 0:
+                        ancho_pallet = int(record.ancho_pallet_cliente)
                     if record.und_paquete_cliente > 0:
                         und_paquete = record.und_paquete_cliente
                     paquetes = 1
                     alto_fila = 10
+                    fila_max = 100
+                    fila_buena = 1
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
 
-                    if record.paletizado_cliente == '2':
-                        paletizado = 2
-                        if record.und_paquete_cliente > 0:     
-                            paletizado = 1
-                        elif record.und_pallet_cliente > 0:     
-                            paletizado = 1
                     alto_fila = (record.referencia_id.ala_1 + record.referencia_id.ala_2) * 0.7071
-                            
-                    if paletizado == 2:
-                        ancho_pallet = 1150
-                    if record.contenedor == True and record.referencia_id.longitud > 2300:
-                        ancho_pallet = 1000
-                    if record.ancho_pallet_cliente:
-                        if int(record.ancho_pallet_cliente) < ancho_pallet:
-                            ancho_pallet = record.ancho_pallet_cliente
-                            
-                    ##Unidades paquetes_fila
+                    pesoUnidad = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
+                    mediaAlas = (record.referencia_id.ala_1 + record.referencia_id.ala_2) / 2
+                    
                     if record.referencia_id.longitud < 250:
+                        if int(record.ancho_pallet_cliente) > 0:
+                            ancho_pallet = int(record.ancho_pallet_cliente)
                         und_paquete = 4000
                         paquetes = 1
-                            
-                    elif record.und_paquete_cliente > 0:
-                        und_paquete = record.und_paquete_cliente
-                        #paquetes = ancho_pallet 
-                        
-                    #compacto    
-                    elif paletizado == 1:
-                        und_paquete = 25
-                        if record.referencia_id.grosor >= 5:
-                            und_paquete = 10
-                        elif record.referencia_id.grosor >= 4:
-                            und_paquete = 20
-                        pesoPaquete = und_paquete * record.referencia_id.peso_metro * record.referencia_id.metros_unidad
-                        while pesoPaquete > 20:
-                            und_paquete = und_paquete - 5
-                            pesoPaquete = und_paquete * record.referencia_id.peso_metro * record.referencia_id.metros_unidad
-                    #Columnas
-                    elif paletizado == 2:
-                        mediaAlas = (record.referencia_id.ala_1 + record.referencia_id.ala_2) / 2
-                        undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor * 1.5))
-                        paquetesColumna = 2
-                        und_paquete = int(undColumna / paquetesColumna)
-                        pesoPaquete = und_paquete * record.referencia_id.peso_metro * record.referencia_id.metros_unidad
-                        while pesoPaquete > 20:
-                            paquetesColumna = paquetesColumna + 1
-                            und_paquete = int(undColumna / paquetesColumna)
-                            pesoPaquete = und_paquete * record.referencia_id.peso_metro * record.referencia_id.metros_unidad
-                    ##Fin unidades paquete
-                    
-                    ##Paquetes filas
-                    mediaAlas = (record.referencia_id.ala_1 + record.referencia_id.ala_2) / 2
-                    if paletizado == 1:
-                        if record.referencia_id.grosor != 0:
-                            undFilaMax = int((ancho_pallet - 0.7071 * mediaAlas) / (record.referencia_id.grosor * 1.5))
+                        fila_max = int(1750 / (4000 * pesoUnidad))
+                        fila_buena = int(1000 / (4000 * pesoUnidad)) + 1
+                    else:
+                        #Calculamos paletizado
+                        if record.paletizado_cliente == '2':
+                            paletizado = 2
+                            if record.und_paquete_cliente > 0:     
+                                paletizado = 1
+                            elif record.und_pallet_cliente > 0:     
+                                paletizado = 1
+                        #Calculamos ancho pallet   
+                        if paletizado == 2:
+                            ancho_pallet = 1150
+                        if record.contenedor == True and record.referencia_id.longitud > 2300:
+                            ancho_pallet = 1000
+                        if record.ancho_pallet_cliente:
+                            if int(record.ancho_pallet_cliente) < ancho_pallet:
+                                ancho_pallet = int(record.ancho_pallet_cliente)
+                        #Unidades / paquete
+                        undFilaMax = 0
+                        if record.und_paquete_cliente > 0:
+                            und_paquete = record.und_paquete_cliente
+                            undFilaMax = int((ancho_pallet - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
                             paquetes = int(undFilaMax / und_paquete)
-                    elif paletizado == 2:
-                        undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor * 1.5))
-                        paquetes = (undColumna / und_paquete) * 4
+                        #Compacto
+                        elif paletizado == 1:
+                            und_paquete = 25
+                            if record.referencia_id.grosor_2 >= 5:
+                                und_paquete = 10
+                            elif record.referencia_id.grosor_2 >= 4:
+                                und_paquete = 20
+                            pesoPaquete = und_paquete * pesoUnidad
+                            while pesoPaquete > 20:
+                                und_paquete = und_paquete - 5
+                                pesoPaquete = und_paquete * pesoUnidad
+                            undFilaMax = int((ancho_pallet - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
+                            paquetes = int(undFilaMax / und_paquete)
+                        #Columnas
+                        elif paletizado == 2:
+                            undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
+                            paquetesColumna = 2
+                            und_paquete = int(undColumna / paquetesColumna)
+                            pesoPaquete = und_paquete * pesoUnidad
+                            while pesoPaquete > 20:
+                                paquetesColumna = paquetesColumna + 1
+                                und_paquete = int(undColumna / paquetesColumna)
+                                pesoPaquete = und_paquete * pesoUnidad
+                            paquetes = paquetesColumna * 4  
+                            
+                        #Dobles, Triples
+                        repetido = 1
+                        if record.referencia_id.longitud == 250:
+                            repetido = 4
+                        elif record.referencia_id.longitud > 250 and record.referencia_id.longitud <= 350:
+                            repetido = 3
+                        elif record.referencia_id.longitud > 350 and record.referencia_id.longitud <= 650:
+                            repetido = 2
+                        paquetes = paquetes * repetido
                         
-                    #Dobles, Triples
-                    repetido = 1
-                    if record.referencia_id.longitud == 250:
-                        repetido = 4
-                    elif record.referencia_id.longitud > 250 and record.referencia_id.longitud <= 350:
-                        repetido = 3
-                    elif record.referencia_id.longitud > 350 and record.referencia_id.longitud <= 650:
-                        repetido = 2
-                    paquetes = paquetes * repetido
-                    ##Fin paquetes filas
+                        #fila_max por altura
+                        altoMax = 1250
+                        if record.contenedor == True:
+                            altoMax = 1100
+                        if record.alto_max_cliente > 0 and record.alto_max_cliente < altoMax:
+                            altoMax = record.alto_max_cliente
+                        altoMax = altoMax - 150
+                        fila_max = int(altoMax / alto_fila)
+                
+                        #Por peso
+                        pesoFila = pesoUnidad * und_paquete * paquetes
+                        pesoMax = 1750
+                        if record.peso_max_cliente > 0 and record.peso_max_cliente < pesoMax:
+                            pesoMax = record.peso_max_cliente
+                        pesoMadera = 0
+                        if record.referencia_id.longitud < 1500:
+                            pesoMadera = 20
+                        elif record.referencia_id.longitud < 2000:
+                            pesoMadera = 30
+                        else:
+                            pesoMadera = int(record.referencia_id.longitud / 1000) * 20
+                        pesoMax = pesoMax - pesoMadera
+                        pesoPallet = fila_max * pesoFila
+                        while pesoPallet > pesoMax:
+                            fila_max = fila_max - 1
+                            pesoPallet = fila_max * pesoFila
+                        #Fila buena
+                        fila_buena = fila_max
+                        if record.referencia_id.longitud < 4500:
+                            pesoMax = 1300
+                        else:
+                            pesoMax = 1500
+                        while pesoPallet > pesoMax:
+                            fila_buena = fila_buena - 1
+                            pesoPallet = fila_buena * pesoFila   
                         
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
                     if record.ancho_pallet_cliente:
                         ancho_pallet = int(record.ancho_pallet_cliente)
-                        paquetes = int(ancho_pallet / (record.referencia_id.ancho + record.referencia_id.grosor * 3))
-                        if record.longitud <= 600:
-                            paquetes = paquetes * 2
-                    
+                    paquetes = int(ancho_pallet / (record.referencia_id.ancho + record.referencia_id.grosor_2 * 3))
+                    if record.longitud <= 600:
+                        paquetes = paquetes * 2
+              
                     und_paquete = 2
-                    alto_fila = record.referencia_id.ala_1 + record.referencia_id.grosor
+                    alto_fila = record.referencia_id.ala_1 + record.referencia_id.grosor_2
+                    #Fila Max
+                    altoMax = 1600
+                    if record.contenedor == True:
+                        altoMax = 1100
+                    if int(record.alto_max_cliente) < altoMax:
+                        altoMax = int(record.alto_max_cliente)
+                    altoMax = altoMax - 150
+                    fila_max = int(altoMax / alto_fila)
+                    #Fila buena
+                    altoMax = 1250
+                    if record.contenedor == True:
+                        altoMax = 1100
+                    if int(record.alto_max_cliente) < altoMax:
+                        altoMax = int(record.alto_max_cliente)
+                    altoMax = altoMax - 150
+                    fila_buena = int(altoMax / alto_fila)
                     
                 #Slip Sheets
                 elif record.type_id.is_slipsheet == True:
                     und_paquete = 50
+                    ancho = record.referencia_id.ancho + record.referencia_id.ala_1 +  record.referencia_id.ala_2
+                    largo = record.referencia_id.longitud + record.referencia_id.ala_3 +  record.referencia_id.ala_4
                     lado1 = 1
                     lado2 = 1
-                    if record.referencia_id.ancho <= 650:
-                        lado1 = int(1300 / record.referencia_id.ancho)
-                    if record.referencia_id.longitud <= 650:
-                        lado2 = int(1300 / record.referencia_id.longitud)
+                    if ancho <= 650:
+                        lado1 = int(1300 / ancho)
+                    if largo <= 650:
+                        lado2 = int(1300 / largo)
                     paquetes = lado1 * lado2
                     
-                    alto_fila = record.referencia_id.grosor * 50
+                    alto_fila = record.referencia_id.grosor_1 * 50
+                    fila_max = int(950 / alto_fila)
+                    if record.peso_max_cliente > 0:
+                        pesoFila = pesoUnd *  und_paquete * paquetes
+                        pesoPallet = pesoFila * fila_max + 20
+                        while pesoPallet > record.peso_max_cliente:
+                            fila_max = fila_max - 1
+                            pesoPallet = pesoFila * fila_max + 20
+                    fila_buena = 10
+                    if fila_buena > fila_max:
+                        fila_buena = fila_max
                     
                 #Solid Board
                 elif record.type_id.is_solidboard == True:
@@ -239,7 +330,17 @@ class sale_referencia_cliente(models.Model):
                     if record.referencia_id.longitud <= 650:
                         lado2 = int(1300 / record.referencia_id.longitud)
                     paquetes = lado1 * lado2
-                    alto_fila = record.referencia_id.grosor * 50
+                    alto_fila = record.referencia_id.grosor_1 * 50
+                    fila_max = int(950 / alto_fila)
+                    if record.peso_max_cliente > 0:
+                        pesoFila = pesoUnd *  und_paquete * paquetes
+                        pesoPallet = pesoFila * fila_max + 20
+                        while pesoPallet > record.peso_max_cliente:
+                            fila_max = fila_max - 1
+                            pesoPallet = pesoFila * fila_max + 20
+                    fila_buena = 10
+                    if fila_buena > fila_max:
+                        fila_buena = fila_max
                     
                 #Formato
                 elif record.type_id.is_formato == True:
@@ -253,10 +354,17 @@ class sale_referencia_cliente(models.Model):
                     if record.referencia_id.longitud <= 650:
                         lado2 = int(1300 / record.referencia_id.longitud)
                     paquetes = lado1 * lado2
-                    if record.und_paquete_cliente > 0:
-                        alto_fila = record.referencia_id.gramaje * 1.4 * record.und_paquete_cliente
-                    else:
-                        alto_fila = record.referencia_id.grosor * 50
+                    alto_fila = record.referencia_id.gramaje * 1.4 * und_paquete
+                    fila_max = int(950 / alto_fila)
+                    if record.peso_max_cliente > 0:
+                        pesoFila = pesoUnd *  und_paquete * paquetes
+                        pesoPallet = pesoFila * fila_max + 20
+                        while pesoPallet > record.peso_max_cliente:
+                            fila_max = fila_max - 1
+                            pesoPallet = pesoFila * fila_max + 20
+                    fila_buena = 10
+                    if fila_buena > fila_max:
+                        fila_buena = fila_max
                 #Bobina
                 elif record.type_id.is_bobina == True:
                     und_paquete = 1
@@ -265,9 +373,20 @@ class sale_referencia_cliente(models.Model):
                     else:
                         lado1 = int(1300 / record.referencia_id.diametro)
                         lado2 = int(1100 / record.referencia_id.diametro)
-                        paquetes = lado1 * lado2
-                        
+                        paquetes = lado1 * lado2  
                     alto_fila = record.referencia_id.ancho
+                    fila_max = int(2400 / alto_fila)
+                    if record.contenedor == True:
+                        fila_max = int(2000 / alto_fila)
+                    if record.peso_max_cliente > 0:
+                        pesoFila = pesoUnd *  und_paquete * paquetes
+                        pesoPallet = pesoFila * fila_max + 20
+                        while pesoPallet > record.peso_max_cliente:
+                            fila_max = fila_max - 1
+                            pesoPallet = pesoFila * fila_max + 20
+                    fila_buena = int(1100 / alto_fila)
+                    if fila_buena > fila_max:
+                        fila_buena = fila_max
                     
                 #Pie de Pallet
                 elif record.type_id.is_pieballet == True:
@@ -287,6 +406,9 @@ class sale_referencia_cliente(models.Model):
                         alto_fila = 100
                     elif record.pie == "3" or record.pie == "4":
                         alto_fila = 60
+                    
+                    fila_max = int(1100 / alto_fila)
+                    fila_buena = fila_max
         
         
             record.paletizado = paletizado
@@ -294,6 +416,8 @@ class sale_referencia_cliente(models.Model):
             record.und_paquete = und_paquete
             record.paquetes_fila = paquetes
             record.alto_fila = alto_fila
+            record.fila_max = fila_max
+            record.fila_buena = fila_buena
     
     
     
@@ -311,6 +435,12 @@ class sale_referencia_cliente(models.Model):
     
     
     @api.multi
+    def bor_to_rcl(self):
+        self.bor_to_ref()
+        self.ref_to_rcl()
+    
+    
+    @api.multi
     def bor_to_ref(self):
         if self.type_id.is_cantonera == True:
         
@@ -318,18 +448,18 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError("Error: Hay que indicar un valor en ALA 1")
             if not self.ala_2 or self.ala_2 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en ALA 2")
-            if not self.grosor or self.grosor <= 0:
+            if not self.grosor_2 or self.grosor_2 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GROSOR")
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            referencia_id, error = self.type_id.create_prod_cantonera(self.ala_1, self.ala_2, self.grosor, self.longitud)
+            referencia_id, error = self.type_id.create_prod_cantonera(self.ala_1, self.ala_2, self.grosor_2, self.longitud)
             
             if not referencia_id:
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_perfilu == True:
@@ -340,18 +470,18 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError("Error: Hay que indicar un valor en ancho")
             if not self.ala_2 or self.ala_2 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en ALA 2")
-            if not self.grosor or self.grosor <= 0:
+            if not self.grosor_2 or self.grosor_2 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GROSOR")
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            referencia_id, error = self.type_id.create_prod_perfilu(self.ala_1, self.ancho, self.ala_2, self.grosor, self.longitud)
+            referencia_id, error = self.type_id.create_prod_perfilu(self.ala_1, self.ancho, self.ala_2, self.grosor_2, self.longitud)
             
             if not referencia_id:
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_slipsheet == True:
@@ -359,36 +489,36 @@ class sale_referencia_cliente(models.Model):
             
             if not self.ancho or self.ancho <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en ancho")
-            if not self.grosor or self.grosor <= 0:
+            if not self.grosor_1 or self.grosor_1 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GROSOR")
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            referencia_id, error = self.type_id.create_prod_slipsheet(self.ala_1, self.ancho, self.ala_2, self.grosor, self.longitud, self.ala_3, self.ala_4)
+            referencia_id, error = self.type_id.create_prod_slipsheet(self.ala_1, self.ancho, self.ala_2, self.grosor_1, self.longitud, self.ala_3, self.ala_4)
             
             if not referencia_id:
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_solidboard == True:
         
             if not self.ancho or self.ancho <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en ancho")
-            if not self.grosor or self.grosor <= 0:
+            if not self.grosor_1 or self.grosor_1 <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en GROSOR")
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
                 
-            referencia_id, error = self.type_id.create_prod_solidboard(self.ancho, self.grosor, self.longitud)
+            referencia_id, error = self.type_id.create_prod_solidboard(self.ancho, self.grosor_1, self.longitud)
             
             if not referencia_id:
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_formato == True:
@@ -406,7 +536,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_bobina == True:
@@ -424,7 +554,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         if self.type_id.is_pieballet == True:
@@ -440,7 +570,7 @@ class sale_referencia_cliente(models.Model):
                 raise ValidationError(error)
             self.referencia_id = referencia_id    
             self.state = 'REF'
-            self.name = self.referencia_id.name
+            self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
         
@@ -598,6 +728,8 @@ class sale_product_attribute(models.Model):
             if len(nombre) > 2:
                 nombre = nombre[:-2]
 
+            if nombre == '':
+                nombre = 'Ninguno'
             record.name = nombre
     
 
@@ -655,7 +787,7 @@ class sale_product_attribute(models.Model):
             pesoFila = pesoUnidad * record.referencia_cliente_id.und_paquete * record.referencia_cliente_id.paquetes_fila
             
             #Unidades exactas
-            if record.referencia_cliente_id.und_pallet_cliente != None and record.referencia_cliente_id.und_pallet_cliente > 0:
+            if record.referencia_cliente_id.und_pallet_cliente and record.referencia_cliente_id.und_pallet_cliente > 0:
                 if undFila != 0:
                     filaMax = int(record.referencia_cliente_id.und_pallet_cliente / undFila)
                     if filaMax * undFila < record.referencia_cliente_id.und_pallet_cliente:
@@ -703,7 +835,7 @@ class sale_product_attribute(models.Model):
                     pesoMadera = int(record.referencia_cliente_id.referencia_id.longitud / 1000) * 20
                         
                 pesoMax = 1750 - pesoMadera        
-                if record.referencia_cliente_id.peso_max_cliente != None and record.referencia_cliente_id.peso_max_cliente > 0:
+                if record.referencia_cliente_id.peso_max_cliente and record.referencia_cliente_id.peso_max_cliente > 0:
                     if record.referencia_cliente_id.peso_max_cliente < pesoMax:
                         pesoMax = record.referencia_cliente_id.peso_max_cliente
                 while pesoPallet > pesoMax:
@@ -808,82 +940,73 @@ class sale_product_attribute(models.Model):
     def _get_valores_cantonera(self):
         for record in self:
             if record.referencia_cliente_id:
-                if record.referencia_cliente_id.referencia_id:
-                    if record.type_id.is_cantonera == True:
+                if record.type_id.is_cantonera == True:
+                
                     
-                        
-                        habilitado = True
-                        if record.fsc_id != None and record.fsc_id.cantonera_1 == False:
-                            habilitado = False
-                        elif record.reciclable_id != None and record.reciclable_id.cantonera_1 == False:
-                            habilitado = False
-                        elif record.cantonera_color_id != None and record.cantonera_color_id.cantonera_1 == False:
-                            habilitado = False
-                        elif record.cantonera_forma_id != None and record.cantonera_forma_id.cantonera_1 == False:
-                            habilitado = False
-                        elif record.cantonera_especial_id != None and record.cantonera_especial_id.cantonera_1 == False:
-                            habilitado = False
-                        elif record.cantonera_impresion_id != None and record.cantonera_impresion_id.cantonera_1 == False:
-                            habilitado = False
-                        record.cantonera_1 = habilitado
+                    habilitado = True
+                    if record.fsc_id and record.fsc_id.cantonera_1 == False:
+                        habilitado = False
+                    elif record.reciclable_id and record.reciclable_id.cantonera_1 == False:
+                        habilitado = False
+                    elif record.cantonera_forma_id and record.cantonera_forma_id.cantonera_1 == False:
+                        habilitado = False
+                    elif record.cantonera_especial_id and record.cantonera_especial_id.cantonera_1 == False:
+                        habilitado = False
+                    elif record.cantonera_impresion_id and record.cantonera_impresion_id.cantonera_1 == False:
+                        habilitado = False
+                    record.cantonera_1 = habilitado
+                
+                    habilitado = True
+                    if record.referencia_cliente_id.referencia_id.ala_1 > 60:
+                        habilitado = False
+                    elif record.referencia_cliente_id.referencia_id.ala_2 > 60:
+                        habilitado = False
+                    elif record.referencia_cliente_id.referencia_id.grosor_2 > 5:
+                        habilitado = False
+                    elif record.fsc_id and record.fsc_id.cantonera_2 == False:
+                        habilitado = False
+                    elif record.reciclable_id and record.reciclable_id.cantonera_2 == False:
+                        habilitado = False
+                    elif record.cantonera_forma_id and record.cantonera_forma_id.cantonera_2 == False:
+                        habilitado = False
+                    elif record.cantonera_especial_id and record.cantonera_especial_id.cantonera_2 == False:
+                        habilitado = False
+                    elif record.cantonera_impresion_id and record.cantonera_impresion_id.cantonera_2 == False:
+                        habilitado = False
+                    record.cantonera_2 = habilitado
                     
-                        habilitado = True
-                        if record.referencia_cliente_id.referencia_id.ala_1 > 60:
-                            habilitado = False
-                        elif record.referencia_cliente_id.referencia_id.ala_2 > 60:
-                            habilitado = False
-                        elif record.referencia_cliente_id.referencia_id.grosor > 5:
-                            habilitado = False
-                        elif record.fsc_id != None and record.fsc_id.cantonera_2 == False:
-                            habilitado = False
-                        elif record.reciclable_id != None and record.reciclable_id.cantonera_2 == False:
-                            habilitado = False
-                        elif record.cantonera_color_id != None and record.cantonera_color_id.cantonera_2 == False:
-                            habilitado = False
-                        elif record.cantonera_forma_id != None and record.cantonera_forma_id.cantonera_2 == False:
-                            habilitado = False
-                        elif record.cantonera_especial_id != None and record.cantonera_especial_id.cantonera_2 == False:
-                            habilitado = False
-                        elif record.cantonera_impresion_id != None and record.cantonera_impresion_id.cantonera_2 == False:
-                            habilitado = False
-                        record.cantonera_2 = habilitado
+                    habilitado = True
+                    if record.referencia_cliente_id.referencia_id.ala_1 > 50:
+                        habilitado = False
+                    elif record.referencia_cliente_id.referencia_id.ala_2 > 50:
+                        habilitado = False
+                    elif record.referencia_cliente_id.referencia_id.grosor_2 > 4.5:
+                        habilitado = False
+                    elif record.fsc_id and record.fsc_id.cantonera_3 == False:
+                        habilitado = False
+                    elif record.reciclable_id and record.reciclable_id.cantonera_3 == False:
+                        habilitado = False
+                    elif record.cantonera_forma_id and record.cantonera_forma_id.cantonera_3 == False:
+                        habilitado = False
+                    elif record.cantonera_especial_id and record.cantonera_especial_id.cantonera_3 == False:
+                        habilitado = False
+                    elif record.cantonera_impresion_id and record.cantonera_impresion_id.cantonera_3 == False:
+                        habilitado = False
+                    record.cantonera_3 = habilitado
+                    
+                    habilitado = True
+                    if record.fsc_id and record.fsc_id.cantonera_4 == False:
+                        habilitado = False
+                    elif record.reciclable_id and record.reciclable_id.cantonera_4 == False:
+                        habilitado = False
+                    elif record.cantonera_forma_id and record.cantonera_forma_id.cantonera_4 == False:
+                        habilitado = False
+                    elif record.cantonera_especial_id and record.cantonera_especial_id.cantonera_4 == False:
+                        habilitado = False
+                    elif record.cantonera_impresion_id and record.cantonera_impresion_id.cantonera_4 == False:
+                        habilitado = False
                         
-                        habilitado = True
-                        if record.referencia_cliente_id.referencia_id.ala_1 > 50:
-                            habilitado = False
-                        elif record.referencia_cliente_id.referencia_id.ala_2 > 50:
-                            habilitado = False
-                        elif record.referencia_cliente_id.referencia_id.grosor > 4.5:
-                            habilitado = False
-                        elif record.fsc_id != None and record.fsc_id.cantonera_3 == False:
-                            habilitado = False
-                        elif record.reciclable_id != None and record.reciclable_id.cantonera_3 == False:
-                            habilitado = False
-                        elif record.cantonera_color_id != None and record.cantonera_color_id.cantonera_3 == False:
-                            habilitado = False
-                        elif record.cantonera_forma_id != None and record.cantonera_forma_id.cantonera_3 == False:
-                            habilitado = False
-                        elif record.cantonera_especial_id != None and record.cantonera_especial_id.cantonera_3 == False:
-                            habilitado = False
-                        elif record.cantonera_impresion_id != None and record.cantonera_impresion_id.cantonera_3 == False:
-                            habilitado = False
-                        record.cantonera_3 = habilitado
-                        
-                        habilitado = True
-                        if record.fsc_id != None and record.fsc_id.cantonera_4 == False:
-                            habilitado = False
-                        elif record.reciclable_id != None and record.reciclable_id.cantonera_4 == False:
-                            habilitado = False
-                        elif record.cantonera_color_id != None and record.cantonera_color_id.cantonera_4 == False:
-                            habilitado = False
-                        elif record.cantonera_forma_id != None and record.cantonera_forma_id.cantonera_4 == False:
-                            habilitado = False
-                        elif record.cantonera_especial_id != None and record.cantonera_especial_id.cantonera_4 == False:
-                            habilitado = False
-                        elif record.cantonera_impresion_id != None and record.cantonera_impresion_id.cantonera_4 == False:
-                            habilitado = False
-                            
-                        record.cantonera_4 = habilitado
+                    record.cantonera_4 = habilitado
     
     
     def get_price(self, num_pallets, state_id, country_id):
@@ -940,6 +1063,7 @@ class sale_offer_oferta(models.Model):
     
     emetro = fields.Float('Emetro', readonly = True, digits = (10,4), compute = "_get_emetro")
     eton = fields.Float('Eton', readonly = True, digits = (8,1), compute = "_get_eton")
+    titulo = fields.Char('Título', readonly = True, compute = "_get_titulo")
     name = fields.Char('Precio', readonly = True, compute = "_get_precio")
     
 
@@ -948,7 +1072,7 @@ class sale_offer_oferta(models.Model):
     def suma_filas(self):
         if self.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
             x = 0
-        elif self.num_filas < self.attribute_id.fila_max:
+        elif self.num_filas < self.attribute_id.referencia_cliente_id.fila_max:
             self.num_filas = self.num_filas + 1
             
     @api.multi
@@ -1050,6 +1174,12 @@ class sale_offer_oferta(models.Model):
                 valor = record.eton_user
             record.eton = valor
     
+    
+    
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
+    def _get_titulo(self):
+        for record in self:
+            record.titulo = str(record.und_pallet) + ", " + str(round(record.eton,2)) + " €/t"
     
     
     @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')

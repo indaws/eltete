@@ -7,10 +7,9 @@ class ProductReferencia(models.Model):
 
     
     name = fields.Char('Nombre', readonly=True)
+    titulo = fields.Char('Título', readonly=True)
     
-    #Se calcuculan cuando texto_error == ""
-	####### - AÑADIR --> también al crear   -> titulo = fields.Char('Titulo', readonly = True, compute = getTitulo())
-	
+    
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
     
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
@@ -25,7 +24,8 @@ class ProductReferencia(models.Model):
     ala_1 = fields.Integer('Ala 1')
     ancho = fields.Integer('Ancho')
     ala_2 = fields.Integer('Ala 2')
-    grosor = fields.Float('Grosor')
+    grosor_1 = fields.Float('Grosor 1', digits=(6,1))
+    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
     longitud = fields.Integer('Longitud')
     alas = fields.Integer('Alas')
     interior = fields.Integer('Interior')
@@ -49,6 +49,8 @@ class ProductReferencia(models.Model):
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
+    
+    comentario = fields.Text('Comentario Referencia')
     
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
@@ -131,12 +133,12 @@ class ProductReferencia(models.Model):
                     peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
                 elif sumaAlas == 200:
                     peso1 = 1250
-                peso1 = int(peso1 * record.grosor)
+                peso1 = int(peso1 * record.grosor_2)
                 peso1 = peso1 / 10000
                 
             #Perfil U
             elif record.type_id.is_perfilu == True:
-                sumaAlas = record.ala_1 + record.ancho + record.ala_2 + record.grosor * 2
+                sumaAlas = record.ala_1 + record.ancho + record.ala_2 + record.grosor_2 * 2
                 if sumaAlas == 60:
                     peso1 = 385
                 elif sumaAlas < 66:
@@ -194,17 +196,17 @@ class ProductReferencia(models.Model):
                 #Añadido
                 elif sumaAlas <= 240:
                     peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
-                peso1 = int(peso1 * record.grosor)
+                peso1 = int(peso1 * record.grosor_2)
                 peso1 = peso1 / 10000
                 
             #Slip Sheet
             elif record.type_id.is_slipsheet == True:
-                peso1 = int((record.grosor * 1000 / 1.4 + 30) / 50) * 50
+                peso1 = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
                 peso1 = peso1 / 1000
                 
             #Solid Board
             elif record.type_id.is_solidboard == True:
-                peso1 = int((record.grosor * 1000 / 1.4 + 30) / 50) * 50
+                peso1 = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
                 peso1 = peso1 / 1000
                 
             #Formato
@@ -241,17 +243,17 @@ class ProductReferencia(models.Model):
             #Cantonera
             elif record.type_id.is_cantonera == True:
                 metros = record.longitud / 1000
-                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
-                interior = int(record.ala_1 + record.ala_2 - record.grosor * 2 - 1)
-                superficie = int(((record.ala_1 + record.ala_2 - record.grosor - 1) * 2 + 5) / 5) * 5
+                gram = int((record.grosor_2 * 1000 / 1.4 - 300) / 50) * 50
+                interior = int(record.ala_1 + record.ala_2 - record.grosor_2 * 2 - 1)
+                superficie = int(((record.ala_1 + record.ala_2 - record.grosor_2 - 1) * 2 + 5) / 5) * 5
                 if superficie > 280:
                     superficie = 280
             #Perfil U
             elif record.type_id.is_perfilu == True:
                 metros = record.longitud / 1000
-                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
+                gram = int((record.grosor_2 * 1000 / 1.4 - 300) / 50) * 50
                 interior = int(record.ala_1 + record.ancho + record.ala_2 - 1)
-                superficie = int(((record.ala_1 + record.ancho + record.ala_2 - 1 + record.grosor) * 2 + 5) / 5) * 5
+                superficie = int(((record.ala_1 + record.ancho + record.ala_2 - 1 + record.grosor_2) * 2 + 5) / 5) * 5
                 if superficie > 280:
                     superficie = 280
             #Slip Sheets
@@ -267,7 +269,7 @@ class ProductReferencia(models.Model):
                 if record.ala_4 > 0:
                     sumaLargo = sumaLargo + record.ala_4
                 metros = sumaAncho * sumaLargo / 1000000
-                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
+                gram = int((record.grosor_1 * 1000 / 1.4 - 300) / 50) * 50
                 interior = record.ancho
                 if record.ala_1 != None and record.ala_1 > 0:
                     interior = interior + record.ala_1
@@ -276,7 +278,7 @@ class ProductReferencia(models.Model):
             #Solid Board
             elif record.type_id.is_solidboard == True:
                 metros = record.ancho * record.longitud / 1000000
-                gram = int((record.grosor * 1000 / 1.4 - 300) / 50) * 50
+                gram = int((record.grosor_1 * 1000 / 1.4 - 300) / 50) * 50
                 interior = record.ancho + 30
             #Formato
             elif record.type_id.is_formato == True:
@@ -337,12 +339,12 @@ class ProductCategory(models.Model):
     
     
     @api.multi
-    def create_prod_cantonera(self, ala1, ala2, grosor, longitud):
+    def create_prod_cantonera(self, ala1, ala2, grosor_2, longitud):
         if ala1 < 20 or ala1 > 120:
             return None, "Error: Ala1 debe estar entre 20 y 120"
         if ala2 < 20 or ala2 > 120:
             return None, "Error: Ala2 debe estar entre 20 y 120"
-        if grosor < 1.5 or grosor > 8:
+        if grosor_2 < 1.5 or grosor_2 > 8:
             return None, "Error: Grosor debe estar entre 1.5 y 8"
         if longitud < 50 or longitud > 7000:
             return None, "Error: Logitud debe estar entre 50 y 7000"
@@ -350,11 +352,11 @@ class ProductCategory(models.Model):
         sumaAlas = ala1 + ala2
         if sumaAlas < 60 or sumaAlas > 200:
              return None, "Error: La suma de las alas debe estar entre 60 y 200"
-        if grosor >= 7 and sumaAlas < 140:
+        if grosor_2 >= 7 and sumaAlas < 140:
             return None, "El grosor no puede ser superior a 7 si la suma de las alas es inferior a 140"
-        if grosor >= 6 and sumaAlas < 100:
+        if grosor_2 >= 6 and sumaAlas < 100:
             return None, "El grosor no puede ser superior a 6 si la suma de las alas es inferior a 100"
-        if grosor >= 5 and sumaAlas < 70:
+        if grosor_2 >= 5 and sumaAlas < 70:
             return None, "El grosor no puede ser superior a 5 si la suma de las alas es inferior a 70"
         if ala1 > longitud:
             return None, "Error: Ala1 no puede ser superior a la longitud"
@@ -370,18 +372,19 @@ class ProductCategory(models.Model):
             return None, "Error: Ala2 * 2 debe ser menor que Ala1"
             
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud)]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor_2', '=', grosor_2), ('longitud', '=', longitud)]):
             return prod, None
             
 
-        
-        product_name = "CANTONERA " + str(ala1) + " x " + str(ala2) + " x " + str(grosor) + " x " + str(longitud)
+        titulo = str(ala1) + " x " + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
+        product_name = "CANTONERA " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'ala_1': ala1,
                                                           'ala_2': ala2,
-                                                          'grosor': grosor,
+                                                          'grosor_2': grosor_2,
                                                           'longitud': longitud,
                                                          })
         #product_id.create_bom_from_ref("TEMPLATE CANTONERA")
@@ -393,14 +396,14 @@ class ProductCategory(models.Model):
         
         
     @api.multi
-    def create_prod_perfilu(self, ala1, ancho, ala2, grosor, longitud):
+    def create_prod_perfilu(self, ala1, ancho, ala2, grosor_2, longitud):
         if ala1 < 18 or ala1 > 70:
             return None, "Error: Ala1 debe estar entre 18 y 70"
         if ancho < 16 or ancho > 125:
             return None, "Error: ancho debe estar entre 16 y 125"
         if ala2 < 18 or ala2 > 70:
             return None, "Error: Ala2 debe estar entre 18 y 70"
-        if grosor < 2 or grosor > 5.5:
+        if grosor_2 < 2 or grosor_2 > 5.5:
             return None, "Error: Grosor debe estar entre 2 y 5.5"
         if longitud < 400 or longitud > 6000:
             return None, "Error: Logitud debe estar entre 400 y 6000"
@@ -415,21 +418,22 @@ class ProductCategory(models.Model):
             ala2 = ala1
 
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud)]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor_2', '=', grosor_2), ('longitud', '=', longitud)]):
             return prod, None
             
             
         
         
-
-        product_name = "PERFIL U " + str(ala1) + " x " + str(ancho) + " x "  + str(ala2) + " x " + str(grosor) + " x " + str(longitud)
+        titulo = str(ala1) + " x " + str(ancho) + " x "  + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
+        product_name = "PERFIL U " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'ala_1': ala1,
                                                           'ancho': ancho,
                                                           'ala_2': ala2,
-                                                          'grosor': grosor,
+                                                          'grosor_2': grosor_2,
                                                           'longitud': longitud,
                                                          })
         
@@ -437,7 +441,7 @@ class ProductCategory(models.Model):
         
         
     @api.multi
-    def create_prod_slipsheet(self, ala1, ancho, ala2, grosor, longitud, ala3, ala4):
+    def create_prod_slipsheet(self, ala1, ancho, ala2, grosor_1, longitud, ala3, ala4):
     
         sumaAncho = ancho
         if ala1 > 0:
@@ -456,39 +460,42 @@ class ProductCategory(models.Model):
             return None, "Error: (Ala_1 + Ancho + Ala_2) debe estar entre 500 y 1200"
         if sumaLargo < 500 or sumaLargo > 1600:
             return None, "Error: (Ala_3 + Longitud + Ala_4) debe estar entre 500 y 1600"
-        if grosor < 0.6 or grosor > 4.0:
+        if grosor_1 < 0.6 or grosor_1 > 4.0:
             return None, "Error: Grosor debe estar entre 0.6 y 4.0"
             
 
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor', '=', grosor), ('longitud', '=', longitud), ('ala_3', '=', ala3), ('ala_4', '=', ala4),]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor_1', '=', grosor_1), ('longitud', '=', longitud), ('ala_3', '=', ala3), ('ala_4', '=', ala4),]):
             return prod, None
             
             
         
 
-        product_name = "SLIP SHEET ("
+        titulo = "("
         if ala1 > 0:
-            product_name = product_name + str(ala1) + " + "
-        product_name = product_name + str(ancho)
+            titulo = titulo + str(ala1) + " + "
+        titulo = titulo + str(ancho)
         if ala2 > 0:
-            product_name = product_name + " + " + str(ala2)
-        product_name = product_name + ") x ("
+            titulo = titulo + " + " + str(ala2)
+        titulo = titulo + ") x ("
         if ala3 > 0:
-            product_name = product_name + str(ala3) + " + "
-        product_name = product_name + str(longitud)
+            titulo = titulo + str(ala3) + " + "
+        titulo = titulo + str(longitud)
         if ala4 > 0:
-            product_name = product_name + " + " + str(ala4)
-        product_name = product_name + ") x " + str(grosor)
+            titulo = titulo + " + " + str(ala4)
+        titulo = titulo + ") x " + str(grosor_1)
+        
+        product_name = "SLIP SHEET " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
-                                                          'type_id': self.id, 
+                                                          'titulo': titulo, 
+                                                          'type_id': self.id,
                                                           'ala_1': ala1,
                                                           'ancho': ancho,
                                                           'ala_2': ala2,
                                                           'ala_3': ala3,
                                                           'ala_4': ala4,
-                                                          'grosor': grosor,
+                                                          'grosor_1': grosor_1,
                                                           'longitud': longitud,
                                                          })
 
@@ -496,28 +503,30 @@ class ProductCategory(models.Model):
         
         
     @api.multi
-    def create_prod_solidboard(self, ancho, grosor, longitud):
+    def create_prod_solidboard(self, ancho, grosor_1, longitud):
     
     
         if ancho < 50 or ancho > 1200:
             return None, "Error: ancho debe estar entre 50 y 1200"
         if longitud < 500 or longitud > 1600:
             return None, "Error: Longitud debe estar entre 500 y 1600"
-        if grosor < 0.6 or grosor > 5.5:
+        if grosor_1 < 0.6 or grosor_1 > 5.5:
             return None, "Error: Grosor debe estar entre 0.6 y 5.5"
             
 
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('grosor', '=', grosor), ('longitud', '=', longitud), ]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('grosor_1', '=', grosor_1), ('longitud', '=', longitud), ]):
             return prod, None
 
 
-        product_name = "SOLID BOARD " + str(ancho) + " x " + str(longitud) + " x " + str(grosor)
+        titulo = str(ancho) + " x " + str(longitud) + " x " + str(grosor_1)
+        product_name = "SOLID BOARD " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo,
                                                           'type_id': self.id, 
                                                           'ancho': ancho,
-                                                          'grosor': grosor,
+                                                          'grosor_1': grosor_1,
                                                           'longitud': longitud,
                                                          })
 
@@ -540,9 +549,11 @@ class ProductCategory(models.Model):
             return prod, None
 
 
-        product_name = "FORMATO " + str(ancho) + " x " + str(longitud) + " - " + str(gramaje) + "g"
+        titulo = str(ancho) + " x " + str(longitud) + " - " + str(gramaje) + "g"
+        product_name = "FORMATO " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo,
                                                           'type_id': self.id, 
                                                           'ancho': ancho,
                                                           'longitud': longitud,
@@ -567,9 +578,11 @@ class ProductCategory(models.Model):
             return prod, None
 
 
-        product_name = "BOBINA Ancho " + str(ancho) + "mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
+        titulo = "Ancho " + str(ancho) + " mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
+        product_name = "BOBINA " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'ancho': ancho,
                                                           'diametro': diametro,
@@ -592,17 +605,20 @@ class ProductCategory(models.Model):
             return prod, None
 
         
-        product_name = ""
+        titulo = ""
         if pie == '1':
-            product_name = "PIE DE BALLET 100 x 90 x " + str(longitud) + " - Adhesivo"
+            titulo = "100 x 90 x " + str(longitud) + " - Adhesivo"
         elif pie == '2':
-            product_name = "PIE DE BALLET 100 x 90 x " + str(longitud)
+            titulo = "100 x 90 x " + str(longitud)
         elif pie == '3':
-            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud) + " - Adhesivo"
+            titulo = "60 x 90 x " + str(longitud) + " - Adhesivo"
         elif pie == '4':
-            product_name = "PIE DE BALLET 60 x 90 x " + str(longitud)        
+            titulo = "60 x 90 x " + str(longitud)    
+
+        product_name = "PIE DE BALLET " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'longitud': longitud,
                                                           'pie': pie,
