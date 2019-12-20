@@ -118,7 +118,7 @@
                         
                         <br/><br/>
                         <h3 attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">OFERTAS</h3>
-                        <field name="oferta_ids" context="{'default_referencia_cliente_id': active_id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
+                        <field name="oferta_ids" context="{'default_referencia_cliente_id': id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
                             <tree string="Ofertas">
 								<field name='date' />
                                 <field name='referencia_cliente_id' invisible="1" />
@@ -127,8 +127,10 @@
                                 <field name='num_pallets' />
 								<field name='emetro' />
 								<field name='eton' />
+								<field name='name' />
                                 <field name='state_id' />
                                 <field name='country_id' />
+								
                             </tree>
                         </field>   
                         
@@ -272,8 +274,10 @@
 					<field name='num_pallets' />
 					<field name='emetro' />
 					<field name='eton' />
+					<field name='name' />
 					<field name='state_id' />
 					<field name='country_id' />
+					
                 </tree>
             </field>
         </record>

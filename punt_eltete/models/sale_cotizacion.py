@@ -65,7 +65,7 @@ class WizardSaleCotizacion(models.TransientModel):
     def _default_partner(self):
         return self.env['sale.cotizacion'].browse(self._context.get('active_id')).partner_id
     
-    cotizacion_id = fields.Many2one('sale.cotizacion', string="Cotización", required=True, default=_default_cotizacion, readonly=True)
+    cotizacion_id = fields.Many2one('sale.cotizacion', string="Cotización", required=True, default=_default_cotizacion, readonly=True, ondelete='cascade')
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True, default=_default_partner, readonly=True)
     
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', required=True)

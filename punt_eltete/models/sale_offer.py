@@ -961,7 +961,7 @@ class sale_product_attribute(models.Model):
 class sale_offer_oferta(models.Model):
     _name = 'sale.offer.oferta'
     
-    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, )
+    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade' )
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
