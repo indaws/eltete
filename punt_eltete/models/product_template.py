@@ -64,6 +64,7 @@ class ProductReferencia(models.Model):
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_valores_referencia")
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores_referencia")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
+    j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_valores_referencia")
     
     orden = fields.Char('Orden', readonly = True, store=True, compute = "_get_ordenado")
     
@@ -351,6 +352,7 @@ class ProductReferencia(models.Model):
             gram = 0
             interior = 0
             superficie = 0
+            superficie_max = 0
 
             #Varios
             if record.type_id.is_varios == True:
@@ -360,17 +362,23 @@ class ProductReferencia(models.Model):
                 metros = record.longitud / 1000
                 gram = int((record.grosor_2 * 1000 / 1.4 - 300) / 50) * 50
                 interior = int(record.ala_1 + record.ala_2 - record.grosor_2 * 2 - 1)
-                superficie = int(((record.ala_1 + record.ala_2 - record.grosor_2 - 1) * 2 + 5) / 5) * 5
+                superficie = int(((interior + record.grosor_2) * 2 + 5) / 5) * 5
+                superficie_max = int((interior * 2.5 + record.grosor_2 * 2) / 5) * 5
                 if superficie > 280:
                     superficie = 280
+                if superficie_max > 280:
+                    superficie_max = 280
             #Perfil U
             elif record.type_id.is_perfilu == True:
                 metros = record.longitud / 1000
                 gram = int((record.grosor_2 * 1000 / 1.4 - 300) / 50) * 50
                 interior = int(record.ala_1 + record.ancho + record.ala_2 - 1)
-                superficie = int(((record.ala_1 + record.ancho + record.ala_2 - 1 + record.grosor_2) * 2 + 5) / 5) * 5
+                superficie = int(((interior + record.grosor_2) * 2 + 5) / 5) * 5
+                superficie_max = int((interior * 2.5 + record.grosor_2 * 2) / 5) * 5
                 if superficie > 280:
                     superficie = 280
+                if superficie_max > 280:
+                    superficie_max = 280
             #Slip Sheets
             elif record.type_id.is_slipsheet == True:
                 sumaAncho = record.ancho
@@ -384,17 +392,13 @@ class ProductReferencia(models.Model):
                 if record.ala_4 > 0:
                     sumaLargo = sumaLargo + record.ala_4
                 metros = sumaAncho * sumaLargo / 1000000
-                gram = int((record.grosor_1 * 1000 / 1.4 - 300) / 50) * 50
-                interior = record.ancho
-                if record.ala_1 != None and record.ala_1 > 0:
-                    interior = interior + record.ala_1
-                if record.ala_2 != None and record.ala_2 > 0:
-                    interior = interior + record.ala_2
+                gram = int((self.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
+                interior = sumaAncho
             #Solid Board
             elif record.type_id.is_solidboard == True:
                 metros = record.ancho * record.longitud / 1000000
-                gram = int((record.grosor_1 * 1000 / 1.4 - 300) / 50) * 50
-                interior = record.ancho + 30
+                gram = int((self.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
+                interior = sumaAncho
             #Formato
             elif record.type_id.is_formato == True:
                 metros = record.ancho * record.longitud / 1000000
@@ -415,6 +419,7 @@ class ProductReferencia(models.Model):
             record.j_gram = gram
             record.j_interior = interior
             record.j_superficie = superficie
+            record.j_superficie_max = superficie_max
     
     
     @api.multi
@@ -431,10 +436,56 @@ class ProductReferencia(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
-    und_pallet = fields.Integer('Unidades pallet', readonly=True)
+    
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
-    referencia_id = fields.Many2one('product.referencia', string='Referencia', store=True, related='attribute_id.referencia_cliente_id.referencia_id')
+    referencia_id = fields.Many2one('product.referencia', string='Referencia')
+    
+    #CAMPOS REFERENCIA CLIENTE
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
+    PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
+                      ('2', 'Columnas'),
+                      ]
+    paletizado_cliente = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado Cliente', default = '1')
+    ANCHO_PALLET_SEL = [('1200', '1200'),     
+                        ('1150', '1150'),
+                        ('1000', '1000'),
+                        ('800', '800'), 
+                        ]
+    ancho_pallet_cliente = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet Cliente')
+    contenedor = fields.Boolean('Contenedor', default = False)
+    und_paquete_cliente = fields.Integer('Und paquete cliente')
+    und_pallet_cliente = fields.Integer('Unidades Exactas')
+    alto_max_cliente = fields.Integer('Alto máximo cliente')
+    peso_max_cliente = fields.Integer('Peso máximo cliente')
+    
+    
+    
+    #CAMPOS ATRIBUTOS
+    #CANTONERA COLOR
+    cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
+    cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
+    cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
+    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
+    #PERFILU
+    perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color")
+    #CANTONERA Y PERFILU
+    inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete")
+    inglete_num = fields.Integer('Numero de Ingletes')
+    #SOLID BOARD
+    plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Color")
+    #FORMATO Y BOBINA
+    papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad")
+    #SLIPSHEET, SOLIDBOARD Y FORMATO
+    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
+    #TODOS
+    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
+    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
+    
+    
+    #CAMPOS OFERTA
+    und_pallet = fields.Integer('Unidades pallet', readonly=True)
+    
 
     
     
@@ -456,9 +507,9 @@ class ProductCategory(models.Model):
     @api.multi
     def create_prod_cantonera(self, ala1, ala2, grosor_2, longitud):
         if ala1 < 20 or ala1 > 120:
-            return None, "Error: Ala1 debe estar entre 20 y 120"
+            return None, "Error: Ala debe estar entre 20 y 120"
         if ala2 < 20 or ala2 > 120:
-            return None, "Error: Ala2 debe estar entre 20 y 120"
+            return None, "Error: Ala debe estar entre 20 y 120"
         if grosor_2 < 1.5 or grosor_2 > 8:
             return None, "Error: Grosor debe estar entre 1.5 y 8"
         if longitud < 50 or longitud > 7000:
@@ -474,17 +525,17 @@ class ProductCategory(models.Model):
         if grosor_2 >= 5 and sumaAlas < 70:
             return None, "El grosor no puede ser superior a 5 si la suma de las alas es inferior a 70"
         if ala1 > longitud:
-            return None, "Error: Ala1 no puede ser superior a la longitud"
+            return None, "Error: Ala no puede ser superior a la longitud"
         if ala2 > longitud:
-            return None, "Error: Ala2 no puede ser superior a la longitud"
+            return None, "Error: Ala no puede ser superior a la longitud"
             
         if ala2 > ala1:
             aux = ala1
             ala1 = ala2
-            ala2 = ala1
+            ala2 = aux
 
         if ala2 * 2 < ala1:
-            return None, "Error: Ala2 * 2 debe ser menor que Ala1"
+            return None, "Error: Ala menor debe ser como mínimo la mitad del ala mayor"
             
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor_2', '=', grosor_2), ('longitud', '=', longitud)]):
@@ -523,14 +574,14 @@ class ProductCategory(models.Model):
         if longitud < 400 or longitud > 6000:
             return None, "Error: Logitud debe estar entre 400 y 6000"
             
-        sumaAlas = ala1 + ala2
+        sumaAlas = ala1 + ancho + ala2
         if sumaAlas < 60 or sumaAlas > 240:
-             return None, "Error: La suma de las alas debe estar entre 60 y 240"
+             return None, "Error: La suma de alas mas el ancho debe estar entre 60 y 240"
         
         if ala2 > ala1:
             aux = ala1
             ala1 = ala2
-            ala2 = ala1
+            ala2 = aux
 
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor_2', '=', grosor_2), ('longitud', '=', longitud)]):
@@ -623,8 +674,8 @@ class ProductCategory(models.Model):
     
         if ancho < 50 or ancho > 1200:
             return None, "Error: ancho debe estar entre 50 y 1200"
-        if longitud < 500 or longitud > 1600:
-            return None, "Error: Longitud debe estar entre 500 y 1600"
+        if longitud < 50 or longitud > 1600:
+            return None, "Error: Longitud debe estar entre 50 y 1600"
         if grosor_1 < 0.6 or grosor_1 > 5.5:
             return None, "Error: Grosor debe estar entre 0.6 y 5.5"
             
@@ -657,6 +708,8 @@ class ProductCategory(models.Model):
             return None, "Error: ancho debe estar entre 500 y 1400"
         if longitud < 500 or longitud > 1800:
             return None, "Error: Longitud debe estar entre 500 y 1800"
+        if gramaje < 50 or gramaje > 1000:
+            return None, "Error: Gramaje debe estar entre 50 y 1000"
             
 
         #Buscamos

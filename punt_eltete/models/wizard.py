@@ -51,8 +51,84 @@ class WizardPartnerSaleOrder(models.TransientModel):
             #while i < line.num_pallets:
             #    i = i+1
             
+            referencia_id = None
+            pallet_especial_id = None
+            cantonera_color_id = None
+            cantonera_forma_id = None
+            cantonera_especial_id = None
+            cantonera_impresion_id = None
+            perfilu_color_id = None
+            inglete_id = None
+            plancha_color_id = None
+            papel_calidad_id = None
+            troquelado_id = None
+            fsc_id = None
+            reciclable_id = None
+            
+            if line.referencia_cliente_id.referencia_id:
+                referencia_id = line.referencia_cliente_id.referencia_id.id
+                
+            if line.referencia_cliente_id.pallet_especial_id:
+                pallet_especial_id = line.referencia_cliente_id.pallet_especial_id.id
+                
+            if line.attribute_id.cantonera_color_id:
+                cantonera_color_id = line.attribute_id.cantonera_color_id.id
+                
+            if line.attribute_id.cantonera_forma_id:
+                cantonera_forma_id = line.attribute_id.cantonera_forma_id.id
+                
+            if line.attribute_id.cantonera_especial_id:
+                cantonera_especial_id = line.attribute_id.cantonera_especial_id.id
+                
+            if line.attribute_id.cantonera_impresion_id:
+                cantonera_impresion_id = line.attribute_id.cantonera_impresion_id.id
+                
+            if line.attribute_id.perfilu_color_id:
+                perfilu_color_id = line.attribute_id.perfilu_color_id.id
+                
+            if line.attribute_id.inglete_id:
+                inglete_id = line.attribute_id.inglete_id.id
+                
+            if line.attribute_id.plancha_color_id:
+                plancha_color_id = line.attribute_id.plancha_color_id.id
+                
+            if line.attribute_id.papel_calidad_id:
+                papel_calidad_id = line.attribute_id.papel_calidad_id.id
+                
+            if line.attribute_id.troquelado_id:
+                troquelado_id = line.attribute_id.troquelado_id.id
+                
+            if line.attribute_id.fsc_id:
+                fsc_id = line.attribute_id.fsc_id.id
+                
+            if line.attribute_id.reciclable_id:
+                reciclable_id = line.attribute_id.reciclable_id.id
+            
+            
             product_id = None
-            for prod in self.env['product.template'].search([('attribute_id', '=', line.attribute_id.id), ('und_pallet', '=', line.oferta_id.und_pallet),]):
+            for prod in self.env['product.template'].search([('und_pallet', '=', line.oferta_id.und_pallet),
+                                                             ('referencia_id', '=', line.referencia_cliente_id.referencia_id.id),
+                                                             ('pallet_especial_id', '=', pallet_especial_id),
+                                                             ('paletizado_cliente', '=', line.referencia_cliente_id.paletizado_cliente),
+                                                             ('ancho_pallet_cliente', '=', line.referencia_cliente_id.ancho_pallet_cliente),
+                                                             ('contenedor', '=', line.referencia_cliente_id.contenedor),
+                                                             ('und_paquete_cliente', '=', line.referencia_cliente_id.und_paquete_cliente),
+                                                             ('und_pallet_cliente', '=', line.referencia_cliente_id.und_pallet_cliente),
+                                                             ('alto_max_cliente', '=', line.referencia_cliente_id.alto_max_cliente),
+                                                             ('peso_max_cliente', '=', line.referencia_cliente_id.peso_max_cliente),
+                                                             ('cantonera_color_id', '=', cantonera_color_id),
+                                                             ('cantonera_forma_id', '=', cantonera_forma_id),
+                                                             ('cantonera_especial_id', '=', cantonera_especial_id),
+                                                             ('cantonera_impresion_id', '=', cantonera_impresion_id),
+                                                             ('perfilu_color_id', '=', perfilu_color_id),
+                                                             ('inglete_id', '=', inglete_id),
+                                                             ('inglete_num', '=', line.attribute_id.inglete_num),
+                                                             ('plancha_color_id', '=', plancha_color_id),
+                                                             ('papel_calidad_id', '=', papel_calidad_id),
+                                                             ('troquelado_id', '=', troquelado_id),
+                                                             ('fsc_id', '=', fsc_id),
+                                                             ('reciclable_id', '=', reciclable_id),
+                                                             ]):
                 product_id = prod
                 
             if product_id == None:
@@ -62,7 +138,30 @@ class WizardPartnerSaleOrder(models.TransientModel):
                                                                   'sale_ok': True,
                                                                   'categ_id': line.referencia_cliente_id.type_id.id,
                                                                   'attribute_id':line.attribute_id.id, 
+                                                                  'referencia_id':line.referencia_cliente_id.referencia_id.id, 
+                                                                  'referencia_cliente_id':line.referencia_cliente_id.id, 
                                                                   'und_pallet': line.oferta_id.und_pallet,
+                                                                  'referencia_id': line.referencia_cliente_id.referencia_id.id,
+                                                                  'pallet_especial_id': pallet_especial_id,
+                                                                  'paletizado_cliente': line.referencia_cliente_id.paletizado_cliente,
+                                                                  'ancho_pallet_cliente': line.referencia_cliente_id.ancho_pallet_cliente,
+                                                                  'contenedor': line.referencia_cliente_id.contenedor,
+                                                                  'und_paquete_cliente': line.referencia_cliente_id.und_paquete_cliente,
+                                                                  'und_pallet_cliente': line.referencia_cliente_id.und_pallet_cliente,
+                                                                  'alto_max_cliente': line.referencia_cliente_id.alto_max_cliente,
+                                                                  'peso_max_cliente': line.referencia_cliente_id.peso_max_cliente,
+                                                                  'cantonera_color_id': cantonera_color_id,
+                                                                  'cantonera_forma_id': cantonera_forma_id,
+                                                                  'cantonera_especial_id': cantonera_especial_id,
+                                                                  'cantonera_impresion_id': cantonera_impresion_id,
+                                                                  'perfilu_color_id': perfilu_color_id,
+                                                                  'inglete_id': inglete_id,
+                                                                  'inglete_num': line.attribute_id.inglete_num,
+                                                                  'plancha_color_id': plancha_color_id,
+                                                                  'papel_calidad_id': papel_calidad_id,
+                                                                  'troquelado_id': troquelado_id,
+                                                                  'fsc_id': fsc_id,
+                                                                  'reciclable_id': reciclable_id,
                                                                  })
             
             

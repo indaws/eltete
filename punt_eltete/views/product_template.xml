@@ -5,13 +5,51 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
+        
+                <xpath expr="//page[@name='general_information']" position="after">
+                
+                    <page name="variants" string="El Tete">
+                    
+                        <group>
+                            <field name="und_pallet"/>
+                            <field name="attribute_id"/>
+                            <field name="referencia_cliente_id"/>
+                            <field name="referencia_id"/>
+                        </group>
+                        
+                        <br/><br/><h3>Campos referencia cliente</h3>
+                        <group>
+                            <field name="pallet_especial_id"/>
+                            <field name="paletizado_cliente"/>
+                            <field name="ancho_pallet_cliente"/>
+                            <field name="contenedor"/>
+                            <field name="und_paquete_cliente"/>
+                            <field name="und_pallet_cliente"/>
+                            <field name="alto_max_cliente"/>
+                            <field name="peso_max_cliente"/>
+                        </group>
+                        
+                        
+                        <br/><br/><h3>Campos atributo</h3>
+                        <group>
+                            <field name="cantonera_color_id"/>
+                            <field name="cantonera_forma_id"/>
+                            <field name="cantonera_especial_id"/>
+                            <field name="cantonera_impresion_id"/>
+                            <field name="perfilu_color_id"/>
+                            <field name="inglete_id"/>
+                            <field name="inglete_num"/>
+                            <field name="plancha_color_id"/>
+                            <field name="papel_calidad_id"/>
+                            <field name="troquelado_id"/>
+                            <field name="fsc_id"/>
+                            <field name="reciclable_id"/>
+                        </group>
+                    
+                    </page>
+                </xpath>
             
-                <field name="categ_id" position="after">
-                    <field name="und_pallet"/>
-                    <field name="attribute_id"/>
-                    <field name="referencia_cliente_id"/>
-                    <field name="referencia_id"/>
-                </field>
+                
 
             
         </field>
@@ -84,6 +122,7 @@
                     
                     <h3>Campos referencia</h3>
                     <group>
+						<field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                         <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                         <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
                         <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
@@ -92,7 +131,6 @@
                         <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
                         <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                         <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
-                        <field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                         <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
                         <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
@@ -109,6 +147,7 @@
                         <field name='j_gram' />
                         <field name='j_interior' />
                         <field name='j_superficie' />
+						<field name='j_superficie_max' />
                     </group>
                     
 
