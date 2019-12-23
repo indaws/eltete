@@ -1131,7 +1131,7 @@ class sale_offer_oferta(models.Model):
                 precio_tipo = "€/unidad" 
                 eton = int(precio * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
-                nombre = nombre + str(precio) + " €/m, " + str(eton) + "€/t"
+                nombre = nombre + str(precio) + " €/unidad, " + str(eton) + "€/t"
             #Por millar
             elif facturar == '3':
                 cantidad = record.unidades / 1000
@@ -1141,7 +1141,7 @@ class sale_offer_oferta(models.Model):
                 precio_tipo = "€/millar" 
                 eton = int(precio * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
-                nombre = nombre + str(precio) + " €/m, " + str(eton) + "€/t"
+                nombre = nombre + str(precio) + " €/millar, " + str(eton) + "€/t"
             elif facturar == '4':
                 cantidad = record.kilos
                 cantidad_tipo = "kg"
