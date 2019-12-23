@@ -10,10 +10,15 @@ class sale_cotizacion(models.Model):
     name = fields.Char(string='Cotización', required=True, copy=False, readonly=True, index=True, default=lambda self: "/")
     
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
-    user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
-    state_id = fields.Many2one('res.country.state', string="Provincia")
+    user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
+    fecha_cliente = fields.Date('Fecha Cliente')
+    fecha_entrega_cliente = fields.Date('Fecha Entrega Cliente')
+    pedido_cliente = fields.Char('Pedido Cliente')
     country_id = fields.Many2one('res.country', string="País")
+    state_id = fields.Many2one('res.country.state', string="Provincia")
+    fecha_entrega = fields.Date('Fecha Entrega')
+    
     
     line_ids = fields.One2many('sale.cotizacion.line', 'cotizacion_id', string="Líneas")
     
