@@ -1,18 +1,79 @@
 ﻿
 from odoo import fields, models, api
 
+##################
+# CLASE PRODUCTO #
+##################  
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+    
+    
+    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
+    referencia_id = fields.Many2one('product.referencia', string='Referencia')
+    
+    #CAMPOS REFERENCIA CLIENTE
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
+    PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
+                      ('2', 'Columnas'),
+                      ]
+    paletizado_cliente = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado Cliente', default = '1')
+    ANCHO_PALLET_SEL = [('1200', '1200'),     
+                        ('1150', '1150'),
+                        ('1000', '1000'),
+                        ('800', '800'), 
+                        ]
+    ancho_pallet_cliente = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet Cliente')
+    contenedor = fields.Boolean('Contenedor', default = False)
+    und_paquete_cliente = fields.Integer('Und paquete cliente')
+    und_pallet_cliente = fields.Integer('Unidades Exactas')
+    alto_max_cliente = fields.Integer('Alto máximo cliente')
+    peso_max_cliente = fields.Integer('Peso máximo cliente')
+    
+    
+    
+    #CAMPOS ATRIBUTOS
+    #CANTONERA COLOR
+    cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
+    cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
+    cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
+    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
+    #PERFILU
+    perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color")
+    #CANTONERA Y PERFILU
+    inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete")
+    inglete_num = fields.Integer('Numero de Ingletes')
+    #SOLID BOARD
+    plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Color")
+    #FORMATO Y BOBINA
+    papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad")
+    #SLIPSHEET, SOLIDBOARD Y FORMATO
+    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
+    #TODOS
+    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
+    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
+    
+    
+    #CAMPOS OFERTA
+    und_pallet = fields.Integer('Unidades pallet', readonly=True)
+
+
+####################
+# CLASE REFERENCIA #
+####################
 
 class ProductReferencia(models.Model):
     _name = 'product.referencia'
     _order = 'orden'
-
     
+    #El nombre del producto + la referencia
     name = fields.Char('Nombre', readonly=True)
+    #Solo la referencia
     titulo = fields.Char('Título', readonly=True)
-    
-    
+    #Tipo de producto
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
-    
+    #Para cada categoria de producto se activa un boolean
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
     is_perfilu = fields.Boolean('¿Es Perfil U?', related='type_id.is_perfilu')
     is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='type_id.is_slipsheet')
@@ -21,54 +82,40 @@ class ProductReferencia(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
-    
-    ala_1 = fields.Integer('Ala 1')
-    ancho = fields.Integer('Ancho')
-    ala_2 = fields.Integer('Ala 2')
-    grosor_1 = fields.Float('Grosor 1', digits=(6,1))
-    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
-    longitud = fields.Integer('Longitud')
-    alas = fields.Integer('Alas')
-    interior = fields.Integer('Interior')
-    entrada_1 = fields.Char('Entrada 1')
-    entrada_2 = fields.Char('Entrada 2')
-    entrada_3 = fields.Char('Entrada 3')
-    entrada_4 = fields.Char('Entrada 4')
-    
-    ala_3 = fields.Integer('Solapa 3')
-    ala_4 = fields.Integer('Solapa 4')
-    
-    diametro = fields.Integer('Diámetro')
-    gramaje = fields.Integer('Gramaje')
-    
-    TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
-               ('2', 'Alto 100 sin Adhesivo'),
-               ('3', 'Alto 60 con Adhesivo'),                 
-               ('4', 'Alto 60 sin Adhesivo'),         #La coma final?
+    #Campos de entrada, según el tipo de producto se activan unos campos u otros
+    #Se introducen al crear la referencia
+    TIPO_PIE = [('1', 'Alto 100'), 
+               ('2', 'Alto 60'),
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    ala_1 = fields.Integer('Ala/Solapa 1')
+    ancho = fields.Integer('Ancho')
+    ala_2 = fields.Integer('Ala/Solapa 2')
+    grosor_2 = fields.Float('Grosor', digits=(8,2))
+    ala_3 = fields.Integer('Solapa 3')
+    longitud = fields.Integer('Longitud')
+    ala_4 = fields.Integer('Solapa 4')
+    grosor_1 = fields.Float('Grosor', digits=(8,1))
+    diametro = fields.Integer('Diámetro')
+    gramaje = fields.Integer('Gramaje')
+    #Campos para varios
+    varios_id = fields.Many2one('product.varios', string="Tipo Varios")
     
+    #Campos que se introducen cuando la referencia ya ha sido creada
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
+    comentario = fields.Text('Coste')
     
-    comentario = fields.Text('Comentario Referencia')
-    
-    #varios
-    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
-    
-    
-    #calculados
-    peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, compute = "_get_peso_metro")
-    metros_unidad = fields.Float('Metros Unidad', digits = (10,4), readonly = True, compute = "_get_valores_referencia")
+    #Campos calculados
+    peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, compute = "_get_peso_metro")
+    metros_unidad = fields.Float('Metros Unidad', digits = (12,4), readonly = True, compute = "_get_valores_referencia")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_valores_referencia")
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores_referencia")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_valores_referencia")
-    
     orden = fields.Char('Orden', readonly = True, store=True, compute = "_get_ordenado")
     
-    
+    #Crea el orden para mostrar las referencias
     @api.depends('type_id',)
     def _get_ordenado(self):
         ordenado1 = ""
@@ -76,7 +123,7 @@ class ProductReferencia(models.Model):
         
             #Varios
             if record.type_id.is_varios == True:
-                ordenado1 = "99-" + record.entrada_1
+                ordenado1 = "99-" + record.varios_id.orden
         
             #Cantonera
             elif record.type_id.is_cantonera == True:
@@ -169,10 +216,6 @@ class ProductReferencia(models.Model):
                 if record.pie == 1:
                     ordenado1 = ordenado1 + "100x"
                 elif record.pie == 2:
-                    ordenado1 = ordenado1 + "100x"
-                elif record.pie == 3:
-                    ordenado1 = ordenado1 + "060x"
-                elif record.pie == 4:
                     ordenado1 = ordenado1 + "060x"
                 if record.longitud < 1000:
                     ordenado1 = ordenado1 + "0"
@@ -185,12 +228,11 @@ class ProductReferencia(models.Model):
     def _get_peso_metro(self):
     
         for record in self:
-        
             peso1 = 0
 
             #Varios
-            if record.type_id.is_varios == True and record.peso_metro_user > 0:
-                peso1 = record.peso_metro_user
+            if record.type_id.is_varios == True:
+                peso1 = record.varios_id.peso_metro
                 
             #Cantonera
             elif record.type_id.is_cantonera == True:
@@ -335,14 +377,13 @@ class ProductReferencia(models.Model):
                 
             #Pie de Pallet
             elif record.type_id.is_pieballet == True:
-                if record.pie == '1' or record.pie == '2':
+                if record.pie == '1':
                     peso1 = 1.25
-                elif record.pie == '3' or record.pie == '4':
+                elif record.pie == '2':
                     peso1 = 0.75
                         
             record.peso_metro = peso1
-    
-    
+       
     
     @api.depends('type_id',)
     def _get_valores_referencia(self):
@@ -356,7 +397,8 @@ class ProductReferencia(models.Model):
 
             #Varios
             if record.type_id.is_varios == True:
-                metros = record.metros_unidad_user
+                metros = record.varios_id.metros_unidad
+                
             #Cantonera
             elif record.type_id.is_cantonera == True:
                 metros = record.longitud / 1000
@@ -368,6 +410,7 @@ class ProductReferencia(models.Model):
                     superficie = 280
                 if superficie_max > 280:
                     superficie_max = 280
+                    
             #Perfil U
             elif record.type_id.is_perfilu == True:
                 metros = record.longitud / 1000
@@ -379,6 +422,7 @@ class ProductReferencia(models.Model):
                     superficie = 280
                 if superficie_max > 280:
                     superficie_max = 280
+                    
             #Slip Sheets
             elif record.type_id.is_slipsheet == True:
                 sumaAncho = record.ancho
@@ -394,16 +438,19 @@ class ProductReferencia(models.Model):
                 metros = sumaAncho * sumaLargo / 1000000
                 gram = int((self.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
                 interior = sumaAncho
+                
             #Solid Board
             elif record.type_id.is_solidboard == True:
                 metros = record.ancho * record.longitud / 1000000
                 gram = int((self.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
-                interior = sumaAncho
+                interior = record.ancho
+                
             #Formato
             elif record.type_id.is_formato == True:
                 metros = record.ancho * record.longitud / 1000000
                 gram = record.gramaje
                 interior = record.ancho
+                
             #Bobina
             elif record.type_id.is_bobina == True:
                 metros = (record.diametro * record.diametro - 10000) * 0.61 / record.gramaje
@@ -413,7 +460,8 @@ class ProductReferencia(models.Model):
             #Pie de Pallet
             elif record.type_id.is_pieballet == True:
                 metros = record.longitud / 1000
-        
+                gram = 0
+                interior = 0
         
             record.metros_unidad = metros
             record.j_gram = gram
@@ -430,64 +478,24 @@ class ProductReferencia(models.Model):
             newbom.product_tmpl_id = self.id
             break
             
+    
+#####################
+# REFERENCIA VARIOS #
+##################### 
+    
+class Varios(models.Model):
+    _name = 'product.varios'
+    
+    name = fields.Char('Titulo', required = True)
+    orden = fields.Integer('Orden', required = True)
+    descripcion = fields.Char('Descripcion', required = True)
+    peso_metro = fields.Float('Peso Metro', digits = (12,4), required = True)
+    metros_unidad = fields.Float('Metros Unidad', digits = (12,4), required = True)
 
     
-
-class ProductTemplate(models.Model):
-    _inherit = 'product.template'
-    
-    
-    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
-    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
-    referencia_id = fields.Many2one('product.referencia', string='Referencia')
-    
-    #CAMPOS REFERENCIA CLIENTE
-    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
-    PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
-                      ('2', 'Columnas'),
-                      ]
-    paletizado_cliente = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado Cliente', default = '1')
-    ANCHO_PALLET_SEL = [('1200', '1200'),     
-                        ('1150', '1150'),
-                        ('1000', '1000'),
-                        ('800', '800'), 
-                        ]
-    ancho_pallet_cliente = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet Cliente')
-    contenedor = fields.Boolean('Contenedor', default = False)
-    und_paquete_cliente = fields.Integer('Und paquete cliente')
-    und_pallet_cliente = fields.Integer('Unidades Exactas')
-    alto_max_cliente = fields.Integer('Alto máximo cliente')
-    peso_max_cliente = fields.Integer('Peso máximo cliente')
-    
-    
-    
-    #CAMPOS ATRIBUTOS
-    #CANTONERA COLOR
-    cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
-    cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
-    cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
-    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
-    #PERFILU
-    perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color")
-    #CANTONERA Y PERFILU
-    inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete")
-    inglete_num = fields.Integer('Numero de Ingletes')
-    #SOLID BOARD
-    plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Color")
-    #FORMATO Y BOBINA
-    papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad")
-    #SLIPSHEET, SOLIDBOARD Y FORMATO
-    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
-    #TODOS
-    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
-    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
-    
-    
-    #CAMPOS OFERTA
-    und_pallet = fields.Integer('Unidades pallet', readonly=True)
-    
-
-    
+############################
+# CATEGORIAS DE REFERENCIA #
+############################
     
 class ProductCategory(models.Model):
     _inherit = 'product.category'
@@ -502,7 +510,22 @@ class ProductCategory(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
     is_varios = fields.Boolean('¿Es Varios?')
 
-    
+    @api.multi
+    def create_prod_varios(self, varios_id):
+        
+        #Buscamos
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('varios_id', '=', varios_id), ]):
+            return prod, None
+        
+        titulo = varios_id.name
+        product_name = "VARIOS - " + titulo
+            
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
+                                                          'type_id': self.id, 
+                                                          'varios_id': varios,
+                                                         })
+        return referencia_id, None
     
     @api.multi
     def create_prod_cantonera(self, ala1, ala2, grosor_2, longitud):
@@ -541,9 +564,8 @@ class ProductCategory(models.Model):
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ala_2', '=', ala2), ('grosor_2', '=', grosor_2), ('longitud', '=', longitud)]):
             return prod, None
             
-
         titulo = str(ala1) + " x " + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
-        product_name = "CANTONERA " + titulo
+        product_name = "CANTONERA - " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -553,12 +575,7 @@ class ProductCategory(models.Model):
                                                           'grosor_2': grosor_2,
                                                           'longitud': longitud,
                                                          })
-        #product_id.create_bom_from_ref("TEMPLATE CANTONERA")
-
-        #Buscamos TEMPLATE CANTONERA
-        return referencia_id, None
-        
-        
+        return referencia_id, None   
         
         
     @api.multi
@@ -587,11 +604,8 @@ class ProductCategory(models.Model):
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor_2', '=', grosor_2), ('longitud', '=', longitud)]):
             return prod, None
             
-            
-        
-        
         titulo = str(ala1) + " x " + str(ancho) + " x "  + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
-        product_name = "PERFIL U " + titulo
+        product_name = "PERFIL U - " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -601,8 +615,7 @@ class ProductCategory(models.Model):
                                                           'ala_2': ala2,
                                                           'grosor_2': grosor_2,
                                                           'longitud': longitud,
-                                                         })
-        
+                                                         })    
         return referencia_id, None
         
         
@@ -621,21 +634,26 @@ class ProductCategory(models.Model):
         if ala4 > 0:
             sumaLargo = sumaLargo + ala4
             
-    
         if sumaAncho < 500 or sumaAncho > 1200:
             return None, "Error: (Ala_1 + Ancho + Ala_2) debe estar entre 500 y 1200"
         if sumaLargo < 500 or sumaLargo > 1600:
             return None, "Error: (Ala_3 + Longitud + Ala_4) debe estar entre 500 y 1600"
         if grosor_1 < 0.6 or grosor_1 > 4.0:
             return None, "Error: Grosor debe estar entre 0.6 y 4.0"
+        
+        if ala2 > ala1:
+            aux = ala1
+            ala1 = ala2
+            ala2 = aux
             
+        if ala3 > ala4:
+            aux = ala4
+            ala4 = ala3
+            ala3 = aux
 
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ala_1', '=', ala1), ('ancho', '=', ancho), ('ala_2', '=', ala2), ('grosor_1', '=', grosor_1), ('longitud', '=', longitud), ('ala_3', '=', ala3), ('ala_4', '=', ala4),]):
             return prod, None
-            
-            
-        
 
         titulo = "("
         if ala1 > 0:
@@ -651,7 +669,7 @@ class ProductCategory(models.Model):
             titulo = titulo + " + " + str(ala4)
         titulo = titulo + ") x " + str(grosor_1)
         
-        product_name = "SLIP SHEET " + titulo
+        product_name = "SLIP SHEET - " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -664,29 +682,24 @@ class ProductCategory(models.Model):
                                                           'grosor_1': grosor_1,
                                                           'longitud': longitud,
                                                          })
-
         return referencia_id, None
         
         
     @api.multi
     def create_prod_solidboard(self, ancho, grosor_1, longitud):
-    
-    
         if ancho < 50 or ancho > 1200:
             return None, "Error: ancho debe estar entre 50 y 1200"
         if longitud < 50 or longitud > 1600:
             return None, "Error: Longitud debe estar entre 50 y 1600"
         if grosor_1 < 0.6 or grosor_1 > 5.5:
             return None, "Error: Grosor debe estar entre 0.6 y 5.5"
-            
-
+        
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('grosor_1', '=', grosor_1), ('longitud', '=', longitud), ]):
             return prod, None
 
-
         titulo = str(ancho) + " x " + str(longitud) + " x " + str(grosor_1)
-        product_name = "SOLID BOARD " + titulo
+        product_name = "SOLID BOARD - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo,
@@ -702,23 +715,19 @@ class ProductCategory(models.Model):
         
     @api.multi
     def create_prod_formato(self, ancho, longitud, gramaje):
-    
-    
         if ancho < 500 or ancho > 1400:
             return None, "Error: ancho debe estar entre 500 y 1400"
         if longitud < 500 or longitud > 1800:
             return None, "Error: Longitud debe estar entre 500 y 1800"
         if gramaje < 50 or gramaje > 1000:
             return None, "Error: Gramaje debe estar entre 50 y 1000"
-            
 
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('longitud', '=', longitud), ('gramaje', '=', gramaje), ]):
             return prod, None
 
-
         titulo = str(ancho) + " x " + str(longitud) + " - " + str(gramaje) + "g"
-        product_name = "FORMATO " + titulo
+        product_name = "FORMATO - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo,
@@ -727,27 +736,22 @@ class ProductCategory(models.Model):
                                                           'longitud': longitud,
                                                           'gramaje': gramaje,
                                                          })
-
         return referencia_id, None
         
         
     @api.multi
     def create_prod_bobina(self, ancho, diametro, gramaje):
-    
-    
         if ancho < 20 or ancho > 2800:
             return None, "Error: ancho debe estar entre 20 y 2800"
         if diametro < 300 or diametro > 1400:
             return None, "Error: Diámetro debe estar entre 300 y 1400"
-            
 
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('diametro', '=', diametro), ('gramaje', '=', gramaje), ]):
             return prod, None
 
-
         titulo = "Ancho " + str(ancho) + " mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
-        product_name = "BOBINA " + titulo
+        product_name = "BOBINA - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -756,34 +760,25 @@ class ProductCategory(models.Model):
                                                           'diametro': diametro,
                                                           'gramaje': gramaje,
                                                          })
-
         return referencia_id, None
         
         
     @api.multi
     def create_prod_pieballet(self, longitud, pie):
-    
-    
         if longitud < 190 or longitud > 1800:
             return None, "Error: Longitud debe estar entre 190 y 1800"
-            
 
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('longitud', '=', longitud), ('pie', '=', pie), ]):
             return prod, None
-
         
         titulo = ""
         if pie == '1':
-            titulo = "100 x 90 x " + str(longitud) + " - Adhesivo"
-        elif pie == '2':
             titulo = "100 x 90 x " + str(longitud)
-        elif pie == '3':
-            titulo = "60 x 90 x " + str(longitud) + " - Adhesivo"
-        elif pie == '4':
-            titulo = "60 x 90 x " + str(longitud)    
+        elif pie == '2':
+            titulo = "60 x 90 x " + str(longitud)   
 
-        product_name = "PIE DE BALLET " + titulo
+        product_name = "PIE DE PALLET - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -791,13 +786,7 @@ class ProductCategory(models.Model):
                                                           'longitud': longitud,
                                                           'pie': pie,
                                                          })
-
         return referencia_id, None
-    
-         
-        
-    
-    
 
 ###############################
 # CARACTERISTICAS REF CLIENTE #
@@ -827,8 +816,6 @@ class ProductCaracteristicaPalletEspecial(models.Model):
 ############################  
 
 ## CANTONERA ##
-
-
 
 class ProductCaracteristicaCantoneraColor(models.Model):
     _name = 'product.caracteristica.cantonera.color'
@@ -919,7 +906,6 @@ class ProductCaracteristicaCantoneraImpresion(models.Model):
 
 ## PERFILU ##
 
-
 class ProductCaracteristicaPerfiluColor(models.Model):
     _name = 'product.caracteristica.perfilu.color'
     _order = 'number'
@@ -961,7 +947,6 @@ class ProductCaracteristicaReciclable(models.Model):
     cantonera_2 = fields.Boolean('Cantonera 2', default = False)
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
-    image = fields.Binary('Imagen')
     
     
 class ProductCaracteristicaFSC(models.Model):
@@ -1022,10 +1007,7 @@ class ProductCaracteristicaPlanchacolor(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
 
-
-
-
-    
+ 
     
 class ProductCaracteristicaTroquelado(models.Model):
     _name = 'product.caracteristica.troquelado'
@@ -1042,8 +1024,11 @@ class ProductCaracteristicaTroquelado(models.Model):
                 ('4', 'Por Pallet'),
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+    image = fields.Binary('Imagen')
+    
     troqueladora_1 = fields.Boolean('Troqueladora 1', default = False)
     troqueladora_2 = fields.Boolean('Troqueladora 2', default = False)
+    
     
     
 class ProductCaracteristicaPapelCalidad(models.Model):
