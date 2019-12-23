@@ -274,7 +274,7 @@ class sale_referencia_cliente(models.Model):
                         altoMax = 1250
                         if record.contenedor == True:
                             altoMax = 1100
-                        if record.alto_max_cliente > 0 and record.alto_max_cliente < alto_max:
+                        if record.alto_max_cliente > 0 and record.alto_max_cliente < altoMax:
                             altoMax = record.alto_max_cliente
                         altoMax = altoMax - 150
                         fila_buena = int(altoMax / alto_fila)
@@ -1024,36 +1024,46 @@ class sale_product_attribute(models.Model):
 class sale_offer_oferta(models.Model):
     _name = 'sale.offer.oferta'
     
-    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade' )
-    user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
-    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
+    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade' )
+    
+    #IZQUIERDA
+    user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
-    
-    peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
-    num_pallets = fields.Integer('Num pallets')
-    emetro_user = fields.Float('Emetro (user)')
-    eton_user = fields.Float('Eton (user)')
-    tarifa = fields.Boolean('Tarifa', default = True)
-    
+    activa = fields.Boolean("Activa")
     state_id = fields.Many2one('res.country.state', string="Provincia")
     country_id = fields.Many2one('res.country', string="País")
-    activa = fields.Boolean("Activa")
+    num_pallets = fields.Integer('Número Pallets')
+    unidades = fields.Integer('Unidades')
+    precio = fields.Float('Precio', digits = (12,4))
     
-    unidades = fields.Integer('Unidades', )
+    #DERECHA
+    peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
+    tarifa = fields.Boolean('Tarifa', default = True)
     
-    #CALCULADOS
-    num_filas = fields.Integer('Num filas', readonly = True)
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_und_pallet")
+    eunidad_user = fields.Float('Emetro (user)', digits = (14,6))
+    emetro_user = fields.Float('Emetro (user)', digits = (12,4))
+    
+    tarifa_id = fields.Many2one('sale.tarifa', string="Tarifa")
+    eton_user = fields.Float('Eton (user)')
+    alto_pallet = fields.Integer('Alto', readonly = True, compute = "_get_alto_pallet")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso_neto")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso_bruto")
-    alto_pallet = fields.Integer('Alto', readonly = True, compute = "_get_alto_pallet")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_und_pallet")
     
-    emetro = fields.Float('Emetro', readonly = True, digits = (10,4), compute = "_get_emetro")
+    #OCULTOS
+    num_filas = fields.Integer('Num filas', readonly = True)
+    name = fields.Char('Título', readonly = True, compute = "_get_titulo")
+    descripcion_html = fields.Html('Descripción', readonly = True, compute = "_get_titulo")
+    cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True, compute = "_get_precio")
+    cantidad_html = fields.Html('Cantidad Html', readonly = True, compute = "_get_precio")
+    precio = fields.Float('Precio', digits = (12,4), readonly = True, compute = "_get_precio")
+    precio_html = fields.Html('Precio Html', readonly = True, compute = "_get_precio")
+     
+    #OTROS
     eton = fields.Float('Eton', readonly = True, digits = (8,1), compute = "_get_eton")
-    titulo = fields.Char('Título', readonly = True, compute = "_get_titulo")
-    name = fields.Char('Precio', readonly = True, compute = "_get_precio")
-    
+    emetro = fields.Float('Emetro', readonly = True, digits = (10,4), compute = "_get_emetro")
 
         
     @api.multi
