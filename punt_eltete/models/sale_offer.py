@@ -1070,21 +1070,19 @@ class sale_offer_oferta(models.Model):
     def suma_filas(self):
         for record in self:
             if record.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
-                x = 0
-            elif record.attribute_id.referencia_cliente_id.fila_max buena + record.num_filas < self.attribute_id.referencia_cliente_id.fila_max:
-                self.num_filas = self.num_filas + 1
+                raise ValidationError("Unidades Exactas")
+            elif record.attribute_id.referencia_cliente_id.fila_buena + record.num_filas < self.attribute_id.referencia_cliente_id.fila_max:
+                record.num_filas = record.num_filas + 1
             
     @api.multi
     def resta_filas(self):
-        if self.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
-            x = 0
-        elif self.num_filas > 1:
-            self.num_filas = self.num_filas - 1
-    
+        for record in self:
+            if record.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
+                raise ValidationError("Unidades Exactas")
+            elif record.attribute_id.referencia_cliente_id.fila_buena + record.num_filas > 0:
+                record.num_filas = record.num_filas - 1
     
 
-    
-    
     @api.depends('attribute_id',)
     def _get_und_pallet(self):
         for record in self:
