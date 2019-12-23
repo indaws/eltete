@@ -682,7 +682,9 @@ class sale_product_attribute(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
-    name = fields.Char('Nombre', compute = "_get_titulo")
+    name = fields.Char('Nombre', readonly = True, compute = "_get_titulo")
+    estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
+    descripcion = fields.Char('Descripcion', readonly = True, compute = "_get_titulo")
     
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
@@ -739,12 +741,12 @@ class sale_product_attribute(models.Model):
     def _get_titulo(self):
         for record in self:
             nombre = ''
+            estado = ''
+            descripcion = ''
             
             if record.fsc_id:
                 nombre = nombre + record.fsc_id.name + ", "
-            if record.reciclable_id:
-                nombre = nombre + record.reciclable_id.name + ", "
-
+                descripcion = descripcion + record.fsc_id.descripcion + ", "
 
             if record.referencia_cliente_id:
                 #Varios
@@ -755,38 +757,69 @@ class sale_product_attribute(models.Model):
                 elif record.type_id.is_cantonera == True:
                     if record.cantonera_color_id:
                         nombre = nombre + record.cantonera_color_id.name + ", "
-                    if record.cantonera_forma_id:
-                        nombre = nombre + record.cantonera_forma_id.name + ", "
+                        descripcion = descripcion + record.cantonera_color_id.descripcion + ", "
+                        if record.cantonera_color_id.valido == False:
+                            estado = estado + "Falta Color, "
+                    else:
+                        nombre = nombre + "Sin Color, "
+                        estado = estado + "Falta Color, "
                     if record.cantonera_especial_id:
                         nombre = nombre + record.cantonera_especial_id.name + ", "
+                        descripcion = descripcion + record.cantonera_especial_id.descripcion + ", "
                     if record.cantonera_impresion_id:
                         nombre = nombre + record.cantonera_impresion_id.name + ", "
+                        descripcion = descripcion + record.cantonera_impresion_id.descripcion + ", "
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
+                        descripcion = descripcion + str(record.inglete_num) + " " + record.cantonera_inglete_id.descripcion + ", "
+                    if record.cantonera_forma_id:
+                        nombre = nombre + record.cantonera_forma_id.name + ", "
+                        descripcion = descripcion + record.cantonera_forma_id.descripcion + ", "
+                    if record.reciclable_id > 0:
+                        nombre = nombre + record.reciclable_id.name + ", "
+                        descripcion = descripcion + record.reciclable.descripcion + ", "
                     
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
                     if record.perfilu_color_id:
                         nombre = nombre + record.perfilu_color_id.name + ", "
+                        descripcion = descripcion + record.perfilu_color_id.descripcion + ", "
+                    else:
+                        nombre = nomre + "Sin Color, "
+                        estado = estado + "Falta Color, "
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
+                        descripcion = descripcion + str(record.inglete_num) + " " + record.inglete_id.descripcion + ", "
                     
                 #Slip Sheets
                 elif record.type_id.is_slipsheet == True:
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
+                        descripcion = descripcion + record.troquelado_id.descripcion + ", "
+                    else:
+                        nombre = nombre + "Falta Troquelado, "
+                        estado = estado + "Falta Troquelado, "
                     
                 #Solid Board
                 elif record.type_id.is_solidboard == True:
                     if record.plancha_color_id:
                         nombre = nombre + record.plancha_color_id.name + ", "
+                        descripcion = descripcion + record.plancha_color_id.descripcion + ", "
+                    else:
+                        nombre = nombre + "Sin Color, "
+                        estado = estado + "Falta Color, "
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
+                        descripcion = descripcion + record.troquelado_id.descripcion + ", "
                     
                 #Formato
                 elif record.type_id.is_formato == True:
                     if record.papel_calidad_id:
                         nombre = nombre + record.papel_calidad_id.name + ", "
+                        descripcion = descripcion + record.papel_calidad_id.descripcion + ", "
+                    else:
+                        nombre = nombre + "Falta Papel, "
+                        estado = estado + "Falta Papel, "
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
                     
@@ -794,21 +827,28 @@ class sale_product_attribute(models.Model):
                 elif record.type_id.is_bobina == True:
                     if record.papel_calidad_id:
                         nombre = nombre + record.papel_calidad_id.name + ", "
-                    if record.troquelado_id:
-                        nombre = nombre + record.troquelado_id.name + ", "
-                    
+                        descripcion = descripcion + record.papel_calidad_id.descripcion + ", "
+                    else:
+                        nombre = nombre + "Falta Papel, "
+                        estado = estado + "Falta Papel, "                    
                     
                 #Pie de Pallet
                 elif record.type_id.is_pieballet == True:
-                    if record.papel_calidad_id:
-                        nombre = nombre + record.papel_calidad_id.name + ", "
+                    nombre = nombre  + "Pie de Pallet, "
+             
             
             if len(nombre) > 2:
                 nombre = nombre[:-2]
+            if len(descripcion) > 2:
+                descripcion = descripcion[:-2]
+            if len(estado) > 2:
+                estado = estado[:-2]
 
             if nombre == '':
                 nombre = 'Nuevo'
             record.name = nombre
+            record.descripcion = descripcion
+            record.estado = estado
     
 
 
