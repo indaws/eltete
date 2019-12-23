@@ -571,8 +571,8 @@ class ProductCategory(models.Model):
             return None, "Error: Ala2 debe estar entre 18 y 70"
         if grosor_2 < 2 or grosor_2 > 5.5:
             return None, "Error: Grosor debe estar entre 2 y 5.5"
-        if longitud < 400 or longitud > 6000:
-            return None, "Error: Logitud debe estar entre 400 y 6000"
+        if longitud < 50 or longitud > 6000:
+            return None, "Error: Logitud debe estar entre 50 y 6000"
             
         sumaAlas = ala1 + ancho + ala2
         if sumaAlas < 60 or sumaAlas > 240:
