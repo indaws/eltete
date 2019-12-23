@@ -293,39 +293,46 @@
                     <sheet>
                         <group>
                             <group>
-								<field name="referencia_cliente_id" invisible="1"/>
-								<field name="attribute_id" domain="[('referencia_cliente_id','=', referencia_cliente_id)]" context="{'default_referencia_cliente_id': referencia_cliente_id,  }"/>
+				<field name="referencia_cliente_id" invisible="1"/>
+				<field name="attribute_id" domain="[('referencia_cliente_id','=', referencia_cliente_id)]" context="{'default_referencia_cliente_id': referencia_cliente_id,  }"/>
                                 <field name='user_id' />
                                 <field name='date' />
                                 <field name='state_id' />
                                 <field name='country_id' />
-                                <field name='tarifa' />
-                                
+				<field name='num_pallets' />
+				<field name='unidades' />
+				<field name='precio_metro' />
+				<field name='kilos' />
+				<field name='precio_kilo' />
                             </group>
                             <group>
-								<field name='peso_metro' />
-                                <field name='num_pallets' />
-                                <field name='emetro_user' />
-                                <field name='eton_user' />
-                                <button name="resta_filas" type="object" string="-" />
-                                <field name='num_filas' />
-                                <button name="suma_filas" type="object" string="+" />
+				<h3>Unidades por Pallet:</h3>
+				<field name='alto_pallet' />
+				<field name='peso_neto' />
+                                <field name='peso_bruto' />
+				<field name='und_pallet' />
+				<button name="resta_filas" type="object" string="-" />
+				<button name="suma_filas" type="object" string="+" />
+				<h3>Precio:</h3>
+				<field name='peso_metro' />
+                                <field name='tarifa' />
+                                <field name='tarifa_id' />
+
                             </group>
                         </group>
                         
-                        <br/><br/><h3>CÁLCULOS OFERTA</h3>
+                        <br/><br/><h3>CÁLCULOS</h3>
                         <group>
                             <group>
-                                <field name='titulo' />
+				<field name='num_filas' />
                                 <field name='name' />
-                                <field name='und_pallet' />
-                                <field name='peso_neto' />
-                                <field name='peso_bruto' />
-                                <field name='alto_pallet' />
+				<field name='cantidad' />
+				<field name='cantidad_tipo' />
+				<field name='precio' />
+				<field name='precio_tipo' />
                             </group>
                             <group>
-                                <field name='emetro' />
-                                <field name='eton' />
+                                <field name='descripcion_html' />
                             </group>
                         </group>
                         
