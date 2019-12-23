@@ -237,7 +237,7 @@ class sale_referencia_cliente(models.Model):
                         paquetes = paquetes * repetido
                         
                         #Unidades Exactas
-                        if record.und_pallet_cliente > :0
+                        if record.und_pallet_cliente > 0:
                             fila_max = int(record.und_pallet_cliente / (und_paquete * paquetes))
                             if fila_max * und_paquete * paquetes < record.und_pallet_cliente:
                                 fila_max = fila_max + 1
@@ -1040,9 +1040,11 @@ class sale_offer_oferta(models.Model):
     country_id = fields.Many2one('res.country', string="País")
     activa = fields.Boolean("Activa")
     
+    unidades = fields.Integer('Unidades', )
+    
     #CALCULADOS
     num_filas = fields.Integer('Num filas', readonly = True)
-    und_pallet = fields.Integer('Unidades', readonly = True, compute = "_get_und_pallet")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_und_pallet")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso_neto")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso_bruto")
     alto_pallet = fields.Integer('Alto', readonly = True, compute = "_get_alto_pallet")
