@@ -2,12 +2,21 @@
 <openerp>
     <data>
         <report 
-            id="rep_sale_order_fabricacion"
-            string="Profitability report"
-            model="project.informe.rentabilidad" 
+            id="rep_sale_cotizacion"
+            string="Presupuesto"
+            model="sale.cotizacion" 
             report_type="qweb-pdf"
-            file="indaws_rentabilidad_proyectos.report_infrent" 
-            name="indaws_rentabilidad_proyectos.report_infrent" 
+            file="punt_eltete.report_cotizacion" 
+            name="punt_eltete.report_cotizacion" 
+        />
+        
+        <report 
+            id="rep_sale_order_fabricacion"
+            string="Orden de fabricación"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_orden_fabricacion" 
+            name="punt_eltete.report_orden_fabricacion" 
         />
         
         

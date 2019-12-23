@@ -45,7 +45,8 @@
                                     <field name='referencia_cliente_id' />
                                     <field name='attribute_id' />
                                     <field name='npallets' />
-                                    <field name='etipo' />
+                                    <field name='cantonera_impresion_id' />
+                                    <field name='und_pallet' />
                                     <field name='emetro' />
                                     <field name='eton' />
                                 </tree>

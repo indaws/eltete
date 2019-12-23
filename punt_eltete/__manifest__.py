@@ -21,6 +21,10 @@
         "views/product_template.xml",
         "views/sale_offer.xml",
         "views/sale_cotizacion.xml",
+        "reports/qweb/report_sale_cotizacion.xml",
+        "reports/qweb/report_sale_orden_fabricacion.xml",
+        "reports/eltete_report.xml",
+        
     ],
 
 }

@@ -681,6 +681,7 @@
                             <field name="cantonera_2"/>
                             <field name="cantonera_3"/>
                             <field name="cantonera_4"/>
+                            <field name="image" widget="image" class="oe_avatar" />
                         </group>
                         
                     </sheet>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_orden_fabricacion">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.external_layout">
+                <t t-set="address">
+                    <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+                    <p t-if="doc.partner_id.vat">NIF: <span t-field="doc.partner_id.vat"/></p>
+                </t>
+                <div class="page">
+                    
+                    <h2>Orden de producción</h2>
+                    
+                    <strong>Pedido: </strong><span t-field="doc.name"/><br/>
+                    <strong>Fecha: </strong><span t-field="doc.date_order"/>
+
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

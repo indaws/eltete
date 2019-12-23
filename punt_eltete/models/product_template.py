@@ -961,6 +961,7 @@ class ProductCaracteristicaReciclable(models.Model):
     cantonera_2 = fields.Boolean('Cantonera 2', default = False)
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
+    image = fields.Binary('Imagen')
     
     
 class ProductCaracteristicaFSC(models.Model):

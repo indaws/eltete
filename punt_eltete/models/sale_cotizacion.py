@@ -39,14 +39,14 @@ class sale_presupuesto_line(models.Model):
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', required=True, readonly=True)
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, readonly=True)
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta", required=True, readonly=True)
+    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
+    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
+    und_pallet = fields.Integer('Unidades pallet', readonly=True)
     npallets = fields.Integer('Num pallets', readonly=True)
     emetro = fields.Float('Emetro', readonly=True)
     eton = fields.Float('Eton', readonly=True)
     
-    TIPOS = [('EM','€/metro'),   
-             ('ET','€/ton'),
-            ]
-    etipo = fields.Selection(selection=TIPOS, string='Etipo', default='EM', readonly=True)
+    
     
     
     
@@ -76,6 +76,7 @@ class WizardSaleCotizacion(models.TransientModel):
     @api.multi
     def create_lines(self): 
     
+       
         sequence = 0
         for line in self.cotizacion_id.line_ids:
             if line.sequence > sequence:
@@ -84,6 +85,16 @@ class WizardSaleCotizacion(models.TransientModel):
     
         if self.referencia_cliente_id and self.attribute_id and len(self.oferta_ids)>0:
             for oferta in self.oferta_ids:
+            
+                cantonera_impresion_id = None
+                if oferta.attribute_id.cantonera_impresion_id:
+                    cantonera_impresion_id = oferta.attribute_id.cantonera_impresion_id.id
+                    
+                reciclable_id = None
+                if oferta.attribute_id.reciclable_id:
+                    reciclable_id = oferta.attribute_id.reciclable_id.id
+            
+            
                 if len(self.env['sale.cotizacion.line'].search([('cotizacion_id', '=', self.cotizacion_id.id), ('oferta_id', '=', oferta.id)])) <= 0:   
                     sale = self.env['sale.cotizacion.line'].create({'cotizacion_id': self.cotizacion_id.id, 
                                                                     'referencia_cliente_id':self.referencia_cliente_id.id, 
@@ -93,6 +104,9 @@ class WizardSaleCotizacion(models.TransientModel):
                                                                     'emetro': oferta.emetro,
                                                                     'eton': oferta.eton,
                                                                     'sequence': sequence,
+                                                                    'cantonera_impresion_id': cantonera_impresion_id,
+                                                                    'reciclable_id': reciclable_id,
+                                                                    'und_pallet': oferta.und_pallet
                                                                   })
                     sequence = sequence + 1
 
