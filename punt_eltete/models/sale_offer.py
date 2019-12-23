@@ -57,14 +57,14 @@ class sale_referencia_cliente(models.Model):
                ('3', 'Alto 60 con Adhesivo'),                 
                ('4', 'Alto 60 sin Adhesivo'),         #La coma final?
                ]
-    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie', default = '1')
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
     
     #varios
-    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
+    peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
+    metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
     
     
@@ -87,10 +87,10 @@ class sale_referencia_cliente(models.Model):
     ancho_pallet_cliente = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet Cliente')
     contenedor = fields.Boolean('Contenedor', default = False)
     
-    und_paquete_cliente = fields.Integer('Und paquete cliente')
-    und_pallet_cliente = fields.Integer('Unidades Exactas')
-    alto_max_cliente = fields.Integer('Alto máximo cliente')
-    peso_max_cliente = fields.Integer('Peso máximo cliente')
+    und_paquete_cliente = fields.Integer('Und paquete cliente', default = -1)
+    und_pallet_cliente = fields.Integer('Unidades Exactas', default = -1)
+    alto_max_cliente = fields.Integer('Alto máximo cliente', default = -1)
+    peso_max_cliente = fields.Integer('Peso máximo cliente', default = -1)
     
     comentario_paletizado = fields.Text('Comentario Paletizado')
     PRECIO_SEL = [('1', 'metro / metro2'),     
@@ -133,7 +133,10 @@ class sale_referencia_cliente(models.Model):
             referencia_cliente_nombre = ''
             if record.referencia_cliente_nombre:
                 referencia_cliente_nombre = record.referencia_cliente_nombre
-            record.name = type_id_name + " " + referencia_cliente_nombre + " (" + titulo + ")" 
+            if referencia_cliente_nombre != titulo:
+                record.name = type_id_name + " - " + referencia_cliente_nombre + " (" + titulo + ")" 
+            else:
+                record.name = type_id_name + " - " + titulo
     
     
     @api.depends('type_id',)
@@ -174,7 +177,7 @@ class sale_referencia_cliente(models.Model):
                             ancho_pallet = int(record.ancho_pallet_cliente)
                         und_paquete = 4000
                         paquetes = 1
-                        fila_max = int(1750 / (4000 * pesoUnidad))
+                        fila_max = int(2000 / (4000 * pesoUnidad))
                         fila_buena = int(1000 / (4000 * pesoUnidad)) + 1
                     else:
                         #Calculamos paletizado
@@ -233,8 +236,15 @@ class sale_referencia_cliente(models.Model):
                             repetido = 2
                         paquetes = paquetes * repetido
                         
+                        #Unidades Exactas
+                        if record.und_pallet_cliente > :0
+                            fila_max = int(record.und_pallet_cliente / (und_paquete * paquetes))
+                            if fila_max * und_paquete * paquetes < record.und_pallet_cliente:
+                                fila_max = fila_max + 1
+                            fila_buena = fila_max
+                        
                         #fila_max por altura
-                        altoMax = 1250
+                        altoMax = 1600
                         if record.contenedor == True:
                             altoMax = 1100
                         if record.alto_max_cliente > 0 and record.alto_max_cliente < altoMax:
@@ -244,7 +254,7 @@ class sale_referencia_cliente(models.Model):
                 
                         #Por peso
                         pesoFila = pesoUnidad * und_paquete * paquetes
-                        pesoMax = 1750
+                        pesoMax = 2000
                         if record.peso_max_cliente > 0 and record.peso_max_cliente < pesoMax:
                             pesoMax = record.peso_max_cliente
                         pesoMadera = 0
@@ -255,19 +265,32 @@ class sale_referencia_cliente(models.Model):
                         else:
                             pesoMadera = int(record.referencia_id.longitud / 1000) * 20
                         pesoMax = pesoMax - pesoMadera
+                        
                         pesoPallet = fila_max * pesoFila
                         while pesoPallet > pesoMax:
                             fila_max = fila_max - 1
                             pesoPallet = fila_max * pesoFila
                         #Fila buena
-                        fila_buena = fila_max
+                        altoMax = 1250
+                        if record.contenedor == True:
+                            altoMax = 1100
+                        if record.alto_max_cliente > 0 and record.alto_max_cliente < alto_max:
+                            altoMax = record.alto_max_cliente
+                        altoMax = altoMax - 150
+                        fila_buena = int(altoMax / alto_fila)
+                        #Por peso
+                        pesoMax = 1500
                         if record.referencia_id.longitud < 4500:
                             pesoMax = 1300
-                        else:
-                            pesoMax = 1500
+                        pesoPallet = fila_buena * pesoFila
                         while pesoPallet > pesoMax:
                             fila_buena = fila_buena - 1
-                            pesoPallet = fila_buena * pesoFila   
+                            pesoPallet = fila_buena * pesoFila
+                        #Por unidades
+                        undPalletFila = fila_buena * und_paquete * paquetes / repetido
+                        while undPalletFila > 7000:
+                            fila_buena = fila_buena - 1
+                            undPalletFila = fila_buena * und_paquete * paquetes / repetido
                         
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
