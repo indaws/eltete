@@ -43,7 +43,7 @@
                             <field name="is_bobina" invisible="1"/>
                             <field name="is_pieballet" invisible="1"/>
                             <field name="is_varios" invisible="1"/>
-							<field name="ocultar" invisible="1"/>
+			    <field name="ocultar" invisible="1"/>
                         </group>
                         
                         <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
@@ -64,8 +64,10 @@
                         <group attrs="{'invisible': [('state', 'in', ['BOR',])]}">
                             <field name='referencia_id' />                            
                         </group>
-                        
-			<button name="bor_to_rcl" type="object" string="Paso 1 y 2" states="BOR" />
+			<group attrs="{'invisible': [('state', 'in', ['BOR',])]}">
+			    <button name="ocultar_datos" type="object" string="Mostrar / Ocultar datos" attrs="{'invisible': [('ocultar', '=', 'False')]}"  states="REF,RCL"/>
+			</group>
+			<button name="bor_to_rcl" type="object" string="Continuar" states="BOR" />
                         
                         <br/><br/>
                         
