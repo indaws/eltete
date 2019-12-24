@@ -87,10 +87,10 @@
                             <group>
                                 <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Campos calculados</h3><br/>
                                 <field name="paletizado"/>
-								<field name="ancho_pallet"/>
-								<field name="und_paquete"/>
-								<field name="paquetes_fila"/>
-								<field name="alto_fila"/>
+				<field name="ancho_pallet"/>
+				<field name="und_paquete"/>
+				<field name="paquetes_fila"/>
+				<field name="alto_fila"/>
                                 <field name="fila_max"/>
                                 <field name="fila_buena"/>
                             </group>
@@ -108,15 +108,14 @@
                         <h3 attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">OFERTAS</h3>
                         <field name="oferta_ids" context="{'default_referencia_cliente_id': id, }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
                             <tree string="Ofertas">
+				<field name='referencia_cliente_id' invisible="1" />
 				<field name='date' />
-                                <field name='referencia_cliente_id' invisible="1" />
+				<field name='fecha_enviada' />
                                 <field name='attribute_id' domain="[('referencia_cliente_id','=', referencia_cliente_id)]" />
-				<field name='und_pallet' />
-                                <field name='num_pallets' />
 				<field name='name' />
                                 <field name='state_id' />
                                 <field name='country_id' />
-								
+				<field name='estado' />
                             </tree>
                         </field>   
                         
