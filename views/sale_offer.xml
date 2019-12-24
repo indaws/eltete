@@ -91,6 +91,8 @@
 				<field name="alto_max_cliente"/>
 				<field name="peso_max_cliente"/>  
 			    </group>
+			    <group>
+			    </group>
                             <group>
                                 <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Campos calculados</h3><br/>
                                 <field name="paletizado"/>
