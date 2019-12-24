@@ -1036,6 +1036,8 @@ class sale_offer_oferta(models.Model):
     precio = fields.Float('Precio', digits = (12,4), readonly = True, compute = "_get_precio")
     precio_tipo = fields.Char('Precio Tipo', readonly = True, compute = "_get_precio")
     
+    estado = fields.Char('Estado', compute = "_get_estado")
+    
     descripcion_html = fields.Html('Descripción', readonly = True, compute = "_get_descripcion")
         
     @api.multi
@@ -1095,10 +1097,26 @@ class sale_offer_oferta(models.Model):
     @api.depends('attribute_id', 'num_filas')
     def _get_alto_pallet(self):
         for record in self:
-            alto = record.attribute_id.referencia_cliente_id.alto_fila * record.num_filas + 150
+            alto = record.attribute_id.referencia_cliente_id.alto_fila * (record.num_filas + record.attribute_id.referencia_cliente_id.fila_buena) + 150
             alto = int(alto / 5) * 5
             record.alto_pallet = alto
+            
+            
+            
+    @api.depends('attribute_id', 'unidades', 'alto_pallet')
+    def _get_estado(self):
+        for record in self:
+            estado = ""
+            if record.attribute_id.referencia_cliente_id.und_pallet_cliente > 0 and record.unidades != record.attribute_id.referencia_cliente_id.und_pallet_cliente:
+                estado = "Unidades Incorrectas"
+            elif record.alto_pallet > 1250:
+                estado = "No remontable"
+            elif record.alto_pallet > 1100 and record.attribute_id.referencia_cliente_id.contenedor == True:
+                estado = "No remontable"
+                
+            record.estado = estado
 
+            
     
     @api.depends('attribute_id', 'num_pallets', 'unidades', 'precio_metro', 'kilos', 'precio_kilo')
     def _get_precio(self):
