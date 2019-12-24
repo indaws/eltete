@@ -784,7 +784,7 @@ class sale_product_attribute(models.Model):
                         nombre = nombre + record.perfilu_color_id.name + ", "
                         descripcion = descripcion + record.perfilu_color_id.description + ", "
                     else:
-                        nombre = nomre + "Sin Color, "
+                        nombre = nombre + "Sin Color, "
                         estado = estado + "Falta Color, "
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "

@@ -392,12 +392,12 @@ class ProductReferencia(models.Model):
                 if record.ala_4 > 0:
                     sumaLargo = sumaLargo + record.ala_4
                 metros = sumaAncho * sumaLargo / 1000000
-                gram = int((self.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
+                gram = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
                 interior = sumaAncho
             #Solid Board
             elif record.type_id.is_solidboard == True:
                 metros = record.ancho * record.longitud / 1000000
-                gram = int((self.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
+                gram = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
                 interior = sumaAncho
             #Formato
             elif record.type_id.is_formato == True:
