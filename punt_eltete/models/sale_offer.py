@@ -1023,7 +1023,7 @@ class sale_offer_oferta(models.Model):
     
     #DERECHA
     peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
-    tarifa = fields.Boolean('Tarifa', default = True)
+    tarifa = fields.Boolean('Aplicar Incrementos', default = True)
     
     tarifa_id = fields.Many2one('sale.tarifa', string="Tarifa")
     eton_user = fields.Float('Eton (user)')
@@ -1031,6 +1031,11 @@ class sale_offer_oferta(models.Model):
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso_neto")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso_bruto")
     und_pallet = fields.Integer('Propuesta Unidades', readonly = True, compute = "_get_und_pallet")
+    
+    alto_pallet_text = fields.Char('Alto', readonly = True, compute = "_get_alto_pallet_text")
+    peso_neto_text = fields.Char('Peso Neto', readonly = True, compute = "_get_peso_neto_text")
+    peso_bruto_text = fields.Char('Peso Bruto', readonly = True, compute = "_get_peso_bruto_text")
+    und_pallet_text = fields.Char('Propuesta Unidades', readonly = True, compute = "_get_und_pallet_text")
     
     #OCULTOS
     num_filas = fields.Integer('Num filas', readonly = True)
@@ -1076,6 +1081,14 @@ class sale_offer_oferta(models.Model):
             record.und_pallet = und
     
     
+    @api.depends('und_pallet')
+    def _get_und_pallet_text(self):
+        for record in self:
+            texto = str(record.und_pallet) + " unidades/pallet"
+            record.und_pallet_text = texto
+    
+    
+    
     @api.depends('attribute_id', 'und_pallet')
     def _get_peso_neto(self):
         for record in self:
@@ -1083,6 +1096,13 @@ class sale_offer_oferta(models.Model):
             pesoUnd = record.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso = und * pesoUnd
             record.peso_neto = peso
+    
+    
+    @api.depends('peso_neto')
+    def _get_peso_neto_text(self):
+        for record in self:
+            texto = str(record.peso_neto) + " kg/pallet"
+            record.peso_neto_text = texto
     
     
     @api.depends('attribute_id', 'peso_neto')
@@ -1098,7 +1118,14 @@ class sale_offer_oferta(models.Model):
                 pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
             peso = int((peso + pesoMadera) / 5) * 5
             record.peso_bruto = peso
-        
+    
+    
+    @api.depends('peso_neto')
+    def _get_peso_bruto_text(self):
+        for record in self:
+            texto = str(record.peso_bruto) + " kg/pallet"
+            record.peso_bruto_text = texto
+            
         
     @api.depends('attribute_id', 'num_filas')
     def _get_alto_pallet(self):
@@ -1106,7 +1133,13 @@ class sale_offer_oferta(models.Model):
             alto = record.attribute_id.referencia_cliente_id.alto_fila * (record.num_filas + record.attribute_id.referencia_cliente_id.fila_buena) + 150
             alto = int(alto / 5) * 5
             record.alto_pallet = alto
-            
+     
+    
+    @api.depends('alto_pallet')
+    def _get_alto_pallet_text(self):
+        for record in self:
+            texto = str(record.alto_pallet) + " mm"
+            record.alto_pallet_text = texto
             
             
     @api.depends('attribute_id', 'unidades', 'alto_pallet')
