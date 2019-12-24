@@ -788,6 +788,30 @@ class ProductCategory(models.Model):
                                                          })
         return referencia_id, None
 
+    
+    
+    
+ #############################
+# CARACTERISTICA DE PRODUCTO #
+##############################
+    
+class Varios(models.Model):
+    _name = 'product.varios'
+    _order = 'number'
+    
+    number = fields.Integer('Número', required = True)
+    name = fields.Char('Titulo', required = True)
+    descripcion = fields.Char('Descripcion')
+    tinta_1_id = fields.Many2one('commodity.tinta', string="Tinta 1")
+    texto_1 = fields.Char('Tinta 1')
+    tinta_2_id = fields.Many2one('commodity.tinta', string="Tinta 2")
+    texto_2 = fields.Char('Tinta 1')  
+    tinta_3_id = fields.Many2one('commodity.tinta', string="Tinta 3")
+    texto_3 = fields.Char('Tinta 3')  
+    proveedor = fields.Char('Tinta 1')  
+    image = fields.Binary('Imagen')
+    
+    
 ###############################
 # CARACTERISTICAS REF CLIENTE #
 ###############################    
