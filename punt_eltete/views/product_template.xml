@@ -195,11 +195,11 @@
                     <field name="number"/>
                     <field name="name"/>
 	            <field name="descripcion"/>
-                    <field name="tinta_1"/>
+                    <field name="tinta_1_id"/>
                     <field name="texto_1"/>
-                    <field name="tinta_2"/>
+                    <field name="tinta_2_id"/>
                     <field name="texto_2"/>
-		    <field name="tinta_3"/>
+		    <field name="tinta_3_id"/>
                     <field name="texto_3"/>
 		    <field name="Proveedor"/>
                 </tree>
@@ -217,11 +217,11 @@
                             <field name="number"/>
                             <field name="name"/>
 	                    <field name="descripcion"/>
-                            <field name="tinta_1"/>
+                            <field name="tinta_1_id"/>
                             <field name="texto_1"/>
-                            <field name="tinta_2"/>
+                            <field name="tinta_2_id"/>
                             <field name="texto_2"/>
-		            <field name="tinta_3"/>
+		            <field name="tinta_3_id"/>
                             <field name="texto_3"/>
 		            <field name="Proveedor"/>
 			</group>
