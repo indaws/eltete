@@ -77,9 +77,11 @@
 				<field name="comentario_referencia"/>
                                 <field name="referencia_cliente_nombre"/>
 				<field name="pallet_especial_id"/>
-				<field name="paletizado_cliente" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-				<field name="ancho_pallet_cliente" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_varios', '=', False),]}"/>
 				<field name="contenedor" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_varios', '=', False),]}"/>
+				<field name="paletizado_cliente" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+			    </group>
+			    <group>
+				<field name="ancho_pallet_cliente" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_varios', '=', False),]}"/>
 				<field name="und_paquete_cliente" attrs="{'invisible': [('is_cantonera', '=', False),('is_formato', '=', False),('is_varios', '=', False),]}"/>
 				<field name="und_pallet_cliente"/>
 				<field name="alto_max_cliente"/>
