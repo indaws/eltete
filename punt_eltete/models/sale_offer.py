@@ -306,7 +306,7 @@ class sale_referencia_cliente(models.Model):
                     altoMax = 1600
                     if record.contenedor == True:
                         altoMax = 1100
-                    if int(record.alto_max_cliente) < altoMax:
+                    if record.alto_max_cliente > 0 and record.alto_max_cliente < altoMax:
                         altoMax = int(record.alto_max_cliente)
                     altoMax = altoMax - 150
                     fila_max = int(altoMax / alto_fila)
