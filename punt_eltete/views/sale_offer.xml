@@ -25,7 +25,7 @@
                         <!--<button name="ref_to_rcl" type="object" string="Guardar ref cliente" states="REF" />-->
 			<button name="ocultar_datos" type="object" string="Mostrar / Ocultar datos" attrs="{'invisible': [('ocultar', '=', 'False')]}"  states="REF,RCL"/>
                         <!--<button name="cancel_offer" type="object" string="Cancelar" states="REF,RCL" />-->
-                        <!--<field name="state" widget="statusbar"/>-->
+                        <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <group>
@@ -34,7 +34,7 @@
                             <field name="user_id"/>
                             <field name="date" invisible="1"/>
                             <field name="type_id" domain="[('product_type','=',True)]" options="{'no_create': True, 'no_create_edit':True}"  attrs="{'readonly': [('state', '!=', 'BOR')]}"/>
-			    <field name="precio_cliente"/>
+							<field name="precio_cliente"/>
                             <field name="is_cantonera" invisible="1"/>
                             <field name="is_perfilu" invisible="1"/>
                             <field name="is_slipsheet" invisible="1"/>
@@ -43,12 +43,12 @@
                             <field name="is_bobina" invisible="1"/>
                             <field name="is_pieballet" invisible="1"/>
                             <field name="is_varios" invisible="1"/>
-			    <field name="ocultar" invisible="1"/>
+							<field name="ocultar" invisible="1"/>
                         </group>
                         
                         <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
                         <group attrs="{'invisible': [('state', '!=', 'BOR')], 'readonly': [('state','!=','BOR')]}" >
-			    <field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
+							<field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                             <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                             <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
                             <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
@@ -261,7 +261,8 @@
                                 <field name='country_id' />
 				<field name='num_pallets' />
 				<field name='unidades' />
-				<field name='precio_metro' attrs="{'invisible': [('precio_cliente', '=', '4')"/>
+				<field name='precio_cliente' invisible="1"/>
+				<field name='precio_metro' attrs="{'invisible': [('precio_cliente', '=', '4')]}"/>
 				<field name='kilos' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
 				<field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
                             </group>
