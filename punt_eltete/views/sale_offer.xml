@@ -69,8 +69,6 @@
 			</group>
 			<button name="bor_to_rcl" type="object" string="Continuar" states="BOR" />
                         
-                        <br/><br/>
-                        
                         <group attrs="{'invisible': ['|', ('state', 'in', ['BOR']), ('ocultar', '=', True)]}" >
                             <group>
                                 <h3 attrs="{'invisible': [('state', 'in', ['BOR'])]}">Referencia cliente</h3><br/>
