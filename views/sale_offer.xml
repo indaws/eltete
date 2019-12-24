@@ -23,12 +23,11 @@
             <field name="arch" type="xml">
                 <form string="Ofertas">
                     <header>
-                        <button name="bor_to_ref" type="object" string="Guardar y continuar" states="BOR" />
-			<button name="bor_to_rcl" type="object" string="Paso 1 y 2" states="BOR" />
-                        <button name="ref_to_rcl" type="object" string="Guardar ref cliente" states="REF" />
-						<button name="ocultar_datos" type="object" string="Mostrar / Ocultar datos" attrs="{'invisible': [('ocultar', '=', 'False')]}"  states="REF,RCL"/>
+                        <!--<button name="bor_to_ref" type="object" string="Guardar y continuar" states="BOR" />-->
+                        <!--<button name="ref_to_rcl" type="object" string="Guardar ref cliente" states="REF" />-->
+			<button name="ocultar_datos" type="object" string="Mostrar / Ocultar datos" attrs="{'invisible': [('ocultar', '=', 'False')]}"  states="REF,RCL"/>
                         <!--<button name="cancel_offer" type="object" string="Cancelar" states="REF,RCL" />-->
-                        <field name="state" widget="statusbar"/>
+                        <!--<field name="state" widget="statusbar"/>-->
                     </header>
                     <sheet>
                         <group>
@@ -37,7 +36,7 @@
                             <field name="user_id"/>
                             <field name="date" invisible="1"/>
                             <field name="type_id" domain="[('product_type','=',True)]" options="{'no_create': True, 'no_create_edit':True}"  attrs="{'readonly': [('state', '!=', 'BOR')]}"/>
-							<field name="precio_cliente"/>
+			<field name="precio_cliente"/>
                             <field name="is_cantonera" invisible="1"/>
                             <field name="is_perfilu" invisible="1"/>
                             <field name="is_slipsheet" invisible="1"/>
@@ -46,7 +45,7 @@
                             <field name="is_bobina" invisible="1"/>
                             <field name="is_pieballet" invisible="1"/>
                             <field name="is_varios" invisible="1"/>
-							<field name="ocultar" invisible="1"/>
+			<field name="ocultar" invisible="1"/>
                         </group>
                         
                         <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
@@ -56,14 +55,12 @@
                             <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                             <field name='grosor_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}" />
                             <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
-							<field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
+			<field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
                             <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
                             <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                             <field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                             <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                             <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
-                            <!--<field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                            <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>-->
                             <field name='peso_metro_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
                             <field name='metros_unidad_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
 							
@@ -73,7 +70,7 @@
                             <field name='referencia_id' />                            
                         </group>
                         
-
+			<button name="bor_to_rcl" type="object" string="Paso 1 y 2" states="BOR" />
                         
                         <br/><br/>
                         
