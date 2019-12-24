@@ -294,7 +294,7 @@ class sale_referencia_cliente(models.Model):
                         
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
-                    if record.ancho_pallet_cliente > 0:
+                    if record.ancho_pallet_cliente:
                         ancho_pallet = int(record.ancho_pallet_cliente)
                     paquetes = int(ancho_pallet / (record.referencia_id.ancho + record.referencia_id.grosor_2 * 3))
                     if record.longitud <= 600:
