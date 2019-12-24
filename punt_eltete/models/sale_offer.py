@@ -33,7 +33,7 @@ class sale_referencia_cliente(models.Model):
     is_solidboard = fields.Boolean('¿Es Solid Board?', related='type_id.is_solidboard')
     is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
-    is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
+    is_piepallet = fields.Boolean('¿Es Pie de Pallet?', related='type_id.is_piepallet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
     
@@ -52,23 +52,16 @@ class sale_referencia_cliente(models.Model):
     gramaje = fields.Integer('Gramaje')
     
     
-    TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
-               ('2', 'Alto 100 sin Adhesivo'),
-               ('3', 'Alto 60 con Adhesivo'),                 
-               ('4', 'Alto 60 sin Adhesivo'),         #La coma final?
+    TIPO_PIE = [('1', 'Alto 100'), 
+               ('2', 'Alto 60'),
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie', default = '1')
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
     
-    #varios
-    peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
+    varios_id = fields.Many2one('product.varios', string="Varios")
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
-    
-    
-    #product_id = fields.Many2one('product.template', string="Producto", readonly=True)
     
     
     #REFERENCIA CLIENTE
@@ -629,14 +622,14 @@ class sale_referencia_cliente(models.Model):
             self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
-        if self.type_id.is_pieballet == True:
+        if self.type_id.is_piepallet == True:
         
             if not self.longitud or self.longitud <= 0:
                 raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
             if not self.pie:
                 raise ValidationError("Error: Hay que indicar un valor en PIE")
                 
-            referencia_id, error = self.type_id.create_prod_pieballet(self.longitud, self.pie)
+            referencia_id, error = self.type_id.create_prod_piepallet(self.longitud, self.pie)
             
             
             
@@ -679,7 +672,7 @@ class sale_product_attribute(models.Model):
     is_solidboard = fields.Boolean('¿Es Solid Board?', related='type_id.is_solidboard')
     is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
-    is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
+    is_piepallet = fields.Boolean('¿Es Pie de Pallet?', related='type_id.is_piepallet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
     name = fields.Char('Nombre', readonly = True, compute = "_get_titulo")
@@ -709,6 +702,9 @@ class sale_product_attribute(models.Model):
     #SLIPSHEET, SOLIDBOARD Y FORMATO
     troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
     
+    #PIE DE PALLET
+    pie_adhesivo = fields.Boolean('Adhesivo', default = True)
+    
     #TODOS
     codigo_cliente = fields.Char('Codigo Cliente')
     fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
@@ -729,9 +725,6 @@ class sale_product_attribute(models.Model):
     incremento_pallet = fields.Float('Incremento Pallet', digits = (10,4), readonly = True, compute = "_get_incremento_param")
     
     fila_max = fields.Integer('Fila Max', readonly = True, compute = "_get_fila_max")
-
-    
-    
     
     #OFERTA
     oferta_ids = fields.One2many('sale.offer.oferta', 'attribute_id', string="Ofertas", copy=True)
@@ -833,7 +826,11 @@ class sale_product_attribute(models.Model):
                     
                 #Pie de Pallet
                 elif record.type_id.is_pieballet == True:
-                    nombre = nombre  + "Pie de Pallet, "
+                    if record.pie_adhesivo == True:
+                        nombre = nombre  + "Con Adhesivo, "
+                        descripcion = descripcion  + "Con Adhesivo, "
+                    else:
+                        nombre = nombre + "Sin Adhesivo"
              
             
             if len(nombre) > 2:
