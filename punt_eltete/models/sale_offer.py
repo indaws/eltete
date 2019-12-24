@@ -1001,6 +1001,12 @@ class sale_offer_oferta(models.Model):
     partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade' )
+    PRECIO_SEL = [('1', 'metro / metro2'),     
+                  ('2', 'unidad'),
+                  ('3', 'millar'),
+                  ('4', 'kilos'), 
+                  ]
+    precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:', related='referencia_cliente_id.precio_cliente', store=True)
     
     #IZQUIERDA
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
