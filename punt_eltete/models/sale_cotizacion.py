@@ -45,11 +45,12 @@ class sale_presupuesto_line(models.Model):
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, readonly=True)
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta", required=True, readonly=True)
     cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
-    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
-    und_pallet = fields.Integer('Unidades pallet', readonly=True)
+    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
+    precio = fields.Float('Precio', digits = (12,4), readonly = True)
+    precio_tipo = fields.Char('Precio Tipo', readonly = True)
+    cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
+    cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
     npallets = fields.Integer('Num pallets', readonly=True)
-    emetro = fields.Float('Emetro', readonly=True)
-    eton = fields.Float('Eton', readonly=True)
     
     
     
@@ -95,9 +96,9 @@ class WizardSaleCotizacion(models.TransientModel):
                 if oferta.attribute_id.cantonera_impresion_id:
                     cantonera_impresion_id = oferta.attribute_id.cantonera_impresion_id.id
                     
-                reciclable_id = None
-                if oferta.attribute_id.reciclable_id:
-                    reciclable_id = oferta.attribute_id.reciclable_id.id
+                troquelado_id = None
+                if oferta.attribute_id.troquelado_id:
+                    troquelado_id = oferta.attribute_id.troquelado_id.id
             
             
                 if len(self.env['sale.cotizacion.line'].search([('cotizacion_id', '=', self.cotizacion_id.id), ('oferta_id', '=', oferta.id)])) <= 0:   
@@ -106,12 +107,13 @@ class WizardSaleCotizacion(models.TransientModel):
                                                                     'attribute_id': self.attribute_id.id,
                                                                     'oferta_id': oferta.id,
                                                                     'npallets': oferta.num_pallets,
-                                                                    'emetro': oferta.emetro,
-                                                                    'eton': oferta.eton,
                                                                     'sequence': sequence,
                                                                     'cantonera_impresion_id': cantonera_impresion_id,
-                                                                    'reciclable_id': reciclable_id,
-                                                                    'und_pallet': oferta.und_pallet
+                                                                    'troquelado_id': troquelado_id,
+                                                                    'precio': oferta.precio,
+                                                                    'precio_tipo': oferta.precio_tipo,
+                                                                    'cantidad': oferta.cantidad,
+                                                                    'cantidad_tipo': oferta.cantidad_tipo
                                                                   })
                     sequence = sequence + 1
 

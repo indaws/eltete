@@ -11,22 +11,9 @@
                     <page name="variants" string="El Tete">
                     
                         <group>
-                            <field name="und_pallet"/>
                             <field name="attribute_id"/>
                             <field name="referencia_cliente_id"/>
                             <field name="referencia_id"/>
-                        </group>
-                        
-                        <br/><br/><h3>Campos referencia cliente</h3>
-                        <group>
-                            <field name="pallet_especial_id"/>
-                            <field name="paletizado_cliente"/>
-                            <field name="ancho_pallet_cliente"/>
-                            <field name="contenedor"/>
-                            <field name="und_paquete_cliente"/>
-                            <field name="und_pallet_cliente"/>
-                            <field name="alto_max_cliente"/>
-                            <field name="peso_max_cliente"/>
                         </group>
                         
                         
@@ -44,6 +31,11 @@
                             <field name="troquelado_id"/>
                             <field name="fsc_id"/>
                             <field name="reciclable_id"/>
+							<field name="cantonera_1"/>
+							<field name="cantonera_2"/>
+							<field name="cantonera_3"/>
+							<field name="cantonera_4"/>
+							<field name="sierra"/>
                         </group>
                     
                     </page>
@@ -90,12 +82,9 @@
         <field name="arch" type="xml">
             <tree string="Producto">
                 <field name="name"/>
-		<field name="j_interior"/>
                 <field name="ancho_interior"/>
-		<field name="j_superficie"/>
-		<field name="j_superficie_max"/>
-		<field name="ancho_superficie"/>
-		<field name="comentario"/>
+				<field name="ancho_superficie"/>
+				<field name="comentario"/>
             </tree>
         </field>
     </record>
@@ -108,10 +97,11 @@
             <form string="Ofertas">
                 <sheet>
                     <group>
+                        
                         <field name="type_id" domain="[('product_type','=',True)]"/>
-			<field name="name" />
-			<field name="titulo" />
-			<field name="orden"/>
+						<field name="name" />
+						<field name="titulo" />
+						<field name="orden"/>
                         <field name="is_cantonera" invisible="1"/>
                         <field name="is_perfilu" invisible="1"/>
                         <field name="is_slipsheet" invisible="1"/>
@@ -124,18 +114,22 @@
                     
                     <h3>Campos referencia</h3>
                     <group>
-			<field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
+						<field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                         <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                         <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
                         <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
+                        <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
                         <field name='grosor_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}" />
+                        <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
                         <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
-			<field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
                         <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
-			<field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
                         <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
-                        <field name='varios_id'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+                        <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                        <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+                        <field name='peso_metro_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+                        <field name='metros_unidad_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+						<field name="comentario"/>
                     </group>
                     
                     <h3>Cálculos</h3>
@@ -144,17 +138,19 @@
                         <field name='metros_unidad' />
                         <field name='j_gram' />
                         <field name='j_interior' />
-			<field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                         <field name='j_superficie' />
-			<field name='j_superficie_max' />
-			<field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-			<field name="comentario"/>
+						<field name='j_superficie_max' />
                     </group>
+                    
 
                 </sheet>
             </form>
         </field>
     </record>
+    
+    
+    
+    
     
     
     <record model="ir.ui.view" id="view_product_referencia_search">
@@ -179,150 +175,6 @@
     
     <menuitem name="Referencias" parent="sale.sale_order_menu" id="menu_product_referencia" action="action_product_referencia" sequence="25"/>
     
-	
-
-    <!-- #######################################################
-                 product.caracteristica.cliche
-        ######################################################## -->
-    
-    
-        <record model="ir.ui.view" id="view_product_caracteristica_cliche_tree">
-            <field name="name">product.caracteristica.cliche.tree</field>
-            <field name="model">product.caracteristica.cliche</field>
-            <field name="priority" eval="16"/>
-            <field name="arch" type="xml">
-                <tree string="Chiche">
-                    <field name="number"/>
-                    <field name="name"/>
-	            <field name="descripcion"/>
-                    <field name="tinta_1_id"/>
-                    <field name="texto_1"/>
-                    <field name="tinta_2_id"/>
-                    <field name="texto_2"/>
-		    <field name="tinta_3_id"/>
-                    <field name="texto_3"/>
-		    <field name="Proveedor"/>
-                </tree>
-            </field>
-        </record>
-        
-        
-        <record model="ir.ui.view" id="view_product_caracteristica_cliche_form">
-            <field name="name">product.caracteristica.cliche.form</field>
-            <field name="model">product.caracteristica.cliche</field>
-            <field name="arch" type="xml">
-                <form string="Cliche">
-                    <sheet>
-                        <group>
-                            <field name="number"/>
-                            <field name="name"/>
-	                    <field name="descripcion"/>
-                            <field name="tinta_1_id"/>
-                            <field name="texto_1"/>
-                            <field name="tinta_2_id"/>
-                            <field name="texto_2"/>
-		            <field name="tinta_3_id"/>
-                            <field name="texto_3"/>
-		            <field name="Proveedor"/>
-			</group>
-			
-			<group>
-		            <field name="image" widget="image" class="oe_avatar" />
-                        </group>
-                        
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        
-        <record model="ir.ui.view" id="view_product_caracteristica_cliche_search">
-            <field name="name">product.caracteristica.cliche.search</field>
-            <field name="model">product.caracteristica.cliche</field>
-            <field name="arch" type="xml">
-                <search string="Cliche">
-                    <field name="name"/>
-                    <field name="description"/>
-                </search>
-            </field>
-        </record>
-
-				
-        <record model="ir.actions.act_window" id="action_product_caracteristica_cliche">
-            <field name="name">Cliche</field>
-            <field name="res_model">product.caracteristica.cliche</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        
-        
-        <menuitem name="Cliche" parent="sale.prod_config_main" id="menu_product_caracteristica_cliche" action="action_product_caracteristica_cliche" sequence="19"/>
-    
-	
-	
-    <!-- #######################################################
-                 product.varios
-        ######################################################## -->
-    
-    
-        <record model="ir.ui.view" id="view_product_varios_tree">
-            <field name="name">product.varios.tree</field>
-            <field name="model">product.varios</field>
-            <field name="priority" eval="16"/>
-            <field name="arch" type="xml">
-                <tree string="Varios">
-                    <field name="orden"/>
-                    <field name="name"/>
-                    <field name="description"/>
-                    <field name="peso_metro"/>
-                    <field name="metros_unidad"/>
-                </tree>
-            </field>
-        </record>
-        
-        
-        <record model="ir.ui.view" id="view_product_varios_form">
-            <field name="name">product.varios.form</field>
-            <field name="model">product.varios</field>
-            <field name="arch" type="xml">
-                <form string="Varios">
-                    <sheet>
-                        <group>
-                            <field name="orden"/>
-                            <field name="name"/>
-                            <field name="description"/>
-                            <field name="peso_metro"/>
-                            <field name="metros_unidad"/>
-                        </group>
-                        
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        
-        <record model="ir.ui.view" id="view_product_varios_search">
-            <field name="name">product.varios.search</field>
-            <field name="model">product.varios</field>
-            <field name="arch" type="xml">
-                <search string="Varios">
-                    <field name="name"/>
-                    <field name="description"/>
-                </search>
-            </field>
-        </record>
-
-				
-        <record model="ir.actions.act_window" id="action_product_varios">
-            <field name="name">Varios</field>
-            <field name="res_model">product.varios</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        
-        
-        <menuitem name="Varios" parent="sale.prod_config_main" id="menu_product_varios" action="action_product_varios" sequence="19"/>
-        
     
     
     
@@ -821,6 +673,7 @@
                             <field name="cantonera_2"/>
                             <field name="cantonera_3"/>
                             <field name="cantonera_4"/>
+                            <field name="image" widget="image" class="oe_avatar" />
                         </group>
                         
                     </sheet>
@@ -1031,11 +884,8 @@
                             <field name="tipo"/>
                             <field name="troqueladora_1"/>
                             <field name="troqueladora_2"/>
+							<field name="image"/>
                         </group>
-			    
-			<group>
-			    <field name="image" widget="image" class="oe_avatar" />
-			</group>
                         
                     </sheet>
                 </form>

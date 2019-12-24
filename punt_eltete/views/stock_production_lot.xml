@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_stock_production_lot_eltete_form" model="ir.ui.view">
+        <field name="name">stock.production.lot.eltete.form</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+        
+                <xpath expr="//field[@name='ref']" position="after">
+                
+                    
+					<field name="pallet_especial_id"/>
+					<field name="paletizado"/>
+					<field name="ancho_pallet"/>
+					<field name="und_paquete"/>
+					<field name="paquetes_fila"/>
+					<field name="alto_fila"/>
+					<field name="fila_max"/>
+					<field name="fila_buena"/>
+					<field name="unidades"/>
+					<field name="fabricado"/>
+
+
+                </xpath>
+            
+                
+
+            
+        </field>
+    </record>
+    
+    
+    
+</odoo>

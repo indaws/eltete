@@ -117,7 +117,7 @@ class sale_referencia_cliente(models.Model):
     
     attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos", copy=True)
     #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
-    oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas", copy=True)
+    oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas")
     
     
     @api.depends('type_id', 'referencia_id', 'referencia_cliente_nombre')
@@ -426,9 +426,9 @@ class sale_referencia_cliente(models.Model):
                     else:
                         paquetes = 13
                         
-                    if record.pie == "1":
+                    if record.pie == "1" or record.pie == "2":
                         alto_fila = 100
-                    elif record.pie == "2":
+                    elif record.pie == "3" or record.pie == "4":
                         alto_fila = 60
                     
                     fila_max = int(1100 / alto_fila)
@@ -746,6 +746,7 @@ class sale_product_attribute(models.Model):
             
             if record.fsc_id:
                 nombre = nombre + record.fsc_id.name + ", "
+                descripcion = descripcion + record.fsc_id.description + ", "
 
             if record.referencia_cliente_id:
                 #Varios
@@ -992,73 +993,88 @@ class sale_product_attribute(models.Model):
                         
                     record.cantonera_4 = habilitado
     
+    
+    def get_price(self, num_pallets, state_id, country_id):
+        #3p
+        #5p
+        #8p
+        #Si son 12 -> 8p
+        #Si son 7 -> 5p
+        #Si son 2 -> Error
+        
+        if self.referencia_cliente_id.state != 'RCL':
+            return -1
+        
+        npal = -1
+        precio = -1
+        
+        for of in self.oferta_ids:
+            if state_id == of.state_id and country_id == of.country_id:
+                if num_pallets >= of.num_pallets and of.num_pallets > npal:
+                    npal = of.npallets
+                    precio = of.get_valor()
+                    
+        return precio
 
+    
+    
+    
     
     
 class sale_offer_oferta(models.Model):
     _name = 'sale.offer.oferta'
     
-    partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
-    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade' )
-    
-    #IZQUIERDA
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
+    partner_id = fields.Many2one('res.partner', string='Cliente', store=True, related='attribute_id.referencia_cliente_id.partner_id')
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
-    activa = fields.Boolean("Activa")
-    state_id = fields.Many2one('res.country.state', string="Provincia")
-    country_id = fields.Many2one('res.country', string="País")
-    num_pallets = fields.Integer('Número Pallets')
     
-    unidades = fields.Integer('Unidades Pallet')
-    precio_metro = fields.Float('Peso Metro', digits = (12,4))
-    kilos = fields.Integer('Kilos Pallet')
-    precio_kilo = fields.Float('Precio kilo', digits = (12,4))
-    
-    #DERECHA
-    peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
+    peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
+    num_pallets = fields.Integer('Num pallets')
+    emetro_user = fields.Float('Emetro (user)')
+    eton_user = fields.Float('Eton (user)')
     tarifa = fields.Boolean('Tarifa', default = True)
     
-    eunidad_user = fields.Float('Emetro (user)', digits = (14,6))
-    emetro_user = fields.Float('Emetro (user)', digits = (12,4))
+    state_id = fields.Many2one('res.country.state', string="Provincia")
+    country_id = fields.Many2one('res.country', string="País")
+    activa = fields.Boolean("Activa")
     
-    tarifa_id = fields.Many2one('sale.tarifa', string="Tarifa")
-    eton_user = fields.Float('Eton (user)')
-    alto_pallet = fields.Integer('Alto', readonly = True, compute = "_get_alto_pallet")
+    unidades = fields.Integer('Unidades', )
+    
+    #CALCULADOS
+    num_filas = fields.Integer('Num filas', readonly = True)
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_und_pallet")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso_neto")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso_bruto")
-    und_pallet = fields.Integer('Propuesta Unidades', readonly = True, compute = "_get_und_pallet")
+    alto_pallet = fields.Integer('Alto', readonly = True, compute = "_get_alto_pallet")
     
-    #OCULTOS
-    num_filas = fields.Integer('Num filas', readonly = True)
-    fecha_enviada = fields.Date('Fecha Enviada')
+    emetro = fields.Float('Emetro', readonly = True, digits = (10,4), compute = "_get_emetro")
+    eton = fields.Float('Eton', readonly = True, digits = (8,1), compute = "_get_eton")
+    titulo = fields.Char('Título', readonly = True, compute = "_get_titulo")
+    name = fields.Char('Precio', readonly = True, compute = "_get_precio")
     
-    name = fields.Char('Título', readonly = True, compute = "_get_precio")
-    cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True, compute = "_get_precio")
-    cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True, compute = "_get_precio")
-    precio = fields.Float('Precio', digits = (12,4), readonly = True, compute = "_get_precio")
-    precio_tipo = fields.Char('Precio Tipo', readonly = True, compute = "_get_precio")
-    
-    descripcion_html = fields.Html('Descripción', readonly = True, compute = "_get_descripcion")
+
         
     @api.multi
     def suma_filas(self):
-        for record in self:
-            if record.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
-                raise ValidationError("Unidades Exactas")
-            elif record.attribute_id.referencia_cliente_id.fila_buena + record.num_filas < self.attribute_id.referencia_cliente_id.fila_max:
-                record.num_filas = record.num_filas + 1
+        if self.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
+            x = 0
+        elif self.num_filas < self.attribute_id.referencia_cliente_id.fila_max:
+            self.num_filas = self.num_filas + 1
             
     @api.multi
     def resta_filas(self):
-        for record in self:
-            if record.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
-                raise ValidationError("Unidades Exactas")
-            elif record.attribute_id.referencia_cliente_id.fila_buena + record.num_filas > 0:
-                record.num_filas = record.num_filas - 1
+        if self.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
+            x = 0
+        elif self.num_filas > 1:
+            self.num_filas = self.num_filas - 1
+    
     
 
-    @api.depends('attribute_id', 'num_filas')
+    
+    
+    @api.depends('attribute_id',)
     def _get_und_pallet(self):
         for record in self:
             und = 0
@@ -1066,109 +1082,127 @@ class sale_offer_oferta(models.Model):
                 und = record.attribute_id.referencia_cliente_id.und_pallet_cliente
             else:
                 undFila = record.attribute_id.referencia_cliente_id.und_paquete * record.attribute_id.referencia_cliente_id.paquetes_fila
-                und = undFila * (record.num_filas + record.attribute_id.referencia_cliente_id.fila_buena)
+                und = undFila * record.num_filas
                 
             record.und_pallet = und
     
     
-    @api.depends('attribute_id', 'und_pallet')
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_peso_neto(self):
-        for record in self:
-            und = record.und_pallet
-            pesoUnd = record.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-            peso = und * pesoUnd
-            record.peso_neto = peso
+        und = self.und_pallet
+        pesoUnd = self.attribute_id.referencia_cliente_id.referencia_id.peso_metro * self.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+        peso = und * pesoUnd
+        self.peso_neto = peso
     
     
-    @api.depends('attribute_id', 'peso_neto')
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_peso_bruto(self):
-        for record in self:
-            peso = record.peso_neto
-            pesoMadera = 0
-            if record.attribute_id.referencia_cliente_id.referencia_id.longitud < 1500:
-                pesoMadera = 20
-            elif record.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
-                pesoMadera = 30
-            else:
-                pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
-            peso = int((peso + pesoMadera) / 5) * 5
-            record.peso_bruto = peso
+        peso = self.peso_neto
+        pesoMadera = 0
+        if self.attribute_id.referencia_cliente_id.referencia_id.longitud < 1500:
+            pesoMadera = 20
+        elif self.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
+            pesoMadera = 30
+        else:
+            pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+        peso = peso + pesoMadera
+        self.peso_bruto = peso
         
         
-    @api.depends('attribute_id', 'num_filas')
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_alto_pallet(self):
         for record in self:
-            alto = record.attribute_id.referencia_cliente_id.alto_fila * record.num_filas + 150
-            alto = int(alto / 5) * 5
-            record.alto_pallet = alto
-
+            record.alto_pallet = record.attribute_id.referencia_cliente_id.alto_fila * record.num_filas + 150
+        
+        
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
+    def _get_emetro(self):
+        for record in self:
+            valor = 0
+            if record.emetro_user > 0:
+                valor = record.emetro_user
+            elif record.eton_user > 0:
+                valor = record.metroPorTon()
+            record.emetro = valor
+        
+        
+    def metroPorTon(self):
+        valor = 0
+        if self.tarifa == True:
+            valor = self.eton_user * self.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
+            valor = valor * (self.attribute_id.incremento_porcentaje / 100 + 1)
+            valor = valor + self.attribute_id.incremento_metro
+            valor = valor * self.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            valor = valor + self.attribute_id.incremento_unidad
+            if self.attribute_id.sierra == True:
+                valor = valor + 0.017
+            if self.und_pallet != 0:
+                valor = valor + self.attribute_id.incremento_pallet / self.und_pallet
+            valor = valor / self.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            valor = int(valor * 1000) / 1000
+        else:
+            valor = self.eton_user * self.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
+            valor = valor * self.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            if self.attribute_id.sierra == True:
+                valor = valor + 0.017
+            valor = valor / self.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            valor = int(valor * 1000) / 1000
+        return valor
     
-    @api.depends('attribute_id', 'num_pallets', 'unidades', 'precio_metro', 'kilos', 'precio_kilo')
+    
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
+    def _get_eton(self):
+        for record in self:
+            valor = 0
+            if record.emetro_user > 0:
+                if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro != 0:
+                    valor = record.emetro_user * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+                    valor = int(valor * 10) / 10
+            elif record.eton_user > 0:
+                valor = record.eton_user
+            record.eton = valor
+    
+    
+    
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
+    def _get_titulo(self):
+        for record in self:
+            record.titulo = str(record.und_pallet) + ", " + str(round(record.eton,2)) + " €/t"
+    
+    
+    @api.depends('attribute_id', 'emetro_user', 'eton_user', 'num_pallets')
     def _get_precio(self):
         for record in self:
+            texto = ""
             facturar = record.attribute_id.referencia_cliente_id.precio_cliente
-            cantidad = 0
-            cantidad_tipo = ""
-            precio = 0
-            precio_tipo = ""
-            nombre = ""
-            #Por metro
-            if facturar == '1':
-                cantidad = record.unidades * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                cantidad_tipo = "metros"
-                precio = record.precio_metro
-                precio = int(precio * 10000) / 10000
-                precio_tipo = "€/metro"
-                eton = int(precio * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
-                nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
-                nombre = nombre + str(precio) + " €/m, " + str(eton) + "€/t"
-            #Por unidad
-            elif facturar == '2':
-                cantidad = record.unidades
-                cantidad_tipo = "unidades"
-                precio = record.precio_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                precio = int(precio * 10000) / 10000
-                precio_tipo = "€/unidad" 
-                eton = int(precio * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
-                nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
-                nombre = nombre + str(precio) + " €/unidad, " + str(eton) + "€/t"
-            #Por millar
-            elif facturar == '3':
-                cantidad = record.unidades / 1000
-                cantidad_tipo = "millares"
-                precio = record.precio_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
-                precio = int(precio * 10000) / 10000
-                precio_tipo = "€/millar" 
-                eton = int(precio * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
-                nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
-                nombre = nombre + str(precio) + " €/millar, " + str(eton) + "€/t"
-            elif facturar == '4':
-                cantidad = record.kilos
-                cantidad_tipo = "kg"
-                precio = record.precio_kg
-                precio = int(precio * 10000) / 10000
-                precio_tipo = "€/kg" 
-                eton = precio * 1000
-                nombre = str(record.num_pallets) + " pallets, " + str(record.kilos) + " kg/pallet, "
-                nombre = nombre + str(precio) + " €/kg, " + str(eton) + "€/t"
-
-            record.name = nombre
-            record.cantidad = cantidad
-            record.cantidad_tipo = cantidad_tipo
-            record.precio = precio
-            record.precio_tipo = precio_tipo
-            
-            
-    @api.depends('attribute_id', 'unidades', 'eton_user', 'num_pallets')
-    def _get_descripcion(self):
-        for record in self:
-            descripcion = ''
-            if record.attribute_id:
-                descripcion = record.attribute_id.referencia_cliente_id.referencia_id.type_id.name
-                if record.attribute_id.fsc_id:
-                    descripcion = descripcion + " " + record.attribute_id.fsc_id.description
-                descripcion = descripcion + "</br>"
-                descripcion = descripcion + record.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "</br>"
-                descripcion = descripcion + record.attribute_id.descripcion
-            
-            record.descripcion_html = descripcion
+            if record.emetro_user > 0 and facturar != '4':
+                #Metro
+                if facturar == '1':
+                    texto = str(record.emetro_user) + " €/metro"
+                #Unidad
+                elif facturar == '2':
+                    aux = str(record.emetro_user * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad)
+                    texto = aux + " €/unidad"
+                #Millar
+                elif facturar == '3':
+                    aux = str(record.emetro_user * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000)
+                    texto = aux + " €/millar"
+                    
+            elif record.eton_user != None and record.eton_user > 0:
+                valor = record.metroPorTon()
+                #Metro
+                if facturar == '1':
+                    texto = str(valor) + " €/metro"
+                #Unidad
+                elif facturar == '2':
+                    aux = str(valor * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad)
+                    texto = aux + " €/unidad"
+                #Millar
+                elif facturar == '3':
+                    aux = str(valor * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000)
+                    texto = aux + " €/millar"
+                #Kilos
+                elif facturar == '4':
+                    aux = str(record.eton_user / 1000)
+                    texto = aux + " €/kg"
+            record.name = texto

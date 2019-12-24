@@ -50,9 +50,11 @@
                                     <field name='attribute_id' />
                                     <field name='npallets' />
                                     <field name='cantonera_impresion_id' />
-                                    <field name='und_pallet' />
-                                    <field name='emetro' />
-                                    <field name='eton' />
+                                    <field name='cantidad' />
+                                    <field name='cantidad_tipo' />
+                                    <field name='precio' />
+                                    <field name='precio_tipo' />
+                                    <field name='troquelado_id' />
                                 </tree>
                             </field>   
                         </group>
