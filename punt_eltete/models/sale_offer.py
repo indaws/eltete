@@ -419,9 +419,9 @@ class sale_referencia_cliente(models.Model):
                     else:
                         paquetes = 13
                         
-                    if record.pie == "1" or record.pie == "2":
+                    if record.pie == "1":
                         alto_fila = 100
-                    elif record.pie == "3" or record.pie == "4":
+                    elif record.pie == "2":
                         alto_fila = 60
                     
                     fila_max = int(1100 / alto_fila)
