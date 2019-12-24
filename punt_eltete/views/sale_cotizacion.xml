@@ -30,16 +30,12 @@
                     </header>-->
                     <sheet>
                         <group>
-		            <field name="partner_id"/>
+							<field name="name"/>
+							<field name="partner_id"/>
                             <field name="date"/>
                             <field name="user_id"/>
-		            <field name="fecha_cliente"/>
-		            <field name="fecha_entrega_cliente"/>
-			    <field name="pedido_cliente"/>
-		            <field name="name"/>
-			    <field name="country_id"/>
+							<field name="country_id"/>
                             <field name="state_id"/>
-		            <field name="fecha_entrega"/>
                         </group>
                         
                         <group>

@@ -19,6 +19,12 @@
 					
                 </xpath>
             
+				<field name="confirmation_date" position="after">
+					<field name="fecha_cliente"/>
+					<field name="fecha_entrega_cliente"/>
+					<field name="pedido_cliente"/>
+					<field name="fecha_entrega"/>
+				</field>
                 
 
             
