@@ -157,10 +157,6 @@
     </record>
     
     
-    
-    
-    
-    
     <record model="ir.ui.view" id="view_product_referencia_search">
         <field name="name">product.referencia.search</field>
         <field name="model">product.referencia</field>
@@ -183,6 +179,150 @@
     
     <menuitem name="Referencias" parent="sale.sale_order_menu" id="menu_product_referencia" action="action_product_referencia" sequence="25"/>
     
+	
+
+    <!-- #######################################################
+                 product.caracteristica.cliche
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_cliche_tree">
+            <field name="name">product.caracteristica.cliche.tree</field>
+            <field name="model">product.caracteristica.cliche</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Chiche">
+                    <field name="number"/>
+                    <field name="name"/>
+	            <field name="descripcion"/>
+                    <field name="tinta_1"/>
+                    <field name="texto_1"/>
+                    <field name="tinta_2"/>
+                    <field name="texto_2"/>
+		    <field name="tinta_3"/>
+                    <field name="texto_3"/>
+		    <field name="Proveedor"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cliche_form">
+            <field name="name">product.caracteristica.cliche.form</field>
+            <field name="model">product.caracteristica.cliche</field>
+            <field name="arch" type="xml">
+                <form string="Cliche">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+	                    <field name="descripcion"/>
+                            <field name="tinta_1"/>
+                            <field name="texto_1"/>
+                            <field name="tinta_2"/>
+                            <field name="texto_2"/>
+		            <field name="tinta_3"/>
+                            <field name="texto_3"/>
+		            <field name="Proveedor"/>
+			</group>
+			
+			<group>
+		            <field name="image" widget="image" class="oe_avatar" />
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cliche_search">
+            <field name="name">product.caracteristica.cliche.search</field>
+            <field name="model">product.caracteristica.cliche</field>
+            <field name="arch" type="xml">
+                <search string="Cliche">
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_cliche">
+            <field name="name">Cliche</field>
+            <field name="res_model">product.caracteristica.cliche</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Cliche" parent="sale.prod_config_main" id="menu_product_caracteristica_cliche" action="action_product_caracteristica_cliche" sequence="19"/>
+    
+	
+	
+    <!-- #######################################################
+                 product.varios
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_varios_tree">
+            <field name="name">product.varios.tree</field>
+            <field name="model">product.varios</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Varios">
+                    <field name="orden"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="peso_metro"/>
+                    <field name="metros_unidad"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_varios_form">
+            <field name="name">product.varios.form</field>
+            <field name="model">product.varios</field>
+            <field name="arch" type="xml">
+                <form string="Varios">
+                    <sheet>
+                        <group>
+                            <field name="orden"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="peso_metro"/>
+                            <field name="metros_unidad"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_varios_search">
+            <field name="name">product.varios.search</field>
+            <field name="model">product.varios</field>
+            <field name="arch" type="xml">
+                <search string="Varios">
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_varios">
+            <field name="name">Varios</field>
+            <field name="res_model">product.varios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Varios" parent="sale.prod_config_main" id="menu_product_varios" action="action_product_varios" sequence="19"/>
+        
     
     
     
@@ -681,7 +821,6 @@
                             <field name="cantonera_2"/>
                             <field name="cantonera_3"/>
                             <field name="cantonera_4"/>
-                            <field name="image" widget="image" class="oe_avatar" />
                         </group>
                         
                     </sheet>
@@ -893,6 +1032,10 @@
                             <field name="troqueladora_1"/>
                             <field name="troqueladora_2"/>
                         </group>
+			    
+			<group>
+			    <field name="image" widget="image" class="oe_avatar" />
+			</group>
                         
                     </sheet>
                 </form>
