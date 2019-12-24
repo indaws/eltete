@@ -12,12 +12,12 @@ class sale_cotizacion(models.Model):
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
-    fecha_cliente = fields.Date('Fecha Cliente')
-    fecha_entrega_cliente = fields.Date('Fecha Entrega Cliente')
-    pedido_cliente = fields.Char('Pedido Cliente')
+    #fecha_cliente = fields.Date('Fecha Cliente')
+    #fecha_entrega_cliente = fields.Date('Fecha Entrega Cliente')
+    #pedido_cliente = fields.Char('Pedido Cliente')
     country_id = fields.Many2one('res.country', string="País")
     state_id = fields.Many2one('res.country.state', string="Provincia")
-    fecha_entrega = fields.Date('Fecha Entrega')
+    #fecha_entrega = fields.Date('Fecha Entrega')
     
     
     line_ids = fields.One2many('sale.cotizacion.line', 'cotizacion_id', string="Líneas")
