@@ -378,7 +378,7 @@ class sale_referencia_cliente(models.Model):
                     if record.referencia_id.longitud <= 650:
                         lado2 = int(1300 / record.referencia_id.longitud)
                     paquetes = lado1 * lado2
-                    alto_fila = record.referencia_id.gramaje * 1.4 * und_paquete
+                    alto_fila = record.referencia_id.gramaje * 1.4 * und_paquete / 1000
                     fila_max = int(950 / alto_fila)
                     if record.peso_max_cliente > 0:
                         pesoFila = pesoUnd *  und_paquete * paquetes
