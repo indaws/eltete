@@ -1164,8 +1164,8 @@ class sale_offer_oferta(models.Model):
                 descripcion = record.attribute_id.referencia_cliente_id.referencia_id.type_id.name
                 if record.attribute_id.fsc_id:
                     descripcion = descripcion + " " + record.attribute_id.fsc_id.description
-                descripcion = descripcion + "</br>"
-                descripcion = descripcion + record.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "</br>"
+                descripcion = descripcion + "<br/>"
+                descripcion = descripcion + record.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
                 descripcion = descripcion + record.attribute_id.descripcion
             
             record.descripcion_html = descripcion
