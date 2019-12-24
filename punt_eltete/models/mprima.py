@@ -11,9 +11,6 @@ class tinta(models.Model):
     descripcion = fields.Char('Descripción')
     active = fields.Boolean('Activa')
     
-    peso = fields.Float('Peso', digits=(6,1))
-    
-    
  
  
  
@@ -21,6 +18,7 @@ class tintaPallet(models.Model):
     _name = 'mprima.tinta.pallet'
 
     proveedor_id = fields.Many2one('proveedor', string = "Proveedor", required = True)
+    fecha_entrada = fields.Date('Fecha Entrada', default=fields.Date.today(), required=True, copy=False)
     peso = fields.Float('Peso', digits=(6,1))
     
     
