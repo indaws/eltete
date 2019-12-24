@@ -386,7 +386,7 @@ class sale_referencia_cliente(models.Model):
                         while pesoPallet > record.peso_max_cliente:
                             fila_max = fila_max - 1
                             pesoPallet = pesoFila * fila_max + 20
-                    fila_buena = 10
+                    fila_buena = fila_max
                     if fila_buena > fila_max:
                         fila_buena = fila_max
                 #Bobina
