@@ -271,10 +271,10 @@
                             </group>
                             <group>
 				<h3>Unidades por Pallet:</h3>
-				<field name='alto_pallet' />
-				<field name='peso_neto' />
-                                <field name='peso_bruto' />
-				<field name='und_pallet' />
+				<field name='alto_pallet_text' />
+				<field name='peso_neto_text' />
+                                <field name='peso_bruto_text' />
+				<field name='und_pallet_text' />
 				<button name="resta_filas" type="object" string="-" />
 				<button name="suma_filas" type="object" string="+" />
 				<h3>Precio:</h3>
