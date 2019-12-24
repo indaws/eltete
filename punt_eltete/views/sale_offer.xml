@@ -23,7 +23,7 @@
                     <header>
                         <!--<button name="bor_to_ref" type="object" string="Guardar y continuar" states="BOR" />-->
                         <!--<button name="ref_to_rcl" type="object" string="Guardar ref cliente" states="REF" />-->
-			<button name="ocultar_datos" type="object" string="Mostrar / Ocultar datos" attrs="{'invisible': [('ocultar', '=', 'False')]}"  states="REF,RCL"/>
+			<!--<button name="ocultar_datos" type="object" string="Mostrar / Ocultar datos" attrs="{'invisible': [('ocultar', '=', 'False')]}"  states="REF,RCL"/>-->
                         <!--<button name="cancel_offer" type="object" string="Cancelar" states="REF,RCL" />-->
                         <field name="state" widget="statusbar"/>
                     </header>
