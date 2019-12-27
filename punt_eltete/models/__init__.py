@@ -6,3 +6,4 @@ from . import sale_cotizacion
 from . import wizard
 from . import sale_order
 from . import stock_production_lot
+from . import product_pricelist

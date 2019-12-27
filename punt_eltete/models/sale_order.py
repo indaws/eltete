@@ -29,6 +29,43 @@ class SaleOrder(models.Model):
     
     lot_ids = fields.Many2many('stock.production.lot', string="Lotes", readonly=True)
     
+    
+    @api.multi
+    def procesar_fabricacion(self):
+        for record in self:
+        
+            #ubic produccion
+            location_id = 7
+            
+            #ubic stock
+            location_dest_id = 12
+        
+            for line in record.lot_ids:
+                mov_id = self.env['stock.move'].create({'name': 'FABRICACION PEDIDO ' + record.name,
+                                                        'product_id': line.product_id.id,
+                                                        'product_uom': line.product_id.uom_id.id,
+                                                        'product_uom_qty': 1,
+                                                        'date': fields.Date.today(),
+                                                        'state': 'confirmed',
+                                                        'location_id': location_id,
+                                                        'location_dest_id': location_dest_id,
+                                                        'move_line_ids': [(0, 0, {
+                                                            'product_id': line.product_id.id,
+                                                            'lot_id': line.id,
+                                                            'product_uom_qty': 0,  # bypass reservation here
+                                                            'product_uom_id': line.product_id.uom_id.id,
+                                                            'qty_done': 1,
+                                                            #'package_id': out and self.package_id.id or False,
+                                                            #'result_package_id': (not out) and self.package_id.id or False,
+                                                            'location_id': location_id,
+                                                            'location_dest_id': location_dest_id,
+                                                            'owner_id': record.partner_id.id,
+                                                        })]
+                                                       })
+                mov_id._action_done()
+                
+    
+    
     @api.multi
     def enviar_a_fabricar(self):
         for record in self:

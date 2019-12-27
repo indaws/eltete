@@ -195,6 +195,9 @@ class WizardPartnerSaleOrder(models.TransientModel):
     state_id = fields.Many2one('res.country.state', string="Provincia", related='wizard_id.state_id', store=True, readonly=True)
     country_id = fields.Many2one('res.country', string="País", related='wizard_id.country_id', store=True, readonly=True)
     wizard_id = fields.Many2one('wizard.partner.sale.order', string="Wizard", required=True)
+    type_id = fields.Many2one('product.category', string='Tipo', required=True)
+    product_id = fields.Many2one('product.template', string='Producto')
+    lot_ids = fields.Many2many('stock.production.lot', string="Lotes")
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', required=True)
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True)
     

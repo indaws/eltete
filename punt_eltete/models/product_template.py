@@ -1,5 +1,7 @@
 ﻿
 from odoo import fields, models, api
+from odoo.exceptions import UserError, ValidationError
+from odoo.addons import decimal_precision as dp
 
 
 class ProductReferencia(models.Model):
@@ -44,7 +46,7 @@ class ProductReferencia(models.Model):
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
                ('3', 'Alto 60 con Adhesivo'),                 
-               ('4', 'Alto 60 sin Adhesivo'),         #La coma final?
+               ('4', 'Alto 60 sin Adhesivo'),
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
     
@@ -441,6 +443,51 @@ class ProductTemplate(models.Model):
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
     referencia_id = fields.Many2one('product.referencia', string='Referencia')
     
+    #################################
+    #CAMPOS FORMULARIO DE REFERENCIA#
+    #################################
+    is_cantonera = fields.Boolean('¿Es Cantonera?', related='categ_id.is_cantonera')
+    is_perfilu = fields.Boolean('¿Es Perfil U?', related='categ_id.is_perfilu')
+    is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='categ_id.is_slipsheet')
+    is_solidboard = fields.Boolean('¿Es Solid Board?', related='categ_id.is_solidboard')
+    is_formato = fields.Boolean('¿Es Formato?', related='categ_id.is_formato')
+    is_bobina = fields.Boolean('¿Es Bobina?', related='categ_id.is_bobina')
+    is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='categ_id.is_pieballet')
+    is_varios = fields.Boolean('¿Es Varios?', related='categ_id.is_varios')
+    
+    ala_1 = fields.Integer('Ala 1')
+    ancho = fields.Integer('Ancho')
+    ala_2 = fields.Integer('Ala 2')
+    grosor_1 = fields.Float('Grosor 1', digits=(6,1))
+    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
+    longitud = fields.Integer('Longitud')
+    interior = fields.Integer('Interior')
+    entrada_1 = fields.Char('Entrada 1')
+    entrada_2 = fields.Char('Entrada 2')
+    entrada_3 = fields.Char('Entrada 3')
+    entrada_4 = fields.Char('Entrada 4')
+    
+    ala_3 = fields.Integer('Solapa 3')
+    ala_4 = fields.Integer('Solapa 4')
+    
+    diametro = fields.Integer('Diámetro')
+    gramaje = fields.Integer('Gramaje')
+    
+    TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
+               ('2', 'Alto 100 sin Adhesivo'),
+               ('3', 'Alto 60 con Adhesivo'),                 
+               ('4', 'Alto 60 sin Adhesivo'),
+               ]
+    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    
+    #varios
+    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
+    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
+    
+    #################################
+    #################################
+    
+    
 
     
     #CAMPOS ATRIBUTOS
@@ -471,9 +518,149 @@ class ProductTemplate(models.Model):
     sierra = fields.Boolean('Sierra', default = True)
     
     
-    
-    
-    
+    @api.multi
+    def create_product_referencia(self):
+        if not self.referencia_id:
+            if self.categ_id.is_cantonera == True:
+            
+                if not self.ala_1 or self.ala_1 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ALA 1")
+                if not self.ala_2 or self.ala_2 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ALA 2")
+                if not self.grosor_2 or self.grosor_2 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
+                if not self.longitud or self.longitud <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                    
+                referencia_id, error = self.categ_id.create_prod_cantonera(self.ala_1, self.ala_2, self.grosor_2, self.longitud)
+                
+                
+                if not referencia_id:
+                    raise ValidationError(error)
+
+                self.referencia_id = referencia_id    
+                self.name = referencia_id.name
+
+                
+            if self.categ_id.is_perfilu == True:
+            
+                if not self.ala_1 or self.ala_1 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ALA 1")
+                if not self.ancho or self.ancho <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ancho")
+                if not self.ala_2 or self.ala_2 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ALA 2")
+                if not self.grosor_2 or self.grosor_2 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
+                if not self.longitud or self.longitud <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                    
+                referencia_id, error = self.categ_id.create_prod_perfilu(self.ala_1, self.ancho, self.ala_2, self.grosor_2, self.longitud)
+                
+
+                if not referencia_id:
+                    raise ValidationError(error)
+
+                self.referencia_id = referencia_id    
+                self.name = referencia_id.name
+                
+                
+            if self.categ_id.is_slipsheet == True:
+            
+                
+                if not self.ancho or self.ancho <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ancho")
+                if not self.grosor_1 or self.grosor_1 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
+                if not self.longitud or self.longitud <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                    
+                referencia_id, error = self.categ_id.create_prod_slipsheet(self.ala_1, self.ancho, self.ala_2, self.grosor_1, self.longitud, self.ala_3, self.ala_4)
+                
+                
+                
+                if not referencia_id:
+                    raise ValidationError(error)
+                    
+                self.referencia_id = referencia_id
+                self.name = referencia_id.name
+                
+                
+            if self.categ_id.is_solidboard == True:
+            
+                if not self.ancho or self.ancho <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ancho")
+                if not self.grosor_1 or self.grosor_1 <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
+                if not self.longitud or self.longitud <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                    
+                referencia_id, error = self.categ_id.create_prod_solidboard(self.ancho, self.grosor_1, self.longitud)
+
+                if not referencia_id:
+                    raise ValidationError(error)
+
+                self.referencia_id = referencia_id
+                self.name = referencia_id.name
+
+                
+                
+            if self.categ_id.is_formato == True:
+            
+                if not self.ancho or self.ancho <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ancho")
+                if not self.gramaje or self.gramaje <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
+                if not self.longitud or self.longitud <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                    
+                referencia_id, error = self.categ_id.create_prod_formato(self.ancho, self.longitud, self.gramaje)
+                
+
+                if not referencia_id:
+                    raise ValidationError(error)
+
+                self.referencia_id = referencia_id
+                self.name = referencia_id.name
+
+                
+                
+            if self.categ_id.is_bobina == True:
+            
+                if not self.ancho or self.ancho <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ancho")
+                if not self.gramaje or self.gramaje <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
+                if not self.diametro or self.diametro <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en DIÁMETRO")
+                    
+                referencia_id, error = self.categ_id.create_prod_bobina(self.ancho, self.diametro, self.gramaje)
+                
+                
+                if not referencia_id:
+                    raise ValidationError(error)
+                    
+                self.referencia_id = referencia_id
+                self.name = referencia_id.name
+                
+                
+            if self.categ_id.is_pieballet == True:
+            
+                if not self.longitud or self.longitud <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                if not self.pie:
+                    raise ValidationError("Error: Hay que indicar un valor en PIE")
+                    
+                referencia_id, error = self.categ_id.create_prod_pieballet(self.longitud, self.pie)
+                
+                
+                
+                if not referencia_id:
+                    raise ValidationError(error)
+
+                self.referencia_id = referencia_id
+                self.name = referencia_id.name
+
 
     
     

@@ -24,3 +24,15 @@ class StockProductionLot(models.Model):
     
     #OTROS
     fabricado = fields.Boolean('Fabricado')
+    
+    
+    @api.multi
+    def name_get(self):
+        res = super(StockProductionLot, self).name_get()
+        data = []
+        for lot in self:
+            display_value = lot.name
+            if lot.unidades > 0:
+                display_value = display_value + ' (' + str(lot.unidades) + ')'
+            data.append((lot.id, display_value))
+        return data

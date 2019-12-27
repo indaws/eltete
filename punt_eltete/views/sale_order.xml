@@ -11,8 +11,18 @@
                      <page name="sale_lots" string="Pallets">
 						<group>
 							<field name="lot_ids"/>
+						</group>
+                        
+                        <group>
 							<button name="enviar_a_fabricar" type="object" string="Mandar a fabricar" states="sale" />
 						</group>
+                        
+                        <group>
+							<button name="procesar_fabricacion" type="object" string="Fabricado" states="sale" />
+						</group>
+                        
+                        
+                            
 					</page>
 					
 					
