@@ -7,7 +7,9 @@ from odoo import fields, models, api
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
     
-    
+    #PEDIDO
+    sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
+    sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
     
     #CAMPOS REFERENCIA CLIENTE
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")

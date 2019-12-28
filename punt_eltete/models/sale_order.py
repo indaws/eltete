@@ -7,7 +7,8 @@ class SaleOrderLine(models.Model):
 
     
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
-    fabricado = fields.Boolean('Fabricado', readonly=True)
+
+    lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
     
     oferta_precio = fields.Float('Precio', digits = (12,4), readonly = True)
     oferta_precio_tipo = fields.Char('Precio Tipo', readonly = True)
@@ -16,6 +17,10 @@ class SaleOrderLine(models.Model):
     oferta_unidades = fields.Integer('Unidades Pallet')
     
     #precio unitario = cantidad * precio
+    
+    @api.depends('attribute_ids',)
+    def _get_lots_sale(self):
+        self.oferta_ids = self.env['stock.production.lot'].search([('sale_order_line_id.order_id', '=', lista_ids)])
     
     
     
@@ -27,7 +32,24 @@ class SaleOrder(models.Model):
     pedido_cliente = fields.Char('Pedido Cliente')
     fecha_entrega = fields.Date('Fecha Entrega')
     
-    lot_ids = fields.Many2many('stock.production.lot', string="Lotes", readonly=True)
+    lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
+    
+    @api.depends('order_line',)
+    def _get_lots_sale(self):
+        for record in self:
+            record.lot_ids = self.env['stock.production.lot'].search([('sale_order_id', '=', self.id)])
+    
+    num_pallets = fields.Integer('Num pallets', compute="_get_num_pallets")
+    
+    @api.depends('order_line.product_uom_qty', 'order_line')
+    def _get_num_pallets(self):
+    
+        for record in self:
+            num_pallets = 0
+            for line in record.order_line:
+                num_pallets = num_pallets + int(line.product_uom_qty)
+            record.num_pallets = num_pallets
+    
     
     
     @api.multi
@@ -41,28 +63,30 @@ class SaleOrder(models.Model):
             location_dest_id = 12
         
             for line in record.lot_ids:
-                mov_id = self.env['stock.move'].create({'name': 'FABRICACION PEDIDO ' + record.name,
-                                                        'product_id': line.product_id.id,
-                                                        'product_uom': line.product_id.uom_id.id,
-                                                        'product_uom_qty': 1,
-                                                        'date': fields.Date.today(),
-                                                        'state': 'confirmed',
-                                                        'location_id': location_id,
-                                                        'location_dest_id': location_dest_id,
-                                                        'move_line_ids': [(0, 0, {
+                if line.fabricado == False:
+                    mov_id = self.env['stock.move'].create({'name': 'FABRICACION PEDIDO ' + record.name,
                                                             'product_id': line.product_id.id,
-                                                            'lot_id': line.id,
-                                                            'product_uom_qty': 0,  # bypass reservation here
-                                                            'product_uom_id': line.product_id.uom_id.id,
-                                                            'qty_done': 1,
-                                                            #'package_id': out and self.package_id.id or False,
-                                                            #'result_package_id': (not out) and self.package_id.id or False,
+                                                            'product_uom': line.product_id.uom_id.id,
+                                                            'product_uom_qty': 1,
+                                                            'date': fields.Date.today(),
+                                                            'state': 'confirmed',
                                                             'location_id': location_id,
                                                             'location_dest_id': location_dest_id,
-                                                            'owner_id': record.partner_id.id,
-                                                        })]
-                                                       })
-                mov_id._action_done()
+                                                            'move_line_ids': [(0, 0, {
+                                                                'product_id': line.product_id.id,
+                                                                'lot_id': line.id,
+                                                                'product_uom_qty': 0,  # bypass reservation here
+                                                                'product_uom_id': line.product_id.uom_id.id,
+                                                                'qty_done': 1,
+                                                                #'package_id': out and self.package_id.id or False,
+                                                                #'result_package_id': (not out) and self.package_id.id or False,
+                                                                'location_id': location_id,
+                                                                'location_dest_id': location_dest_id,
+                                                                'owner_id': record.partner_id.id,
+                                                            })]
+                                                           })
+                    line.fabricado = True
+                    mov_id._action_done()
                 
     
     
@@ -71,11 +95,12 @@ class SaleOrder(models.Model):
         for record in self:
             lista_lotes = []
             for line in record.order_line:
+            
+                cantidad_a_fabricar = int(line.product_uom_qty) - len(line.lot_ids)
 
-                if line.fabricado == False:
-                
-                    i = 0
-                    while i < line.product_uom_qty:
+                i = 0
+                if cantidad_a_fabricar > 0:
+                    while i < cantidad_a_fabricar:
                         i = i+1
                 
                         if line.product_id:
@@ -96,18 +121,17 @@ class SaleOrder(models.Model):
                                                             'alto_fila': line.product_id.referencia_cliente_id.alto_fila,
                                                             'fila_max': line.product_id.referencia_cliente_id.fila_max,
                                                             'fila_buena': line.product_id.referencia_cliente_id.fila_buena,
-                                                            #'unidades': line.product_id.,
-                                                            'fabricado': True,
+                                                            'unidades': line.oferta_id.unidades,
+                                                            'fabricado': False,
+                                                            'sale_order_line_id': line.id
 
                                                            })
                                 lista_lotes.append(lot_id.id)
-                        
-                                #Asignamos stock a lotes
+                    
+                            #Asignamos stock a lotes
                 line.fabricado = True
                 
-            #Añadimos lotes al pedido
-            if len(lista_lotes) > 0:
-                record.write({'lot_ids': [( 6, 0, lista_lotes)]})
+
                 
                             
                 

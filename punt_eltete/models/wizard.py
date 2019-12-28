@@ -38,11 +38,29 @@ class WizardPartnerSaleOrder(models.TransientModel):
         
             #if line.attribute_id.get_price(num_pallets, self.state_id, self.country_id) < 0:
             #    raise ValidationError("Error: No hay ofertas para el atributo " + line.attribute_id.name)
+            
+            if len(line.lot_ids) > line.num_pallets:
+                raise ValidationError("Error: Has introducido más lotes que número de pallets")
+            
+        customer_payment_mode_id = None
+        if self.partner_id.customer_payment_mode_id:
+            customer_payment_mode_id = self.partner_id.customer_payment_mode_id.id
+            
+        property_payment_term_id = None
+        if self.partner_id.property_payment_term_id:
+            property_payment_term_id = self.partner_id.property_payment_term_id.id
+            
+        property_delivery_carrier_id = None
+        if self.partner_id.property_delivery_carrier_id:
+            property_delivery_carrier_id = self.partner_id.property_delivery_carrier_id.id
         
         
         sale = self.env['sale.order'].create({'partner_id': self.partner_id.id, 
                                               'date_order':self.date, 
                                               'user_id': self.user_id.id,
+                                              'payment_mode_id': customer_payment_mode_id,
+                                              'payment_term_id': property_payment_term_id,
+                                              'carrier_id': property_delivery_carrier_id
                                             })
         
         for line in self.line_ids:
@@ -152,21 +170,65 @@ class WizardPartnerSaleOrder(models.TransientModel):
                                                                  })
             
             
-            sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
-                                                'name':product_id.name, 
-                                                'product_uom_qty': line.num_pallets,
-                                                'price_unit': line.oferta_id.cantidad * line.oferta_id.precio,
-                                                'oferta_precio': line.oferta_id.precio,
-                                                'oferta_precio_tipo': line.oferta_id.precio_tipo,
-                                                'oferta_cantidad': line.oferta_id.cantidad,
-                                                'oferta_cantidad_tipo': line.oferta_id.cantidad_tipo,
-                                                'oferta_unidades': line.oferta_id.unidades,
-                                                'customer_lead': 1,
-                                                'product_uom': 1,
-                                                'oferta_id': line.oferta_id.id,
-                                                'product_id': product_id.product_variant_id.id,
-                                               })
-            sale_line._compute_tax_id()
+            if line.product_id.id == product_id.id:
+            
+                sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
+                                                    'name':product_id.name, 
+                                                    'product_uom_qty': line.num_pallets,
+                                                    'price_unit': line.oferta_id.cantidad * line.oferta_id.precio,
+                                                    'oferta_precio': line.oferta_id.precio,
+                                                    'oferta_precio_tipo': line.oferta_id.precio_tipo,
+                                                    'oferta_cantidad': line.oferta_id.cantidad,
+                                                    'oferta_cantidad_tipo': line.oferta_id.cantidad_tipo,
+                                                    'oferta_unidades': line.oferta_id.unidades,
+                                                    'customer_lead': 1,
+                                                    'product_uom': 1,
+                                                    'oferta_id': line.oferta_id.id,
+                                                    'product_id': product_id.product_variant_id.id,
+                                                   })
+                sale_line._compute_tax_id()
+                for lot in line.lot_ids:
+                    lot.sale_order_line_id = sale_line.id
+            else:
+                #CREAMOS LÍNEA DE LOTES
+                quantity = len(line.lot_ids)
+                sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
+                                                    'name':product_id.name, 
+                                                    'product_uom_qty': quantity,
+                                                    'price_unit': line.oferta_id.cantidad * line.oferta_id.precio,
+                                                    'oferta_precio': line.oferta_id.precio,
+                                                    'oferta_precio_tipo': line.oferta_id.precio_tipo,
+                                                    'oferta_cantidad': line.oferta_id.cantidad,
+                                                    'oferta_cantidad_tipo': line.oferta_id.cantidad_tipo,
+                                                    'oferta_unidades': line.oferta_id.unidades,
+                                                    'customer_lead': 1,
+                                                    'product_uom': 1,
+                                                    'oferta_id': line.oferta_id.id,
+                                                    'product_id': line.product_id.product_variant_id.id,
+                                                   })
+                sale_line._compute_tax_id()
+                for lot in line.lot_ids:
+                    lot.sale_order_line_id = sale_line.id
+                                                   
+                quantity2 = line.num_pallets - quantity
+                if quantity2 > 0:
+                    sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
+                                                        'name':product_id.name, 
+                                                        'product_uom_qty': quantity2,
+                                                        'price_unit': line.oferta_id.cantidad * line.oferta_id.precio,
+                                                        'oferta_precio': line.oferta_id.precio,
+                                                        'oferta_precio_tipo': line.oferta_id.precio_tipo,
+                                                        'oferta_cantidad': line.oferta_id.cantidad,
+                                                        'oferta_cantidad_tipo': line.oferta_id.cantidad_tipo,
+                                                        'oferta_unidades': line.oferta_id.unidades,
+                                                        'customer_lead': 1,
+                                                        'product_uom': 1,
+                                                        'oferta_id': line.oferta_id.id,
+                                                        'product_id': product_id.product_variant_id.id,
+                                                       })
+                    sale_line._compute_tax_id()
+                
+            
     
         return {
             'type': 'ir.actions.act_window',

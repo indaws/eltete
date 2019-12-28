@@ -19,8 +19,61 @@
 					<field name="fila_buena"/>
 					<field name="unidades"/>
 					<field name="fabricado"/>
+                    <field name="sale_order_line_id"/>
+                    <field name="sale_order_id"/>
 
 
+                </xpath>
+            
+                
+
+            
+        </field>
+    </record>
+    
+    
+    <record id="view_stock_production_lot_simple_eltete_form" model="ir.ui.view">
+        <field name="name">stock.production.lot.simple.eltete.form</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form_simple"/>
+        <field name="arch" type="xml">
+        
+                <xpath expr="//field[@name='ref']" position="after">
+                
+                    
+					<field name="pallet_especial_id"/>
+					<field name="paletizado"/>
+					<field name="ancho_pallet"/>
+					<field name="und_paquete"/>
+					<field name="paquetes_fila"/>
+					<field name="alto_fila"/>
+					<field name="fila_max"/>
+					<field name="fila_buena"/>
+					<field name="unidades"/>
+					<field name="fabricado"/>
+                    <field name="sale_order_line_id"/>
+                    <field name="sale_order_id"/>
+
+
+                </xpath>
+            
+                
+
+            
+        </field>
+    </record>
+    
+    
+    <record id="view_stock_production_lot_eltete_tree" model="ir.ui.view">
+        <field name="name">stock.production.lot.eltete.tree</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+        
+                <xpath expr="//field[@name='create_date']" position="after">
+					<field name="fabricado"/>
+                    <field name="unidades"/>
+					<field name="sale_order_id"/>
                 </xpath>
             
                 
