@@ -27,10 +27,11 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
-    fecha_cliente = fields.Date('Fecha Cliente')
-    fecha_entrega_cliente = fields.Date('Fecha Entrega Cliente')
-    pedido_cliente = fields.Char('Pedido Cliente')
-    fecha_entrega = fields.Date('Fecha Entrega')
+    pedido_cliente = fields.Char('Número Pedido Cliente')
+    fecha_entrega = fields.Date('Fecha Entrega Bemeco')
+    
+    fecha_cliente = fields.Date('Fecha del Pedido Cliente')
+    fecha_entrega_cliente = fields.Date('Fecha Entrega del Pedido Cliente')
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
     
