@@ -6,7 +6,7 @@ from odoo.addons import decimal_precision as dp
     
 class sale_referencia_cliente(models.Model):
     _name = 'sale.referencia.cliente'
-    _order = 'referencia_id.orden'
+    _order = 'ordenado'
 
     name = fields.Char(string='Título', compute="_get_name", store=True) ##POR DEFERCTO EL TITULO, no el name
     referencia_cliente_nombre = fields.Char(string='Ref cliente nombre')
@@ -93,6 +93,7 @@ class sale_referencia_cliente(models.Model):
     precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:', required=True)
     
     comentario_referencia = fields.Text('Comentario común', related='referencia_id.comentario', readonly=False)
+    ordenado = fields.Text('Ordenado', related='referencia_id.orden', readonly=False)
 
     #CALCULOS
     ocultar = fields.Boolean('Ocultar datos', default = True)
