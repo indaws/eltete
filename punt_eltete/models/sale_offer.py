@@ -36,28 +36,23 @@ class sale_referencia_cliente(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
-    
-    ala_1 = fields.Integer('Ala 1')
-    base = fields.Integer('Base')
-    ancho = fields.Integer('Ancho')
-    ala_2 = fields.Integer('Ala 2')
-    grosor_1 = fields.Float('Grosor 1', digits=(6,1))
-    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
-    longitud = fields.Integer('Longitud')
-    alas = fields.Integer('Alas')
-    ala_3 = fields.Integer('Solapa 3')
-    ala_4 = fields.Integer('Solapa 4')
-    
-    diametro = fields.Integer('Diámetro')
-    gramaje = fields.Integer('Gramaje')
-    
-    
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
                ('3', 'Alto 60 con Adhesivo'),                 
                ('4', 'Alto 60 sin Adhesivo'),         #La coma final?
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie', default = '1')
+    ala_1 = fields.Integer('Ala 1 / Solapa')
+    ancho = fields.Integer('Ancho')
+    ala_2 = fields.Integer('Ala 2')
+    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
+    ala_3 = fields.Integer('Solapa 3')
+    longitud = fields.Integer('Longitud')
+    ala_4 = fields.Integer('Solapa 4')
+    grosor_1 = fields.Float('Grosor 1', digits=(8,1))
+    
+    diametro = fields.Integer('Diámetro')
+    gramaje = fields.Integer('Gramaje')
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
@@ -66,11 +61,7 @@ class sale_referencia_cliente(models.Model):
     peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
-    
-    
-    #product_id = fields.Many2one('product.template', string="Producto", readonly=True)
-    
-    
+
     #REFERENCIA CLIENTE
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
     
@@ -102,8 +93,6 @@ class sale_referencia_cliente(models.Model):
     
     comentario_referencia = fields.Text('Comentario común', related='referencia_id.comentario', readonly=False)
 
-
-    
     #CALCULOS
     ocultar = fields.Boolean('Ocultar datos', default = True)
     paletizado = fields.Integer('Paletizado', compute="_get_valores")
@@ -682,9 +671,9 @@ class sale_product_attribute(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
-    name = fields.Char('Nombre', readonly = True, compute = "_get_titulo")
+    name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
-    descripcion = fields.Char('Descripcion', readonly = True, compute = "_get_titulo")
+    descripcion = fields.Char('Descripcion para el Cliente', readonly = True, compute = "_get_titulo")
     
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
@@ -766,37 +755,47 @@ class sale_product_attribute(models.Model):
                         
                     if record.cantonera_especial_id:
                         nombre = nombre + record.cantonera_especial_id.name + ", "
-                        descripcion = descripcion + record.cantonera_especial_id.description + ", "
+                        if record.cantonera_especial_id.description:
+                            descripcion = descripcion + record.cantonera_especial_id.description + ", "
                     if record.cantonera_impresion_id:
                         nombre = nombre + record.cantonera_impresion_id.name + ", "
-                        descripcion = descripcion + record.cantonera_impresion_id.description + ", "
+                        if record.cantonera_impresion_id.description:
+                            descripcion = descripcion + record.cantonera_impresion_id.description + ", "
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
-                        descripcion = descripcion + str(record.inglete_num) + " " + record.cantonera_inglete_id.description + ", "
+                        if record.cantonera_inglete_id.description:
+                            descripcion = descripcion + str(record.inglete_num) + " " + record.cantonera_inglete_id.description + ", "
                     if record.cantonera_forma_id:
                         nombre = nombre + record.cantonera_forma_id.name + ", "
-                        descripcion = descripcion + record.cantonera_forma_id.description + ", "
+                        if record.cantonera_forma_id.description:
+                            descripcion = descripcion + record.cantonera_forma_id.description + ", "
+                    else:
+                        nombre = nombre + "Canto Recto, "
                     if record.reciclable_id:
                         nombre = nombre + record.reciclable_id.name + ", "
-                        descripcion = descripcion + record.reciclable_id.description + ", "
+                        if record.reciclable_id.description:
+                            descripcion = descripcion + record.reciclable_id.description + ", "
                     
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
                     if record.perfilu_color_id:
                         nombre = nombre + record.perfilu_color_id.name + ", "
-                        descripcion = descripcion + record.perfilu_color_id.description + ", "
+                        if record.perfilu_color_id.description:
+                            descripcion = descripcion + record.perfilu_color_id.description + ", "
                     else:
                         nombre = nombre + "Sin Color, "
                         estado = estado + "Falta Color, "
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
-                        descripcion = descripcion + str(record.inglete_num) + " " + record.inglete_id.description + ", "
+                        if record.inglete_id.description:
+                            descripcion = descripcion + str(record.inglete_num) + " " + record.inglete_id.description + ", "
                     
                 #Slip Sheets
                 elif record.type_id.is_slipsheet == True:
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
-                        descripcion = descripcion + record.troquelado_id.description + ", "
+                        if record.troquelado_id.description:
+                            descripcion = descripcion + record.troquelado_id.description + ", "
                     else:
                         nombre = nombre + "Falta Troquelado, "
                         estado = estado + "Falta Troquelado, "
@@ -805,30 +804,36 @@ class sale_product_attribute(models.Model):
                 elif record.type_id.is_solidboard == True:
                     if record.plancha_color_id:
                         nombre = nombre + record.plancha_color_id.name + ", "
-                        descripcion = descripcion + record.plancha_color_id.description + ", "
+                        if record.plancha_color_id.description:
+                            descripcion = descripcion + record.plancha_color_id.description + ", "
                     else:
                         nombre = nombre + "Sin Color, "
                         estado = estado + "Falta Color, "
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
-                        descripcion = descripcion + record.troquelado_id.description + ", "
+                        if record.troquelado_id.description:
+                            descripcion = descripcion + record.troquelado_id.description + ", "
                     
                 #Formato
                 elif record.type_id.is_formato == True:
                     if record.papel_calidad_id:
                         nombre = nombre + record.papel_calidad_id.name + ", "
-                        descripcion = descripcion + record.papel_calidad_id.description + ", "
+                        if record.papel_calidad_id.description:
+                            descripcion = descripcion + record.papel_calidad_id.description + ", "
                     else:
                         nombre = nombre + "Falta Papel, "
                         estado = estado + "Falta Papel, "
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
+                        if record.troquelado_id.descripcion:
+                            descripcion = descripcion + record.troquelado_id.description + ", "
                     
                 #Bobina
                 elif record.type_id.is_bobina == True:
                     if record.papel_calidad_id:
                         nombre = nombre + record.papel_calidad_id.name + ", "
-                        descripcion = descripcion + record.papel_calidad_id.description + ", "
+                        if record.papel_calidad_id.description:
+                            descripcion = descripcion + record.papel_calidad_id.description + ", "
                     else:
                         nombre = nombre + "Falta Papel, "
                         estado = estado + "Falta Papel, "                    
@@ -836,7 +841,6 @@ class sale_product_attribute(models.Model):
                 #Pie de Pallet
                 elif record.type_id.is_pieballet == True:
                     nombre = nombre  + "Pie de Pallet, "
-             
             
             if len(nombre) > 2:
                 nombre = nombre[:-2]
