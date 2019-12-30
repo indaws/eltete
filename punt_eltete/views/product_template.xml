@@ -1090,6 +1090,206 @@
         
         
         <menuitem name="FSC" parent="sale.prod_config_main" id="menu_product_caracteristica_fsc" action="action_product_caracteristica_fsc" sequence="30"/>
+        
+        
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.varios
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_varios_tree">
+            <field name="name">product.caracteristica.varios.tree</field>
+            <field name="model">product.caracteristica.varios</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="tinta_1_id"/>
+                    <field name="texto_1"/>
+                    <field name="tinta_2_id"/>
+                    <field name="texto_2"/>
+                    <field name="tinta_3_id"/>
+                    <field name="texto_3"/>
+                    <field name="proveedor"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_varios_form">
+            <field name="name">product.caracteristica.varios.form</field>
+            <field name="model">product.caracteristica.varios</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="tinta_1_id"/>
+                            <field name="texto_1"/>
+                            <field name="tinta_2_id"/>
+                            <field name="texto_2"/>
+                            <field name="tinta_3_id"/>
+                            <field name="texto_3"/>
+                            <field name="proveedor"/>
+                            <field name="image"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_varios_search">
+            <field name="name">product.caracteristica.varios.search</field>
+            <field name="model">product.caracteristica.varios</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_varios">
+            <field name="name">varios</field>
+            <field name="res_model">product.caracteristica.varios</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Varios" parent="sale.prod_config_main" id="menu_product_caracteristica_varios" action="action_product_caracteristica_varios" sequence="31"/>
+        
+        
+    <!-- #######################################################
+                 product.caracteristica.tinta
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_tinta_tree">
+            <field name="name">product.caracteristica.tinta.tree</field>
+            <field name="model">product.caracteristica.tinta</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_tinta_form">
+            <field name="name">product.caracteristica.tinta.form</field>
+            <field name="model">product.caracteristica.tinta</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_tinta_search">
+            <field name="name">product.caracteristica.tinta.search</field>
+            <field name="model">product.caracteristica.tinta</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_tinta">
+            <field name="name">tinta</field>
+            <field name="res_model">product.caracteristica.tinta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Tinta" parent="sale.prod_config_main" id="menu_product_caracteristica_tinta" action="action_product_caracteristica_tinta" sequence="32"/>
+        
+        
+        <!-- #######################################################
+                 product.caracteristica.cliche
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_caracteristica_cliche_tree">
+            <field name="name">product.caracteristica.cliche.tree</field>
+            <field name="model">product.caracteristica.cliche</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cliche_form">
+            <field name="name">product.caracteristica.cliche.form</field>
+            <field name="model">product.caracteristica.cliche</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="number"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_caracteristica_cliche_search">
+            <field name="name">product.caracteristica.cliche.search</field>
+            <field name="model">product.caracteristica.cliche</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="number"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_caracteristica_cliche">
+            <field name="name">Cliche</field>
+            <field name="res_model">product.caracteristica.cliche</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Cliche" parent="sale.prod_config_main" id="menu_product_caracteristica_cliche" action="action_product_caracteristica_cliche" sequence="33"/>
     
     
     
