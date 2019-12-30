@@ -756,12 +756,14 @@ class sale_product_attribute(models.Model):
                 elif record.type_id.is_cantonera == True:
                     if record.cantonera_color_id:
                         nombre = nombre + record.cantonera_color_id.name + ", "
-                        descripcion = descripcion + record.cantonera_color_id.description + ", "
-                        if record.cantonera_color_id.valido == False:
+                        if record.cantonera_color_id.description and record.cantonera_color_id.valido == True:
+                            descripcion = descripcion + record.cantonera_color_id.description + ", "
+                        else:
                             estado = estado + "Falta Color, "
                     else:
                         nombre = nombre + "Sin Color, "
                         estado = estado + "Falta Color, "
+                        
                     if record.cantonera_especial_id:
                         nombre = nombre + record.cantonera_especial_id.name + ", "
                         descripcion = descripcion + record.cantonera_especial_id.description + ", "
