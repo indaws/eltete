@@ -5,7 +5,6 @@ from odoo import fields, models, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
