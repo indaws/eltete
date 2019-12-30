@@ -1002,24 +1002,24 @@ class ProductCaracteristicaPalletEspecial(models.Model):
  #############################
 # CARACTERISTICA DE PRODUCTO #
 ##############################
-"""
+
 class ProductCaracteristicaVarios(models.Model):
     _name = 'product.caracteristica.varios'
     _order = 'number'
 
     number = fields.Integer('Número', required = True)
     name = fields.Char('Titulo', required = True)
-    descripcion = fields.Char('Descripcion')
-    tinta_1_id = fields.Many2one('commodity.tinta', string="Tinta 1")
+    description = fields.Char('Descripción')
+    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
     texto_1 = fields.Char('Tinta 1')
-    tinta_2_id = fields.Many2one('commodity.tinta', string="Tinta 2")
+    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
     texto_2 = fields.Char('Tinta 1')  
-    tinta_3_id = fields.Many2one('commodity.tinta', string="Tinta 3")
+    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
     texto_3 = fields.Char('Tinta 3')  
     proveedor = fields.Char('Tinta 1')  
     image = fields.Binary('Imagen')
     
- """   
+   
     
     
     
@@ -1373,3 +1373,44 @@ class ProductCaracteristicaPapelCalidad(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
+            
+            
+class ProductCaracteristicaCliche(models.Model):
+    _name = 'product.caracteristica.cliche'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    
+    
+    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
+
+    @api.depends('description',)
+    def _get_description(self):
+        for record in self:
+            description_str = ''
+            if record.description != None:
+                description_str = record.description_str
+            record.description_str = description_str
+            
+            
+class ProductCaracteristicaTinta(models.Model):
+    _name = 'product.caracteristica.tinta'
+    _order = 'number'
+    
+    name = fields.Char('Nombre', required=True)
+    number = fields.Integer('Número', required=True)
+    description = fields.Char('Descripción')
+    
+    
+    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
+
+    @api.depends('description',)
+    def _get_description(self):
+        for record in self:
+            description_str = ''
+            if record.description != None:
+                description_str = record.description_str
+            record.description_str = description_str
+            
