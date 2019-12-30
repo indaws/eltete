@@ -9,32 +9,35 @@
                 <xpath expr="//page[@name='other_information']" position="after">
                 
                      <page name="sale_lots" string="Pallets">
-						<group>
-							<field name="lot_ids"/>
-						</group>
+			<group>
+				<field name="lot_ids"/>
+			</group>
                         
                         <group>
-							<button name="enviar_a_fabricar" type="object" string="Mandar a fabricar" states="sale" />
-						</group>
+				<button name="enviar_a_fabricar" type="object" string="Mandar a fabricar" states="sale" />
+			</group>
                         
                         <group>
-							<button name="procesar_fabricacion" type="object" string="Fabricado" states="sale" />
-						</group>
+				<button name="procesar_fabricacion" type="object" string="Fabricado" states="sale" />
+			</group>
                         
                         
                             
-					</page>
+			</page>
 					
 					
 					
                 </xpath>
+		
+			<field name="partner_shipping_id" position="after">
+				<field name="pedido_cliente"/>
+				<field name="fecha_entrega"/>
+			</field>
             
-				<field name="confirmation_date" position="after">
-					<field name="fecha_cliente"/>
-					<field name="fecha_entrega_cliente"/>
-					<field name="pedido_cliente"/>
-					<field name="fecha_entrega"/>
-				</field>
+			<field name="confirmation_date" position="after">
+				<field name="fecha_cliente"/>
+				<field name="fecha_entrega_cliente"/>
+			</field>
                 
 
             
