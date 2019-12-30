@@ -103,6 +103,7 @@
                         <field name="attribute_ids" context="{'default_referencia_cliente_id': active_id,  }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
                             <tree string="Atributos" >
                                 <field name='name' />
+				<field name='descripcion' />
 				<field name='estado' />
                             </tree>
                         </field>   
