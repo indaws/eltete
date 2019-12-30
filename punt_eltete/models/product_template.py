@@ -13,7 +13,7 @@ class ProductReferencia(models.Model):
     titulo = fields.Char('Título', readonly=True)
     
     
-    type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
+    type_id = fields.Many2one('product.category', string="Tipo de producto", required=True, readonly = True)
     
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
     is_perfilu = fields.Boolean('¿Es Perfil U?', related='type_id.is_perfilu')
@@ -24,35 +24,25 @@ class ProductReferencia(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
-    ala_1 = fields.Integer('Ala 1')
-    ancho = fields.Integer('Ancho')
-    ala_2 = fields.Integer('Ala 2')
-    grosor_1 = fields.Float('Grosor 1', digits=(6,1))
-    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
-    longitud = fields.Integer('Longitud')
-    alas = fields.Integer('Alas')
-    interior = fields.Integer('Interior')
-    entrada_1 = fields.Char('Entrada 1')
-    entrada_2 = fields.Char('Entrada 2')
-    entrada_3 = fields.Char('Entrada 3')
-    entrada_4 = fields.Char('Entrada 4')
-    
-    ala_3 = fields.Integer('Solapa 3')
-    ala_4 = fields.Integer('Solapa 4')
-    
-    diametro = fields.Integer('Diámetro')
-    gramaje = fields.Integer('Gramaje')
-    
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
                ('3', 'Alto 60 con Adhesivo'),                 
                ('4', 'Alto 60 sin Adhesivo'),
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    ala_1 = fields.Integer('Ala 1', readonly = True)
+    ancho = fields.Integer('Ancho', readonly = True)
+    ala_2 = fields.Integer('Ala 2', readonly = True)
+    grosor_2 = fields.Float('Grosor 2', digits=(8,2), readonly = True)    
+    ala_3 = fields.Integer('Solapa 3', readonly = True)
+    longitud = fields.Integer('Longitud', readonly = True)
+    ala_4 = fields.Integer('Solapa 4', readonly = True)
+    grosor_1 = fields.Float('Grosor 1', digits=(6,1), readonly = True)
     
+    diametro = fields.Integer('Diámetro', readonly = True)
+    gramaje = fields.Integer('Gramaje', readonly = True)
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
-    
     comentario = fields.Text('Comentario Referencia')
     
     #varios
