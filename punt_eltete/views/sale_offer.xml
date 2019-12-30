@@ -232,14 +232,15 @@
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <tree string="Producto">
+                    <field name='partner_id' invisible="1"/>
 					<field name='date' />
                     <field name='referencia_cliente_id' />
-		    <field name='attribute_id' />
-		    <field name='und_pallet' />
-		    <field name='num_pallets' />
-		    <field name='name' />
-		    <field name='state_id' />
-		    <field name='country_id' />
+                    <field name='attribute_id' />
+                    <field name='und_pallet' />
+                    <field name='num_pallets' />
+                    <field name='name' />
+                    <field name='state_id' />
+                    <field name='country_id' />
 					
                 </tree>
             </field>
@@ -313,6 +314,7 @@
                 <search string="Ofertas">
                     <field name="referencia_cliente_id"/>
                     <field name="attribute_id"/>
+                    <field name="partner_id"/>
                     <field name="user_id"/>                    
                     <field name="date"/>                    
                     <field name="state_id"/>
