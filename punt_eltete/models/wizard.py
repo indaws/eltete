@@ -170,7 +170,7 @@ class WizardPartnerSaleOrder(models.TransientModel):
                                                                  })
             
             
-            if line.product_id.id == product_id.id:
+            if len(line.lot_ids) > 0 and line.product_id.id == product_id.id:
             
                 sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
                                                     'name':product_id.name, 
@@ -190,25 +190,27 @@ class WizardPartnerSaleOrder(models.TransientModel):
                 for lot in line.lot_ids:
                     lot.sale_order_line_id = sale_line.id
             else:
+                
                 #CREAMOS LÍNEA DE LOTES
                 quantity = len(line.lot_ids)
-                sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
-                                                    'name':product_id.name, 
-                                                    'product_uom_qty': quantity,
-                                                    'price_unit': line.oferta_id.cantidad * line.oferta_id.precio,
-                                                    'oferta_precio': line.oferta_id.precio,
-                                                    'oferta_precio_tipo': line.oferta_id.precio_tipo,
-                                                    'oferta_cantidad': line.oferta_id.cantidad,
-                                                    'oferta_cantidad_tipo': line.oferta_id.cantidad_tipo,
-                                                    'oferta_unidades': line.oferta_id.unidades,
-                                                    'customer_lead': 1,
-                                                    'product_uom': 1,
-                                                    'oferta_id': line.oferta_id.id,
-                                                    'product_id': line.product_id.product_variant_id.id,
-                                                   })
-                sale_line._compute_tax_id()
-                for lot in line.lot_ids:
-                    lot.sale_order_line_id = sale_line.id
+                if quantity > 0:
+                    sale_line = self.env['sale.order.line'].create({'order_id': sale.id, 
+                                                        'name':product_id.name, 
+                                                        'product_uom_qty': quantity,
+                                                        'price_unit': line.oferta_id.cantidad * line.oferta_id.precio,
+                                                        'oferta_precio': line.oferta_id.precio,
+                                                        'oferta_precio_tipo': line.oferta_id.precio_tipo,
+                                                        'oferta_cantidad': line.oferta_id.cantidad,
+                                                        'oferta_cantidad_tipo': line.oferta_id.cantidad_tipo,
+                                                        'oferta_unidades': line.oferta_id.unidades,
+                                                        'customer_lead': 1,
+                                                        'product_uom': 1,
+                                                        'oferta_id': line.oferta_id.id,
+                                                        'product_id': line.product_id.product_variant_id.id,
+                                                       })
+                    sale_line._compute_tax_id()
+                    for lot in line.lot_ids:
+                        lot.sale_order_line_id = sale_line.id
                                                    
                 quantity2 = line.num_pallets - quantity
                 if quantity2 > 0:
