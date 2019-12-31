@@ -54,13 +54,12 @@ class sale_referencia_cliente(models.Model):
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     
-    #tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo Varios")
-    peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
-    
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
-
+    
+    #varios
+    peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
+    metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
 
     #REFERENCIA CLIENTE
@@ -147,8 +146,14 @@ class sale_referencia_cliente(models.Model):
             
                 #Varios
                 if record.type_id.is_varios == True:
-
-                    
+                    if int(record.ancho_pallet_cliente) > 0:
+                        ancho_pallet = int(record.ancho_pallet_cliente)
+                    if record.und_paquete_cliente > 0:
+                        und_paquete = record.und_paquete_cliente
+                    paquetes = 1
+                    alto_fila = 10
+                    fila_max = 100
+                    fila_buena = 1
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
 
