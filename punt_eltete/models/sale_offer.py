@@ -55,6 +55,8 @@ class sale_referencia_cliente(models.Model):
     gramaje = fields.Integer('Gramaje')
     
     #tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo Varios")
+    peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
+    metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
