@@ -6,7 +6,6 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
         
-		
                 <xpath expr="//page[@name='general_information']" position="after">
                 
                     <page name="variants" string="El Tete">
@@ -161,8 +160,9 @@
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
                         <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                         <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-			<field name='tipo_varios_id' attrs="{'invisible': [('is_varios', '=', False),]}"/>
-			<field name="comentario"/>
+                        <field name='peso_metro_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+                        <field name='metros_unidad_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
+						<field name="comentario"/>
                     </group>
                     
                     <h3>Cálculos</h3>
@@ -1108,6 +1108,13 @@
                     <field name="number"/>
                     <field name="name"/>
                     <field name="description"/>
+                    <field name="tinta_1_id"/>
+                    <field name="texto_1"/>
+                    <field name="tinta_2_id"/>
+                    <field name="texto_2"/>
+                    <field name="tinta_3_id"/>
+                    <field name="texto_3"/>
+                    <field name="proveedor"/>
                 </tree>
             </field>
         </record>
@@ -1123,6 +1130,14 @@
                             <field name="number"/>
                             <field name="name"/>
                             <field name="description"/>
+                            <field name="tinta_1_id"/>
+                            <field name="texto_1"/>
+                            <field name="tinta_2_id"/>
+                            <field name="texto_2"/>
+                            <field name="tinta_3_id"/>
+                            <field name="texto_3"/>
+                            <field name="proveedor"/>
+                            <field name="image"/>
                         </group>
                         
                     </sheet>
