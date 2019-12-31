@@ -41,6 +41,7 @@
                             <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                             <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                             <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
+			    <field name='varios_id'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
                         </group>
                         
                         <group attrs="{'invisible': [('referencia_id', '!=', False)]}">
@@ -158,11 +159,10 @@
                         <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                         <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
+			<field name='varios_id'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
                         <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                         <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='peso_metro_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
-                        <field name='metros_unidad_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
-						<field name="comentario"/>
+			<field name="comentario"/>
                     </group>
                     
                     <h3>Cálculos</h3>
