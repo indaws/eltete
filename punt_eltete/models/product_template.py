@@ -41,7 +41,7 @@ class ProductReferencia(models.Model):
     diametro = fields.Integer('Diámetro', readonly = True)
     gramaje = fields.Integer('Gramaje', readonly = True)
     
-    varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo de Varios")
+    #varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo de Varios")
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
@@ -66,7 +66,7 @@ class ProductReferencia(models.Model):
         
             #Varios
             if record.type_id.is_varios == True:
-                ordenado1 = "99-" + record.varios_id.name
+                #ordenado1 = "99-" + record.varios_id.name
         
             #Cantonera
             elif record.type_id.is_cantonera == True:
@@ -665,23 +665,7 @@ class ProductCategory(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
     is_varios = fields.Boolean('¿Es Varios?')
 
-    @api.multi
-    def create_prod_varios(self, varios_id):
-        #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('varios_id', '=', varios_id)]):
-            return prod, None
-            
-        titulo = varios_id.name
-        product_name = "VARIOS - " + titulo
-        
-        referencia_id = self.env['product.referencia'].create({'name': product_name, 
-                                                          'titulo': titulo, 
-                                                          'type_id': self.id, 
-                                                         })
-        #product_id.create_bom_from_ref("TEMPLATE CANTONERA")
-
-        #Buscamos TEMPLATE CANTONERA
-        return referencia_id, None
+    
     
     
     @api.multi
