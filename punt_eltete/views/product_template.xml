@@ -161,6 +161,7 @@
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
                         <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                         <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+			<field name='tipo_varios_id' attrs="{'invisible': [('is_varios', '=', False),]}"/>
 			<field name="comentario"/>
                     </group>
                     
