@@ -60,6 +60,8 @@ class sale_referencia_cliente(models.Model):
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
+    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
+    
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
 
     #REFERENCIA CLIENTE
@@ -468,6 +470,24 @@ class sale_referencia_cliente(models.Model):
     
     @api.multi
     def bor_to_ref(self):
+    
+        if self.type_id.is_varios == True:
+
+            if not self.tipo_varios_id:
+                raise ValidationError("Error: Hay que indicar un valor de Varios")
+
+            referencia_id, error = self.type_id.create_prod_varios(self.tipo_varios_id)
+
+            if not referencia_id:
+                raise ValidationError(error)
+
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+
+            self.referencia_id = referencia_id    
+            self.state = 'REF'
+            self.referencia_cliente_nombre = self.referencia_id.titulo
+            
         if self.type_id.is_cantonera == True:
         
             if not self.ala_1 or self.ala_1 <= 0:
@@ -739,7 +759,9 @@ class sale_product_attribute(models.Model):
             if record.referencia_cliente_id:
                 #Varios
                 if record.type_id.is_varios == True:
-                    nombre = nombre
+                    nombre = nombre + record.tipo_varios_id.name
+                    if record.tipo_varios_id.description != "" and record.tipo_varios_id.description != None:
+                        descripcion = descripcion + record.tipo_varios_id.description + ", "
                     
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
@@ -1026,6 +1048,7 @@ class sale_offer_oferta(models.Model):
     precio_metro = fields.Float('Precio Metro', digits = (12,4))
     kilos = fields.Integer('Kilos Pallet')
     precio_kilo = fields.Float('Precio kilo', digits = (12,4))
+    precio_varios = fields.Float('Precio Varios Unidad', digits = (12,4))
     
     #DERECHA
     peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
@@ -1049,6 +1072,7 @@ class sale_offer_oferta(models.Model):
     
     name = fields.Char('Título', readonly = True, compute = "_get_precio")
     cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True, compute = "_get_precio")
+    cantidad_texto = fields.Char('Cantidad Texto', readonly = True, compute = "_get_precio")
     cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True, compute = "_get_precio")
     precio = fields.Float('Precio', digits = (12,4), readonly = True, compute = "_get_precio")
     precio_tipo = fields.Char('Precio Tipo', readonly = True, compute = "_get_precio")
@@ -1168,6 +1192,7 @@ class sale_offer_oferta(models.Model):
         for record in self:
             facturar = record.attribute_id.referencia_cliente_id.precio_cliente
             cantidad = 0
+            cantidad_texto = ""
             cantidad_tipo = ""
             precio = 0
             precio_tipo = ""
@@ -1176,6 +1201,14 @@ class sale_offer_oferta(models.Model):
             if facturar == '1':
                 cantidad = record.unidades * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                 cantidad_tipo = "metros"
+                aux = cantidad * 10000
+                decimales = 4
+                while aux % 10 == 0 and decimales > 1:
+                    aux = aux / 10
+                    decimales = decimales - 1
+                
+                aux = aux / (decimales * 10)
+                cantidad_texto = str(aux)
                 precio = record.precio_metro
                 precio = int(precio * 10000) / 10000
                 precio_tipo = "€/metro"
@@ -1211,6 +1244,14 @@ class sale_offer_oferta(models.Model):
                 eton = precio * 1000
                 nombre = str(record.num_pallets) + " pallets, " + str(record.kilos) + " kg/pallet, "
                 nombre = nombre + str(precio) + " €/kg, " + str(eton) + "€/t"
+            elif facturar == '5':
+                cantidad = record.unidades
+                cantidad_tipo = "unidades"
+                precio = record.precio_varios
+                precio = int(precio * 10000) / 10000
+                precio_tipo = "€/unidad" 
+                eton = 0
+                nombre = "Varios: " + str(record.unidades) + " und/pallet, " + str(precio) + " €/unidad, "
 
             record.name = nombre
             record.cantidad = cantidad

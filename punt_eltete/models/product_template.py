@@ -9,7 +9,7 @@ class ProductReferencia(models.Model):
     _order = 'orden'
 
     
-    name = fields.Char('Nombre', readonly=True)
+    name = fields.Char('Nombre')
     titulo = fields.Char('Título', readonly=True)
     
     
@@ -46,6 +46,7 @@ class ProductReferencia(models.Model):
     comentario = fields.Text('Comentario Referencia')
     
     #varios
+    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
     
@@ -68,7 +69,7 @@ class ProductReferencia(models.Model):
         
             #Varios
             if record.type_id.is_varios == True:
-                ordenado1 = "99-" + record.entrada_1
+                ordenado1 = "99-" + record.tipo_varios_id.name
         
             #Cantonera
             elif record.type_id.is_cantonera == True:
@@ -473,6 +474,7 @@ class ProductTemplate(models.Model):
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
+    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
     
     #################################
     #################################
@@ -666,7 +668,26 @@ class ProductCategory(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
     is_varios = fields.Boolean('¿Es Varios?')
+    
+    
+    @api.multi
+    def create_prod_varios(self, tipo_varios_id):
 
+        #Buscamos
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('tipo_varios_id', '=', tipo_varios_id), ]):
+            return prod, None
+
+
+
+        product_name = "VARIOS - " + tipo_varios_id.name
+
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
+                                                          'type_id': self.id, 
+                                                          'tipo_varios_id': tipo_varios_id,
+                                                         })
+
+        return referencia_id, None
     
     
     @api.multi
@@ -708,7 +729,7 @@ class ProductCategory(models.Model):
             
 
         titulo = str(ala1) + " x " + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
-        product_name = "CANTONERA " + titulo
+        product_name = "CANTONERA - " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -756,7 +777,7 @@ class ProductCategory(models.Model):
         
         
         titulo = str(ala1) + " x " + str(ancho) + " x "  + str(ala2) + " x " + str(grosor_2) + " x " + str(longitud)
-        product_name = "PERFIL U " + titulo
+        product_name = "PERFIL U - " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -816,7 +837,7 @@ class ProductCategory(models.Model):
             titulo = titulo + " + " + str(ala4)
         titulo = titulo + ") x " + str(grosor_1)
         
-        product_name = "SLIP SHEET " + titulo
+        product_name = "SLIP SHEET - " + titulo
         
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -851,7 +872,7 @@ class ProductCategory(models.Model):
 
 
         titulo = str(ancho) + " x " + str(longitud) + " x " + str(grosor_1)
-        product_name = "SOLID BOARD " + titulo
+        product_name = "SOLID BOARD - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo,
@@ -883,7 +904,7 @@ class ProductCategory(models.Model):
 
 
         titulo = str(ancho) + " x " + str(longitud) + " - " + str(gramaje) + "g"
-        product_name = "FORMATO " + titulo
+        product_name = "FORMATO - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo,
@@ -912,7 +933,7 @@ class ProductCategory(models.Model):
 
 
         titulo = "Ancho " + str(ancho) + " mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
-        product_name = "BOBINA " + titulo
+        product_name = "BOBINA - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -948,7 +969,7 @@ class ProductCategory(models.Model):
         elif pie == '4':
             titulo = "60 x 90 x " + str(longitud)    
 
-        product_name = "PIE DE BALLET " + titulo
+        product_name = "PIE DE BALLET - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -1010,14 +1031,8 @@ class ProductCaracteristicaVarios(models.Model):
     number = fields.Integer('Número', required = True)
     name = fields.Char('Titulo', required = True)
     description = fields.Char('Descripción')
-    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
-    texto_1 = fields.Char('Tinta 1')
-    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
-    texto_2 = fields.Char('Tinta 1')  
-    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
-    texto_3 = fields.Char('Tinta 3')  
-    proveedor = fields.Char('Tinta 1')  
-    image = fields.Binary('Imagen')
+    active = fields.Boolean('Activo', default = True)
+    
     
    
     
@@ -1382,6 +1397,15 @@ class ProductCaracteristicaCliche(models.Model):
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
+    
+    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
+    texto_1 = fields.Char('Tinta 1')
+    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
+    texto_2 = fields.Char('Tinta 1')  
+    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
+    texto_3 = fields.Char('Tinta 3')  
+    proveedor = fields.Char('Tinta 1')  
+    image = fields.Binary('Imagen')
     
     
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")

@@ -41,6 +41,7 @@
                             <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                             <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                             <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
+                            <field name='tipo_varios_id'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
                         </group>
                         
                         <group attrs="{'invisible': [('referencia_id', '!=', False)]}">
@@ -1108,13 +1109,7 @@
                     <field name="number"/>
                     <field name="name"/>
                     <field name="description"/>
-                    <field name="tinta_1_id"/>
-                    <field name="texto_1"/>
-                    <field name="tinta_2_id"/>
-                    <field name="texto_2"/>
-                    <field name="tinta_3_id"/>
-                    <field name="texto_3"/>
-                    <field name="proveedor"/>
+                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -1130,14 +1125,7 @@
                             <field name="number"/>
                             <field name="name"/>
                             <field name="description"/>
-                            <field name="tinta_1_id"/>
-                            <field name="texto_1"/>
-                            <field name="tinta_2_id"/>
-                            <field name="texto_2"/>
-                            <field name="tinta_3_id"/>
-                            <field name="texto_3"/>
-                            <field name="proveedor"/>
-                            <field name="image"/>
+                            <field name="active"/>
                         </group>
                         
                     </sheet>
@@ -1184,6 +1172,8 @@
                     <field name="number"/>
                     <field name="name"/>
                     <field name="description"/>
+                    
+                            
                 </tree>
             </field>
         </record>
@@ -1199,6 +1189,7 @@
                             <field name="number"/>
                             <field name="name"/>
                             <field name="description"/>
+                            
                         </group>
                         
                     </sheet>
@@ -1245,6 +1236,13 @@
                     <field name="number"/>
                     <field name="name"/>
                     <field name="description"/>
+                    <field name="tinta_1_id"/>
+                    <field name="texto_1"/>
+                    <field name="tinta_2_id"/>
+                    <field name="texto_2"/>
+                    <field name="tinta_3_id"/>
+                    <field name="texto_3"/>
+                    <field name="proveedor"/>
                 </tree>
             </field>
         </record>
@@ -1260,6 +1258,14 @@
                             <field name="number"/>
                             <field name="name"/>
                             <field name="description"/>
+                            <field name="tinta_1_id"/>
+                            <field name="texto_1"/>
+                            <field name="tinta_2_id"/>
+                            <field name="texto_2"/>
+                            <field name="tinta_3_id"/>
+                            <field name="texto_3"/>
+                            <field name="proveedor"/>
+                            <field name="image"/>
                         </group>
                         
                     </sheet>
