@@ -466,22 +466,7 @@ class sale_referencia_cliente(models.Model):
     def bor_to_ref(self):
         if self.type_id.is_varios == True:
             
-            if not self.tipo_varios_id:
-                raise ValidationError("Error: Hay que indicar un valor de Varios")
-                
-            referencia_id, error = self.type_id.create_prod_varios(self.tipo_varios_id)
-            
-            
-            
-            if not referencia_id:
-                raise ValidationError(error)
-                
-            if self.check_duplicado_referencia(referencia_id):
-                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
-                
-            self.referencia_id = referencia_id    
-            self.state = 'REF'
-            self.referencia_cliente_nombre = self.referencia_id.titulo
+           
         
         if self.type_id.is_cantonera == True:
         
