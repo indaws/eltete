@@ -14,6 +14,7 @@
             </field>
         </record>
         
+	
         
         <record model="ir.ui.view" id="view_sale_referencia_cliente_form">
             <field name="name">sale.referencia.cliente.form</field>
