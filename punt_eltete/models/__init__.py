@@ -7,3 +7,4 @@ from . import wizard
 from . import sale_order
 from . import stock_production_lot
 from . import product_pricelist
+from . import stock_picking
