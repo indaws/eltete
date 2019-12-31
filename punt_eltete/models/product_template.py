@@ -45,7 +45,7 @@ class ProductReferencia(models.Model):
     ancho_superficie = fields.Integer('Ancho Superficie')
     comentario = fields.Text('Comentario Referencia')
     
-    type_id = fields.Many2one('product.caracteristica.varios', string="Tipo Varios")
+    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo Varios")
     
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
