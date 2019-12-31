@@ -1,4 +1,4 @@
-
+﻿
 from odoo import fields, models, api
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
@@ -44,8 +44,6 @@ class ProductReferencia(models.Model):
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
     comentario = fields.Text('Comentario Referencia')
-    
-    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo Varios")
     
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
@@ -669,7 +667,7 @@ class ProductCategory(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
     is_varios = fields.Boolean('¿Es Varios?')
 
-   
+    
     
     @api.multi
     def create_prod_cantonera(self, ala1, ala2, grosor_2, longitud):
@@ -1011,7 +1009,16 @@ class ProductCaracteristicaVarios(models.Model):
 
     number = fields.Integer('Número', required = True)
     name = fields.Char('Titulo', required = True)
-    description = fields.Char('Descripción')   
+    description = fields.Char('Descripción')
+    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
+    texto_1 = fields.Char('Tinta 1')
+    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
+    texto_2 = fields.Char('Tinta 1')  
+    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
+    texto_3 = fields.Char('Tinta 3')  
+    proveedor = fields.Char('Tinta 1')  
+    image = fields.Binary('Imagen')
+    
    
     
     
@@ -1375,15 +1382,6 @@ class ProductCaracteristicaCliche(models.Model):
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
-    
-    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
-    texto_1 = fields.Char('Tinta 1')
-    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
-    texto_2 = fields.Char('Tinta 1')  
-    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
-    texto_3 = fields.Char('Tinta 3')  
-    proveedor = fields.Char('Tinta 1')  
-    image = fields.Binary('Imagen')
     
     
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")

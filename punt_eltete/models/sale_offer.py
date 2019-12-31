@@ -1,4 +1,4 @@
-
+﻿
 from odoo import fields, models, api
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
@@ -53,8 +53,6 @@ class sale_referencia_cliente(models.Model):
     
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
-    
-    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo Varios")
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
@@ -148,8 +146,14 @@ class sale_referencia_cliente(models.Model):
             
                 #Varios
                 if record.type_id.is_varios == True:
-                    
-                    
+                    if int(record.ancho_pallet_cliente) > 0:
+                        ancho_pallet = int(record.ancho_pallet_cliente)
+                    if record.und_paquete_cliente > 0:
+                        und_paquete = record.und_paquete_cliente
+                    paquetes = 1
+                    alto_fila = 10
+                    fila_max = 100
+                    fila_buena = 1
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
 
@@ -464,10 +468,6 @@ class sale_referencia_cliente(models.Model):
     
     @api.multi
     def bor_to_ref(self):
-        if self.type_id.is_varios == True:
-            
-           
-        
         if self.type_id.is_cantonera == True:
         
             if not self.ala_1 or self.ala_1 <= 0:
