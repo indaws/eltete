@@ -50,18 +50,17 @@ class sale_referencia_cliente(models.Model):
     longitud = fields.Integer('Longitud')
     ala_4 = fields.Integer('Solapa 4')
     grosor_1 = fields.Float('Grosor 1', digits=(8,1))
-    
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     
+    varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo de Varios")
+    
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
-    
-    #varios
-    peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
+
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
 
+    
     #REFERENCIA CLIENTE
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
     
