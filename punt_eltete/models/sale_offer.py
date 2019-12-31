@@ -54,6 +54,8 @@ class sale_referencia_cliente(models.Model):
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     
+    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo Varios")
+    
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
     
