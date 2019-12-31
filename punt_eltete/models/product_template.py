@@ -4,6 +4,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
 
 
+
 class ProductReferencia(models.Model):
     _name = 'product.referencia'
     _order = 'orden'
