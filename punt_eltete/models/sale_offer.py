@@ -53,7 +53,7 @@ class sale_referencia_cliente(models.Model):
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     
-    varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo de Varios")
+    #varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo de Varios")
     
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
@@ -732,9 +732,9 @@ class sale_product_attribute(models.Model):
             if record.referencia_cliente_id:
                 #Varios
                 if record.type_id.is_varios == True:
-                    nombre = nombre + record.varios_id.name
-                    if record.varios_id.description:
-                        descripcion = descripcion + record.varios_id.description + ", "
+                    #nombre = nombre + record.varios_id.name
+                    #if record.varios_id.description:
+                        #descripcion = descripcion + record.varios_id.description + ", "
                     
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
