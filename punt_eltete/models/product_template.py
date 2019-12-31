@@ -669,36 +669,7 @@ class ProductCategory(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
     is_varios = fields.Boolean('¿Es Varios?')
 
-    @api.multi
-    def create_prod_varios(self, tipo_varios_id):
-    
-        #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('tipo_varios_id', '=', tipo_varios_id), ]):
-            return prod, None
-
-        
-        titulo = "Varios"
-        if pie == '1':
-            titulo = "100 x 90 x " + str(longitud) + " - Adhesivo"
-        elif pie == '2':
-            titulo = "100 x 90 x " + str(longitud)
-        elif pie == '3':
-            titulo = "60 x 90 x " + str(longitud) + " - Adhesivo"
-        elif pie == '4':
-            titulo = "60 x 90 x " + str(longitud)    
-
-        product_name = "VARIOS - " + titulo
-            
-        referencia_id = self.env['product.referencia'].create({'name': product_name, 
-                                                          'titulo': titulo, 
-                                                          'type_id': self.id, 
-                                                          'tipo_varios_id': tipo_varios_id,
-                                                         })
-
-        return referencia_id, None
-    
-    
-    
+   
     
     @api.multi
     def create_prod_cantonera(self, ala1, ala2, grosor_2, longitud):
