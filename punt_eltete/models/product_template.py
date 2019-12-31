@@ -38,16 +38,14 @@ class ProductReferencia(models.Model):
     longitud = fields.Integer('Longitud', readonly = True)
     ala_4 = fields.Integer('Solapa 4', readonly = True)
     grosor_1 = fields.Float('Grosor 1', digits=(6,1), readonly = True)
-    
     diametro = fields.Integer('Diámetro', readonly = True)
     gramaje = fields.Integer('Gramaje', readonly = True)
+    
+    varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo de Varios")
+    
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
     comentario = fields.Text('Comentario Referencia')
-    
-    #varios
-    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
     
     
     #calculados
@@ -68,7 +66,7 @@ class ProductReferencia(models.Model):
         
             #Varios
             if record.type_id.is_varios == True:
-                ordenado1 = "99-" + record.entrada_1
+                ordenado1 = "99-" + record.varios_id.name
         
             #Cantonera
             elif record.type_id.is_cantonera == True:
@@ -181,8 +179,8 @@ class ProductReferencia(models.Model):
             peso1 = 0
 
             #Varios
-            if record.type_id.is_varios == True and record.peso_metro_user > 0:
-                peso1 = record.peso_metro_user
+            if record.type_id.is_varios == True:
+                
                 
             #Cantonera
             elif record.type_id.is_cantonera == True:
@@ -348,7 +346,7 @@ class ProductReferencia(models.Model):
 
             #Varios
             if record.type_id.is_varios == True:
-                metros = record.metros_unidad_user
+                
             #Cantonera
             elif record.type_id.is_cantonera == True:
                 metros = record.longitud / 1000
@@ -667,6 +665,23 @@ class ProductCategory(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
     is_varios = fields.Boolean('¿Es Varios?')
 
+    @api.multi
+    def create_prod_varios(self, varios_id):
+        #Buscamos
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('varios_id', '=', varios_id)]):
+            return prod, None
+            
+        titulo = varios_id.name
+        product_name = "VARIOS - " + titulo
+        
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
+                                                          'type_id': self.id, 
+                                                         })
+        #product_id.create_bom_from_ref("TEMPLATE CANTONERA")
+
+        #Buscamos TEMPLATE CANTONERA
+        return referencia_id, None
     
     
     @api.multi
@@ -1010,16 +1025,7 @@ class ProductCaracteristicaVarios(models.Model):
     number = fields.Integer('Número', required = True)
     name = fields.Char('Titulo', required = True)
     description = fields.Char('Descripción')
-    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
-    texto_1 = fields.Char('Tinta 1')
-    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
-    texto_2 = fields.Char('Tinta 1')  
-    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
-    texto_3 = fields.Char('Tinta 3')  
-    proveedor = fields.Char('Tinta 1')  
-    image = fields.Binary('Imagen')
-    
-   
+    active = fields.Boolean('Activo', default=True)
     
     
     
@@ -1382,6 +1388,15 @@ class ProductCaracteristicaCliche(models.Model):
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
+    
+    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
+    texto_1 = fields.Char('Tinta 1')
+    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
+    texto_2 = fields.Char('Tinta 1')  
+    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
+    texto_3 = fields.Char('Tinta 3')  
+    proveedor = fields.Char('Tinta 1')  
+    image = fields.Binary('Imagen')
     
     
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
