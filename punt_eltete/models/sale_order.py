@@ -60,7 +60,7 @@ class SaleOrder(models.Model):
             location_id = 7
             
             #ubic stock
-            location_dest_id = 12
+            location_dest_id = 13
         
             for line in record.lot_ids:
                 if line.fabricado == False:
