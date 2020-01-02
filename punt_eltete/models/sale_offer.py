@@ -693,13 +693,15 @@ class sale_product_attribute(models.Model):
     
     name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
+    titulo = fields.Char('Título para el Cliente', readonly = True, compute = "_get_titulo")
     descripcion = fields.Char('Descripcion para el Cliente', readonly = True, compute = "_get_titulo")
     
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
     cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
     cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
-    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
+    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión a Cobrar")
+    cantonera_cliche_id = fields.Many2one('product.caracteristica.cliche', string="Cliché")
     
     #PERFILU
     perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color")
@@ -722,7 +724,7 @@ class sale_product_attribute(models.Model):
     codigo_cliente = fields.Char('Codigo Cliente')
     fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
     reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
-    description = fields.Text("Descripción")
+    #description = fields.Text("Descripción")
     
     
     #OCULTOS
@@ -752,23 +754,29 @@ class sale_product_attribute(models.Model):
             nombre = ''
             estado = ''
             descripcion = ''
-            
-            if record.fsc_id:
-                nombre = nombre + record.fsc_id.name + ", "
+            titulo = ''
 
             if record.referencia_cliente_id:
+                
+                if record.fsc_id:
+                    nombre = nombre + record.fsc_id.name + ", "
+
                 #Varios
                 if record.type_id.is_varios == True:
                     nombre = nombre + record.tipo_varios_id.name
-                    if record.tipo_varios_id.description != "" and record.tipo_varios_id.description != None:
-                        descripcion = descripcion + record.tipo_varios_id.description + ", "
+                    #La descripcion del tipo Varios es obligaoria
+                    titulo = record.referencia_cliente_id.referencia_id.tipo_varios_id.description + ", "
+                    descripcion = ""
                     
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
+                    titulo = "Cantonera "
                     if record.cantonera_color_id:
                         nombre = nombre + record.cantonera_color_id.name + ", "
                         if record.cantonera_color_id.description and record.cantonera_color_id.valido == True:
-                            descripcion = descripcion + record.cantonera_color_id.description + ", "
+                            titulo = titulo + record.cantonera_color_id.description
+                            if record.fsc_id:
+                                titulo = titulo + " FSC"
                         else:
                             estado = estado + "Falta Color, "
                     else:
@@ -800,10 +808,11 @@ class sale_product_attribute(models.Model):
                     
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
+                    titulo = "Perfil U "
                     if record.perfilu_color_id:
                         nombre = nombre + record.perfilu_color_id.name + ", "
                         if record.perfilu_color_id.description:
-                            descripcion = descripcion + record.perfilu_color_id.description + ", "
+                            titulo = titulo + record.perfilu_color_id.description
                     else:
                         nombre = nombre + "Sin Color, "
                         estado = estado + "Falta Color, "
@@ -814,6 +823,9 @@ class sale_product_attribute(models.Model):
                     
                 #Slip Sheets
                 elif record.type_id.is_slipsheet == True:
+                    titulo = "Slip Sheet "
+                    if record.fsc_id:
+                        titulo = titulo + " FSC"
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
                         if record.troquelado_id.description:
@@ -824,10 +836,13 @@ class sale_product_attribute(models.Model):
                     
                 #Solid Board
                 elif record.type_id.is_solidboard == True:
+                    titulo = "Solid Board"
                     if record.plancha_color_id:
                         nombre = nombre + record.plancha_color_id.name + ", "
                         if record.plancha_color_id.description:
-                            descripcion = descripcion + record.plancha_color_id.description + ", "
+                            titulo = titulo + record.plancha_color_id.description
+                            if record.fsc_id:
+                                titulo = titulo + " FSC"
                     else:
                         nombre = nombre + "Sin Color, "
                         estado = estado + "Falta Color, "
@@ -838,10 +853,13 @@ class sale_product_attribute(models.Model):
                     
                 #Formato
                 elif record.type_id.is_formato == True:
+                    titulo = "Formato "
                     if record.papel_calidad_id:
                         nombre = nombre + record.papel_calidad_id.name + ", "
                         if record.papel_calidad_id.description:
-                            descripcion = descripcion + record.papel_calidad_id.description + ", "
+                            titulo = titulo + record.papel_calidad_id.description
+                            if record.fsc_id:
+                                titulo = titulo + " FSC"
                     else:
                         nombre = nombre + "Falta Papel, "
                         estado = estado + "Falta Papel, "
@@ -852,16 +870,20 @@ class sale_product_attribute(models.Model):
                     
                 #Bobina
                 elif record.type_id.is_bobina == True:
+                    titulo = "Bobina "
                     if record.papel_calidad_id:
                         nombre = nombre + record.papel_calidad_id.name + ", "
                         if record.papel_calidad_id.description:
-                            descripcion = descripcion + record.papel_calidad_id.description + ", "
+                            titulo = titulo + record.papel_calidad_id.description
+                            if record.fsc_id:
+                                titulo = titulo + " FSC"
                     else:
                         nombre = nombre + "Falta Papel, "
                         estado = estado + "Falta Papel, "                    
                     
                 #Pie de Pallet
                 elif record.type_id.is_pieballet == True:
+                    titulo = "Pie de Pallet"
                     nombre = nombre  + "Pie de Pallet, "
             
             if len(nombre) > 2:
@@ -875,6 +897,7 @@ class sale_product_attribute(models.Model):
                 nombre = 'Nuevo'
             record.name = nombre
             record.descripcion = descripcion
+            record.titulo = titulo
             record.estado = estado
     
 
