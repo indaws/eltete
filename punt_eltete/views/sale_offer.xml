@@ -103,6 +103,7 @@
                         <field name="attribute_ids" context="{'default_referencia_cliente_id': active_id,  }" attrs="{'invisible': [('state', 'in', ['BOR', 'REF'])]}">
                             <tree string="Atributos" >
                                 <field name='name' />
+				<field name='titulo' />
 				<field name='descripcion' />
 				<field name='estado' />
                             </tree>
@@ -171,16 +172,15 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name='name' />
                                 <field name='cantonera_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                                 <field name='cantonera_forma_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                                 <field name='cantonera_especial_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                                 <field name='cantonera_impresion_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
+				<field name='cantonera_cliche_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                                 <field name='perfilu_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_perfilu', '=', False)]}"/>
                                 <field name='plancha_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_solidboard', '=', False)]}"/>
                                 <field name='papel_calidad_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
                                 <field name='troquelado_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),]}"/>
-                                <field name='description' />
                                 
                                 <field name="referencia_cliente_id" invisible="1"  />
                                 <field name="type_id"  invisible="1" />
@@ -204,6 +204,11 @@
                         </group>
                         
                         <br/><br/><h3>Campos calculados</h3>
+			<group>
+			    <field name='name' />
+		            <field name='titulo' />
+			    <field name='descripcion' />
+			</group>
                         <group>
                             <group>
                                 <field name='cantonera_1' />
