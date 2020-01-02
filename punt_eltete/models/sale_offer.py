@@ -724,7 +724,7 @@ class sale_product_attribute(models.Model):
     codigo_cliente = fields.Char('Codigo Cliente')
     fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
     reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
-    #description = fields.Text("Descripción")
+    description = fields.Text("Descripción")
     
     
     #OCULTOS
