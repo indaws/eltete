@@ -1090,9 +1090,9 @@ class sale_offer_oferta(models.Model):
     
     aplicar_incremento = fields.Boolean('Aplicar Incrementos', default = True)
     aplicar_corte = fields.Boolean('Aplicar Corte', default = True)
-    eton_user = fields.Float('Euros / Tonelada')
-    emetro_calculado = fields.Float('Euros / metro', readonly = True, compute = "_get_calculado")
-    eton_calculado = fields.Float('Euros /tonelada', readonly = True, compute = "_get_calculado")
+    eton_user = fields.Float('Euros / Tonelada', digits = (8,1))
+    emetro_calculado = fields.Float('Euros / metro', digits = (12,4), readonly = True, compute = "_get_calculado")
+    eton_calculado = fields.Float('Euros /tonelada', digits = (8,1), readonly = True, compute = "_get_calculado")
     
     #OCULTOS
     num_filas = fields.Integer('Num filas', readonly = True)
