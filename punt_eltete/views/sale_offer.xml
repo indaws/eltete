@@ -48,13 +48,13 @@
                         
                         <h3 attrs="{'invisible': [('state', '!=', 'BOR')]}">Referencia</h3>
                         <group attrs="{'invisible': [('state', '!=', 'BOR')], 'readonly': [('state','!=','BOR')]}" >
-							<field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
+			    <field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                             <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
-                            <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
+			    <field name='ancho' attrs="{'invisible': [('is_perfilu', '=', False),('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),('is_bobina', '=', False)]}"/>
                             <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                             <field name='grosor_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}" />
                             <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
-			    <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
+			    <field name='longitud' attrs="{'invisible': [('is_cantonera', '=', False), ('is_perfilu', '=', False),('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),('is_pieballet', '=', False)]}"/>
                             <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
                             <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                             <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
