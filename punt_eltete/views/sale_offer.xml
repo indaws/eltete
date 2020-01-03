@@ -283,9 +283,13 @@
 				<field name='peso_neto_text' />
                                 <field name='peso_bruto_text' />
 				<field name='und_pallet_text' />
-				<button name="resta_filas" type="object" string="-" />
-				<button name="suma_filas" type="object" string="+" />
-				<h3>Precio:</h3>
+				<group>
+				    <button name="resta_filas" type="object" string="-" />
+				    </group>
+				    <group>
+					<button name="suma_filas" type="object" string="+" />
+				    </group>
+				<br/><br/><h3>Precio:</h3>
 				<field name='peso_metro' />
                                 <field name='aplicar_incremento' />
 				<field name='aplicar_corte' />
