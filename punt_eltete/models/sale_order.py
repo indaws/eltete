@@ -16,8 +16,8 @@ class SaleOrderLine(models.Model):
     #Campos visibles
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
-    oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta", required = True)
-    num_pallets = fields.Integer('Número de Pallets', default = 1, required = True)
+    oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
+    num_pallets = fields.Integer('Número de Pallets', default = 1)
     
     #Son visibles en el pdf
     codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
@@ -77,7 +77,7 @@ class SaleOrderLine(models.Model):
             elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
                 pesoMadera = 30
             else:
-                pesoMadera = int(self.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                pesoMadera = int(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
                 
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5

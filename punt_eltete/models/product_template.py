@@ -674,7 +674,7 @@ class ProductCategory(models.Model):
     def create_prod_varios(self, tipo_varios_id):
 
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('tipo_varios_id', '=', tipo_varios_id), ]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('tipo_varios_id', '=', tipo_varios_id.id), ]):
             return prod, None
 
 
