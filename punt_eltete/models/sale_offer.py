@@ -765,7 +765,8 @@ class sale_product_attribute(models.Model):
                 if record.type_id.is_varios == True:
                     nombre = nombre + record.tipo_varios_id.name
                     #La descripcion del tipo Varios es obligaoria
-                    titulo = record.referencia_cliente_id.referencia_id.tipo_varios_id.description + ", "
+                    if record.referencia_cliente_id.tipo_varios_id.description:
+                        titulo = record.referencia_cliente_id.referencia_id.tipo_varios_id.description + ", "
                     descripcion = ""
                     
                 #Cantonera
