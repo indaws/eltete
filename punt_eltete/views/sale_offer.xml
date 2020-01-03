@@ -263,46 +263,46 @@
                     
                     <sheet>
                         <group>
-		            <field name="referencia_cliente_id" invisible="1"/>
-			    <field name="attribute_id" domain="[('referencia_cliente_id','=', referencia_cliente_id)]" context="{'default_referencia_cliente_id': referencia_cliente_id,  }"/>
-                            <field name='user_id' />
-                            <field name='date' />
-                            <field name='state_id' />
-                            <field name='country_id' />
-		            <field name='num_pallets' />
-			    <field name='unidades' />
-			    <field name='precio_cliente' invisible="1"/>
-			    <field name='precio_metro' attrs="{'invisible': [('precio_cliente', '=', '4')]}"/>
-			    <field name='kilos' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
-			    <field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
-                        </group>
-                        <group>
-			    <h3>Unidades por Pallet:</h3>
-			    <field name='alto_pallet_text' />
-			    <field name='peso_neto_text' />
-                            <field name='peso_bruto_text' />
-			    <field name='und_pallet_text' />
-		            <group>
-				<button name="resta_filas" type="object" string="-" />
-			    </group>
 			    <group>
-				<button name="suma_filas" type="object" string="+" />
-			    </group>
-			    <br/><br/><h3>Precio:</h3>
-			    <field name='peso_metro' />
-                            <field name='aplicar_incremento' />
-			    <field name='aplicar_corte' />
-                            <field name='tarifa_id' />
-		            <field name='eton_user' />
+		                <field name="referencia_cliente_id" invisible="1"/>
+			        <field name="attribute_id" domain="[('referencia_cliente_id','=', referencia_cliente_id)]" context="{'default_referencia_cliente_id': referencia_cliente_id,  }"/>
+                                <field name='user_id' />
+                                <field name='date' />
+                                <field name='state_id' />
+                                <field name='country_id' />
+		                <field name='num_pallets' />
+			        <field name='unidades' />
+			        <field name='precio_cliente' invisible="1"/>
+			        <field name='precio_metro' attrs="{'invisible': [('precio_cliente', '=', '4')]}"/>
+			        <field name='kilos' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
+			        <field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
+                            </group>
 			    <group>
-				<field name='emetro_calculado' />
+				<h3>Unidades por Pallet:</h3>
+			        <field name='alto_pallet_text' />
+			        <field name='peso_neto_text' />
+                                <field name='peso_bruto_text' />
+			        <field name='und_pallet_text' />
+		                <group>
+				    <button name="resta_filas" type="object" string="-" />
+			        </group>
+			        <group>
+				    <button name="suma_filas" type="object" string="+" />
+			        </group>
+			       <br/><br/><h3>Precio:</h3>
+			        <field name='peso_metro' />
+                                <field name='aplicar_incremento' />
+			        <field name='aplicar_corte' />
+                                <field name='tarifa_id' />
+		                <field name='eton_user' />
+			        <group>
+				    <field name='emetro_calculado' />
+			        </group>
+			        <group>
+				    <field name='eton_calculado' />
+			        </group>
 			    </group>
-			    <group>
-				<field name='eton_calculado' />
-			    </group>
-                        </group>
-                        <br/><br/><h3>CÁLCULOS</h3>
-                        <group>
+				
                             <group>
 				<field name='num_filas' />
                                 <field name='name' />
@@ -315,7 +315,6 @@
                                 <field name='descripcion_html' />
                             </group>
                         </group>
-                        
                     </sheet>
                 </form>
             </field>
