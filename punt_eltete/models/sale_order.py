@@ -18,7 +18,7 @@ class SaleOrderLine(models.Model):
     #precio unitario = cantidad * precio
     
     
-    
+    """
     codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
@@ -94,6 +94,8 @@ class SaleOrderLine(models.Model):
             record.peso_bruto = peso_bruto
             record.eton = eton
     
+    """
+    
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
         self.oferta_ids = self.env['stock.production.lot'].search([('sale_order_line_id.order_id', '=', lista_ids)])
@@ -111,12 +113,13 @@ class SaleOrder(models.Model):
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
     
+    """
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
     toneladas = fields.Float('Toneladas', digits = (8, 1), compute="_get_num_pallets")
     eton = fields.Float('Eton', digits = (8, 1), compute="_get_num_pallets")
-    
+    """
     
     @api.depends('order_line',)
     def _get_lots_sale(self):
@@ -138,22 +141,23 @@ class SaleOrder(models.Model):
             for line in record.order_line:
                 #num_pallets = num_pallets + int(line.product_uom_qty)
                 num_pallets = num_pallets + int(line.num_pallets)
-                peso_neto = peso_pedido + line.peso_neto
-                peso_bruto = peso_pedido + line.peso_bruto
-                toneladas = toneladas + line.product_uom_qty
-                eton_total = eton_total + line.eton * line.product_uom_qty
-            
+                #peso_neto = peso_pedido + line.peso_neto
+                #peso_bruto = peso_pedido + line.peso_bruto
+                #toneladas = toneladas + line.product_uom_qty
+                #eton_total = eton_total + line.eton * line.product_uom_qty
+            """
             eton_medio = 0
             if toneladas > 0:
                 eton_medio = eton_total / toneladas
             eton_medio = int(eton_medio * 10) / 10
             toneladas = int(toneladas * 10) / 10
             
-            record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.toneladas = toneladas
             record.eton = eton_medio
+            """
+            record.num_pallets = num_pallets
 
     
     @api.multi
