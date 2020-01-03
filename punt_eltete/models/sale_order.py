@@ -44,7 +44,7 @@ class SaleOrderLine(models.Model):
             peso_bruto = 0
             eton = 0
 
-            
+            """"
             codigo = record.oferta_id.attribute_id.codigo_cliente
             
             descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
@@ -55,13 +55,13 @@ class SaleOrderLine(models.Model):
             
             cantidad_total = record.oferta_id.cantidad * record.num_pallets * 10000
             
-            """"
+            
             decimales = 4
             while cantidad_total % 10 == 0 and decimales > 0:
                 cantidad_total = cantidad_total / 10
                 decimales = decimales - 1
             cantidad = str(cantidad_total) + "<br/>" + record.oferta_id.cantidad_tipo
-            """
+            
             
             precio = record.oferta_id.precio + "<br/>" + record.oferta_id.precio_tipo
             
@@ -83,6 +83,8 @@ class SaleOrderLine(models.Model):
                 
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5
+            
+            """
             
             record.codigo = codigo
             record.descripcion = descripcion
@@ -142,11 +144,11 @@ class SaleOrder(models.Model):
             for line in record.order_line:
                 #num_pallets = num_pallets + int(line.product_uom_qty)
                 num_pallets = num_pallets + int(line.num_pallets)
-                #peso_neto = peso_pedido + line.peso_neto
-                #peso_bruto = peso_pedido + line.peso_bruto
-                #toneladas = toneladas + line.product_uom_qty
-                #eton_total = eton_total + line.eton * line.product_uom_qty
-            """
+                peso_neto = peso_pedido + line.peso_neto
+                peso_bruto = peso_pedido + line.peso_bruto
+                toneladas = toneladas + line.product_uom_qty
+                eton_total = eton_total + line.eton * line.product_uom_qty
+
             eton_medio = 0
             if toneladas > 0:
                 eton_medio = eton_total / toneladas
@@ -157,7 +159,7 @@ class SaleOrder(models.Model):
             record.peso_bruto = peso_bruto
             record.toneladas = toneladas
             record.eton = eton_medio
-            """
+
             record.num_pallets = num_pallets
 
     
