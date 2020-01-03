@@ -45,10 +45,12 @@ class SaleOrderLine(models.Model):
             eton = 0
 
             #codigo = record.oferta_id.attribute_id.codigo_cliente
-            #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
-            #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
-            #descripcion = descripcion + record.oferta_id.attribute_id.descripcion
-            """
+            #if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.type_id.is_varios == True:
+                #descripcion = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.tipo_varios_id.description
+            #else:
+                #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
+                #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
+
             und_pallet = record.oferta_id.unidades
             
             cantidad_total = record.oferta_id.cantidad * record.num_pallets * 10000
