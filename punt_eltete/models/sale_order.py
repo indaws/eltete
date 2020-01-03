@@ -45,10 +45,9 @@ class SaleOrderLine(models.Model):
             eton = 0
 
             codigo = record.oferta_id.attribute_id.codigo_cliente
-            
-            descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
-            descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
-            descripcion = descripcion + record.oferta_id.attribute_id.descripcion
+            #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
+            #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
+            #descripcion = descripcion + record.oferta_id.attribute_id.descripcion
             
             und_pallet = record.oferta_id.unidades
             
