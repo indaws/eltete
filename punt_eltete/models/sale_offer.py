@@ -1221,6 +1221,7 @@ class sale_offer_oferta(models.Model):
                 emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             emetro = int(emetro * 1000) / 1000
             
+            eton = 0
             if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
                 eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
             eton = int(eton * 10) / 10
