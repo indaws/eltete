@@ -127,7 +127,7 @@ class SaleOrder(models.Model):
 
             
             
-    @api.depends('order_line.num_pallets', 'order_line.peso_neto', 'order_line.peso_bruto', 'order_line.product_uom_qty', 'order_line.eton', 'order_line')
+    @api.depends('order_line.num_pallets', 'order_line.peso_neto', 'order_line.peso_bruto', 'order_line.product_uom_qty', 'order_line.price_unit', 'order_line')
     def _get_num_pallets(self):
     
         for record in self:
