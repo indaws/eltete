@@ -1423,7 +1423,7 @@ class ProductCaracteristicaTinta(models.Model):
     
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Pantone')
     
     
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
