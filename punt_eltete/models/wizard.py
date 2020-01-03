@@ -178,7 +178,7 @@ class WizardPartnerSaleOrder(models.TransientModel):
                                                     'price_unit': line.oferta_id.cantidad * line.oferta_id.precio,
                                                     'oferta_precio': line.oferta_id.precio,
                                                     'oferta_precio_tipo': line.oferta_id.precio_tipo,
-                                                    'oferta_cantidad': line.oferta_id.cantidad * line.num_pallets,
+                                                    'oferta_cantidad': line.oferta_id.cantidad,
                                                     'oferta_cantidad_tipo': line.oferta_id.cantidad_tipo,
                                                     'oferta_unidades': line.oferta_id.unidades,
                                                     'customer_lead': 1,
