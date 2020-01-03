@@ -20,11 +20,11 @@ class SaleOrderLine(models.Model):
     num_pallets = fields.Integer('Número de Pallets', default = 1)
     
     #Son visibles en el pdf
-    codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
-    descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
-    cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
-    precio = fields.Html('Precio', readonly = True, compute = "_get_valores")
+    #codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
+    #descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
+    #und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
+    #cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    #precio = fields.Html('Precio', readonly = True, compute = "_get_valores")
     
     #No son visibles
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
@@ -44,7 +44,7 @@ class SaleOrderLine(models.Model):
             peso_bruto = 0
             eton = 0
 
-            codigo = record.oferta_id.attribute_id.codigo_cliente
+            #codigo = record.oferta_id.attribute_id.codigo_cliente
             #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
             #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
             #descripcion = descripcion + record.oferta_id.attribute_id.descripcion
@@ -81,14 +81,13 @@ class SaleOrderLine(models.Model):
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5
             """
-            record.codigo = codigo
-            record.descripcion = descripcion
-            record.und_pallet = und_pallet
-            record.cantidad = cantidad
-            record.precio = precio
-            record.price_subtotal = importe
-            record.price_unit = eton
-            record.product_uom_qty = toneladas
+            #record.codigo = codigo
+            #record.descripcion = descripcion
+            #record.und_pallet = und_pallet
+            #record.cantidad = cantidad
+            #record.precio = precio
+            #record.price_subtotal = importe
+            #record.price_unit = eton
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
     
