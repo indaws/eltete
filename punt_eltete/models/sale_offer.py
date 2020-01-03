@@ -763,7 +763,9 @@ class sale_product_attribute(models.Model):
 
                 #Varios
                 if record.type_id.is_varios == True:
-                    nombre = "Varios"
+                    nombre = "Nombre Varios"
+                    descripcion = "Descripcion Varios"
+                    titulo = "titulo Varios"
                     
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
