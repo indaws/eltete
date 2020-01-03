@@ -18,19 +18,17 @@ class SaleOrderLine(models.Model):
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta", required = True)
     num_pallets = fields.Integer('Número de Pallets', default = 1, required = True)
-    precio = fields.Float('Precio', digits = (12, 4), readonly = True, compute = "_get_valores")
-    importe = fields.Float('Importe', readonly = True, digits = (10, 2), compute = "_get_valores")
     
     #Son visibles en el pdf
     codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
     cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    precio = fields.Html('Precio', readonly = True, compute = "_get_valores")
     
     #No son visibles
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
-    eton = fields.Float('Eton Medio', digits = (8, 1), readonly = True, compute = "_get_valores")
     
     
     @api.depends('oferta_id', 'num_pallets')
@@ -95,7 +93,6 @@ class SaleOrderLine(models.Model):
             record.product_uom_qty = toneladas
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
-            record.eton = eton
     
     
     @api.depends('attribute_ids',)
@@ -146,7 +143,7 @@ class SaleOrder(models.Model):
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
                 toneladas = toneladas + line.product_uom_qty
-                eton_total = eton_total + line.eton * line.product_uom_qty
+                eton_total = eton_total + line.price_unit * line.product_uom_qty
 
             eton_medio = 0
             if toneladas > 0:
