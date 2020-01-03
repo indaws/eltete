@@ -24,9 +24,10 @@ class SaleOrderLine(models.Model):
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
     num_pallets = fields.Html('Número de Pallets')
     cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
-    precio = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    precio = fields.Html('Precio', readonly = True, compute = "_get_valores")
     importe = fields.Float('Importe', readonly = True, digits = (10, 2), compute = "_get_valores")
-    
+    peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
+    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
     
     
     @api.depends('oferta_id', 'num_pallets')
@@ -38,6 +39,8 @@ class SaleOrderLine(models.Model):
             cantidad = ""
             precio = ""
             importe = 0
+            peso_neto = 0
+            peso_bruto = 0
             
             codigo = record.oferta_id.attribute_id.codigo_cliente
             
@@ -47,20 +50,48 @@ class SaleOrderLine(models.Model):
             
             und_pallet = record.oferta_id.unidades
             
-            aux = record.oferta_id.cantidad * record.num_pallets * 10000
+            cantidad_total = record.oferta_id.cantidad * record.num_pallets * 10000
             decimales = 4
-            while aux % 10 == 0 and decimales > 0:
-                aux = aux / 10
+            while cantidad_total % 10 == 0 and decimales > 0:
+                cantidad_total = cantidad_total / 10
                 decimales = decimales - 1
-            cantidad = str(aux) + "<br/>" + record.oferta_id.cantidad_tipo
+            cantidad = str(cantidad_total) + "<br/>" + record.oferta_id.cantidad_tipo
             
             precio = record.oferta_id.precio + "<br/>" + record.oferta_id.precio_tipo
             
-            importe = precio * aux
+            importe = int(precio * cantidad_total * 100) / 100
+            
+            eton = 0
+            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
+                eton = precio * 1000 / record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            
+            peso_neto = record.und_pallet * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            toneladas = peso_neto / 1000
+            
+            peso_bruto = peso_neto
+            pesoMadera = 0
+            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 1500:
+                pesoMadera = 20
+            elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
+                pesoMadera = 30
+            else:
+                pesoMadera = int(self.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                
+            peso_neto = int(peso_neto / 5) * 5
+            peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             
             
-            
-            
+            record.codigo = codigo
+            record.descripcion = descripcion
+            record.und_pallet = und_pallet
+            record.cantidad = cantidad
+            record.precio = precio
+            record.price_subtotal = importe
+            record.price_unit = eton
+            record.product_uom_qty = toneladas
+            record.peso_neto = peso_neto
+            record.peso_bruto = peso_bruto
+
     
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
@@ -84,16 +115,21 @@ class SaleOrder(models.Model):
         for record in self:
             record.lot_ids = self.env['stock.production.lot'].search([('sale_order_id', '=', self.id)])
     
-    num_pallets = fields.Integer('Num pallets', compute="_get_num_pallets")
+    num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
+    peso_pedido = fields.Integer('Peso Pedido', compute="_get_num_pallets")
     
-    @api.depends('order_line.product_uom_qty', 'order_line')
+    @api.depends('order_line.num_pallets', 'order_line.peso_bruto', 'order_line')
     def _get_num_pallets(self):
     
         for record in self:
             num_pallets = 0
+            peso_pedido = 0
             for line in record.order_line:
-                num_pallets = num_pallets + int(line.product_uom_qty)
+                #num_pallets = num_pallets + int(line.product_uom_qty)
+                num_pallets = num_pallets + int(line.num_pallets)
+                peso_pedido = peso_pedido + line.peso_bruto
             record.num_pallets = num_pallets
+            record.peso_pedido = peso_pedido
     
     
     
