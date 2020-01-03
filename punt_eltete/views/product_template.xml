@@ -1240,8 +1240,6 @@
                     <field name="texto_1"/>
                     <field name="tinta_2_id"/>
                     <field name="texto_2"/>
-                    <field name="tinta_3_id"/>
-                    <field name="texto_3"/>
                     <field name="proveedor"/>
                 </tree>
             </field>
@@ -1263,7 +1261,6 @@
                             <field name="tinta_2_id"/>
                             <field name="texto_2"/>
                             <field name="proveedor"/>
-                            <field name="image"/>
                         </group>
                         
                     </sheet>
