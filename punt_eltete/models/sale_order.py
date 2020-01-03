@@ -43,8 +43,7 @@ class SaleOrderLine(models.Model):
             peso_neto = 0
             peso_bruto = 0
             eton = 0
-            
-            """
+
             codigo = record.oferta_id.attribute_id.codigo_cliente
             
             descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
@@ -81,8 +80,6 @@ class SaleOrderLine(models.Model):
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5
             
-            
-            """
             record.codigo = codigo
             record.descripcion = descripcion
             record.und_pallet = und_pallet
