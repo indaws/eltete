@@ -1100,7 +1100,7 @@ class sale_offer_oferta(models.Model):
     
     name = fields.Char('Título', readonly = True, compute = "_get_precio")
     cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True, compute = "_get_precio")
-    cantidad_texto = fields.Char('Cantidad Texto', readonly = True, compute = "_get_precio")
+    #cantidad_texto = fields.Char('Cantidad Texto', readonly = True, compute = "_get_precio")
     cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True, compute = "_get_precio")
     precio = fields.Float('Precio', digits = (12,4), readonly = True, compute = "_get_precio")
     precio_tipo = fields.Char('Precio Tipo', readonly = True, compute = "_get_precio")
