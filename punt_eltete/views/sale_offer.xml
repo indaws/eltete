@@ -58,7 +58,8 @@
                             <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
                             <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                             <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
-                            <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>			
+                            <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>	
+			    <field name='tipo_varios_id'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
                         </group>
                         
                         <group attrs="{'invisible': [('state', 'in', ['BOR',])]}">
