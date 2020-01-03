@@ -63,7 +63,7 @@ class SaleOrderLine(models.Model):
             
             precio = str(record.oferta_id.precio) + "<br/>" + record.oferta_id.precio_tipo
             
-            importe = int(record.oferta_id.precio * cantidad_total * 100) / 100
+            importe = record.oferta_id.precio * cantidad_total
             
             peso_neto = record.und_pallet * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             toneladas = peso_neto / 1000
