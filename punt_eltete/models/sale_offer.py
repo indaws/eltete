@@ -1212,7 +1212,8 @@ class sale_offer_oferta(models.Model):
             eunidad = emetro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             if record.aplicar_incremento == True:
                 eunidad = eunidad + record.attribute_id.incremento_unidad
-                eunidad = eunidad + record.attribute_id.incremento_pallet / record.und_pallet
+                if record.und_pallet > 0:
+                    eunidad = eunidad + record.attribute_id.incremento_pallet / record.und_pallet
                 
             if record.aplicar_corte == True and record.attribute_id.sierra == True:
                 eunidad = eunidad + 0.017
