@@ -48,7 +48,7 @@ class SaleOrderLine(models.Model):
             #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
             #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
             #descripcion = descripcion + record.oferta_id.attribute_id.descripcion
-            
+            """
             und_pallet = record.oferta_id.unidades
             
             cantidad_total = record.oferta_id.cantidad * record.num_pallets * 10000
@@ -80,7 +80,7 @@ class SaleOrderLine(models.Model):
                 
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5
-            
+            """
             record.codigo = codigo
             record.descripcion = descripcion
             record.und_pallet = und_pallet
