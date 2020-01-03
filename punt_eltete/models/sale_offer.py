@@ -1217,7 +1217,8 @@ class sale_offer_oferta(models.Model):
                 
             if record.aplicar_corte == True and record.attribute_id.sierra == True:
                 eunidad = eunidad + 0.017
-            emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            if record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad > 0:
+                emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             emetro = int(emetro * 1000) / 1000
                     
             eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
