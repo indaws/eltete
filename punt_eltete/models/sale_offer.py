@@ -1066,7 +1066,7 @@ class sale_offer_oferta(models.Model):
     activa = fields.Boolean("Activa")
     state_id = fields.Many2one('res.country.state', string="Provincia")
     country_id = fields.Many2one('res.country', string="País")
-    num_pallets = fields.Integer('Número Pallets')
+    num_pallets = fields.Integer('Número Pallets', default = 1)
     
     unidades = fields.Integer('Unidades Pallet')
     precio_metro = fields.Float('Precio Metro', digits = (12,4))
@@ -1076,10 +1076,8 @@ class sale_offer_oferta(models.Model):
     
     #DERECHA
     peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
-    tarifa = fields.Boolean('Aplicar Incrementos', default = True)
     
     tarifa_id = fields.Many2one('sale.tarifa', string="Tarifa")
-    eton_user = fields.Float('Eton (user)')
     alto_pallet = fields.Integer('Alto', readonly = True, compute = "_get_alto_pallet")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso_neto")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso_bruto")
@@ -1089,6 +1087,12 @@ class sale_offer_oferta(models.Model):
     peso_neto_text = fields.Char('Peso Neto', readonly = True, compute = "_get_peso_neto_text")
     peso_bruto_text = fields.Char('Peso Bruto', readonly = True, compute = "_get_peso_bruto_text")
     und_pallet_text = fields.Char('Propuesta Unidades', readonly = True, compute = "_get_und_pallet_text")
+    
+    aplicar_incremento = fields.Boolean('Aplicar Incrementos', default = True)
+    aplicar_corte = fields.Boolean('Aplicar Corte', default = True)
+    eton_user = fields.Float('Euros / Tonelada')
+    emetro_calculado = fields.Float('Euros / metro', readonly = True, compute = "_get_calculado")
+    eton_calculado = fields.Float('Euros /tonelada', readonly = True, compute = "_get_calculado")
     
     #OCULTOS
     num_filas = fields.Integer('Num filas', readonly = True)
@@ -1122,7 +1126,7 @@ class sale_offer_oferta(models.Model):
                 record.num_filas = record.num_filas - 1
     
 
-    @api.depends('attribute_id', 'num_filas')
+    @api.depends('attribute_id', 'num_filas', 'und_pallet')
     def _get_und_pallet(self):
         for record in self:
             und = 0
@@ -1194,6 +1198,33 @@ class sale_offer_oferta(models.Model):
         for record in self:
             texto = str(record.alto_pallet) + " mm"
             record.alto_pallet_text = texto
+           
+        
+    @api.depends('eton_user', 'und_pallet')
+    def _get_calculado(self):
+        for record in self:
+            emetro = 0
+            emetro = record.eton_user * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
+            if record.aplicar_incremento == True:
+                emetro = emetro * (1 + record.attribute_id.incremento_porcentaje / 100)
+                emetro = emetro + record.attribute_id.incremento_metro
+            #Por unidad
+            eunidad = emetro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            if record.aplicar_incremento == True:
+                eunidad = eunidad + record.attribute_id.incremento_unidad
+                eunidad = eunidad + record.attribute_id.incremento_pallet / record.und_pallet
+                
+            if record.aplicar_corte == True and record.attribute_id.sierra == True:
+                eunidad = eunidad + 0.017
+            emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            emetro = int(emetro * 1000) / 1000
+                    
+            eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            eton = int(eton * 10) / 10
+            
+            record.emetro_calculado = emetro
+            record.eton_calculado = eton
+            
             
             
     @api.depends('attribute_id', 'unidades', 'alto_pallet')
