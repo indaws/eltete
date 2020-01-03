@@ -682,9 +682,9 @@ class ProductCategory(models.Model):
         product_name = "VARIOS - " + tipo_varios_id.name
 
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
-                                                          'titulo': titulo, 
+                                                          'titulo': product_name, 
                                                           'type_id': self.id, 
-                                                          'tipo_varios_id': tipo_varios_id,
+                                                          'tipo_varios_id': tipo_varios_id.id,
                                                          })
 
         return referencia_id, None
