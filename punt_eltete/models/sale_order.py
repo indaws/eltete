@@ -5,27 +5,29 @@ from odoo import fields, models, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    #Se supone que existe el campo obligatorio product_id
-    oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
-
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
     
-    oferta_precio = fields.Float('Precio', digits = (12,4), readonly = True)
-    oferta_precio_tipo = fields.Char('Precio Tipo', readonly = True)
-    oferta_cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
-    oferta_cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
-    oferta_unidades = fields.Integer('Unidades Pallet')
+    #oferta_precio = fields.Float('Precio', digits = (12,4), readonly = True)
+    #oferta_precio_tipo = fields.Char('Precio Tipo', readonly = True)
+    #oferta_cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
+    #oferta_cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
+    #oferta_unidades = fields.Integer('Unidades Pallet')
     
-    
-    codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
-    descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
-    num_pallets = fields.Html('Número de Pallets')
-    cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    #Campos visibles
+    #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
+    #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
+    oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta", required = True)
+    num_pallets = fields.Integer('Número de Pallets', default = 1, required = True)
     precio = fields.Float('Precio', digits = (12, 4), readonly = True, compute = "_get_valores")
     importe = fields.Float('Importe', readonly = True, digits = (10, 2), compute = "_get_valores")
     
-    #No son visibles en la linea de pedido
+    #Son visibles en el pdf
+    codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
+    descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
+    cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    
+    #No son visibles
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
     eton = fields.Float('Eton Medio', digits = (8, 1), readonly = True, compute = "_get_valores")
