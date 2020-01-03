@@ -7,11 +7,11 @@ class SaleOrderLine(models.Model):
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
     
-    #oferta_precio = fields.Float('Precio', digits = (12,4), readonly = True)
-    #oferta_precio_tipo = fields.Char('Precio Tipo', readonly = True)
-    #oferta_cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
-    #oferta_cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
-    #oferta_unidades = fields.Integer('Unidades Pallet')
+    oferta_precio = fields.Float('Precio', digits = (12,4), readonly = True)
+    oferta_precio_tipo = fields.Char('Precio Tipo', readonly = True)
+    oferta_cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
+    oferta_cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
+    oferta_unidades = fields.Integer('Unidades Pallet')
     
     #Campos visibles
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
