@@ -54,7 +54,6 @@ class SaleOrderLine(models.Model):
             
             cantidad_total = record.oferta_id.cantidad * record.num_pallets * 10000
             
-            
             decimales = 4
             while cantidad_total % 10 == 0 and decimales > 0:
                 cantidad_total = cantidad_total / 10
@@ -62,7 +61,7 @@ class SaleOrderLine(models.Model):
             cantidad = str(cantidad_total) + "<br/>" + record.oferta_id.cantidad_tipo
             
             
-            precio = record.oferta_id.precio + "<br/>" + record.oferta_id.precio_tipo
+            precio = str(record.oferta_id.precio) + "<br/>" + record.oferta_id.precio_tipo
             
             importe = int(precio * cantidad_total * 100) / 100
             
