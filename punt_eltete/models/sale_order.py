@@ -5,6 +5,7 @@ from odoo import fields, models, api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    #Se supone que existe el campo obligatorio product_id
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
@@ -14,8 +15,52 @@ class SaleOrderLine(models.Model):
     oferta_cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
     oferta_cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
     oferta_unidades = fields.Integer('Unidades Pallet')
-    
     #precio unitario = cantidad * precio
+    
+    
+    
+    codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
+    descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
+    num_pallets = fields.Html('Número de Pallets')
+    cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    precio = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    importe = fields.Float('Importe', readonly = True, digits = (10, 2), compute = "_get_valores")
+    
+    
+    
+    @api.depends('oferta_id', 'num_pallets')
+    def _get_valores(self):
+        for record in self:
+            codido = ""
+            descripcion = ""
+            und_pallet = 0
+            cantidad = ""
+            precio = ""
+            importe = 0
+            
+            codigo = record.oferta_id.attribute_id.codigo_cliente
+            
+            descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
+            descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
+            descripcion = descripcion + record.oferta_id.attribute_id.descripcion
+            
+            und_pallet = record.oferta_id.unidades
+            
+            aux = record.oferta_id.cantidad * record.num_pallets * 10000
+            decimales = 4
+            while aux % 10 == 0 and decimales > 0:
+                aux = aux / 10
+                decimales = decimales - 1
+            cantidad = str(aux) + "<br/>" + record.oferta_id.cantidad_tipo
+            
+            precio = record.oferta_id.precio + "<br/>" + record.oferta_id.precio_tipo
+            
+            importe = precio * aux
+            
+            
+            
+            
     
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
