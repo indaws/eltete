@@ -44,6 +44,7 @@ class SaleOrderLine(models.Model):
             peso_bruto = 0
             eton = 0
 
+            """
             codigo = record.oferta_id.attribute_id.codigo_cliente
             
             descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
@@ -80,6 +81,7 @@ class SaleOrderLine(models.Model):
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5
             
+            """
             record.codigo = codigo
             record.descripcion = descripcion
             record.und_pallet = und_pallet
@@ -110,13 +112,13 @@ class SaleOrder(models.Model):
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
     
-    """
+
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
     toneladas = fields.Float('Toneladas', digits = (8, 1), compute="_get_num_pallets")
     eton = fields.Float('Eton', digits = (8, 1), compute="_get_num_pallets")
-    """
+    
     
     @api.depends('order_line',)
     def _get_lots_sale(self):
