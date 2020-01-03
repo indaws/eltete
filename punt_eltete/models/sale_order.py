@@ -15,10 +15,8 @@ class SaleOrderLine(models.Model):
     oferta_cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
     oferta_cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
     oferta_unidades = fields.Integer('Unidades Pallet')
-    #precio unitario = cantidad * precio
     
     
-    """
     codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
@@ -46,6 +44,7 @@ class SaleOrderLine(models.Model):
             peso_bruto = 0
             eton = 0
             
+            """
             codigo = record.oferta_id.attribute_id.codigo_cliente
             
             descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
@@ -82,6 +81,8 @@ class SaleOrderLine(models.Model):
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5
             
+            
+            """
             record.codigo = codigo
             record.descripcion = descripcion
             record.und_pallet = und_pallet
@@ -94,7 +95,6 @@ class SaleOrderLine(models.Model):
             record.peso_bruto = peso_bruto
             record.eton = eton
     
-    """
     
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
