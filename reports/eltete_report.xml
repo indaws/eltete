@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="rep_sale_cotizacion"
+            string="Presupuesto"
+            model="sale.cotizacion" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_cotizacion" 
+            name="punt_eltete.report_cotizacion" 
+        />
+        
+        <report 
+            id="rep_sale_order_fabricacion"
+            string="Orden de fabricación"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_orden_fabricacion" 
+            name="punt_eltete.report_orden_fabricacion" 
+        />
+        
+        
+
+    </data>
+</openerp>

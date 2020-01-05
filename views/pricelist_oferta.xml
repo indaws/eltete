@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+        
+        <!-- #######################################################
+                 product.pricelist.oferta
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_product_pricelist_oferta_tree">
+            <field name="name">product.pricelist.oferta.tree</field>
+            <field name="model">product.pricelist.oferta</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="name"/>
+                    <field name="active"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="number"/>
+                    <field name="categoria"/>
+                    <field name="eton"/>
+                    <field name="porcentaje"/>
+                    <field name="metro"/>
+                    <field name="unidad"/>
+                    <field name="pallet"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_pricelist_oferta_form">
+            <field name="name">product.pricelist.oferta.form</field>
+            <field name="model">product.pricelist.oferta</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                            <field name="number"/>
+                            <field name="categoria"/>
+                            <field name="eton"/>
+                            <field name="porcentaje"/>
+                            <field name="metro"/>
+                            <field name="unidad"/>
+                            <field name="pallet"/>
+                            <field name="description"/>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_product_pricelist_oferta_search">
+            <field name="name">product.pricelist.oferta.search</field>
+            <field name="model">product.pricelist.oferta</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="partner_id"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_product_pricelist_oferta">
+            <field name="name">Tarifas Eltete</field>
+            <field name="res_model">product.pricelist.oferta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Tarifas Eltete" parent="sale.prod_config_main" id="menu_product_pricelist_oferta" action="action_product_pricelist_oferta" sequence="93"/>
+    
+    
+    
+</odoo>

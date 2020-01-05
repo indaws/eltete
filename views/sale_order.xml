@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <act_window id="launch_wizard_sale_create_line"
+            name="Añadir líneas"
+            src_model="sale.order"
+            res_model="wizard.sale.create.line"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+            
+            
+    <record model="ir.ui.view" id="wizard_sale_create_line_form_view">
+        <field name="name">wizard.sale.create.line.form</field>
+        <field name="model">wizard.sale.create.line</field>
+        <field name="arch" type="xml">
+            <form string="Crear líneas de pedido">
+                <group>
+                    <field name='sale_id' invisible="0"/>
+                    <field name='partner_id' invisible="0"/>
+                    <field name="type_id" domain="[('product_type','=',True)]" options="{'no_create': True, 'no_create_edit':True}" />
+                    <field name="product_id" domain="[('categ_id','=',type_id), ('virtual_available', '>', 0)]" options="{'no_create': True, 'no_create_edit':True}" />
+                    <field name="lot_ids" domain="[('product_id','=',product_id), ('product_qty', '>', 0)]" options="{'no_create': True, 'no_create_edit':True}" widget="many2many_tags" />
+                    <field name='referencia_cliente_id' domain="[('partner_id', '=', partner_id), ('type_id','=',type_id)]" options="{'no_create': True, 'no_create_edit':True}" />
+                    <field name='attribute_id' domain="[('referencia_cliente_id', '=', referencia_cliente_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name='num_pallets' sum="Pallets"/>
+                    <field name='oferta_id' domain="[('attribute_id', '=', attribute_id)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                </group>
+
+                <footer>
+                    <button name="add_lines_sale_order" type="object"
+                            string="Añadir líneas" class="oe_highlight"/>
+                    
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="view_sale_order_eltete_form" model="ir.ui.view">
+        <field name="name">sale.order.eltete.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+        
+            <xpath expr="//page[@name='other_information']" position="after">
+            
+                 <page name="sale_lots" string="Pallets">
+                    <group>
+                        <field name="lot_ids"/>
+                    </group>
+                                
+                    <group>
+                        <button name="enviar_a_fabricar" type="object" string="Mandar a fabricar" states="sale" />
+                    </group>
+                                
+                    <group>
+                        <button name="procesar_fabricacion" type="object" string="Fabricado" states="sale" />
+                    </group>
+
+                </page>
+            </xpath>
+            
+            
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
+                <field name="oferta_id" />
+                <field name="oferta_precio" />
+                <field name="oferta_precio_tipo" />
+                <field name="oferta_cantidad" />
+                <field name="oferta_cantidad_tipo" />
+                <field name="oferta_unidades" />
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                <field name="oferta_id" />
+                <field name="oferta_precio" />
+                <field name="oferta_precio_tipo" />
+                <field name="oferta_cantidad" />
+                <field name="oferta_cantidad_tipo" />
+                <field name="oferta_unidades" />
+            </xpath>
+            
+		
+			<field name="partner_shipping_id" position="after">
+				<field name="pedido_cliente"/>
+				<field name="fecha_entrega"/>
+			</field>
+            
+			<field name="confirmation_date" position="after">
+				<field name="fecha_cliente"/>
+				<field name="fecha_entrega_cliente"/>
+                <field name="peso_neto"/>
+                <field name="peso_bruto"/>
+			</field>
+                
+
+            
+        </field>
+    </record>
+    
+    
+    
+</odoo>
