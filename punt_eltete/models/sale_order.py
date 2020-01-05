@@ -18,7 +18,6 @@ class SaleOrderLine(models.Model):
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
-    num_pallets = fields.Integer('Número de Pallets', default = 1)
     
     #Son visibles en el pdf
     codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
@@ -309,8 +308,7 @@ class SaleOrder(models.Model):
             eton_total = 0
             
             for line in record.order_line:
-                #num_pallets = num_pallets + int(line.product_uom_qty)
-                num_pallets = num_pallets + int(line.num_pallets)
+                num_pallets = num_pallets + int(line.product_uom_qty)
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
                 toneladas = toneladas + line.product_uom_qty
