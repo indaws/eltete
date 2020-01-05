@@ -18,6 +18,7 @@ class SaleOrderLine(models.Model):
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
+    num_pallets = fields.Integer('Número de Pallets', default = 1)
     
     #Son visibles en el pdf
     codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
@@ -32,7 +33,7 @@ class SaleOrderLine(models.Model):
     
     
     
-    @api.depends('oferta_id', 'num_pallets')
+    @api.depends('oferta_id')
     def _get_valores(self):
         for record in self:
             codido = ""
