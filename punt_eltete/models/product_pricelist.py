@@ -9,7 +9,7 @@ class ProductPricelistOferta(models.Model):
     
     
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
-    activa = fields.Boolean("Activa")
+    active = fields.Boolean("Activa", default=True)
     name = fields.Char(string='Nombre', required=True)
     number = fields.Integer('Incremento', required=True)
     CATEGORIA_SEL = [('1', 'General'),

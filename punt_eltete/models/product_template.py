@@ -1398,11 +1398,13 @@ class ProductCaracteristicaCliche(models.Model):
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción')
     
-    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Color Tinta 1")
-    texto_1 = fields.Char('Texto Tinta 1')
-    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Color Tinta 2")
-    texto_2 = fields.Char('Texto Tinta 2')  
-    proveedor = fields.Char('Proveedor')  
+    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
+    texto_1 = fields.Char('Tinta 1')
+    tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
+    texto_2 = fields.Char('Tinta 1')  
+    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
+    texto_3 = fields.Char('Tinta 3')  
+    proveedor = fields.Char('Tinta 1')  
     image = fields.Binary('Imagen')
     
     
@@ -1423,7 +1425,7 @@ class ProductCaracteristicaTinta(models.Model):
     
     name = fields.Char('Nombre', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Pantone')
+    description = fields.Char('Descripción')
     
     
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")

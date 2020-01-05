@@ -1,16 +1,17 @@
 ﻿
 from odoo import fields, models, api
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
     
-    oferta_precio = fields.Float('Precio', digits = (12,4), readonly = True)
-    oferta_precio_tipo = fields.Char('Precio Tipo', readonly = True)
-    oferta_cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True)
-    oferta_cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True)
+    oferta_precio = fields.Float('Precio', digits = (12,4))
+    oferta_precio_tipo = fields.Char('Precio Tipo')
+    oferta_cantidad = fields.Float('Cantidad', digits = (12,4))
+    oferta_cantidad_tipo = fields.Char('Cantidad Tipo')
     oferta_unidades = fields.Integer('Unidades Pallet')
     
     #Campos visibles
@@ -20,7 +21,7 @@ class SaleOrderLine(models.Model):
     num_pallets = fields.Integer('Número de Pallets', default = 1)
     
     #Son visibles en el pdf
-    #codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
+    codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
     #descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
     #und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
     #cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
@@ -29,6 +30,7 @@ class SaleOrderLine(models.Model):
     #No son visibles
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
+    
     
     
     @api.depends('oferta_id', 'num_pallets')
@@ -44,13 +46,11 @@ class SaleOrderLine(models.Model):
             peso_bruto = 0
             eton = 0
 
-            #codigo = record.oferta_id.attribute_id.codigo_cliente
-            #if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.type_id.is_varios == True:
-                #descripcion = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.tipo_varios_id.description
-            #else:
-                #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
-                #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
-
+            codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
+            #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
+            #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
+            #descripcion = descripcion + record.oferta_id.attribute_id.descripcion
+            """
             und_pallet = record.oferta_id.unidades
             
             cantidad_total = record.oferta_id.cantidad * record.num_pallets * 10000
@@ -66,10 +66,13 @@ class SaleOrderLine(models.Model):
             
             importe = record.oferta_id.precio * cantidad_total
             
-            peso_neto = record.und_pallet * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            
+            """
+            
+            peso_neto = record.oferta_unidades * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             toneladas = peso_neto / 1000
             
-            eton = record.oferta_id.precio_eton
+            #eton = record.oferta_id.precio_eton
             
             peso_bruto = peso_neto
             pesoMadera = 0
@@ -82,8 +85,8 @@ class SaleOrderLine(models.Model):
                 
             peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
             peso_neto = int(peso_neto / 5) * 5
-            """
-            #record.codigo = codigo
+            
+            record.codigo_cliente = codigo_cliente
             #record.descripcion = descripcion
             #record.und_pallet = und_pallet
             #record.cantidad = cantidad
@@ -117,6 +120,175 @@ class SaleOrder(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
     toneladas = fields.Float('Toneladas', digits = (8, 1), compute="_get_num_pallets")
     eton = fields.Float('Eton', digits = (8, 1), compute="_get_num_pallets")
+    
+    
+    
+    @api.multi
+    def create_sale_order_line_referencia(self, line_product_id, lot_ids, referencia_cliente_id, attribute_id, oferta_id, num_pallets):
+        for record in self:
+        
+            #_logger.warning('222')
+        
+            referencia_id = None
+            pallet_especial_id = None
+            cantonera_color_id = None
+            cantonera_forma_id = None
+            cantonera_especial_id = None
+            cantonera_impresion_id = None
+            perfilu_color_id = None
+            inglete_id = None
+            plancha_color_id = None
+            papel_calidad_id = None
+            troquelado_id = None
+            fsc_id = None
+            reciclable_id = None
+            
+            if referencia_cliente_id.referencia_id:
+                referencia_id = referencia_cliente_id.referencia_id.id
+                
+            if referencia_cliente_id.pallet_especial_id:
+                pallet_especial_id = referencia_cliente_id.pallet_especial_id.id
+                
+            if attribute_id.cantonera_color_id:
+                cantonera_color_id = attribute_id.cantonera_color_id.id
+                
+            if attribute_id.cantonera_forma_id:
+                cantonera_forma_id = attribute_id.cantonera_forma_id.id
+                
+            if attribute_id.cantonera_especial_id:
+                cantonera_especial_id = attribute_id.cantonera_especial_id.id
+                
+            if attribute_id.cantonera_impresion_id:
+                cantonera_impresion_id = attribute_id.cantonera_impresion_id.id
+                
+            if attribute_id.perfilu_color_id:
+                perfilu_color_id = attribute_id.perfilu_color_id.id
+                
+            if attribute_id.inglete_id:
+                inglete_id = attribute_id.inglete_id.id
+                
+            if attribute_id.plancha_color_id:
+                plancha_color_id = attribute_id.plancha_color_id.id
+                
+            if attribute_id.papel_calidad_id:
+                papel_calidad_id = attribute_id.papel_calidad_id.id
+                
+            if attribute_id.troquelado_id:
+                troquelado_id = attribute_id.troquelado_id.id
+                
+            if attribute_id.fsc_id:
+                fsc_id = attribute_id.fsc_id.id
+                
+            if attribute_id.reciclable_id:
+                reciclable_id = attribute_id.reciclable_id.id
+            
+            
+            product_id = None
+            for prod in self.env['product.template'].search([('referencia_id', '=', referencia_cliente_id.referencia_id.id),
+                                                             ('cantonera_color_id', '=', cantonera_color_id),
+                                                             ('cantonera_forma_id', '=', cantonera_forma_id),
+                                                             ('cantonera_especial_id', '=', cantonera_especial_id),
+                                                             ('cantonera_impresion_id', '=', cantonera_impresion_id),
+                                                             ('perfilu_color_id', '=', perfilu_color_id),
+                                                             ('inglete_id', '=', inglete_id),
+                                                             ('inglete_num', '=', attribute_id.inglete_num),
+                                                             ('plancha_color_id', '=', plancha_color_id),
+                                                             ('papel_calidad_id', '=', papel_calidad_id),
+                                                             ('troquelado_id', '=', troquelado_id),
+                                                             ('fsc_id', '=', fsc_id),
+                                                             ('reciclable_id', '=', reciclable_id),
+                                                             ]):
+                product_id = prod
+                
+            if product_id == None:
+                product_id = self.env['product.template'].create({'name': referencia_cliente_id.name + ', ' + attribute_id.name, 
+                                                                  'type': 'product',
+                                                                  'purchase_ok': False,
+                                                                  'sale_ok': True,
+                                                                  'tracking': 'serial',
+                                                                  'categ_id': referencia_cliente_id.type_id.id,
+                                                                  'attribute_id':attribute_id.id, 
+                                                                  'referencia_id':referencia_cliente_id.referencia_id.id, 
+                                                                  'referencia_cliente_id':referencia_cliente_id.id, 
+                                                                  'cantonera_color_id': cantonera_color_id,
+                                                                  'cantonera_forma_id': cantonera_forma_id,
+                                                                  'cantonera_especial_id': cantonera_especial_id,
+                                                                  'cantonera_impresion_id': cantonera_impresion_id,
+                                                                  'perfilu_color_id': perfilu_color_id,
+                                                                  'inglete_id': inglete_id,
+                                                                  'inglete_num': attribute_id.inglete_num,
+                                                                  'plancha_color_id': plancha_color_id,
+                                                                  'papel_calidad_id': papel_calidad_id,
+                                                                  'troquelado_id': troquelado_id,
+                                                                  'fsc_id': fsc_id,
+                                                                  'reciclable_id': reciclable_id,
+                                                                  'cantonera_1': attribute_id.cantonera_1,
+                                                                  'cantonera_2': attribute_id.cantonera_2,
+                                                                  'cantonera_3': attribute_id.cantonera_3,
+                                                                  'cantonera_4': attribute_id.cantonera_4,
+                                                                  'sierra': attribute_id.sierra,
+                                                                 })
+            
+            
+            if len(lot_ids) > 0 and line_product_id.id == product_id.id:
+            
+                sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
+                                                    'name':product_id.name, 
+                                                    'product_uom_qty': num_pallets,
+                                                    'price_unit': oferta_id.cantidad * oferta_id.precio,
+                                                    'oferta_precio': oferta_id.precio,
+                                                    'oferta_precio_tipo': oferta_id.precio_tipo,
+                                                    'oferta_cantidad': oferta_id.cantidad,
+                                                    'oferta_cantidad_tipo': oferta_id.cantidad_tipo,
+                                                    'oferta_unidades': oferta_id.unidades,
+                                                    'customer_lead': 1,
+                                                    'product_uom': 1,
+                                                    'oferta_id': oferta_id.id,
+                                                    'product_id': product_id.product_variant_id.id,
+                                                   })
+                sale_line._compute_tax_id()
+                for lot in lot_ids:
+                    lot.sale_order_line_id = sale_line.id
+            else:
+                
+                #CREAMOS LÍNEA DE LOTES
+                quantity = len(lot_ids)
+                if quantity > 0:
+                    sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
+                                                        'name':product_id.name, 
+                                                        'product_uom_qty': quantity,
+                                                        'price_unit': oferta_id.cantidad * oferta_id.precio,
+                                                        'oferta_precio': oferta_id.precio,
+                                                        'oferta_precio_tipo': oferta_id.precio_tipo,
+                                                        'oferta_cantidad': oferta_id.cantidad,
+                                                        'oferta_cantidad_tipo': oferta_id.cantidad_tipo,
+                                                        'oferta_unidades': oferta_id.unidades,
+                                                        'customer_lead': 1,
+                                                        'product_uom': 1,
+                                                        'oferta_id': oferta_id.id,
+                                                        'product_id': line_product_id.product_variant_id.id,
+                                                       })
+                    sale_line._compute_tax_id()
+                    for lot in lot_ids:
+                        lot.sale_order_line_id = sale_line.id
+                                                   
+                quantity2 = num_pallets - quantity
+                if quantity2 > 0:
+                    sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
+                                                        'name':product_id.name, 
+                                                        'product_uom_qty': quantity2,
+                                                        'price_unit': oferta_id.cantidad * oferta_id.precio,
+                                                        'oferta_precio': oferta_id.precio,
+                                                        'oferta_precio_tipo': oferta_id.precio_tipo,
+                                                        'oferta_cantidad': oferta_id.cantidad,
+                                                        'oferta_cantidad_tipo': oferta_id.cantidad_tipo,
+                                                        'oferta_unidades': oferta_id.unidades,
+                                                        'customer_lead': 1,
+                                                        'product_uom': 1,
+                                                        'oferta_id': oferta_id.id,
+                                                        'product_id': product_id.product_variant_id.id,
+                                                       })
+                    sale_line._compute_tax_id()
     
     
     @api.depends('order_line',)

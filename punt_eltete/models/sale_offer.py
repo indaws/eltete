@@ -763,9 +763,11 @@ class sale_product_attribute(models.Model):
 
                 #Varios
                 if record.type_id.is_varios == True:
-                    nombre = "Nombre Varios"
-                    descripcion = "Descripcion Varios"
-                    titulo = "titulo Varios"
+                    nombre = nombre + record.tipo_varios_id.name
+                    #La descripcion del tipo Varios es obligaoria
+                    if record.referencia_cliente_id.tipo_varios_id.description:
+                        titulo = record.referencia_cliente_id.referencia_id.tipo_varios_id.description + ", "
+                    descripcion = ""
                     
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
@@ -1075,7 +1077,7 @@ class sale_offer_oferta(models.Model):
     #DERECHA
     peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
     
-    tarifa_id = fields.Many2one('sale.tarifa', string="Tarifa")
+    tarifa_id = fields.Many2one('product.pricelist.oferta', string="Tarifa")
     alto_pallet = fields.Integer('Alto', readonly = True, compute = "_get_alto_pallet")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso_neto")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso_bruto")
@@ -1102,7 +1104,6 @@ class sale_offer_oferta(models.Model):
     cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True, compute = "_get_precio")
     precio = fields.Float('Precio', digits = (12,4), readonly = True, compute = "_get_precio")
     precio_tipo = fields.Char('Precio Tipo', readonly = True, compute = "_get_precio")
-    precio_eton = fields.Float('Precio eton', digits = (12,4))
     
     estado = fields.Char('Estado', compute = "_get_estado")
     
@@ -1255,8 +1256,6 @@ class sale_offer_oferta(models.Model):
             precio = 0
             precio_tipo = ""
             nombre = ""
-            eton = 0
-            
             #Por metro
             if facturar == '1':
                 cantidad = record.unidades * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
@@ -1301,16 +1300,23 @@ class sale_offer_oferta(models.Model):
                 precio = record.precio_kilo
                 precio = int(precio * 10000) / 10000
                 precio_tipo = "€/kg" 
-                eton = record.precio_kilo
+                eton = precio * 1000
                 nombre = str(record.num_pallets) + " pallets, " + str(record.kilos) + " kg/pallet, "
                 nombre = nombre + str(precio) + " €/kg, " + str(eton) + "€/t"
+            elif facturar == '5':
+                cantidad = record.unidades
+                cantidad_tipo = "unidades"
+                precio = record.precio_varios
+                precio = int(precio * 10000) / 10000
+                precio_tipo = "€/unidad" 
+                eton = 0
+                nombre = "Varios: " + str(record.unidades) + " und/pallet, " + str(precio) + " €/unidad, "
 
             record.name = nombre
             record.cantidad = cantidad
             record.cantidad_tipo = cantidad_tipo
             record.precio = precio
             record.precio_tipo = precio_tipo
-            record.precio_eton = eton
             
             
     @api.depends('attribute_id', 'unidades', 'eton_user', 'num_pallets')
