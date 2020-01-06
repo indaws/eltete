@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_etiquetas_pedido">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-foreach="doc.lot_ids" t-as="lot">
+              <t t-call="web.external_layout">
+                  <div class="page">
+                      
+					  
+					  <table class="table" style="width:100%">
+					  
+						<tr>
+							<td><strong>FECHA</strong></td>
+							<td><strong>PEDIDO</strong></td>
+						</tr>
+						
+						<tr>
+							<td><span t-field="doc.date_order" t-options='{"format": "dd/MM/yyyy"}'/></td>
+							<td><span t-field="doc.name"/></td>
+						</tr>
+						
+						<tr>
+							<td><strong>TAMAÑO</strong></td>
+							<td><strong>CANTIDAD / PIEZAS</strong></td>
+						</tr>
+						
+						<tr>
+							<td><span t-esc="lot.product_id.referencia_id.titulo"/></td>
+							<td><span t-field="lot.unidades"/></td>
+						</tr>
+						
+						<tr>
+							<td><strong>ORDEN DE PRODUCCIÓN</strong></td>
+							<td><strong>PALLET Nº</strong></td>
+						</tr>
+						
+						<tr>
+							<td>OP<span t-field="lot.sale_order_line_id.id"/></td>
+							<td><span t-esc="lot_index+1"/> / <span t-esc="len(doc.lot_ids)"/></td>
+						</tr>
+						
+						<tr>
+							<td><strong>DATOS CLIENTE</strong></td>
+							<td><strong>OBSERVACIONES</strong></td>
+						</tr>
+						
+						<tr>
+							<td>
+								<span t-field="doc.partner_id.name"/><br/>
+								<span t-field="doc.partner_id.zip"/> <span t-field="doc.partner_id.city"/><br/>
+								<span t-field="doc.partner_id.state_id"/><br/>
+								<span t-field="doc.partner_id.country_id"/>
+							</td>
+							<td></td>
+						</tr>
+					  
+					  </table>
+					  
+					  
+                      
+
+  
+                  </div>
+              </t>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

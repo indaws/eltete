@@ -26,6 +26,7 @@
         "views/pricelist_oferta.xml",
         "reports/qweb/report_sale_cotizacion.xml",
         "reports/qweb/report_sale_orden_fabricacion.xml",
+        "reports/qweb/report_etiquetas_pedido.xml",
         "reports/eltete_report.xml",
         
     ],

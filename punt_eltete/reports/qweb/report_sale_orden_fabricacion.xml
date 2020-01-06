@@ -6,63 +6,109 @@
         <t t-foreach="docs" t-as="doc">
             <t t-foreach="doc.order_line" t-as="line">
               <t t-call="web.external_layout">
-                  <t t-set="address">
+                  <!--<t t-set="address">
                       <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                       <p t-if="doc.partner_id.vat">NIF: <span t-field="doc.partner_id.vat"/></p>
-                  </t>
+                  </t>-->
                   <div class="page">
                       
                       <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN</strong></h3>
                       
-                      <strong>Pedido: </strong><span t-field="doc.name"/><br/>
-                      <strong>Fecha: </strong><span t-field="doc.date_order"/>
                       
-                      <br/><br/>
+                      <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 25px;" >
                       
-                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:33%;">
-                        <strong>Cantonera color:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_color_id"/><br/>
-                        <strong>Cantonera forma:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_forma_id"/><br/>
-                        <strong>Cantonera especial:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_especial_id"/><br/>
-                        <strong>Perfil U color:</strong> <span t-field="line.oferta_id.attribute_id.perfilu_color_id"/><br/>
-                        <strong>Tipo Inglete:</strong> <span t-field="line.oferta_id.attribute_id.inglete_id"/><br/>
-                        <strong>Número de Ingletes:</strong> <span t-field="line.oferta_id.attribute_id.inglete_num"/><br/>
-                        <strong>Inglete Descripcion:</strong> <span t-field="line.oferta_id.attribute_id.inglete_texto"/><br/>
-                        <strong>Plancha color:</strong> <span t-field="line.oferta_id.attribute_id.plancha_color_id"/><br/>
-                        <strong>Papel Calidad:</strong> <span t-field="line.oferta_id.attribute_id.papel_calidad_id"/><br/>
-                        <strong>Troquelado:</strong> <span t-field="line.oferta_id.attribute_id.troquelado_id"/><br/>
-                        <strong>FSC:</strong> <span t-field="line.oferta_id.attribute_id.fsc_id"/><br/>
-                        <strong>Reciclable:</strong> <span t-field="line.oferta_id.attribute_id.reciclable_id"/><br/>
-                        <strong>Cantonera 1:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_1"/><br/>
-                        <strong>Cantonera 2:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_2"/><br/>
-                        <strong>Cantonera 3:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_3"/><br/>
-                        <strong>Cantonera 4:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_4"/><br/>
-                        <strong>Sierra:</strong> <span t-field="line.oferta_id.attribute_id.sierra"/><br/>
+                          <strong>Pedido: </strong><span t-field="doc.name"/><br/>
+                          <strong>Orden de producción: </strong>OP<span t-field="line.id"/><br/>
+                          <strong>Fecha Pedido: </strong><span t-field="doc.date_order"  t-options='{"format": "dd/MM/yyyy"}'/><br/>
+                          <strong>Cliente: </strong><span t-field="doc.partner_id.ref"/><br/>
+                          
                       </div>
                       
-                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:33%;">
-                        <strong>Paletizado:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.paletizado"/><br/>
-                        <strong>Ancho pallet:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet"/><br/>
-                        <strong>Und Paquete:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.und_paquete"/><br/>
-                        <strong>Paquetes fila:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.paquetes_fila"/><br/>
-                        <strong>Alto fila:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.alto_fila"/><br/>
-                        <strong>Fila max:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.fila_max"/><br/>
-                        <strong>Fila buena:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.fila_buena"/><br/>
+                      <br/><br/><br/>
+                      
+                      
+                      <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 25px;" >
+                      
+                      
+                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                        <strong>Lista de Producción EBM</strong> 
+                        <t t-if="line.oferta_id.attribute_id.cantonera_1 == True">CANTONERA 1<br/></t>
+                        <t t-if="line.oferta_id.attribute_id.cantonera_2 == True">CANTONERA 2<br/></t>
+                        <t t-if="line.oferta_id.attribute_id.cantonera_3 == True">CANTONERA 3<br/></t>
+                        <t t-if="line.oferta_id.attribute_id.cantonera_4 == True">CANTONERA 4<br/></t>
+                      </div>
+                      
+                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                        <strong>Color impresión:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_cliche_id.name"/><br/>
+                        <strong>Texto impreso:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_cliche_id.description"/><br/>
+                      </div>
+                      
+                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                        <strong>Cantonera Color:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_color_id"/><br/>
+                      </div>
+                      
+                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                        <strong>Medidas cantonera (mm):</strong> <span t-field="line.product_id.product_tmpl_id.ala_1"/> + 0 + <span t-field="line.product_id.product_tmpl_id.ala_2"/><br/>
+                        <strong>Grosor cantonera (mm):</strong> <span t-field="line.product_id.product_tmpl_id.grosor_2"/><br/>
+                        <strong>Largo cantonera (mm):</strong> <span t-field="line.product_id.product_tmpl_id.longitud"/><br/>
+                      </div>
+                      
+                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                        <strong>Tolerancia de:</strong> 43/47 | 0 | 43/47<br/>
+                        <strong>Tolerancia de:</strong> 2,8 | a | 3,2<br/>
+                        <strong>Tolerancia de:</strong> 2195 | 0 | 2205<br/>
+                      </div>
+                      
+                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                        <strong>Cantoneras / Paquete:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.und_paquete"/><br/>
+                        <strong>Alturas / Capa Pallet:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.alto_fila"/><br/>
+                        <strong>Tipo de ángulo:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.alto_fila"/><br/>
+                        <strong>Reciclable:</strong> <span t-field="line.oferta_id.attribute_id.reciclable_id.name"/><br/>
+                        <strong>Peso (kg / m):</strong> <span t-field="line.oferta_id.peso_metro"/><br/>
+                        <strong>Cantidad (Piezas):</strong> <span t-field="line.oferta_unidades"/> -> <span t-esc="int(line.product_uom_qty)"/> Pallets a <span t-esc="int(line.oferta_unidades / line.product_uom_qty)"/> Piezas<br/>
+                        <strong>Total Metros (m):</strong> <span t-field="line.oferta_id.peso_metro"/><br/>
+                        <strong>Total Peso Pedido (kgs):</strong> <span t-field="doc.peso_bruto"/><br/>
+                      </div>
+                      
+                      </div>
+                      
+                      
+                      
+                      <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 25px;" >
+                      
+                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                      
+                          <table style="width:100%">
+                          
+                                <tr>
+                                    <td><strong></strong></td>
+                                    <td><strong>Ancho (mm)</strong></td>
+                                    <td><strong>%</strong></td>
+                                    <td><strong>Total kg</strong></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td><strong>Capa Interior</strong></td>
+                                    <td><span t-field="line.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet"/></td>
+                                    <td>80</td>
+                                    <td><span t-esc="round(line.peso_bruto * 0.8,2)"/></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td><strong>Papel para superficie</strong></td>
+                                    <td></td>
+                                    <td>20</td>
+                                    <td><span t-esc="round(line.peso_bruto * 0.8,2)"/></td>
+                                </tr>
+                            </table>
+                        </div>
                         
-
-                      </div>
+                        </div>
                       
                       
-                      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:33%;">
-                        <strong>Peso metro:</strong> <span t-esc="line.product_id.referencia_id.peso_metro"/><br/>
-                        <strong>Metros unidad:</strong> <span t-esc="line.product_id.referencia_id.metros_unidad"/><br/>
-                        <strong>J Gram:</strong> <span t-esc="line.product_id.referencia_id.j_gram"/><br/>
-                        <strong>J Interior:</strong> <span t-esc="line.product_id.referencia_id.j_interior"/><br/>
-                        <strong>J Superficie:</strong> <span t-esc="line.product_id.referencia_id.j_superficie"/><br/>
-                        <strong>J Superficie Max:</strong> <span t-esc="line.product_id.referencia_id.j_superficie_max"/><br/>
-
-                        
-
-                      </div>
+                      
+                      
+                      
 
   
                   </div>
