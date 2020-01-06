@@ -62,7 +62,7 @@
                       <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
                         <strong>Cantoneras / Paquete:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.und_paquete"/><br/>
                         <strong>Alturas / Capa Pallet:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.alto_fila"/><br/>
-                        <strong>Tipo de ángulo:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.alto_fila"/><br/>
+                        <strong>Tipo de ángulo:</strong> <br/>
                         <strong>Reciclable:</strong> <span t-field="line.oferta_id.attribute_id.reciclable_id.name"/><br/>
                         <strong>Peso (kg / m):</strong> <span t-field="line.oferta_id.peso_metro"/><br/>
                         <strong>Cantidad (Piezas):</strong> <span t-field="line.oferta_unidades"/> -> <span t-esc="int(line.product_uom_qty)"/> Pallets a <span t-esc="int(line.oferta_unidades / line.product_uom_qty)"/> Piezas<br/>
@@ -98,7 +98,7 @@
                                     <td><strong>Papel para superficie</strong></td>
                                     <td></td>
                                     <td>20</td>
-                                    <td><span t-esc="round(line.peso_bruto * 0.8,2)"/></td>
+                                    <td><span t-esc="round(line.peso_bruto * 0.2,2)"/></td>
                                 </tr>
                             </table>
                         </div>
