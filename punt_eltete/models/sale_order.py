@@ -310,8 +310,8 @@ class SaleOrder(models.Model):
             
             for line in record.order_line:
                 num_pallets = num_pallets + int(line.product_uom_qty)
-                peso_neto = peso_neto + line.peso_neto
-                peso_bruto = peso_bruto + line.peso_bruto
+                peso_neto = peso_neto + (line.peso_neto * line.product_uom_qty)
+                peso_bruto = peso_bruto + (line.peso_bruto * line.product_uom_qty)
                 toneladas = toneladas + line.product_uom_qty
                 eton_total = eton_total + line.price_unit * line.product_uom_qty
 
