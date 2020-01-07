@@ -276,7 +276,7 @@
                                 <field name='precio_metro' attrs="{'invisible': [('precio_cliente', '=', '4')]}"/>
                                 <field name='kilos' attrs="{'invisible': [('precio_cliente', '!=', '4')]}"/>
                                 <field name='precio_kilos' attrs="{'invisible': [('precio_cliente', '!=', '4')]}"/>
-                                <field name='precio_varios' attrs="{'invisible': [('precio_cliente', '!=', '5')]}"/>
+                                
 			</group>
                             <group>
                                 <h3>Unidades por Pallet:</h3>
