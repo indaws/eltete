@@ -274,9 +274,10 @@
                                 <field name='unidades' />
                                 <field name='precio_cliente' invisible="1"/>
                                 <field name='precio_metro' attrs="{'invisible': [('precio_cliente', '=', '4')]}"/>
-                                <field name='kilos' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
+                                <field name='kilos' attrs="{'invisible': [('precio_cliente', '!=', '4')]}"/>
                                 <field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '=', '1'), ('precio_cliente', '=', '2'),('precio_cliente', '=', '1')]}"/>
-                            </group>
+                                <field name='precio_varios' attrs="{'invisible': [('precio_cliente', '=', '4')]}"/>
+			</group>
                             <group>
                                 <h3>Unidades por Pallet:</h3>
                                 <field name='alto_pallet_text' />
