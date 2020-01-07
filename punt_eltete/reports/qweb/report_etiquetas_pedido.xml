@@ -48,7 +48,7 @@
 						
 						<tr>
 							<td>
-								<span t-field="doc.partner_id.name"/><br/>
+								<strong><span t-field="doc.partner_id.ref"/></strong><br/>
 								<span t-field="doc.partner_id.zip"/> <span t-field="doc.partner_id.city"/><br/>
 								<span t-field="doc.partner_id.state_id"/><br/>
 								<span t-field="doc.partner_id.country_id"/>
