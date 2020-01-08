@@ -10,7 +10,7 @@ class ProductReferencia(models.Model):
 
     
     name = fields.Char('Nombre')
-    titulo = fields.Char('Título', readonly=True)
+    titulo = fields.Char('Título')
     
     
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True, readonly = True)
@@ -59,7 +59,7 @@ class ProductReferencia(models.Model):
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_valores_referencia")
     
-    orden = fields.Char('Orden', readonly = True, store=True, compute = "_get_ordenado")
+    orden = fields.Char('Orden', store=True, compute = "_get_ordenado")
     
     
     @api.depends('type_id',)
