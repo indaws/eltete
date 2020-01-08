@@ -32,8 +32,8 @@ class SaleOrderLine(models.Model):
     cantidad = fields.Char('Cantidad', compute = "_get_valores")
     precio = fields.Char('Precio', readonly = True, compute = "_get_valores")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
-    peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
-    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
+    peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
+    peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
     
     ESTADO_SEL = [('0', 'NO CONFIRMADO - FALTA PAPEL'),    
                   ('1', 'NO CONFIRMADO - FALTA CLICHE'),
@@ -192,8 +192,6 @@ class SaleOrderLine(models.Model):
                 peso_bruto = 0
             
             importe = precio_num * cantidad_num
-            peso_neto = peso_neto * record.num_pallets
-            peso_bruto = peso_bruto * record.num_pallets
             
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
@@ -435,8 +433,8 @@ class SaleOrder(models.Model):
             for line in record.order_line:
                 if line.bultos == '1':
                     num_pallets = num_pallets + line.num_pallets
-                peso_neto = peso_neto + line.peso_neto
-                peso_bruto = peso_bruto + line.peso_bruto
+                peso_neto = peso_neto + (line.peso_neto * line.num_pallets)
+                peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
 
             
             record.num_pallets = num_pallets
