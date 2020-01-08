@@ -21,7 +21,10 @@ class SaleOrderLine(models.Model):
     und_user = fields.Integer('Unidades Fabricadas', default = -1)
     kilos_user = fields.Integer('kilos Fabricados', default = -1)
     num_pallets = fields.Integer('Número de Pallets', default = 1)
-    bultos = fields.Boolean('Bultos', default = True)
+    BULTOS_SEL = [('1', 'SI'),     
+                  ('2', 'NO'),
+                  ]
+    bultos = fields.Selection(selection = BULTOS_SEL, string = 'Es pallet', default='1')
     
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
@@ -45,7 +48,6 @@ class SaleOrderLine(models.Model):
             importe = 0
             peso_neto = 0
             peso_bruto = 0
-            eton = 0
 
             if record.und_user > 0:
                 und_pallet = record.und_user
@@ -357,7 +359,7 @@ class SaleOrder(models.Model):
 
             
             for line in record.order_line:
-                if line.bultos == True:
+                if line.bultos == '1':
                     num_pallets = num_pallets + line.num_pallets
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
