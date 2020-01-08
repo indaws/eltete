@@ -42,7 +42,7 @@ class SaleOrderLine(models.Model):
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_valores")
-    
+    comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_valores")
     
     @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
@@ -62,6 +62,7 @@ class SaleOrderLine(models.Model):
             j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
             j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
             j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
+            comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
 
             if record.und_user > 0:
                 und_pallet = record.und_user
@@ -74,6 +75,7 @@ class SaleOrderLine(models.Model):
             #metros
             if facturar == '1':
                 cantidad_num = record.num_pallets * und_pallet * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                cantidad_num = int(cantidad_num * 10000) / 10000
                 cantidad = str(cantidad_num) + " metros"
                 precio_num = record.oferta_id.precio_metro
                 precio_num = int(precio_num * 10000) / 10000
@@ -97,6 +99,7 @@ class SaleOrderLine(models.Model):
             #unidades
             elif facturar == '2':
                 cantidad_num = record.num_pallets * und_pallet
+                cantidad_num = int(cantidad_num * 10000) / 10000
                 cantidad = str(cantidad_num) + " unidades"
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                 precio_num = int(precio_num * 100000) / 100000
@@ -120,6 +123,7 @@ class SaleOrderLine(models.Model):
             #Millares
             elif facturar == '3':
                 cantidad_num = record.num_pallets * und_pallet / 1000
+                cantidad_num = int(cantidad_num * 10000) / 10000
                 cantidad = str(cantidad_num) + " millares"
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
                 precio_num = int(precio_num * 10000) / 10000
@@ -142,23 +146,22 @@ class SaleOrderLine(models.Model):
                     peso_bruto = int((peso_neto + pesoMadera) / 5) * 5
             #Kilos
             elif facturar == '4':
-                kilos_pallet = record.oferta_id.kilos
-                if record.kilos_user > 0:
-                    kilos_pallet = record.kilos_user
-                cantidad_num = record.num_pallets * kilos_pallet
-                cantidad = str(cantidad_num) + " kilos"
-                precio_num = record.oferta_id.precio_kilo
-                precio_num = int(precio_num * 10000) / 10000
-                precio = str(precio_num) + " €/kilo"
                 if record.kilos_user > 0:
                     peso_neto = record.kilos_user - 15
                     peso_bruto = record.kilos_user
                 else:
                     peso_neto = record.oferta_id.kilos
-                    peso_bruto = peso_neto + 20
+                    peso_bruto = peso_neto + 15
+                cantidad_num = record.num_pallets * peso_neto
+                cantidad_num = int(cantidad_num * 10000) / 10000
+                cantidad = str(cantidad_num) + " kilos"
+                precio_num = record.oferta_id.precio_kilo
+                precio_num = int(precio_num * 10000) / 10000
+                precio = str(precio_num) + " €/kilo"
             #Varios
             elif facturar == '5':
                 cantidad_num = record.num_pallets * und_pallet
+                cantidad_num = int(cantidad_num * 10000) / 10000
                 cantidad = str(cantidad_num) + " unidades"
                 precio_num = record.oferta_id.precio_varios
                 precio_num = int(precio_num * 10000) / 10000
