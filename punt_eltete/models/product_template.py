@@ -9,8 +9,8 @@ class ProductReferencia(models.Model):
     _order = 'orden'
 
     
-    name = fields.Char('Nombre')
-    titulo = fields.Char('Título')
+    name = fields.Char('Nombre', readonly = True)
+    titulo = fields.Char('Título', readonly = True)
     
     
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True, readonly = True)
