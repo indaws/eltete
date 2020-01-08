@@ -59,13 +59,68 @@ class SaleOrderLine(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
     
+    #Orden de Produccion
+    comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacion")
+
     ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_fabricacion")
     ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_fabricacion")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_fabricacion")
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_fabricacion")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_fabricacion")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_fabricacion")
-    comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
+    
+    
+     def _get_fabricacion(self):
+        for record in self:
+            cantonera_color_superficie = ""
+            if record.oferta_id.attribute_id.cantonera_color_id:
+                cantonera_color_superficie = record.oferta_id.attribute_id.referencia_cliente_id.cantonera_color_id.name
+                
+            cantonera_ancho_superficie = ""
+            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie:
+                cantonera_ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+                
+            cantonera_ancho_interior = ""
+            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior:
+                cantonera_ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
+                
+            cantonera_gramaje_interior = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram)
+            
+            cantonera_especial = ""
+            if record.oferta_id.attribute_id.cantonera_especial_id:
+                cantonera_especial = record.oferta_id.attribute_id.cantonera_especial_id.name
+            
+            cantonera_forma = ""
+            if record.oferta_id.attribute_id.cantonera_forma_id:
+                cantonera_forma = record.oferta_id.attribute_id.cantonera_forma_id.name
+            else:
+                cantonera_forma = "Canto Recto"
+            
+            cantonera_impresion = ""
+            if record.oferta_id.attribute_id.impresion_id:
+                cantonera_impresion = record.oferta_id.attribute_id.impresion_id.name
+                if record.oferta_id.attribute_id.cliche_id:
+                    if record.oferta_id.attribute_id.cliche_id.description:
+                        cantonera_impresion = cantonera_impresion + ", Cliche: " + record.oferta_id.attribute_id.cliche_id.description
+                    if record.oferta_id.attribute_id.cliche_id.tinta_1_id:
+                        cantonera_impresion = cantonera_impresion + ", Tinta 1: " + record.oferta_id.attribute_id.cliche_id.tinta_1_id.name
+                    if record.oferta_id.attribute_id.cliche_id.texto_1:
+                        cantonera_impresion = cantonera_impresion + ", Texto 1: " + record.oferta_id.attribute_id.cliche_id.texto_1
+                    if record.oferta_id.attribute_id.cliche_id.tinta_2_id:
+                        cantonera_impresion = cantonera_impresion + ", Tinta 2: " + record.oferta_id.attribute_id.cliche_id.tinta_2_id.name
+                    if record.oferta_id.attribute_id.cliche_id.texto_1:
+                        cantonera_impresion = cantonera_impresion + ", Texto 2: " + record.oferta_id.attribute_id.cliche_id.texto_2
+                
+ 
+            cantonera_impresion = record.oferta_id.attribute_id.referencia_cliente_id.cantonera_impresion_id.name
+            
+            
+            
+            und_paquete = record.oferta_id.attribute_id.referencia_cliente_id.und_paquete
+   
+            comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
+    
+    
     
     @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
@@ -197,15 +252,7 @@ class SaleOrderLine(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
 
-    def _get_fabricacion(self):
-        for record in self:
-            record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
-            record.ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
-            record.j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
-            record.j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
-            record.j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
-            record.j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
-            record.comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
+   
     
     
     
