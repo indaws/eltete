@@ -142,6 +142,9 @@ class SaleOrderLine(models.Model):
                     peso_bruto = int((peso_neto + pesoMadera) / 5) * 5
             #Kilos
             elif facturar == '4':
+                kilos_pallet = record.oferta_id.kilos
+                if record.kilos_user > 0:
+                    kilos_pallet = record.kilos_user
                 cantidad_num = record.num_pallets * kilos_pallet
                 cantidad = str(cantidad_num) + " kilos"
                 precio_num = record.oferta_id.precio_kilo
