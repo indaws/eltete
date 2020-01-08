@@ -68,7 +68,7 @@ class SaleOrderLine(models.Model):
                 if record.kilos_user > 0:
                     peso_bruto = record.kilos_user
                     peso_neto = peso_bruto - 15
-                elif:
+                else:
                     peso_neto = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                     peso_neto = peso_neto * und_pallet
                 
@@ -91,7 +91,7 @@ class SaleOrderLine(models.Model):
                 if record.kilos_user > 0:
                     peso_bruto = record.kilos_user
                     peso_neto = peso_bruto - 15
-                elif:
+                else:
                     peso_neto = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                     peso_neto = peso_neto * und_pallet
                 
@@ -114,7 +114,7 @@ class SaleOrderLine(models.Model):
                 if record.kilos_user > 0:
                     peso_bruto = record.kilos_user
                     peso_neto = peso_bruto - 15
-                elif:
+                else:
                     peso_neto = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                     peso_neto = peso_neto * und_pallet
                 
