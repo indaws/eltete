@@ -433,19 +433,7 @@ class SaleOrder(models.Model):
                     num_pallets = num_pallets + line.num_pallets
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
-                if int(line.estado) < estado_num:
-                    estado_num = line.estado
-
-            if estado_num < 10:
-                estado = "PEDIDO NO CONFIRMADO"
-            elif estado_num < 20:
-                estado = "EN PREPARACIÓN"
-            elif estado_num == 20:
-                estado "LISTO"
-            elif estado_num == 21:
-                estado "CARGADO"
-            elif estado_num == 22:
-                estado "ENTREGADO"
+          
 
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
