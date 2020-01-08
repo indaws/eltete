@@ -87,6 +87,8 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
                 <field name="oferta_id" />
 		
+		<field name="und_user" />
+		<field name="kilos_user" />
 		<field name="codigo_cliente" />
 		<field name="descripcion" />
 		<field name="und_pallet" />
