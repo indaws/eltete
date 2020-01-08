@@ -18,8 +18,8 @@ class SaleOrderLine(models.Model):
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
-    und_user = fields.Integer('Unidades Fabricadas', default = -1)
-    kilos_user = fields.Integer('kilos Fabricados', default = -1)
+    und_user = fields.Integer('Unidades Pallet Fabricadas', default = -1)
+    kilos_user = fields.Integer('kilos Pallet Fabricados', default = -1)
     num_pallets = fields.Integer('Número de Pallets', default = 1)
     BULTOS_SEL = [('1', 'SI'),     
                   ('2', 'NO'),
