@@ -8,22 +8,22 @@ class SaleOrderLine(models.Model):
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
     
-    oferta_precio = fields.Float('Precio', digits = (12,4))
-    oferta_precio_tipo = fields.Char('Precio Tipo')
-    oferta_cantidad = fields.Float('Cantidad', digits = (12,4))
-    oferta_cantidad_tipo = fields.Char('Cantidad Tipo')
-    oferta_unidades = fields.Integer('Unidades Pallet')
+    oferta_precio = fields.Float('Precio Julio', digits = (12,4))
+    oferta_precio_tipo = fields.Char('Precio Tipo Julio')
+    oferta_cantidad = fields.Float('Cantidad Julio', digits = (12,4))
+    oferta_cantidad_tipo = fields.Char('Cantidad Tipo Julio')
+    oferta_unidades = fields.Integer('Unidades Pallet julio')
     
     #Campos visibles
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     und_user = fields.Integer('Unidades Fabricadas', default = -1)
-    kilos_user = fields.Integer('Unidades Fabricadas', default = -1)
+    kilos_user = fields.Integer('kilos Fabricados', default = -1)
     num_pallets = fields.Integer('Número de Pallets', default = 1)
     
     #Campos calculados
-    codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
+    codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
     cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
