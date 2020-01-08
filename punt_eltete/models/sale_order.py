@@ -196,15 +196,7 @@ class SaleOrderLine(models.Model):
             record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
-            
-            record.ancho_interior = ancho_interior
-            record.ancho_superficie = ancho_superficie
-            record.j_gram = j_gram
-            record.j_interior = j_interior
-            record.j_superficie = j_superficie
-            record.j_superficie_max = j_superficie_max
-     
-    
+
     def _get_fabricacion(self):
         for record in self:
             record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
