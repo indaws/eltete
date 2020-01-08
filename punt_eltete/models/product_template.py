@@ -1401,10 +1401,8 @@ class ProductCaracteristicaCliche(models.Model):
     tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
     texto_1 = fields.Char('Tinta 1')
     tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
-    texto_2 = fields.Char('Tinta 1')  
-    tinta_3_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 3")
-    texto_3 = fields.Char('Tinta 3')  
-    proveedor = fields.Char('Tinta 1')  
+    texto_2 = fields.Char('Tinta 1')   
+    proveedor = fields.Char('Proveedor')  
     image = fields.Binary('Imagen')
     
     
