@@ -74,7 +74,7 @@ class SaleOrderLine(models.Model):
                 peso_bruto = int((peso_neto + pesoMadera) / 5) * 5
             #unidades
             elif facturar == '2':
-                cantidad_num = num_pallets * und_pallet
+                cantidad_num = record.num_pallets * und_pallet
                 cantidad = str(cantidad_num) + " unidades"
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                 precio_num = int(precio_num * 100000) / 100000
@@ -92,7 +92,7 @@ class SaleOrderLine(models.Model):
                 peso_bruto = int((peso_neto + pesoMadera) / 5) * 5
             #Millares
             elif facturar == '3':
-                cantidad_num = num_pallets * und_pallet / 1000
+                cantidad_num = record.num_pallets * und_pallet / 1000
                 cantidad = str(cantidad_num) + " millares"
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
                 precio_num = int(precio_num * 10000) / 10000
@@ -110,7 +110,7 @@ class SaleOrderLine(models.Model):
                 peso_bruto = int((peso_neto + pesoMadera) / 5) * 5
             #Kilos
             elif facturar == '4':
-                cantidad_num = num_pallets * kilos_pallet
+                cantidad_num = record.num_pallets * kilos_pallet
                 cantidad = str(cantidad_num) + " kilos"
                 precio_num = record.oferta_id.precio_kilo
                 precio_num = int(precio_num * 10000) / 10000
@@ -123,7 +123,7 @@ class SaleOrderLine(models.Model):
                     peso_bruto = peso_neto + 20
             #Varios
             elif facturar == '5':
-                cantidad_num = num_pallets * und_pallet
+                cantidad_num = record.num_pallets * und_pallet
                 cantidad = str(cantidad_num) + " unidades"
                 precio_num = record.oferta_id.precio_varios
                 precio_num = int(precio_num * 10000) / 10000
