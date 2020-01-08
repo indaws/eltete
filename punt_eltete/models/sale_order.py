@@ -70,7 +70,7 @@ class SaleOrderLine(models.Model):
                 elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
                     pesoMadera = 30
                 else:
-                    pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                    pesoMadera = int(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
                 peso_bruto = int((peso_neto + peso_madera) / 5) * 5
             #unidades
             elif facturar == '2':
