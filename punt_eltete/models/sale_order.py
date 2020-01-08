@@ -196,6 +196,7 @@ class SaleOrderLine(models.Model):
             record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            
 
     def _get_fabricacion(self):
         for record in self:
