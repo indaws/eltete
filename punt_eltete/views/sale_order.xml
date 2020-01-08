@@ -89,6 +89,7 @@
 		<field name="cantidad" />
 		<field name="precio" />
 		<field name="importe" />
+		<field name="estado" />
 		<field name="peso_neto" />
 		<field name="peso_bruto" />
 	
