@@ -111,16 +111,6 @@ class SaleOrderLine(models.Model):
                     if record.oferta_id.attribute_id.cliche_id.texto_1:
                         cantonera_impresion = cantonera_impresion + ", Texto 2: " + record.oferta_id.attribute_id.cliche_id.texto_2
                 
- 
-            cantonera_impresion = record.oferta_id.attribute_id.referencia_cliente_id.cantonera_impresion_id.name
-            
-            
-            
-            und_paquete = record.oferta_id.attribute_id.referencia_cliente_id.und_paquete
-   
-            comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
-    
-    
     
     @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
