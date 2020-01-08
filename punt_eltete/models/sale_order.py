@@ -207,13 +207,13 @@ class SaleOrderLine(models.Model):
     
     def _get_fabricacion(self):
         for record in self:
-            ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
-            ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
-            j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
-            j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
-            j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
-            j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
-            comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
+            record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
+            record.ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+            record.j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
+            record.j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
+            record.j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
+            record.j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
+            record.comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
     
     
     
