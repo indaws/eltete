@@ -21,6 +21,7 @@ class SaleOrderLine(models.Model):
     und_user = fields.Integer('Unidades Fabricadas', default = -1)
     kilos_user = fields.Integer('kilos Fabricados', default = -1)
     num_pallets = fields.Integer('Número de Pallets', default = 1)
+    bultos = fields.Boolean('Bultos', default = True)
     
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
@@ -357,24 +358,20 @@ class SaleOrder(models.Model):
             eton_total = 0
             
             for line in record.order_line:
-                num_pallets = num_pallets + int(line.product_uom_qty)
-                peso_neto = peso_neto + (line.peso_neto * line.product_uom_qty)
-                peso_bruto = peso_bruto + (line.peso_bruto * line.product_uom_qty)
-                toneladas = toneladas + line.product_uom_qty
-                eton_total = eton_total + line.price_unit * line.product_uom_qty
+                if line.bultos == True:
+                    num_pallets = num_pallets + line.num_pallets
+                peso_neto = peso_neto + line.peso_neto
+                peso_bruto = peso_bruto + line.peso_bruto
 
-            eton_medio = 0
-            if toneladas > 0:
-                eton_medio = eton_total / toneladas
-            eton_medio = int(eton_medio * 10) / 10
-            toneladas = int(toneladas * 10) / 10
             
+            record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            
             record.toneladas = toneladas
             record.eton = eton_medio
 
-            record.num_pallets = num_pallets
+            
 
     
     @api.multi
