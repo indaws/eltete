@@ -241,6 +241,11 @@ class SaleOrder(models.Model):
     toneladas = fields.Float('Toneladas', digits = (8, 1), compute="_get_num_pallets")
     eton = fields.Float('Eton', digits = (8, 1), compute="_get_num_pallets")
     
+    ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
+                  ('1', 'CONFIRMADO'),
+                  ]
+    estado = fields.Selection(selection = ESTADOS_SEL, string = 'Es pallet', default='1')
+    
     
     
     @api.multi
@@ -488,40 +493,42 @@ class SaleOrder(models.Model):
             lista_lotes = []
             for line in record.order_line:
             
-                cantidad_a_fabricar = int(line.product_uom_qty) - len(line.lot_ids)
+                if line.bultos == '1':
+            
+                    cantidad_a_fabricar = int(line.product_uom_qty) - len(line.lot_ids)
 
-                i = 0
-                if cantidad_a_fabricar > 0:
-                    while i < cantidad_a_fabricar:
-                        i = i+1
-                
-                        if line.product_id:
-                            if line.product_id.referencia_cliente_id:
-                            
-                                pallet_especial_id = None
-                                if line.product_id.referencia_cliente_id.pallet_especial_id:
-                                    pallet_especial_id = line.product_id.referencia_cliente_id.pallet_especial_id.id
+                    i = 0
+                    if cantidad_a_fabricar > 0:
+                        while i < cantidad_a_fabricar:
+                            i = i+1
+                    
+                            if line.product_id:
+                                if line.product_id.referencia_cliente_id:
                                 
-                    
-                                #Creamos lotes
-                                lot_id = self.env['stock.production.lot'].create({'product_id': line.product_id.id, 
-                                                            'name': self.env['ir.sequence'].next_by_code('stock.lot.serial'), 
-                                                            'pallet_especial_id': pallet_especial_id,
-                                                            'ancho_pallet': line.product_id.referencia_cliente_id.ancho_pallet,
-                                                            'und_paquete': line.product_id.referencia_cliente_id.und_paquete,
-                                                            'paquetes_fila': line.product_id.referencia_cliente_id.paquetes_fila,
-                                                            'alto_fila': line.product_id.referencia_cliente_id.alto_fila,
-                                                            'fila_max': line.product_id.referencia_cliente_id.fila_max,
-                                                            'fila_buena': line.product_id.referencia_cliente_id.fila_buena,
-                                                            'unidades': line.oferta_id.unidades,
-                                                            'fabricado': False,
-                                                            'sale_order_line_id': line.id
+                                    pallet_especial_id = None
+                                    if line.product_id.referencia_cliente_id.pallet_especial_id:
+                                        pallet_especial_id = line.product_id.referencia_cliente_id.pallet_especial_id.id
+                                    
+                        
+                                    #Creamos lotes
+                                    lot_id = self.env['stock.production.lot'].create({'product_id': line.product_id.id, 
+                                                                'name': self.env['ir.sequence'].next_by_code('stock.lot.serial'), 
+                                                                'pallet_especial_id': pallet_especial_id,
+                                                                'ancho_pallet': line.product_id.referencia_cliente_id.ancho_pallet,
+                                                                'und_paquete': line.product_id.referencia_cliente_id.und_paquete,
+                                                                'paquetes_fila': line.product_id.referencia_cliente_id.paquetes_fila,
+                                                                'alto_fila': line.product_id.referencia_cliente_id.alto_fila,
+                                                                'fila_max': line.product_id.referencia_cliente_id.fila_max,
+                                                                'fila_buena': line.product_id.referencia_cliente_id.fila_buena,
+                                                                'unidades': line.oferta_id.unidades,
+                                                                'fabricado': False,
+                                                                'sale_order_line_id': line.id
 
-                                                           })
-                                lista_lotes.append(lot_id.id)
-                    
-                            #Asignamos stock a lotes
-                line.fabricado = True
+                                                               })
+                                    lista_lotes.append(lot_id.id)
+                        
+                                #Asignamos stock a lotes
+                    line.fabricado = True
                 
 
                 
