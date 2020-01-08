@@ -36,8 +36,8 @@ class SaleOrderLine(models.Model):
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
     
-    ancho_interior = fields.Integer('Ancho Interior', readonly = True, compute = "_get_valores")
-    ancho_superficie = fields.Integer('Ancho Superficie', readonly = True, compute = "_get_valores")
+    ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_valores")
+    ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_valores")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_valores")
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores")
