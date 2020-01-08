@@ -58,20 +58,14 @@ class SaleOrderLine(models.Model):
                   ('20', 'LISTO'),
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
- 
-
+    
     ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_fabricacion")
     ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_fabricacion")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_fabricacion")
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_fabricacion")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_fabricacion")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_fabricacion")
-    
-    
-     def _get_fabricacion(self):
-        for record in self:
-            
-                
+    comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
     
     @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
@@ -203,7 +197,15 @@ class SaleOrderLine(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
 
-   
+    def _get_fabricacion(self):
+        for record in self:
+            record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
+            record.ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+            record.j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
+            record.j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
+            record.j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
+            record.j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
+            record.comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
     
     
     
@@ -527,7 +529,4 @@ class SaleOrder(models.Model):
                 #Corregimos stock
                 
                 #Ponemos fabricado a 0
-        
-    
-    
 
