@@ -78,7 +78,9 @@ class SaleOrderLine(models.Model):
     def _get_valores(self):
         for record in self:
             codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
-            descripcion = record.oferta_id.attribute_id.referencia_cliente_id.name + " " + record.oferta_id.attribute_id.name
+            descripcion = ''
+            if record.oferta_id:
+                descripcion = record.oferta_id.attribute_id.referencia_cliente_id.name + " " + record.oferta_id.attribute_id.name
             und_pallet = 0
             cantidad = ""
             precio = ""
@@ -241,6 +243,9 @@ class SaleOrder(models.Model):
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
                   ('1', 'CONFIRMADO'),
+                  ('2', 'FABRICADO'),
+                  ('3', 'ENTREGA PARCIAL'),
+                  ('4', 'ENTREGA TOTAL'),
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Es pallet', default='1')
     
