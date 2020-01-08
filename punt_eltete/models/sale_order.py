@@ -36,6 +36,13 @@ class SaleOrderLine(models.Model):
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
     
+    ancho_interior = fields.Integer('Ancho Interior', readonly = True, compute = "_get_valores")
+    ancho_superficie = fields.Integer('Ancho Superficie', readonly = True, compute = "_get_valores")
+    j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_valores")
+    j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores")
+    j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores")
+    j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_valores")
+    
     
     @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
@@ -48,6 +55,13 @@ class SaleOrderLine(models.Model):
             importe = 0
             peso_neto = 0
             peso_bruto = 0
+            
+            ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
+            ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+            j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
+            j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
+            j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
+            j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
 
             if record.und_user > 0:
                 und_pallet = record.und_user
@@ -161,6 +175,13 @@ class SaleOrderLine(models.Model):
             record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            
+            record.ancho_interior = ancho_interior
+            record.ancho_superficie = ancho_superficie
+            record.j_gram = j_gram
+            record.j_interior = j_interior
+            record.j_superficie = j_superficie
+            record.j_superficie_max = j_superficie_max
             
     
     @api.depends('attribute_ids',)
