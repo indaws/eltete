@@ -354,8 +354,7 @@ class SaleOrder(models.Model):
             num_pallets = 0
             peso_neto = 0
             peso_bruto = 0
-            toneladas = 0
-            eton_total = 0
+
             
             for line in record.order_line:
                 if line.bultos == True:
@@ -368,8 +367,8 @@ class SaleOrder(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             
-            record.toneladas = toneladas
-            record.eton = eton_medio
+            record.toneladas = 0
+            record.eton = 0
 
             
 
