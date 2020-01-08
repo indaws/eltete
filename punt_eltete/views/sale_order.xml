@@ -65,24 +65,16 @@
             </xpath>
             
             
-            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
-                <field name="oferta_id" />
-                <field name="oferta_precio" />
-                <field name="oferta_precio_tipo" />
-                <field name="oferta_cantidad" />
-                <field name="oferta_cantidad_tipo" />
-                <field name="oferta_unidades" />
-		<h3>Datos Pedido Jose</h3>
-		<field name="codigo_cliente" />
-		<field name="descripcion" />
-		<field name="und_pallet" />
-		<field name="num_pallets" />
-		<field name="cantidad" />
-		<field name="precio" />
-		<field name="importe" />
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='product_id']" position="before">
 		<field name="peso_neto" />
-		<field name="peso_bruto" />
-		<h3>Otros</h3>
+		<field name="ancho_interior" />
+		<field name="ancho_superficie" />
+		<field name="j_gram" />
+		<field name="j_superficie" />
+		<field name="j_superficie_max" />
+		<field name="comentario_paletizado" />
+		    
+		    
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
                 <field name="oferta_id" />
