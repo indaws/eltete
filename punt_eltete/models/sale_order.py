@@ -71,7 +71,7 @@ class SaleOrderLine(models.Model):
                     pesoMadera = 30
                 else:
                     pesoMadera = int(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
-                peso_bruto = int((peso_neto + peso_madera) / 5) * 5
+                peso_bruto = int((peso_neto + pesoMdera) / 5) * 5
             #unidades
             elif facturar == '2':
                 cantidad_num = num_pallets * und_pallet
@@ -88,8 +88,8 @@ class SaleOrderLine(models.Model):
                 elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
                     pesoMadera = 30
                 else:
-                    pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
-                peso_bruto = int((peso_neto + peso_madera) / 5) * 5
+                    pesoMadera = int(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                peso_bruto = int((peso_neto + pesoMdera) / 5) * 5
             #Millares
             elif facturar == '3':
                 cantidad_num = num_pallets * und_pallet / 1000
@@ -106,8 +106,8 @@ class SaleOrderLine(models.Model):
                 elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
                     pesoMadera = 30
                 else:
-                    pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
-                peso_bruto = int((peso_neto + peso_madera) / 5) * 5
+                    pesoMadera = int(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                peso_bruto = int((peso_neto + pesoMdera) / 5) * 5
             #Kilos
             elif facturar == '4':
                 cantidad_num = num_pallets * kilos_pallet
