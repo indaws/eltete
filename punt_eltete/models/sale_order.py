@@ -57,8 +57,13 @@ class SaleOrderLine(models.Model):
                   ('19', 'CONFIRMADO - HAY STOCK'),
                   
                   ('20', 'LISTO'),
+                  ('21', 'CARGADO'),
+                  ('22', 'ENTREGADO'),
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
+    
+    cantonera_color = fields.Char('Color Superficie', readonly = True, compute = "_get_fabricacion")
+    
     
     ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_fabricacion")
     ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_fabricacion")
@@ -67,6 +72,20 @@ class SaleOrderLine(models.Model):
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_fabricacion")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_fabricacion")
     comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
+    
+     def _get_fabricacion(self):
+        for record in self:
+            record.cantonera_color = record.oferta_id.attribute_id.cantonera_color_id.name
+
+            ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
+            ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+            j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
+            j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
+            j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
+            j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
+            comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
+            
+            
     
     @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
@@ -197,27 +216,7 @@ class SaleOrderLine(models.Model):
             record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
-            
-            record.ancho_interior = ancho_interior
-            record.ancho_superficie = ancho_superficie
-            record.j_gram = j_gram
-            record.j_interior = j_interior
-            record.j_superficie = j_superficie
-            record.j_superficie_max = j_superficie_max
-     
-    
-    def _get_fabricacion(self):
-        for record in self:
-            ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
-            ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
-            j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
-            j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
-            j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
-            j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
-            comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
-    
-    
-    
+
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
         self.oferta_ids = self.env['stock.production.lot'].search([('sale_order_line_id.order_id', '=', lista_ids)])
@@ -426,18 +425,32 @@ class SaleOrder(models.Model):
             num_pallets = 0
             peso_neto = 0
             peso_bruto = 0
-
+            estado = ""
+            estado_num = 30
             
             for line in record.order_line:
                 if line.bultos == '1':
                     num_pallets = num_pallets + line.num_pallets
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
+                if int(line.estado) < estado_num:
+                    estado_num = line.estado
 
-            
+            if estado_num < 10:
+                estado = "PEDIDO NO CONFIRMADO"
+            elif estado_num < 20:
+                estado = "EN PREPARACIÓN"
+            elif estado_num == 20:
+                estado "LISTO"
+            elif estado_num == 21:
+                estado "CARGADO"
+            elif estado_num == 22:
+                estado "ENTREGADO"
+
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            record.estado = estado
             
             record.toneladas = 0
             record.eton = 0
