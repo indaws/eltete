@@ -72,6 +72,15 @@
                 <field name="oferta_cantidad" />
                 <field name="oferta_cantidad_tipo" />
                 <field name="oferta_unidades" />
+		    
+		<field name="codigo_cliente" />
+		<field name="descripcion" />
+		<field name="und_pallet" />
+		<field name="cantidad" />
+		<field name="precio" />
+		<field name="importe" />
+		<field name="peso_neto" />
+		<field name="peso_bruto" />
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
                 <field name="oferta_id" />
@@ -81,14 +90,7 @@
                 <field name="oferta_cantidad_tipo" />
                 <field name="oferta_unidades" />
 
-		<field name="codigo_cliente" />
-		<field name="descripcion" />
-		<field name="und_pallet" />
-		<field name="cantidad" />
-		<field name="precio" />
-		<field name="importe" />
-		<field name="peso_neto" />
-		<field name="peso_bruto" />
+	
             </xpath>
             
 		
