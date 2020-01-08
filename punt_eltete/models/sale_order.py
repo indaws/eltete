@@ -30,7 +30,7 @@ class SaleOrderLine(models.Model):
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
-    cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    cantidad = fields.Html('Cantidad', compute = "_get_valores")
     precio = fields.Html('Precio', readonly = True, compute = "_get_valores")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
