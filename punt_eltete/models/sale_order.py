@@ -18,26 +18,26 @@ class SaleOrderLine(models.Model):
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", required=True, ondelete='cascade')
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
+    und_user = fields.Integer('Unidades Fabricadas', default = -1)
+    kilos_user = fields.Integer('Unidades Fabricadas', default = -1)
     num_pallets = fields.Integer('Número de Pallets', default = 1)
     
-    #Son visibles en el pdf
+    #Campos calculados
     codigo_cliente = fields.Char('Código', readonly = True, compute = "_get_valores")
-    #descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
-    #und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
-    #cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
-    #precio = fields.Html('Precio', readonly = True, compute = "_get_valores")
-    
-    #No son visibles
+    descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
+    cantidad = fields.Html('Cantidad', readonly = True, compute = "_get_valores")
+    precio = fields.Html('Precio', readonly = True, compute = "_get_valores")
+    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_valores")
     
     
-    
-    @api.depends('oferta_id')
+    @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
         for record in self:
-            codido = ""
-            descripcion = ""
+            codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
+            descripcion = record.oferta_id.attribute_id.descripcion
             und_pallet = 0
             cantidad = ""
             precio = ""
@@ -46,56 +46,103 @@ class SaleOrderLine(models.Model):
             peso_bruto = 0
             eton = 0
 
-            codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
-            #descripcion = record.oferta_id.attribute_id.titulo + "<br/>"
-            #descripcion = descripcion + record.oferta_id.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
-            #descripcion = descripcion + record.oferta_id.attribute_id.descripcion
-            """
-            und_pallet = record.oferta_id.unidades
-            
-            cantidad_total = record.oferta_id.cantidad * record.num_pallets * 10000
-            
-            decimales = 4
-            while cantidad_total % 10 == 0 and decimales > 0:
-                cantidad_total = cantidad_total / 10
-                decimales = decimales - 1
-            cantidad = str(cantidad_total) + "<br/>" + record.oferta_id.cantidad_tipo
-            
-            
-            precio = str(record.oferta_id.precio) + "<br/>" + record.oferta_id.precio_tipo
-            
-            importe = record.oferta_id.precio * cantidad_total
-            
-            
-            """
-            
-            peso_neto = record.oferta_unidades * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-            toneladas = peso_neto / 1000
-            
-            #eton = record.oferta_id.precio_eton
-            
-            peso_bruto = peso_neto
-            pesoMadera = 0
-            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 1500:
-                pesoMadera = 20
-            elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
-                pesoMadera = 30
+            if record.und_user > 0:
+                und_pallet = record.und_user
             else:
-                pesoMadera = int(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                und_pallet = record.oferta_id.unidades
+            
+            facturar = record.oferta_id.attribute_id.referencia_cliente_id.precio_cliente
+            cantidad_num = 0
+            precio_num = 0
+            #metros
+            if facturar == '1':
+                cantidad_num = record.num_pallets * und_pallet * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                cantidad = str(cantidad_num) + " metros"
+                precio_num = record.oferta_id.precio_metro
+                precio_num = int(precio_num * 10000) / 10000
+                precio = str(precio_num) + " €/metro"
+                peso_neto = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                peso_neto = peso_neto * und_pallet * record.num_pallets
                 
-            peso_bruto = int((peso_bruto + pesoMadera) / 5) * 5
-            peso_neto = int(peso_neto / 5) * 5
+                pesoMadera = 0
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 1500:
+                    pesoMadera = 20
+                elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
+                    pesoMadera = 30
+                else:
+                    pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                peso_bruto = int((peso_neto + peso_madera) / 5) * 5
+            #unidades
+            elif facturar == '2':
+                cantidad_num = num_pallets * und_pallet
+                cantidad = str(cantidad_num) + " unidades"
+                precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                precio_num = int(precio_num * 100000) / 100000
+                precio = str(precio_num) + " €/unidad"
+                peso_neto = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                peso_neto = peso_neto * und_pallet * record.num_pallets
+                
+                pesoMadera = 0
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 1500:
+                    pesoMadera = 20
+                elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
+                    pesoMadera = 30
+                else:
+                    pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                peso_bruto = int((peso_neto + peso_madera) / 5) * 5
+            #Millares
+            elif facturar == '3':
+                cantidad_num = num_pallets * und_pallet / 1000
+                cantidad = str(cantidad_num) + " millares"
+                precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
+                precio_num = int(precio_num * 10000) / 10000
+                precio = str(precio_num) + " €/millar"
+                peso_neto = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                peso_neto = peso_neto * und_pallet * record.num_pallets
+                
+                pesoMadera = 0
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 1500:
+                    pesoMadera = 20
+                elif record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud < 2000:
+                    pesoMadera = 30
+                else:
+                    pesoMadera = int(self.attribute_id.referencia_cliente_id.referencia_id.longitud / 1000) * 20
+                peso_bruto = int((peso_neto + peso_madera) / 5) * 5
+            #Kilos
+            elif facturar == '4':
+                cantidad_num = num_pallets * kilos_pallet
+                cantidad = str(cantidad_num) + " kilos"
+                precio_num = record.oferta_id.precio_kilo
+                precio_num = int(precio_num * 10000) / 10000
+                precio = str(precio_num) + " €/kilo"
+                if record.kilos_user > 0:
+                    peso_neto = record.kilos_user - 20
+                    peso_bruto = record.kilos_user
+                else:
+                    peso_neto = record.oferta_id.kilos
+                    peso_bruto = peso_neto + 20
+            #Varios
+            elif facturar == '5':
+                cantidad_num = num_pallets * und_pallet
+                cantidad = str(cantidad_num) + " unidades"
+                precio_num = record.oferta_id.precio_varios
+                precio_num = int(precio_num * 10000) / 10000
+                precio = str(precio_num) + " €/unidad"
+                peso_neto = 0
+                peso_bruto = 0
+            
+            importe = precio_num * cantidad_num
+            
             
             record.codigo_cliente = codigo_cliente
-            #record.descripcion = descripcion
-            #record.und_pallet = und_pallet
-            #record.cantidad = cantidad
-            #record.precio = precio
-            #record.price_subtotal = importe
-            #record.price_unit = eton
+            record.descripcion = descripcion
+            record.und_pallet = und_pallet
+            record.cantidad = cantidad
+            record.precio = precio
+            record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
-    
+            
     
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
