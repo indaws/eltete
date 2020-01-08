@@ -41,8 +41,8 @@ class ProductReferencia(models.Model):
     
     diametro = fields.Integer('Diámetro', readonly = True)
     gramaje = fields.Integer('Gramaje', readonly = True)
-    ancho_interior = fields.Integer('Ancho Interior')
-    ancho_superficie = fields.Integer('Ancho Superficie')
+    ancho_interior = fields.Char('Ancho Interior')
+    ancho_superficie = fields.Char('Ancho Superficie')
     comentario = fields.Text('Comentario Referencia')
     
     #varios
