@@ -39,6 +39,7 @@ class SaleOrderLine(models.Model):
     ESTADO_SEL = [('0', 'NO CONFIRMADO - FALTA PAPEL'),    
                   ('1', 'NO CONFIRMADO - FALTA CLICHE'),
                   ('2', 'NO CONFIRMADO - FALTA TINTA'),
+                  ('3', 'NO CONFIRMADO - PARA FABRICAR'),
 
                   ('7', 'NO CONFIRMADO - HAY QUE COMPRAR'),
                   ('8', 'NO CONFIRMADO - COMPRADO'),
