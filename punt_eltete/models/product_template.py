@@ -32,7 +32,8 @@ class ProductCategory(models.Model):
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('tipo_varios_id', '=', tipo_varios_id.id), ]):
             return prod, None
 
-        product_name = "VARIOS - " + tipo_varios_id.name
+        titulo = tipo_varios_id.name
+        product_name = "VARIOS - " + titulo
 
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': product_name, 
@@ -578,15 +579,10 @@ class ProductReferencia(models.Model):
     def _get_peso_metro(self):
     
         for record in self:
-        
             peso1 = 0
 
-            #Varios
-            if record.type_id.is_varios == True and record.peso_metro_user > 0:
-                peso1 = record.peso_metro_user
-                
             #Cantonera
-            elif record.type_id.is_cantonera == True:
+            if record.type_id.is_cantonera == True:
                 sumaAlas = record.ala_1 + record.ala_2
                 if sumaAlas == 60:
                     peso1 = 385
@@ -747,11 +743,8 @@ class ProductReferencia(models.Model):
             superficie = 0
             superficie_max = 0
 
-            #Varios
-            if record.type_id.is_varios == True:
-                metros = record.metros_unidad_user
             #Cantonera
-            elif record.type_id.is_cantonera == True:
+            if record.type_id.is_cantonera == True:
                 metros = record.longitud / 1000
                 gram = int((record.grosor_2 * 1000 / 1.4 - 300) / 50) * 50
                 interior = int(record.ala_1 + record.ala_2 - record.grosor_2 * 2 - 1)
