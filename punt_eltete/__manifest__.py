@@ -13,7 +13,9 @@
     'auto_install': False,
     "depends": [
         "sale",
-        "product",        
+        "product",
+        "sale_stock",
+        "account"
     ],
     "data": [
         "security/ir.model.access.csv",
