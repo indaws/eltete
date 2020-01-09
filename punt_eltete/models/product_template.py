@@ -419,6 +419,7 @@ class ProductReferencia(models.Model):
     gramaje = fields.Integer('Gramaje', readonly = True)
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
     
+    """
     PAPEL_SEL = [('0', 'Gordo Cartoncillo Gris'), 
                ('1', 'Fino Test Marrón'), 
                ('2', 'Fino Test Blanco Mate'), 
@@ -440,6 +441,8 @@ class ProductReferencia(models.Model):
                ]
     fsc_tipo = fields.Selection(selection = FSC_SEL, string = 'Tipo FSC')
     fsc_valor = fields.Integer('% FSC', default = 0)
+    """
+    
     
     ancho_interior = fields.Char('Ancho Interior')
     ancho_superficie = fields.Char('Ancho Superficie')
@@ -563,14 +566,14 @@ class ProductReferencia(models.Model):
                 if record.longitud < 1000:
                     ordenado1 = ordenado1 + "0"
                 ordenado1 + ordenado1 + str(record.longitud)
-                
+            """    
             #mPrima Papel
             if record.type_id.is_mprima_papel == True:
                 ordenado1 = "50-PAPEL-"
                 if record.ancho < 100:
                     ordenado1 = ordenado1 + "0"
                 ordenado1 = ordenado1 + str(record.ancho)
-                
+             """   
                 
         record.orden = ordenado1
     
