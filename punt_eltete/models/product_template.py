@@ -308,7 +308,7 @@ class ProductCategory(models.Model):
         return referencia_id, None
 
     
-    
+    """
     @api.multi
     def create_prod_mprima_papel(self, ancho, mprima, fsc_tipo, fsc_valor):
     
@@ -333,7 +333,7 @@ class ProductCategory(models.Model):
                                                           'fsc_valor': fsc_valor,
                                                          })
         return referencia_id, None
-
+"""
 
 
 
@@ -355,7 +355,7 @@ class ProductReferencia(models.Model):
     is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
-    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
+    #is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
     
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
