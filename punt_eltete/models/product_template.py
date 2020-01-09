@@ -319,7 +319,7 @@ class ProductCategory(models.Model):
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('papel', '=', papel), ('fsc_tipo', '=', fsc_tipo), ('fsc_valor', '=', fsc_valor)]):
             return prod, None
-        """
+        
         titulo = "Ancho " + str(ancho) + " mm - "
         if papel == '0':
             titulo = titulo + "Gordo Cartoncillo Gris"
@@ -339,7 +339,7 @@ class ProductCategory(models.Model):
             titulo = titulo + "Fino Kraft Blanco Brillo"
         elif papel == '20':
             titulo = titulo + "Gordo Kraft Marrón"
-        
+        """
         titulo = titulo + " - "
         if fsc_tipo == '0':
             #titulo = titulo + "NINGUNO"
