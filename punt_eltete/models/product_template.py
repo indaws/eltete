@@ -569,7 +569,7 @@ class ProductReferencia(models.Model):
                 ordenado1 = "50-PAPEL-"
                 if record.ancho < 100:
                     ordenado1 = ordenado1 + "0"
-                ordenado1 = ordenado1 + str(record.ancho) + "-"
+                ordenado1 = ordenado1 + str(record.ancho)
                 
                 
         record.orden = ordenado1
