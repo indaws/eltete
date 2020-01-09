@@ -355,7 +355,7 @@ class ProductReferencia(models.Model):
     is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
-    #is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
+    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
     
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
@@ -380,12 +380,7 @@ class ProductReferencia(models.Model):
     
     #varios
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
-    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
-    
-    
-    
-    
+
     #calculados
     peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, compute = "_get_peso_metro")
     metros_unidad = fields.Float('Metros Unidad', digits = (10,4), readonly = True, compute = "_get_valores_referencia")
