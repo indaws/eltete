@@ -355,7 +355,7 @@ class ProductCategory(models.Model):
             titulo = titulo + "FSC RECYCLED " + fsc_valor + " %"
         elif fsc_tipo == '6':
             titulo = titulo + "FSC CONTROLLED WOOD"
-        """
+      
         product_name = "PAPEL - " + titulo
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -365,6 +365,7 @@ class ProductCategory(models.Model):
                                                           'fsc_tipo': fsc_tipo,
                                                           'fsc_valor': fsc_valor,
                                                          })
+        """
         return referencia_id, None
 
     
