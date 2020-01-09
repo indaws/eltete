@@ -371,15 +371,24 @@ class ProductReferencia(models.Model):
     longitud = fields.Integer('Longitud', readonly = True)
     ala_4 = fields.Integer('Solapa 4', readonly = True)
     grosor_1 = fields.Float('Grosor 1', digits=(6,1), readonly = True)
-    
     diametro = fields.Integer('Diámetro', readonly = True)
     gramaje = fields.Integer('Gramaje', readonly = True)
+    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
+    
+    mprima_tipo_papel = fields.Integer('Tipo Papel')
+    FSC_SEL = [('1', 'FSC'), 
+               ('2', 'Alto 100 sin Adhesivo'),
+               ('3', 'Alto 60 con Adhesivo'),                 
+               ('4', 'Alto 60 sin Adhesivo'),
+               ]
+    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    
+    
     ancho_interior = fields.Char('Ancho Interior')
     ancho_superficie = fields.Char('Ancho Superficie')
     comentario = fields.Text('Comentario Referencia')
     
-    #varios
-    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
+    #ELIMINAR
     metros_unidad_user = fields.Integer('Metros')
     peso_metro_user = fields.Integer('Metros')
 
