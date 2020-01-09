@@ -321,7 +321,6 @@ class ProductCategory(models.Model):
             return prod, None
         
         titulo = "Ancho " + str(ancho) + " mm - "
-        """
         if papel == '0':
             titulo = titulo + "Gordo Cartoncillo Gris"
         elif papel == '1':
@@ -340,7 +339,7 @@ class ProductCategory(models.Model):
             titulo = titulo + "Fino Kraft Blanco Brillo"
         elif papel == '20':
             titulo = titulo + "Gordo Kraft Marrón"
-            
+        """  
         titulo = titulo + " - "
         if fsc_tipo == '0':
             #titulo = titulo + "NINGUNO"
