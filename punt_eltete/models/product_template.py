@@ -309,7 +309,7 @@ class ProductCategory(models.Model):
         return referencia_id, None
 
     
-
+"""
     @api.multi
     def create_mprima_papel(self, ancho, papel, fsc_tipo, fsc_valor):
     
@@ -368,7 +368,7 @@ class ProductCategory(models.Model):
                                                           'fsc_valor': fsc_valor,
                                                          })
         return referencia_id, None
-
+"""
 
 
 
@@ -871,29 +871,6 @@ class ProductTemplate(models.Model):
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
     
-    
-    PAPEL_SEL = [('0', 'Gordo Cartoncillo Gris'), 
-               ('1', 'Fino Test Marrón'), 
-               ('2', 'Fino Test Blanco Mate'), 
-               ('3', 'Fino Test Blanco Brillo'), 
-               ('4', 'Fino Test Negro'),
-               ('11', 'Fino Kraft Marrón'),
-               ('12', 'Fino Kraft Blanco Mate'),
-               ('13', 'Fino Kraft Blanco Brillo'),
-               ('20', 'Gordo Kraft Marrón'),
-               ]
-    papel = fields.Selection(selection = PAPEL_SEL, string = 'Tipo Papel')
-    FSC_SEL = [('0', 'NINGUNO'), 
-               ('1', 'FSC 100%'), 
-               ('2', 'FSC MIX CREDIT'),
-               ('3', 'FSC MIX %'),
-               ('4', 'FSC RECYCLED CREDIT'),                 
-               ('5', 'FSC RECYCLED %'), 
-               ('6', 'FSC CONTROLLED WOOD'), 
-               ]
-    fsc_tipo = fields.Selection(selection = FSC_SEL, string = 'Tipo FSC')
-    fsc_valor = fields.Integer('% FSC', default = 0)
-    
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
@@ -1073,7 +1050,7 @@ class ProductTemplate(models.Model):
                 self.referencia_id = referencia_id
                 self.name = referencia_id.name
 
-
+"""
             if self.categ_id.is_mprima_papel == True:
             
                 if not self.ancho or self.ancho <= 0:
@@ -1090,7 +1067,7 @@ class ProductTemplate(models.Model):
 
                 self.referencia_id = referencia_id
                 self.name = referencia_id.name
-    
+  """  
 
     
     
