@@ -321,6 +321,7 @@ class ProductCategory(models.Model):
             return prod, None
         
         titulo = "Ancho " + str(ancho) + " mm - "
+        """
         if papel == '0':
             titulo = titulo + "Gordo Cartoncillo Gris"
         elif papel == '1':
@@ -365,6 +366,7 @@ class ProductCategory(models.Model):
                                                           'fsc_tipo': fsc_tipo,
                                                           'fsc_valor': fsc_valor,
                                                          })
+        """
         return referencia_id, None
 
     
