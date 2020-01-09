@@ -344,7 +344,7 @@ class ProductCategory(models.Model):
         if fsc_tipo == '0':
             #titulo = titulo + "NINGUNO"
         elif fsc_tipo == '1':
-            titulo = titulo + "FSC 100 %"
+            #titulo = titulo + "FSC 100 %"
 
             """
         elif fsc_tipo == '2':
