@@ -389,6 +389,7 @@ class ProductReferencia(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
+    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?')
     
      #ELIMINAR
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
