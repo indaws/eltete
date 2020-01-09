@@ -54,6 +54,10 @@
                                 </tree>
                             </field>   
                         </group>
+						
+						<group>
+							<field name="observaciones"/>
+                        </group>
 
                     </sheet>
                 </form>
