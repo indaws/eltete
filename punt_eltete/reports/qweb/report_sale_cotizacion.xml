@@ -18,8 +18,11 @@
                     </div>
                     
                     <div class="float-right company_address" style="padding:12px; font-size:12pt; width:81%; border: 3px solid #0c9c45; border-radius: 25px;">
-                      <h3 style="color:black; font-size:14pt; text-align: center;"><strong>PRESUPUESTO</strong></h3>
+                      <h3 style="color:black; font-size:14pt; text-align: center;"><strong>PRESUPUESTO <span t-field="doc.name" /></strong></h3>
                     
+					
+						<p style="font-size:12pt;">Fecha: <span t-field="doc.date" /></p>
+					
                     
                         <div style="padding:20px; font-size:12pt; width:100%; ">
                           <table class="table table-sm">
@@ -28,7 +31,8 @@
                                       <th class="text-left" style="color:#000;"></th>
                                       <th class="text-left" style="color:#000; font-size:10pt;">Producto</th>
                                       <th class="text-left" style="color:#000; font-size:10pt;">Impresión</th>
-                                      <th class="text-left" style="color:#000; font-size:10pt;">Unidades pallet</th>
+									  <th class="text-left" style="color:#000; font-size:10pt;">Num pallets</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Uds pallet</th>
                                       <th class="text-left" style="color:#000; font-size:10pt;">Precio</th>
                                       
                                   </tr>
@@ -44,7 +48,9 @@
                                         <td style="font-size:10pt;"><img t-if="line.troquelado_id.image" t-att-src="image_data_uri(line.troquelado_id.image)" class="float-left" style="max-height:50px"/></td>
                                         <td style="font-size:10pt;"><span t-field="line.referencia_cliente_id.name"/> - <span t-field="line.attribute_id.name"/></td>
                                         <td style="font-size:10pt;"><span t-field="line.cantonera_impresion_id.name"/></td>
-                                        <td style="font-size:10pt;"><span t-field="line.cantidad"/> <span t-field="line.cantidad_tipo"/></td>
+										<td style="font-size:10pt;"><span t-field="line.npallets"/></td>
+                                        <!--<td style="font-size:10pt;"><span t-field="line.cantidad"/> <span t-field="line.cantidad_tipo"/></td>-->
+										<td style="font-size:10pt;"><span t-field="line.oferta_id.unidades"/></td>
                                         <td style="font-size:10pt;"><span t-field="line.precio"/> <span t-field="line.precio_tipo"/></td>
                                       </tr>
               
@@ -53,6 +59,22 @@
                               </tbody>
                           </table>
                         </div>
+						
+						<p t-field="doc.observaciones" style="font-size:10pt;"/>
+						
+						<p style="font-size:10pt;">Precios válidos para las cantidades y tamaños expresados en la oferta.<br/>
+							Cantoneras con longitud entre 800mm y 3000mm. Para cantonera de longitud inferior o superior, consultar precio (a no ser que esté especificado en la oferta)<br/>
+							Tolerancias según normativa europea EN 13393 para cantonera y UNE 499 11 IN<br/>
+							Precio no incluye impresión personalizada a no ser que se especifique en la oferta.<br/>
+							Plazo de entrega medio: 2 semanas. Fecha exacta a confirmar en el momento del pedido. Para plazos de entrega inferiores, consultar.<br/>
+							Forma de pago habitual: 60 días para Operaciones aseguradas con CRÉDITO Y CAUCIÓN.<br/>
+							Validez de la oferta: 60 días
+
+						</p>
+						
+						<p style="font-size:10pt;">Un saludo,<br/>
+						<span t-field="doc.user_id.name" /></p>
+						
                     </div>
 
                 </div>
