@@ -308,7 +308,7 @@ class ProductCategory(models.Model):
         return referencia_id, None
     
     
-    """
+
     @api.multi
     def create_mprima_papel(self, ancho, papel, fsc_tipo, fsc_valor):
     
@@ -319,6 +319,7 @@ class ProductCategory(models.Model):
         #Buscamos
         for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('papel', '=', papel), ('fsc_tipo', '=', fsc_tipo), ('fsc_valor', '=', fsc_valor)]):
             return prod, None
+        
         titulo = "Ancho " + str(ancho) + " mm - "
         if papel == '0':
             titulo = titulo + "Gordo Cartoncillo Gris"
@@ -365,12 +366,11 @@ class ProductCategory(models.Model):
                                                           'fsc_valor': fsc_valor,
                                                          })
         return referencia_id, None
-"""
+
     
     
     
-    
-    
+     
     
 class ProductReferencia(models.Model):
     _name = 'product.referencia'
