@@ -129,9 +129,10 @@
                     <group>
                         
                         <field name="type_id" domain="[('product_type','=',True)]"/>
-						<field name="name" />
-						<field name="titulo" />
-						<field name="orden"/>
+			<field name="name" />
+			<field name="titulo" />
+			<field name="orden"/>
+			<field name="is_varios" invisible="1"/>
                         <field name="is_cantonera" invisible="1"/>
                         <field name="is_perfilu" invisible="1"/>
                         <field name="is_slipsheet" invisible="1"/>
@@ -139,12 +140,12 @@
                         <field name="is_formato" invisible="1"/>
                         <field name="is_bobina" invisible="1"/>
                         <field name="is_pieballet" invisible="1"/>
-                        <field name="is_varios" invisible="1"/>
+                        <field name="is_mprima_papel" invisible="1"/>
                     </group>
                     
                     <h3>Campos referencia</h3>
                     <group>
-						<field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
+			<field name='pie'  attrs="{'invisible': [('is_pieballet', '=', False)]}"/>
                         <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                         <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
                         <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
@@ -157,9 +158,7 @@
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
                         <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                         <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='peso_metro_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
-                        <field name='metros_unidad_user'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
-						<field name="comentario"/>
+			<field name="comentario"/>
                     </group>
                     
                     <h3>Cálculos</h3>
@@ -169,7 +168,7 @@
                         <field name='j_gram' />
                         <field name='j_interior' />
                         <field name='j_superficie' />
-						<field name='j_superficie_max' />
+			<field name='j_superficie_max' />
                     </group>
                     
 
