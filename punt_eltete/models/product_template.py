@@ -562,14 +562,14 @@ class ProductReferencia(models.Model):
                 ordenado1 + ordenado1 + str(record.longitud)
             
             
-            """    
+              
             #mPrima Papel
             if record.type_id.is_mprima_papel == True:
                 ordenado1 = "50-PAPEL-"
                 if record.ancho < 100:
                     ordenado1 = ordenado1 + "0"
                 ordenado1 = ordenado1 + str(record.ancho)
-             """  
+              
                 
         record.orden = ordenado1
     
