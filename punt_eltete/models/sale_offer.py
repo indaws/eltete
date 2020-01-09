@@ -147,18 +147,8 @@ class sale_referencia_cliente(models.Model):
             
                 pesoUnd  = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
             
-                #Varios
-                if record.type_id.is_varios == True:
-                    if int(record.ancho_pallet_cliente) > 0:
-                        ancho_pallet = int(record.ancho_pallet_cliente)
-                    if record.und_paquete_cliente > 0:
-                        und_paquete = record.und_paquete_cliente
-                    paquetes = 1
-                    alto_fila = 10
-                    fila_max = 100
-                    fila_buena = 1
                 #Cantonera
-                elif record.type_id.is_cantonera == True:
+                if record.type_id.is_cantonera == True:
 
                     alto_fila = (record.referencia_id.ala_1 + record.referencia_id.ala_2) * 0.7071
                     pesoUnidad = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
