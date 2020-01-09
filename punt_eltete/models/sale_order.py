@@ -126,7 +126,7 @@ class SaleOrderLine(models.Model):
                 cantidad_num = int(cantidad_num * 10000) / 10000
                 cantidad = str(cantidad_num) + " unidades"
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                precio_num = int(precio_num * 100000) / 100000
+                precio_num = int(precio_num * 10000) / 10000
                 precio = str(precio_num) + " €/unidad"
                 
                 if record.kilos_user > 0:
