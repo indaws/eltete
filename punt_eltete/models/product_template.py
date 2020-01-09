@@ -380,6 +380,8 @@ class ProductReferencia(models.Model):
     
     #varios
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
+    metros_unidad_user = fields.Integer('Metros')
+    peso_unidad_user = fields.Integer('Metros')
 
     #calculados
     peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, compute = "_get_peso_metro")
