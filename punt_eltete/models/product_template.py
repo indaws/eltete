@@ -21,7 +21,7 @@ class ProductCategory(models.Model):
     is_formato = fields.Boolean('¿Es Formato?')
     is_bobina = fields.Boolean('¿Es Bobina?')
     is_pieballet = fields.Boolean('¿Es Pie de Pallet?')
-    is_papel = fields.Boolean('¿Es Papel?')
+    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?')
     
     
     
@@ -307,6 +307,32 @@ class ProductCategory(models.Model):
                                                          })
         return referencia_id, None
 
+    
+    
+    @api.multi
+    def create_prod_mprima_papel(self, ancho, mprima, fsc_tipo, fsc_valor):
+    
+        if ancho < 50 or ancho > 2800:
+            return None, "Error: ancho debe estar entre 50 y 2800"
+        if fsc_valor < 0 or ancho > 100:
+            return None, "Error: fsc_valor debe estar entre 0 y 100"
+
+        #Buscamos
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('mprima', '=', mprima), ('fsc_tipo', '=', fsc_tipo), ('fsc_valor', '=', fsc_valor)]):
+            return prod, None
+
+        titulo = "Ancho " + str(ancho) + " mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
+        product_name = "BOBINA - " + titulo
+            
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
+                                                          'type_id': self.id, 
+                                                          'ancho': ancho,
+                                                          'mprima': mprima,
+                                                          'fsc_tipo': fsc_tipo,
+                                                          'fsc_valor': fsc_valor,
+                                                         })
+        return referencia_id, None
 
 
 
@@ -315,14 +341,13 @@ class ProductCategory(models.Model):
 class ProductReferencia(models.Model):
     _name = 'product.referencia'
     _order = 'orden'
-
     
     name = fields.Char('Nombre', readonly = True)
     titulo = fields.Char('Título', readonly = True)
     
-    
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True, readonly = True)
     
+    is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
     is_perfilu = fields.Boolean('¿Es Perfil U?', related='type_id.is_perfilu')
     is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='type_id.is_slipsheet')
@@ -330,7 +355,7 @@ class ProductReferencia(models.Model):
     is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
-    is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
+    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
     
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
                ('2', 'Alto 100 sin Adhesivo'),
@@ -357,6 +382,8 @@ class ProductReferencia(models.Model):
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
+    
+    
     
     
     #calculados
