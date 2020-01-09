@@ -953,7 +953,7 @@ class ProductTemplate(models.Model):
             if self.categ_id.is_slipsheet == True:
                 
                 if not self.ancho or self.ancho <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ancho")
+                    raise ValidationError("Error: Hay que indicar un valor en ANCHO")
                 if not self.grosor_1 or self.grosor_1 <= 0:
                     raise ValidationError("Error: Hay que indicar un valor en GROSOR")
                 if not self.longitud or self.longitud <= 0:
@@ -1042,7 +1042,7 @@ class ProductTemplate(models.Model):
                 self.name = referencia_id.name
 
                 
-    """
+  
             if self.categ_id.is_mprima_papel == True:
             
                 if not self.ancho or self.ancho <= 0:
@@ -1057,7 +1057,7 @@ class ProductTemplate(models.Model):
                     raise ValidationError(error)
                 self.referencia_id = referencia_id
                 self.name = referencia_id.name
-  """    
+    
 
 
         
