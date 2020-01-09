@@ -7,6 +7,7 @@ from odoo.addons import decimal_precision as dp
 
 """
 CATEGORIA DE PRODUCTO
+Crea el titulo, el name y la referencia del producto
 """
 
 class ProductCategory(models.Model):
@@ -308,39 +309,82 @@ class ProductCategory(models.Model):
         return referencia_id, None
 
     
-    """
+
     @api.multi
-    def create_prod_mprima_papel(self, ancho, mprima, fsc_tipo, fsc_valor):
+    def create_mprima_papel(self, ancho, papel, fsc_tipo, fsc_valor):
     
         if ancho < 50 or ancho > 2800:
             return None, "Error: ancho debe estar entre 50 y 2800"
-        if fsc_valor < 0 or ancho > 100:
-            return None, "Error: fsc_valor debe estar entre 0 y 100"
+        if fsc_valor < 0 or fsc_valor > 100:
+            return None, "Error: FSC Valor debe estar entre 0 y 100"
 
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('mprima', '=', mprima), ('fsc_tipo', '=', fsc_tipo), ('fsc_valor', '=', fsc_valor)]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('papel', '=', papel), ('fsc_tipo', '=', fsc_tipo), ('fsc_valor', '=', fsc_valor)]):
             return prod, None
 
-        titulo = "Ancho " + str(ancho) + " mm - Ø " + str(diametro) + " - " + str(gramaje) + "g"
-        product_name = "BOBINA - " + titulo
+        titulo = "Ancho " + str(ancho) + " mm - "
+        if papel == '0':
+            titulo = titulo + "Gordo Cartoncillo Gris"
+        elif papel == '1':
+            titulo = titulo + "Fino Test Marrón"
+        elif papel == '2':
+            titulo = titulo + "Fino Test Blanco Mate"
+        elif papel == '3':
+            titulo = titulo + "Fino Test Blanco Brillo"
+        elif papel == '4':
+            titulo = titulo + "Fino Test Negro"
+        elif papel == '11':
+            titulo = titulo + "Fino Kraft Marrón"
+        elif papel == '12':
+            titulo = titulo + "Fino Kraft Blanco Mate"
+        elif papel == '13':
+            titulo = titulo + "Fino Kraft Blanco Brillo"
+        elif papel == '20':
+            titulo = titulo + "Gordo Kraft Marrón"
             
+        titulo = titulo + " - "
+        if fsc_tipo == '0':
+            #titulo = titulo + "NINGUNO"
+        elif fsc_tipo == '1':
+            titulo = titulo + "FSC 100 %"
+        elif fsc_tipo == '2':
+            titulo = titulo + "FSC MIX CREDIT"
+        elif fsc_tipo == '3':
+            titulo = titulo + "FSC MIX " + fsc_valor + " %"
+        elif fsc_tipo == '4':
+            titulo = titulo + "FSC RECYCLED CREDIT"
+        elif fsc_tipo == '5':
+            titulo = titulo + "FSC RECYCLED " + fsc_valor + " %"
+        elif fsc_tipo == '6':
+            titulo = titulo + "FSC CONTROLLED WOOD"
+        
+        product_name = "PAPEL - " + titulo
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'ancho': ancho,
-                                                          'mprima': mprima,
+                                                          'papel': papel,
                                                           'fsc_tipo': fsc_tipo,
                                                           'fsc_valor': fsc_valor,
                                                          })
         return referencia_id, None
+
+
+
+
+    
+    
 """
-
-
-
+CLASE REFERENCIA
+"""
 
 class ProductReferencia(models.Model):
     _name = 'product.referencia'
     _order = 'orden'
+    
+    #ELIMINAR
+    metros_unidad_user = fields.Integer('Metros')
+    peso_metro_user = fields.Integer('Metros')
     
     name = fields.Char('Nombre', readonly = True)
     titulo = fields.Char('Título', readonly = True)
@@ -375,7 +419,17 @@ class ProductReferencia(models.Model):
     gramaje = fields.Integer('Gramaje', readonly = True)
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
     
-    mprima_tipopapel_id = fields.Char('Tipo Papel')
+    PAPEL_SEL = [('0', 'Gordo Cartoncillo Gris'), 
+               ('1', 'Fino Test Marrón'), 
+               ('2', 'Fino Test Blanco Mate'), 
+               ('3', 'Fino Test Blanco Brillo'), 
+               ('4', 'Fino Test Negro'),
+               ('11', 'Fino Kraft Marrón'),
+               ('12', 'Fino Kraft Blanco Mate'),
+               ('13', 'Fino Kraft Blanco Brillo'),
+               ('20', 'Gordo Kraft Marrón'),
+               ]
+    papel = fields.Selection(selection = PAPEL_SEL, string = 'Tipo Papel')
     FSC_SEL = [('0', 'NINGUNO'), 
                ('1', 'FSC 100%'), 
                ('2', 'FSC MIX CREDIT'),
@@ -385,16 +439,11 @@ class ProductReferencia(models.Model):
                ('6', 'FSC CONTROLLED WOOD'), 
                ]
     fsc_tipo = fields.Selection(selection = FSC_SEL, string = 'Tipo FSC')
-    fsc_valor_user = fields.Integer('% FSC')
-    fsc_valor = fields.Integer('% FSC')
+    fsc_valor = fields.Integer('% FSC', default = 0)
     
     ancho_interior = fields.Char('Ancho Interior')
     ancho_superficie = fields.Char('Ancho Superficie')
     comentario = fields.Text('Comentario Referencia')
-    
-    #ELIMINAR
-    metros_unidad_user = fields.Integer('Metros')
-    peso_metro_user = fields.Integer('Metros')
 
     #calculados
     peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, compute = "_get_peso_metro")
@@ -403,7 +452,6 @@ class ProductReferencia(models.Model):
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores_referencia")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_valores_referencia")
-    
     orden = fields.Char('Orden', store=True, compute = "_get_ordenado")
     
     
@@ -521,21 +569,18 @@ class ProductReferencia(models.Model):
                 ordenado1 = "50-PAPEL-"
                 if record.ancho < 100:
                     ordenado1 = ordenado1 + "0"
-                ordenado = ordenado1 + str(record.ancho)
+                ordenado1 = ordenado1 + str(record.ancho) + "-"
+                
                 
         record.orden = ordenado1
+    
     
     
     @api.depends('type_id',)
     def _get_peso_metro(self):
     
         for record in self:
-        
             peso1 = 0
-
-            #Varios
-            if record.type_id.is_varios == True and record.peso_metro_user > 0:
-                peso1 = record.peso_metro_user
                 
             #Cantonera
             elif record.type_id.is_cantonera == True:
@@ -699,9 +744,6 @@ class ProductReferencia(models.Model):
             superficie = 0
             superficie_max = 0
 
-            #Varios
-            if record.type_id.is_varios == True:
-                metros = record.metros_unidad_user
             #Cantonera
             elif record.type_id.is_cantonera == True:
                 metros = record.longitud / 1000
@@ -778,10 +820,15 @@ class ProductReferencia(models.Model):
 
     
 
+    
+    
+"""
+PRODUCT TEMPLATE
+"""
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
-    
-    
+
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
     referencia_id = fields.Many2one('product.referencia', string='Referencia')
@@ -797,6 +844,7 @@ class ProductTemplate(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?', related='categ_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='categ_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='categ_id.is_varios')
+    is_mprima_papel = fields.Boolean('¿Es mPrimaPapel?', related='categ_id.is_mprima_papel')
     
     ala_1 = fields.Integer('Ala 1')
     ancho = fields.Integer('Ancho')
@@ -823,6 +871,29 @@ class ProductTemplate(models.Model):
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
     
+    
+    PAPEL_SEL = [('0', 'Gordo Cartoncillo Gris'), 
+               ('1', 'Fino Test Marrón'), 
+               ('2', 'Fino Test Blanco Mate'), 
+               ('3', 'Fino Test Blanco Brillo'), 
+               ('4', 'Fino Test Negro'),
+               ('11', 'Fino Kraft Marrón'),
+               ('12', 'Fino Kraft Blanco Mate'),
+               ('13', 'Fino Kraft Blanco Brillo'),
+               ('20', 'Gordo Kraft Marrón'),
+               ]
+    papel = fields.Selection(selection = PAPEL_SEL, string = 'Tipo Papel')
+    FSC_SEL = [('0', 'NINGUNO'), 
+               ('1', 'FSC 100%'), 
+               ('2', 'FSC MIX CREDIT'),
+               ('3', 'FSC MIX %'),
+               ('4', 'FSC RECYCLED CREDIT'),                 
+               ('5', 'FSC RECYCLED %'), 
+               ('6', 'FSC CONTROLLED WOOD'), 
+               ]
+    fsc_tipo = fields.Selection(selection = FSC_SEL, string = 'Tipo FSC')
+    fsc_valor = fields.Integer('% FSC', default = 0)
+    
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
@@ -830,10 +901,7 @@ class ProductTemplate(models.Model):
     
     #################################
     #################################
-    
-    
 
-    
     #CAMPOS ATRIBUTOS
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
@@ -1006,7 +1074,22 @@ class ProductTemplate(models.Model):
                 self.name = referencia_id.name
 
 
-    
+            if self.categ_id.is_mprima_papel == True:
+            
+                if not self.ancho or self.ancho <= 0:
+                    raise ValidationError("Error: Hay que indicar un valor en ANCHO")
+                if not self.papel:
+                    raise ValidationError("Error: Hay que indicar un valor en PAPEL")
+                if not self.fsc_tipo:
+                    raise ValidationError("Error: Hay que indicar un valor en FSC TIPO")
+                
+                referencia_id, error = self.categ_id.create_mprima_papel(self.ancho, self.papel, self.fsc_tipo, self._fsc_valor)
+
+                if not referencia_id:
+                    raise ValidationError(error)
+
+                self.referencia_id = referencia_id
+                self.name = referencia_id.name
     
 
     
