@@ -339,7 +339,7 @@ class ProductCategory(models.Model):
             titulo = titulo + "Fino Kraft Blanco Brillo"
         elif papel == '20':
             titulo = titulo + "Gordo Kraft Marrón"
-            
+           """ 
         titulo = titulo + " - "
         if fsc_tipo == '0':
             #titulo = titulo + "NINGUNO"
@@ -365,7 +365,6 @@ class ProductCategory(models.Model):
                                                           'fsc_tipo': fsc_tipo,
                                                           'fsc_valor': fsc_valor,
                                                          })
-        """
         return referencia_id, None
 
     
