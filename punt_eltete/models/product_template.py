@@ -339,7 +339,7 @@ class ProductCategory(models.Model):
             titulo = titulo + "Fino Kraft Blanco Brillo"
         elif papel == '20':
             titulo = titulo + "Gordo Kraft Marrón"
-        """  
+            
         titulo = titulo + " - "
         if fsc_tipo == '0':
             #titulo = titulo + "NINGUNO"
@@ -355,7 +355,7 @@ class ProductCategory(models.Model):
             titulo = titulo + "FSC RECYCLED " + fsc_valor + " %"
         elif fsc_tipo == '6':
             titulo = titulo + "FSC CONTROLLED WOOD"
-        
+        """
         product_name = "PAPEL - " + titulo
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
