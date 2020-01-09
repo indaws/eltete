@@ -247,7 +247,51 @@ class SaleOrder(models.Model):
                   ('3', 'ENTREGA PARCIAL'),
                   ('4', 'ENTREGA TOTAL'),
                   ]
-    estado = fields.Selection(selection = ESTADOS_SEL, string = 'Es pallet', default='1')
+    estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
+    
+    @api.depends('state', 'invoice_status', 'picking_ids', 'lot_ids')
+    def _get_estado_pedido(self):
+        for record in self:
+            estado = '0'
+            if record.state == 'sale' or record.state == 'done':
+                estado = '1'
+                
+                hechos = 0
+                totales = 0
+                for alb in record.picking_ids:
+                    if alb.state == 'done':
+                        hechos = hechos + 1
+                        totales = totales + 1
+                    elif alb.state != 'cancel' and alb.state != 'draft':
+                        totales = totales + 1
+                        
+                if totales > 0:
+                    if totales == hechos:
+                        estado = '4'
+                    elif hechos > 0:
+                        estado = '3'
+                        
+                    elif hechos <= 0:
+                        
+                        num_lotes = 0
+                        
+                        if len(record.lot_ids) == record.num_pallets:
+                            fabricado = True
+                            for lot in record.lot_ids:
+                                if lot.fabricado == False:
+                                    fabricado = False
+                                    break
+                            if fabricado == True:
+                                estado = '2'
+            record.estado = estado
+                        
+                        
+                        
+                
+                        
+                    
+            
+        
     
     
     
@@ -425,7 +469,7 @@ class SaleOrder(models.Model):
     @api.depends('order_line',)
     def _get_lots_sale(self):
         for record in self:
-            record.lot_ids = self.env['stock.production.lot'].search([('sale_order_id', '=', self.id)])
+            record.lot_ids = self.env['stock.production.lot'].search([('sale_order_id', '=', record.id)])
 
             
             

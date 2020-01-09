@@ -18,6 +18,7 @@ class sale_cotizacion(models.Model):
     country_id = fields.Many2one('res.country', string="País")
     state_id = fields.Many2one('res.country.state', string="Provincia")
     #fecha_entrega = fields.Date('Fecha Entrega')
+    observaciones = fields.Text('Observaciones')
     
     
     line_ids = fields.One2many('sale.cotizacion.line', 'cotizacion_id', string="Líneas")

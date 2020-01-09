@@ -33,7 +33,8 @@ class StockPicking(models.Model):
             peso_neto_total = 0
             peso_bruto_total = 0
             for line in record.move_lines:
-                num_pallets = num_pallets + int(line.product_uom_qty)
+                if line.sale_line_id.bultos == '1':
+                    num_pallets = num_pallets + int(line.product_uom_qty)
                 peso_neto_total = peso_neto_total + line.peso_neto
                 peso_bruto_total = peso_bruto_total + line.peso_bruto
             record.num_pallets = num_pallets
