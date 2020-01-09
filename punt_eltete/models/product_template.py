@@ -375,14 +375,18 @@ class ProductReferencia(models.Model):
     gramaje = fields.Integer('Gramaje', readonly = True)
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
     
-    mprima_tipo_papel = fields.Integer('Tipo Papel')
-    FSC_SEL = [('1', 'FSC'), 
-               ('2', 'Alto 100 sin Adhesivo'),
-               ('3', 'Alto 60 con Adhesivo'),                 
-               ('4', 'Alto 60 sin Adhesivo'),
+    mprima_tipopapel_id = fields.Char('Tipo Papel')
+    FSC_SEL = [('0', 'NINGUNO'), 
+               ('1', 'FSC 100%'), 
+               ('2', 'FSC MIX CREDIT'),
+               ('3', 'FSC MIX %'),
+               ('4', 'FSC RECYCLED CREDIT'),                 
+               ('5', 'FSC RECYCLED %'), 
+               ('6', 'FSC CONTROLLED WOOD'), 
                ]
-    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
-    
+    fsc_tipo = fields.Selection(selection = FSC_SEL, string = 'Tipo FSC')
+    fsc_valor_user = fields.Integer('% FSC')
+    fsc_valor = fields.Integer('% FSC')
     
     ancho_interior = fields.Char('Ancho Interior')
     ancho_superficie = fields.Char('Ancho Superficie')
@@ -511,6 +515,13 @@ class ProductReferencia(models.Model):
                 if record.longitud < 1000:
                     ordenado1 = ordenado1 + "0"
                 ordenado1 + ordenado1 + str(record.longitud)
+                
+            #mPrima Papel
+            if record.type_id.is_mprima_papel == True:
+                ordenado1 = "50-PAPEL-"
+                if record.ancho < 100:
+                    ordenado1 = ordenado1 + "0"
+                ordenado = ordenado1 + str(record.ancho)
                 
         record.orden = ordenado1
     
