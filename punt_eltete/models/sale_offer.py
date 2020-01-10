@@ -1296,7 +1296,7 @@ class sale_offer_oferta(models.Model):
                 #Calculo precio ton
                 if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
                     eton = emetro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
-                eton = int(eton) / 10
+                eton = int(eton + 1) / 10
             
             record.emetro_calculado = emetro
             record.eton_calculado = eton
