@@ -685,7 +685,7 @@ class sale_product_attribute(models.Model):
     name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
     titulo = fields.Html('Descripción para el Cliente', readonly = True, compute = "_get_titulo")
-    descripcion = fields.Char('Eliminar', readonly = True)
+    #descripcion = fields.Char('Eliminar', readonly = True)
     
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
@@ -715,7 +715,7 @@ class sale_product_attribute(models.Model):
     codigo_cliente = fields.Char('Codigo Cliente')
     fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
     reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
-    description = fields.Text("ELIMINAR COMENTARIO")
+    #description = fields.Text("ELIMINAR COMENTARIO")
     
     
     #OCULTOS
@@ -1146,7 +1146,7 @@ class sale_offer_oferta(models.Model):
     
     estado = fields.Char('Estado', compute = "_get_estado")
     
-    descripcion_html = fields.Html('Descripción', readonly = True, compute = "_get_descripcion")
+    #descripcion_html = fields.Html('Descripción', readonly = True, compute = "_get_descripcion")
         
     @api.multi
     def suma_filas(self):
@@ -1357,7 +1357,7 @@ class sale_offer_oferta(models.Model):
             record.precio = precio
             record.precio_tipo = precio_tipo
             
-            
+    """      
     @api.depends('attribute_id', 'unidades', 'eton_user', 'num_pallets')
     def _get_descripcion(self):
         for record in self:
@@ -1371,3 +1371,5 @@ class sale_offer_oferta(models.Model):
                 descripcion = descripcion + record.attribute_id.descripcion
             
             record.descripcion_html = descripcion
+            
+     """
