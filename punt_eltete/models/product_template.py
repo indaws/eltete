@@ -720,7 +720,8 @@ class ProductReferencia(models.Model):
                 
             #Bobina
             elif record.type_id.is_bobina == True:
-                peso1 = record.gramaje / 1000
+                #peso1 = record.gramaje / 1000
+                peso1 = (record.diametro * record.diametro - 10000) * 0.61 / 1000
                 
             #Pie de Pallet
             elif record.type_id.is_pieballet == True:
