@@ -1266,7 +1266,7 @@ class sale_offer_oferta(models.Model):
                 
             elif record.eton_user > 0:
                 #Incremento por metro
-                emetro = emetro * (100 + record.attribute_id.incremento_porcentaje / 100)
+                emetro = emetro * (1 + record.attribute_id.incremento_porcentaje / 100)
                 emetro = emetro + record.attribute_id.incremento_metro
                 #Por unidad
                 eunidad = emetro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
