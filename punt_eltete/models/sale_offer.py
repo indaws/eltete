@@ -690,7 +690,7 @@ class sale_product_attribute(models.Model):
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
     cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
     cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
-    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión a Cobrar")
+    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
     cantonera_cliche_id = fields.Many2one('product.caracteristica.cliche', string="Cliché")
     
     #PERFILU
