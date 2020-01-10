@@ -792,7 +792,8 @@ class ProductReferencia(models.Model):
                 interior = record.ancho
             #Bobina
             elif record.type_id.is_bobina == True:
-                metros = (record.diametro * record.diametro - 10000) * 0.61 / record.gramaje
+                #metros = (record.diametro * record.diametro - 10000) * 0.61 / record.gramaje
+                metros = record.ancho / 1000
                 gram = record.gramaje
                 interior = record.ancho
                 
