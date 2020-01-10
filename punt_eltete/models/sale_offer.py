@@ -1143,8 +1143,8 @@ class sale_offer_oferta(models.Model):
     peso_bruto_text = fields.Char('Peso Bruto', readonly = True, compute = "_get_peso_bruto_text")
     und_pallet_text = fields.Char('Propuesta Unidades', readonly = True, compute = "_get_und_pallet_text")
     
-    aplicar_incremento = fields.Boolean('Aplicar Incrementos', default = True)
-    aplicar_corte = fields.Boolean('Aplicar Corte', default = True)
+    #aplicar_incremento = fields.Boolean('Aplicar Incrementos', default = True)
+    #aplicar_corte = fields.Boolean('Aplicar Corte', default = True)
     eton_user = fields.Float('Euros / Tonelada', digits = (8,1))
     emetro_calculado = fields.Float('Euros / metro', digits = (12,4), readonly = True, compute = "_get_calculado")
     eton_calculado = fields.Float('Euros /tonelada', digits = (8,1), readonly = True, compute = "_get_calculado")
@@ -1255,31 +1255,35 @@ class sale_offer_oferta(models.Model):
             record.alto_pallet_text = texto
            
         
-    @api.depends('eton_user', 'und_pallet')
+    @api.depends('eton_user', 'und_pallet', 'tarifa_id')
     def _get_calculado(self):
         for record in self:
             emetro = 0
+            eton = 0
             emetro = record.eton_user * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
-            if record.aplicar_incremento == True:
+            if record.tarifa_id:
+                
+                
+            else:
+                #Incremento por metro
                 emetro = emetro * (1 + record.attribute_id.incremento_porcentaje / 100)
                 emetro = emetro + record.attribute_id.incremento_metro
-            #Por unidad
-            eunidad = emetro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-            if record.aplicar_incremento == True:
+                #Por unidad
+                eunidad = emetro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                #Incremento por unidad
                 eunidad = eunidad + record.attribute_id.incremento_unidad
                 if record.und_pallet > 0:
                     eunidad = eunidad + record.attribute_id.incremento_pallet / record.und_pallet
-                
-            if record.aplicar_corte == True and record.attribute_id.sierra == True:
+                #Incremento de corte
                 eunidad = eunidad + 0.017
-            if record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad > 0:
-                emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-            emetro = int(emetro * 1000) / 1000
-            
-            eton = 0
-            if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
-                eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
-            eton = int(eton * 10) / 10
+                #Calculo precio metro
+                if record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad > 0:
+                    emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                emetro = int(emetro * 1000) / 1000
+                #Calculo precio ton
+                if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
+                    eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+                eton = int(eton * 10) / 10
             
             record.emetro_calculado = emetro
             record.eton_calculado = eton
