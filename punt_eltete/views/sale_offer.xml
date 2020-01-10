@@ -238,7 +238,7 @@
 				<field name='fecha_enviada' />
                                 <field name='state_id' />
                                 <field name='country_id' />
-				<br/><h3>Oferta:</h3>
+				<h3>Oferta:</h3>
 				<field name='precio_cliente' invisible="1"/>
                                 <field name='num_pallets' attrs="{'invisible': [('precio_cliente', '=', '5')]}"/>
 				    
