@@ -1264,9 +1264,9 @@ class sale_offer_oferta(models.Model):
             if record.tarifa_id:
                 x = 0
                 
-            else:
+            elif record.eton_user > 0:
                 #Incremento por metro
-                emetro = emetro * (1 + record.attribute_id.incremento_porcentaje / 100)
+                emetro = emetro * (100 + record.attribute_id.incremento_porcentaje / 100)
                 emetro = emetro + record.attribute_id.incremento_metro
                 #Por unidad
                 eunidad = emetro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
@@ -1275,21 +1275,17 @@ class sale_offer_oferta(models.Model):
                 if record.und_pallet > 0:
                     eunidad = eunidad + record.attribute_id.incremento_pallet / record.und_pallet
                 #Incremento de corte
-                eunidad = eunidad + 0.017
+                if record.attribute_id.sierra:
+                    eunidad = eunidad + 0.017
                 #Calculo precio metro
                 if record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad > 0:
                     emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                 emetro = int(emetro * 1000) / 1000
-                #Calculo precio ton
-                if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
-                    eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
-                eton = int(eton * 10) / 10
                 
-            emetro = int(emetro * 1000) / 1000
             #Calculo precio ton
             if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
-                eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
-            eton = int(eton * 10) / 10
+                eton = emetro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            eton = int(eton) / 10
             
             record.emetro_calculado = emetro
             record.eton_calculado = eton
