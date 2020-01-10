@@ -684,7 +684,7 @@ class sale_product_attribute(models.Model):
     
     name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
-    titulo = fields.Char('Descripción para el Cliente', readonly = True, compute = "_get_titulo")
+    titulo = fields.Html('Descripción para el Cliente', readonly = True, compute = "_get_titulo")
     descripcion = fields.Char('Eliminar', readonly = True)
     
     #CANTONERA COLOR
