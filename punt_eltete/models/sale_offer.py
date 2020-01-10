@@ -1345,13 +1345,13 @@ class sale_offer_oferta(models.Model):
                 nombre = str(record.num_pallets) + " pallets, " + str(record.kilos) + " kg/pallet, "
                 nombre = nombre + str(precio) + " €/kg, " + str(eton) + "€/t"
             elif facturar == '5':
-                cantidad = record.unidades
+                cantidad = 1
                 cantidad_tipo = "unidades"
                 precio = record.precio_varios
                 precio = int(precio * 10000) / 10000
                 precio_tipo = "€/unidad" 
                 eton = 0
-                nombre = "Varios: " + str(record.unidades) + " und/pallet, " + str(precio) + " €/unidad, "
+                nombre = str(precio) + " €/unidad, "
 
             record.name = nombre
             record.cantidad = cantidad
