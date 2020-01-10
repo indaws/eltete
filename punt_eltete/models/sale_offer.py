@@ -685,7 +685,6 @@ class sale_product_attribute(models.Model):
     name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
     titulo = fields.Html('Descripción para el Cliente', readonly = True, compute = "_get_titulo")
-    #descripcion = fields.Char('Eliminar', readonly = True)
     
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
@@ -715,7 +714,6 @@ class sale_product_attribute(models.Model):
     codigo_cliente = fields.Char('Codigo Cliente')
     fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
     reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
-    #description = fields.Text("ELIMINAR COMENTARIO")
     
     
     #OCULTOS
@@ -774,7 +772,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
                         
                     if record.cantonera_especial_id:
                         nombre = nombre + record.cantonera_especial_id.name + ", "
@@ -804,7 +802,7 @@ class sale_product_attribute(models.Model):
                             descripcion = descripcion + record.reciclable_id.description + ", "
                     
                     if descripcion != "":
-                        titulo = titulo + "</br>" + descripcion[:-2]
+                        titulo = titulo + "<br/>" + descripcion[:-2]
                     
                 #Perfil U
                 elif record.type_id.is_perfilu == True:
