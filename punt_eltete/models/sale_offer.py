@@ -1261,7 +1261,7 @@ class sale_offer_oferta(models.Model):
             emetro = 0
             eton = 0
             emetro = record.eton_user * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
-            if record.tarifa_id:
+            if record.tarifa_id > 0:
                 
             else:
                 
