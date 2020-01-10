@@ -778,6 +778,7 @@ class sale_product_attribute(models.Model):
                         nombre = nombre + record.cantonera_especial_id.name + ", "
                         if record.cantonera_especial_id.description:
                             descripcion = descripcion + record.cantonera_especial_id.description + ", "
+                            
                     if record.cantonera_impresion_id:
                         nombre = nombre + record.cantonera_impresion_id.name + ", "
                         if record.cantonera_impresion_id.description:
@@ -785,7 +786,7 @@ class sale_product_attribute(models.Model):
                     if record.cantonera_cliche_id:
                         nombre = nombre + record.cantonera_cliche_id.name + ", "
                         if record.cantonera_cliche_id.description:
-                            descripcion = descripcion + record.cantonera_cliche_id.description + ", "
+                            descripcion = descripcion + "Impresión " + record.cantonera_cliche_id.description + ", "
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
                         if record.cantonera_inglete_id.description:
