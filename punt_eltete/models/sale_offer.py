@@ -751,9 +751,9 @@ class sale_product_attribute(models.Model):
                 if record.type_id.is_varios == True:
                     nombre = record.referencia_cliente_id.referencia_id.tipo_varios_id.name + ", "
                     if record.referencia_cliente_id.referencia_id.tipo_varios_id.description:
-                        descripcion = record.referencia_cliente_id.referencia_id.tipo_varios_id.description
+                        titulo = record.referencia_cliente_id.referencia_id.tipo_varios_id.description
                     else:
-                        descripcion = "Varios"
+                        titulo = "Varios"
                     
                 #Cantonera
                 elif record.type_id.is_cantonera == True:
