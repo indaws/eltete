@@ -1260,32 +1260,43 @@ class sale_offer_oferta(models.Model):
         for record in self:
             emetro = 0
             eton = 0
-            emetro = record.eton_user * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
+            
+            incremento_porcentaje = True
+            incremento_metro = True
+            incremento_unidad = True
+            incremento_pallet = True
+            incremento_sierra = True
+            
             if record.tarifa_id:
                 x = 0
                 
-            elif record.eton_user > 0:
+                
+                
+            if record.eton_user > 0:
+                emetro = record.eton_user * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
                 #Incremento por metro
-                emetro = emetro * (1 + record.attribute_id.incremento_porcentaje / 100)
-                emetro = emetro + record.attribute_id.incremento_metro
+                if incremento_porcentaje == True:
+                    emetro = emetro * (1 + record.attribute_id.incremento_porcentaje / 100)
+                if incremento_metro == True:
+                    emetro = emetro + record.attribute_id.incremento_metro
                 #Por unidad
                 eunidad = emetro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                 #Incremento por unidad
-                eunidad = eunidad + record.attribute_id.incremento_unidad
-                if record.und_pallet > 0:
+                if incremento_unidad == True:
+                    eunidad = eunidad + record.attribute_id.incremento_unidad
+                if incremento_pallet and record.und_pallet > 0:
                     eunidad = eunidad + record.attribute_id.incremento_pallet / record.und_pallet
                 #Incremento de corte
-                if record.attribute_id.sierra:
+                if incremento_sierra and record.attribute_id.sierra:
                     eunidad = eunidad + 0.017
                 #Calculo precio metro
                 if record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad > 0:
                     emetro = eunidad / record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                 emetro = int(emetro * 1000) / 1000
-                
-            #Calculo precio ton
-            if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
-                eton = emetro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
-            eton = int(eton) / 10
+                #Calculo precio ton
+                if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
+                    eton = emetro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+                eton = int(eton) / 10
             
             record.emetro_calculado = emetro
             record.eton_calculado = eton
