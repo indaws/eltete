@@ -1070,10 +1070,10 @@ class ProductCaracteristicaPalletEspecial(models.Model):
     _name = 'product.caracteristica.pallet.especial'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
     active = fields.Boolean('Activo', default=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     incremento = fields.Float('Incremento', digits=(8, 4), required = True)
     
     TIPO_SEL = [('1', 'Metro de Producto'), 
@@ -1083,6 +1083,7 @@ class ProductCaracteristicaPalletEspecial(models.Model):
                ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo')
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1093,7 +1094,7 @@ class ProductCaracteristicaPalletEspecial(models.Model):
                 description_str = record.description_str
             record.description_str = description_str
     
-
+"""
 
     
     
@@ -1107,8 +1108,8 @@ class ProductCaracteristicaVarios(models.Model):
     _order = 'number'
 
     number = fields.Integer('Número', required = True)
-    name = fields.Char('Titulo', required = True)
-    description = fields.Char('Descripción')
+    name = fields.Char('Nombre Interno', required = True)
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     
     
@@ -1128,9 +1129,9 @@ class ProductCaracteristicaCantoneraColor(models.Model):
     _name = 'product.caracteristica.cantonera.color'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     
     active = fields.Boolean('Activo', default = True)
     valido = fields.Boolean('Valido para Fabricar', default = False)
@@ -1143,6 +1144,7 @@ class ProductCaracteristicaCantoneraColor(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1152,16 +1154,16 @@ class ProductCaracteristicaCantoneraColor(models.Model):
             if record.description != None and record.description != '':
                 description_str = record.description_str
             record.description_str = description_str
-    
+    """
     
     
 class ProductCaracteristicaCantoneraForma(models.Model):
     _name = 'product.caracteristica.cantonera.forma'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     incremento = fields.Float('Incremento', digits=(8, 4), default = 0, required = True)
     TIPO_SEL = [('1', 'Metro de Producto'),   
@@ -1175,6 +1177,7 @@ class ProductCaracteristicaCantoneraForma(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1184,16 +1187,16 @@ class ProductCaracteristicaCantoneraForma(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-
+    """
 
 
 class ProductCaracteristicaCantoneraEspecial(models.Model):
     _name = 'product.caracteristica.cantonera.especial'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     incremento = fields.Float('Incremento', digits=(8, 4), required = True)
     TIPO_SEL = [('1', 'Metro de Producto'),   
@@ -1207,6 +1210,7 @@ class ProductCaracteristicaCantoneraEspecial(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1216,16 +1220,16 @@ class ProductCaracteristicaCantoneraEspecial(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-
+    """
 
 
 class ProductCaracteristicaCantoneraImpresion(models.Model):
     _name = 'product.caracteristica.cantonera.impresion'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     num_tintas = fields.Integer('Numero de Tintas')
     incremento = fields.Float('Incremento', digits=(8, 4), required = True)
@@ -1240,6 +1244,7 @@ class ProductCaracteristicaCantoneraImpresion(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1249,7 +1254,8 @@ class ProductCaracteristicaCantoneraImpresion(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-
+    """
+    
 
 ## PERFILU ##
 
@@ -1258,9 +1264,9 @@ class ProductCaracteristicaPerfiluColor(models.Model):
     _name = 'product.caracteristica.perfilu.color'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     
     active = fields.Boolean('Activo', default = True)
     valido = fields.Boolean('Valido para Fabricar', default = False)
@@ -1272,6 +1278,7 @@ class ProductCaracteristicaPerfiluColor(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1281,7 +1288,7 @@ class ProductCaracteristicaPerfiluColor(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-    
+    """
 
 
 ## TODOS ##        
@@ -1290,9 +1297,9 @@ class ProductCaracteristicaReciclable(models.Model):
     _name = 'product.caracteristica.reciclable'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     incremento = fields.Float('Incremento', digits=(8, 4), required = True)
     TIPO_SEL = [('1', 'Metro de Producto'),   
@@ -1307,6 +1314,7 @@ class ProductCaracteristicaReciclable(models.Model):
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     image = fields.Binary('Imagen')
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1316,15 +1324,15 @@ class ProductCaracteristicaReciclable(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-    
+    """
     
 class ProductCaracteristicaFSC(models.Model):
     _name = 'product.caracteristica.fsc'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     incremento = fields.Float('Incremento', digits=(8, 4), required = True)
     TIPO_SEL = [('1', 'Metro de Producto'),   
@@ -1338,6 +1346,7 @@ class ProductCaracteristicaFSC(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1347,15 +1356,15 @@ class ProductCaracteristicaFSC(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-    
+    """
 
 class ProductCaracteristicaInglete(models.Model):
     _name = 'product.caracteristica.inglete'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     
     incremento = fields.Float('Incremento', digits=(8, 4), default = 0, required = True)
@@ -1366,6 +1375,7 @@ class ProductCaracteristicaInglete(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1375,16 +1385,16 @@ class ProductCaracteristicaInglete(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-
+    """
 
 
 class ProductCaracteristicaPlanchacolor(models.Model):
     _name = 'product.caracteristica.planchacolor'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     
     valido = fields.Boolean('Valido para Fabricar', default = False)
@@ -1396,6 +1406,7 @@ class ProductCaracteristicaPlanchacolor(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1405,7 +1416,7 @@ class ProductCaracteristicaPlanchacolor(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-
+"""
 
 
 
@@ -1415,9 +1426,9 @@ class ProductCaracteristicaTroquelado(models.Model):
     _name = 'product.caracteristica.troquelado'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     incremento = fields.Float('Incremento', digits=(8, 4), required = True)
     TIPO_SEL = [('1', 'Metro Cuadrado de Producto'),   
@@ -1430,6 +1441,7 @@ class ProductCaracteristicaTroquelado(models.Model):
     troqueladora_2 = fields.Boolean('Troqueladora 2', default = False)
     image = fields.Binary('Imagen')
     
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1439,15 +1451,15 @@ class ProductCaracteristicaTroquelado(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-    
+    """
     
 class ProductCaracteristicaPapelCalidad(models.Model):
     _name = 'product.caracteristica.papelcalidad'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     active = fields.Boolean('Activo', default = True)
     incremento = fields.Float('Incremento', digits=(8, 4), required = True)
     TIPO_SEL = [('1', 'Metro Cuadrado de Producto'),   
@@ -1456,7 +1468,7 @@ class ProductCaracteristicaPapelCalidad(models.Model):
                 ('4', 'Por Pallet'),
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
-    
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1466,15 +1478,15 @@ class ProductCaracteristicaPapelCalidad(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-            
+      """      
             
 class ProductCaracteristicaCliche(models.Model):
     _name = 'product.caracteristica.cliche'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     
     tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
     texto_1 = fields.Char('Tinta 1 Texto')
@@ -1483,7 +1495,7 @@ class ProductCaracteristicaCliche(models.Model):
     proveedor = fields.Char('Proveedor')  
     image = fields.Binary('Imagen')
     
-    
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1493,17 +1505,17 @@ class ProductCaracteristicaCliche(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-            
+     """       
             
 class ProductCaracteristicaTinta(models.Model):
     _name = 'product.caracteristica.tinta'
     _order = 'number'
     
-    name = fields.Char('Nombre', required=True)
+    name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
-    description = fields.Char('Descripción')
+    description = fields.Char('Descripción para el Cliente')
     
-    
+    """
     description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
     @api.depends('description',)
@@ -1513,4 +1525,4 @@ class ProductCaracteristicaTinta(models.Model):
             if record.description != None:
                 description_str = record.description_str
             record.description_str = description_str
-            
+     """       
