@@ -259,6 +259,9 @@
                                 <h3>Precio:</h3>
                                 <field name='peso_metro' />
                                 <field name='tarifa_id' />
+				<field name='eton_user' />
+				<field name='emetro_calculado' />
+				<field name='eton_calculado' />
 
                             </group>
                         </group>
