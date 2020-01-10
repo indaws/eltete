@@ -80,7 +80,7 @@ class SaleOrderLine(models.Model):
             codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
             descripcion = ''
             if record.oferta_id:
-                descripcion = record.oferta_id.attribute_id.referencia_cliente_id.name + " " + record.oferta_id.attribute_id.name
+                descripcion = record.oferta_id.attribute_id.titulo
             und_pallet = 0
             cantidad = ""
             precio = ""
