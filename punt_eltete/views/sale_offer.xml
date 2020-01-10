@@ -105,7 +105,6 @@
                             <tree string="Atributos" >
                                 <field name='name' />
 				<field name='titulo' />
-				<field name='descripcion' />
 				<field name='estado' />
                             </tree>
                         </field>   
@@ -201,28 +200,6 @@
                                 <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
                                 <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
                                 <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                            </group>
-                        </group>
-                        
-                        <br/><br/><h3>Campos calculados</h3>
-			<group>
-			    <field name='name' />
-		            <field name='titulo' />
-			    <field name='descripcion' />
-			</group>
-                        <group>
-                            <group>
-                                <field name='cantonera_1' />
-                                <field name='cantonera_2' />
-                                <field name='cantonera_3' />
-                                <field name='cantonera_4' />
-                                <field name='sierra' />
-                            </group>
-                            <group>
-                                <field name='incremento_metro' />
-                                <field name='incremento_unidad' />
-                                <field name='incremento_porcentaje' />
-                                <field name='incremento_pallet' />
                             </group>
                         </group>
                     </sheet>
