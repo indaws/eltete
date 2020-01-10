@@ -1265,6 +1265,7 @@ class sale_offer_oferta(models.Model):
                 
                 
             else:
+                """
                 #Incremento por metro
                 emetro = emetro * (1 + record.attribute_id.incremento_porcentaje / 100)
                 emetro = emetro + record.attribute_id.incremento_metro
@@ -1284,7 +1285,7 @@ class sale_offer_oferta(models.Model):
                 if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
                     eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
                 eton = int(eton * 10) / 10
-            
+            """
             record.emetro_calculado = emetro
             record.eton_calculado = eton
             
