@@ -785,7 +785,7 @@ class sale_product_attribute(models.Model):
                             descripcion = descripcion + record.cantonera_impresion_id.description
                         if record.cantonera_cliche_id:
                             if record.cantonera_cliche_id.description:
-                                nombre = nombre + " (" + record.cantonera_cliche_id.descripcion + "), "
+                                nombre = nombre + " (" + record.cantonera_cliche_id.description + "), "
                                 descripcion = descripcion + " (" + record.cantonera_cliche_id.description + "), "
                         else:
                             nombre = nombre + ", "
