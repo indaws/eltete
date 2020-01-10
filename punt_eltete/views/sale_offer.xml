@@ -280,9 +280,6 @@
                                 <field name='precio' />
                                 <field name='precio_tipo' />
                             </group>
-                            <group>
-                                <field name='descripcion_html' />
-                            </group>
                         </group>
                         
                     </sheet>
