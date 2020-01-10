@@ -1146,8 +1146,8 @@ class sale_offer_oferta(models.Model):
     #aplicar_incremento = fields.Boolean('Aplicar Incrementos', default = True)
     #aplicar_corte = fields.Boolean('Aplicar Corte', default = True)
     eton_user = fields.Float('Euros / Tonelada', digits = (8,1))
-    emetro_calculado = fields.Float('Euros / metro', digits = (12,4), readonly = True, compute = "_get_calculado")
-    eton_calculado = fields.Float('Euros /tonelada', digits = (8,1), readonly = True, compute = "_get_calculado")
+    emetro_calculado = fields.Float('Calculo € / m', digits = (12,4), readonly = True, compute = "_get_calculado")
+    eton_calculado = fields.Float('Calculo € / ton', digits = (8,1), readonly = True, compute = "_get_calculado")
     
     #OCULTOS
     num_filas = fields.Integer('Num filas', readonly = True)
@@ -1261,6 +1261,19 @@ class sale_offer_oferta(models.Model):
             emetro = 0
             eton = 0
             emetro = record.eton_user * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
+            if record.tarifa_id:
+                
+            else:
+                
+            
+            emetro = int(emetro * 1000) / 1000
+            #Calculo precio ton
+            if record.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
+                eton = emetro * 1000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            eton = int(eton * 10) / 10
+            
+            
+            
             """
             if record.tarifa_id:
                 
