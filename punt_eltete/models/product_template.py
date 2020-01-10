@@ -443,8 +443,8 @@ class ProductReferencia(models.Model):
     comentario = fields.Text('Comentario Referencia')
 
     #calculados
-    peso_metro = fields.Float('Peso Metro', digits = (10,4), readonly = True, compute = "_get_peso_metro")
-    metros_unidad = fields.Float('Metros Unidad', digits = (10,4), readonly = True, compute = "_get_valores_referencia")
+    peso_metro = fields.Float('Peso Metro', digits = (10,4), compute = "_get_peso_metro")
+    metros_unidad = fields.Float('Metros Unidad', digits = (10,4), compute = "_get_valores_referencia")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_valores_referencia")
     j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_valores_referencia")
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
