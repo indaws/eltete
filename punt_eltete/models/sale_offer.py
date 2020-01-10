@@ -819,7 +819,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
                     
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
@@ -827,7 +827,7 @@ class sale_product_attribute(models.Model):
                             descripcion = descripcion + str(record.inglete_num) + " " + record.inglete_id.description + ", "
                             
                     if descripcion != "":
-                        titulo = titulo + "</br>" + descripcion[:-2]
+                        titulo = titulo + "<br/>" + descripcion[:-2]
                     
                 #Slip Sheets
                 elif record.type_id.is_slipsheet == True:
@@ -838,7 +838,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
 
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
@@ -849,7 +849,7 @@ class sale_product_attribute(models.Model):
                         estado = estado + "Falta Troquelado, "
                     
                     if descripcion != "":
-                        titulo = titulo + "</br>" + descripcion[:-2]
+                        titulo = titulo + "<br/>" + descripcion[:-2]
                     
                 #Solid Board
                 elif record.type_id.is_solidboard == True:
@@ -867,7 +867,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
                         
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
@@ -875,7 +875,7 @@ class sale_product_attribute(models.Model):
                             descripcion = descripcion + record.troquelado_id.description + ", "
                             
                     if descripcion != "":
-                        titulo = titulo + "</br>" + descripcion[:-2]
+                        titulo = titulo + "<br/>" + descripcion[:-2]
                     
                 #Formato
                 elif record.type_id.is_formato == True:
@@ -892,7 +892,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description + "</br>"
                     
-                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
                     
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
@@ -900,7 +900,7 @@ class sale_product_attribute(models.Model):
                             descripcion = descripcion + record.troquelado_id.description + ", "
                     
                     if descripcion != "":
-                        titulo = titulo + "</br>" + descripcion[:-2]
+                        titulo = titulo + "<br/>" + descripcion[:-2]
                     
                 #Bobina
                 elif record.type_id.is_bobina == True:
@@ -917,13 +917,13 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
                     
                 #Pie de Pallet
                 elif record.type_id.is_pieballet == True:
                     titulo = "Pie de Pallet "
                     nombre = nombre  + "Pie de Pallet, "
-                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
             
             if len(nombre) > 2:
                 nombre = nombre[:-2]
