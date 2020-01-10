@@ -355,10 +355,24 @@ class sale_referencia_cliente(models.Model):
                         und_paquete = record.und_paquete_cliente
                     lado1 = 1
                     lado2 = 1
-                    if record.referencia_id.ancho <= 650:
-                        lado1 = int(1300 / record.referencia_id.ancho)
-                    if record.referencia_id.longitud <= 650:
-                        lado2 = int(1300 / record.referencia_id.longitud)
+                    medida_larga = record.referencia_id.longitud
+                    medida_corta = record.referencia_id.ancho
+                    if medida_corta > medida_larga:
+                        medida_larga = record.referencia_id.ancho
+                        medida_corta = record.referencia_id.longitud
+                    if medida_larga > 1200:
+                        lado1 = 1
+                        lado2 = int(1200 / medida_corta)
+                    elif medida_larga > 1000:
+                        lado1 = 1
+                        lado2 = int(1000 / medida_corta)
+                    else:
+                        lado1 = int(1000 / medida_larga)
+                        lado2 = int(1200 / medida_corta)
+                    if lado1 < 0:
+                        lado1 = 1
+                    if lado2 < 0:
+                        lado2 = 1
                     paquetes = lado1 * lado2
                     alto_fila = record.referencia_id.gramaje * 1.4 * und_paquete / 1000
                     fila_max = int(950 / alto_fila)
