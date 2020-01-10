@@ -1261,10 +1261,10 @@ class sale_offer_oferta(models.Model):
             emetro = 0
             eton = 0
             emetro = record.eton_user * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
-            if record.tarifa_id > 0:
-                
+            if record.tarifa_id:
+                x = 0
             else:
-                
+                x = 0
             
             emetro = int(emetro * 1000) / 1000
             #Calculo precio ton
