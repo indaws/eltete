@@ -774,7 +774,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
                         
                     if record.cantonera_especial_id:
                         nombre = nombre + record.cantonera_especial_id.name + ", "
@@ -821,7 +821,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
                     
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
@@ -840,7 +840,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
 
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
@@ -869,7 +869,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
                         
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
@@ -894,7 +894,7 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description + "</br>"
                     
-                    titulo = titulo + "</br>" + referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
                     
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
@@ -919,13 +919,13 @@ class sale_product_attribute(models.Model):
                         if record.fsc_id.description:
                             titulo = titulo + record.fsc_id.description
                     
-                    titulo = titulo + "</br>" + referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
                     
                 #Pie de Pallet
                 elif record.type_id.is_pieballet == True:
                     titulo = "Pie de Pallet "
                     nombre = nombre  + "Pie de Pallet, "
-                    titulo = titulo + "</br>" + referencia_cliente_id.referencia_cliente_nombre
+                    titulo = titulo + "</br>" + record.referencia_cliente_id.referencia_cliente_nombre
             
             if len(nombre) > 2:
                 nombre = nombre[:-2]
