@@ -77,6 +77,8 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
+		
+         <field name="discount" invisible="1"/>
         
             <xpath expr="//page[@name='other_information']" position="after">
             
