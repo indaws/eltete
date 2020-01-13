@@ -126,7 +126,7 @@ class ProductPricelistOferta(models.Model):
     troquelado_tipo = fields.Selection(selection = TROQUELADO_SEL, required = True, string = 'Troquelado Tipo', default = '0')
     
     
-    #ELIMINAR
+    """
     CATEGORIA_SEL = [('1', 'General'),
                      ('2', 'Cliente'),
                      ('3', 'Comercial'),
@@ -136,6 +136,6 @@ class ProductPricelistOferta(models.Model):
     metro = fields.Boolean('Aplicar incremeneto Metro')
     unidad = fields.Boolean('Aplicar incremeneto Unidad')
     pallet = fields.Boolean('Aplicar incremeneto Pallet')
-
+"""
     
     
