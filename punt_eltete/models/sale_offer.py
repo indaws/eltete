@@ -1359,19 +1359,73 @@ class sale_offer_oferta(models.Model):
                     elif record.attribute_id.cantonera_especial_id.tipo == '3':
                         in_porcentaje = in_porcentaje + record.attribute_id.cantonera_especial_id.incremento
                     elif record.attribute_id.cantonera_especial_id.tipo == '4':
-                        in_pallet = in_pallet + record.attribute_id.cantonera_especial_id.incremento
-            """           
-            if in_cantonera_especial == True and record.attribute_id.cantonera_especial_id:
-                if record.attribute_id.cantonera_especial_id.incremento > 0 and record.attribute_id.cantonera_especial_id.tipo:
-                    if record.attribute_id.cantonera_especial_id.tipo == '1':
-                        in_metro = in_metro + record.attribute_id.cantonera_especial_id.incremento
-                    elif record.attribute_id.cantonera_especial_id.tipo == '2':
-                        in_unidad = in_unidad + record.attribute_id.cantonera_especial_id.incremento
-                    elif record.attribute_id.cantonera_especial_id.tipo == '3':
-                        in_porcentaje = in_porcentaje + record.attribute_id.cantonera_especial_id.incremento
-                    elif record.attribute_id.cantonera_especial_id.tipo == '4':
-                        in_pallet = in_pallet + record.attribute_id.cantonera_especial_id.incremento
-            """
+          
+            if in_cantonera_impresion == True and record.attribute_id.cantonera_impresion_id:
+                if record.attribute_id.cantonera_impresion_id.incremento > 0 and record.attribute_id.cantonera_impresion_id.tipo:
+                    if record.attribute_id.cantonera_impresion_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.cantonera_impresion_id.incremento
+                    elif record.attribute_id.cantonera_impresion_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.cantonera_impresion_id.incremento
+                    elif record.attribute_id.cantonera_impresion_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.cantonera_impresion_id.incremento
+                    elif record.attribute_id.cantonera_impresion_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.cantonera_impresion_id.incremento
+
+            if in_perfilu_color == True and record.attribute_id.perfilu_color_id:
+                if record.attribute_id.perfilu_color_id.incremento > 0 and record.attribute_id.perfilu_color_id.tipo:
+                    if record.attribute_id.perfilu_color_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.perfilu_color_id.incremento
+                    elif record.attribute_id.perfilu_color_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.perfilu_color_id.incremento
+                    elif record.attribute_id.perfilu_color_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.perfilu_color_id.incremento
+                    elif record.attribute_id.perfilu_color_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.perfilu_color_id.incremento
+            
+            if in_inglete == True and record.attribute_id.inglete_id:
+                if record.attribute_id.inglete_id.incremento > 0 and record.attribute_id.inglete_id.tipo:
+                    if record.attribute_id.inglete_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.inglete_id.incremento
+                    elif record.attribute_id.inglete_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.inglete_id.incremento
+                    elif record.attribute_id.inglete_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.inglete_id.incremento
+                    elif record.attribute_id.inglete_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.inglete_id.incremento
+            
+            if in_plancha_color == True and record.attribute_id.plancha_color_id:
+                if record.attribute_id.plancha_color_id.incremento > 0 and record.attribute_id.plancha_color_id.tipo:
+                    if record.attribute_id.plancha_color_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.plancha_color_id.incremento
+                    elif record.attribute_id.plancha_color_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.plancha_color_id.incremento
+                    elif record.attribute_id.plancha_color_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.plancha_color_id.incremento
+                    elif record.attribute_id.plancha_color_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.plancha_color_id.incremento
+            
+            if in_papel_calidad == True and record.attribute_id.papel_calidad_id:
+                if record.attribute_id.papel_calidad_id.incremento > 0 and record.attribute_id.papel_calidad_id.tipo:
+                    if record.attribute_id.papel_calidad_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.papel_calidad_id.incremento
+                    elif record.attribute_id.papel_calidad_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.papel_calidad_id.incremento
+                    elif record.attribute_id.papel_calidad_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.papel_calidad_id.incremento
+                    elif record.attribute_id.papel_calidad_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.papel_calidad_id.incremento
+
+            if in_troquelado == True and record.attribute_id.troquelado_id:
+                if record.attribute_id.troquelado_id.incremento > 0 and record.attribute_id.troquelado_id.tipo:
+                    if record.attribute_id.troquelado_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.troquelado_id.incremento
+                    elif record.attribute_id.troquelado_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.troquelado_id.incremento
+                    elif record.attribute_id.troquelado_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.troquelado_id.incremento
+                    elif record.attribute_id.troquelado_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.troquelado_id.incremento        
+
             if eton > 0:
                 emetro = eton * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
                 #Incremento por porcentaje
@@ -1440,6 +1494,7 @@ class sale_offer_oferta(models.Model):
                 aux = aux / (decimales * 10)
                 cantidad_texto = str(aux)
                 precio = record.precio_metro
+                precio = int(precio * 100000) / 100000
                 precio = round(precio, 4)
                 precio_tipo = "€/metro"
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
@@ -1450,6 +1505,7 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.unidades
                 cantidad_tipo = "unidades"
                 precio = record.precio_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                precio = int(precio * 100000) / 100000
                 round(precio, 4)
                 precio_tipo = "€/unidad" 
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
@@ -1460,6 +1516,7 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.unidades / 1000
                 cantidad_tipo = "millares"
                 precio = record.precio_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
+                precio = int(precio * 100000) / 100000
                 round(precio, 4)
                 precio_tipo = "€/millar" 
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
@@ -1469,6 +1526,7 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.kilos
                 cantidad_tipo = "kg"
                 precio = record.precio_kilo
+                precio = int(precio * 100000) / 100000
                 round(precio, 4)
                 precio_tipo = "€/kg" 
                 eton = precio * 1000
@@ -1478,6 +1536,7 @@ class sale_offer_oferta(models.Model):
                 cantidad = 1
                 cantidad_tipo = "unidades"
                 precio = record.precio_varios
+                precio = int(precio * 100000) / 100000
                 round(precio, 4)
                 precio_tipo = "€/unidad" 
                 eton = 0
