@@ -8,11 +8,11 @@ class ProductPricelistOferta(models.Model):
     _name = 'product.pricelist.oferta'
     _order = number
     
-    user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
     active = fields.Boolean("Activa", default=True)
-    number = fields.Integer('Incremento')
     name = fields.Char(string='Nombre', required=True)
     partner_id = fields.Many2one('res.partner', string="Cliente")
+    user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user)
+    number = fields.Integer('Incremento')
     eton = fields.Float('Incremento', digits=(8,1))
     description = fields.Char(string='Descripción')
     
