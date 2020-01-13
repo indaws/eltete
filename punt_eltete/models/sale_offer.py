@@ -1305,7 +1305,8 @@ class sale_offer_oferta(models.Model):
                         in_porcentaje = in_porcentaje + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
                     elif record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo == '4':
                         in_pallet = in_pallet + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
-                        
+            
+            """
             if in_fsc == True and record.attribute_id.fsc_id:
                 if record.attribute_id.fsc_id.incremento > 0 and record.attribute_id.fsc_id.tipo:
                     if record.attribute_id.fsc_id.tipo == '1':
@@ -1426,6 +1427,7 @@ class sale_offer_oferta(models.Model):
                     elif record.attribute_id.troquelado_id.tipo == '4':
                         in_pallet = in_pallet + record.attribute_id.troquelado_id.incremento        
 
+            """
             if eton > 0:
                 emetro = eton * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
                 #Incremento por porcentaje
