@@ -44,12 +44,12 @@
                             <field name="partner_id"/>
                             <field name="user_id"/>
                             <field name="number"/>
-                            <field name="categoria"/>
+                            <!--<field name="categoria"/>
                             <field name="eton"/>
                             <field name="porcentaje"/>
                             <field name="metro"/>
                             <field name="unidad"/>
-                            <field name="pallet"/>
+                            <field name="pallet"/>-->
                             <field name="description"/>
                         </group>
                         
