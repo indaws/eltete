@@ -14,19 +14,23 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
 	            <field name="active"/>
-                    <field name="name"/>
-                    <field name="partner_id"/>
-                    <field name="user_id"/>
-                    <field name="number"/>
-                    <field name="eton"/>
-		    <field name="description"/>
-	            
-		    <field name="pallet_especial_incremento"/>
-	            <field name="pallet_especial_tipo"/>
-		    <field name="fsc_incremento"/>
-		    <field name="fsc_tipo"/>
-
-                    
+                            <field name="name"/>
+                            <field name="partner_id"/>
+                            <field name="user_id"/>
+                            <field name="eton"/>
+				
+                            <field name="in_pallet_especial"/>
+		            <field name="in_fsc"/>
+			    <field name="in_reciclable"/>
+			    <field name="in_cantonera_color"/>
+			    <field name="in_cantonera_forma"/>
+			    <field name="in_cantonera_especial"/>
+			    <field name="in_cantonera_impresion"/>
+			    <field name="in_perfilu_color"/>
+			    <field name="in_inglete"/>
+			    <field name="in_plancha_color"/>
+			    <field name="in_papel_calidad"/>
+			    <field name="in_troquelado"/>
                 </tree>
             </field>
         </record>
