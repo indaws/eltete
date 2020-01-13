@@ -6,7 +6,7 @@ from odoo import fields, models, api
 
 class ProductPricelistOferta(models.Model):
     _name = 'product.pricelist.oferta'
-    _order = number
+    _order = 'number'
     
     active = fields.Boolean("Activa", default=True)
     name = fields.Char(string='Nombre', required=True)
