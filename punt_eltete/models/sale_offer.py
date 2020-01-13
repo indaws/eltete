@@ -1266,21 +1266,37 @@ class sale_offer_oferta(models.Model):
             in_porcentaje = 0
             in_pallet = 0
             
-            if record.eton_user > 0:
-                eton = record.eton_user
+            in_pallet_especial = True
+            in_fsc = True
+            in_reciclable = True
+            in_cantonera_color = True
+            in_cantonera_forma = True
+            in_cantonera_especial = True
+            in_cantonera_impresion = True
+            in_perfilu_color = True
+            in_inglete = True
+            in_plancha_color = True
+            in_papel_calidad = True
+            in_troquelado = True
             
-            """
-            if record.attribute_id.pallet_especial_id:
-                if record.tarifa_id and record.tarifa_id.pallet_especial_tipo and record.tarifa_id.pallet_especial_tipo != '0':
-                    if record.tarifa_id.pallet_especial_tipo == '1':
-                        in_metro = in_metro + record.tarifa_id.pallet_especial_incremento
-                    elif record.tarifa_id.pallet_especial_tipo == '2':
-                        in_unidad = in_unidad + record.tarifa_id.pallet_especial_incremento
-                    elif record.tarifa_id.pallet_especial_tipo == '3':
-                        in_porcentaje = in_porcentaje + record.tarifa_id.pallet_especial_incremento
-                    elif record.tarifa_id.pallet_especial_tipo == '4':
-                        in_pallet = in_pallet + record.tarifa_id.pallet_especial_incremento
-                else:
+            if record.tarifa_id:
+                if tarifa_id.eton > 0:
+                    eton = tarifa_id.eton
+                in_pallet_especial = record.tarifa_id.inpallet_especial
+                in_fsc = record.tarifa_id.in_fsc
+                in_reciclable = record.tarifa_id.in_reciclable
+                in_cantonera_color = record.tarifa_id.in_cantonera_color
+                in_cantonera_forma = record.tarifa_id.in_cantonera_forma
+                in_cantonera_especial = record.tarifa_id.in_cantonera_especial
+                in_cantonera_impresion = record.tarifa_id.in_cantonera_impresion
+                in_perfilu_color = record.tarifa_id.in_perfilu_color
+                in_inglete = record.tarifa_id.in_inglete
+                in_plancha_color = record.tarifa_id.in_plancha_color
+                in_papel_calidad = record.tarifa_id.in_papel_calidad
+                in_troquelado = record.tarifa_id.in_troquelado
+
+            if in_pallet_especial == True and record.attribute_id.pallet_especial_id::
+                if record.attribute_id.pallet_especial_id.incremento > 0 and record.attribute_id.pallet_especial_id.tipo:
                     if record.attribute_id.pallet_especial_id.tipo == '1':
                         in_metro = in_metro + record.attribute_id.pallet_especial_id.incremento
                     elif record.attribute_id.pallet_especial_id.tipo == '2':
@@ -1289,7 +1305,7 @@ class sale_offer_oferta(models.Model):
                         in_porcentaje = in_porcentaje + record.attribute_id.pallet_especial_id.incremento
                     elif record.attribute_id.pallet_especial_id.tipo == '4':
                         in_pallet = in_pallet + record.attribute_id.pallet_especial_id.incremento
-             """      
+  
 
             if eton > 0:
                 emetro = eton * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
@@ -1359,8 +1375,8 @@ class sale_offer_oferta(models.Model):
                 aux = aux / (decimales * 10)
                 cantidad_texto = str(aux)
                 precio = record.precio_metro
-                #precio = int(precio * 10000)
-                #precio = precio / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/metro"
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
@@ -1370,8 +1386,8 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.unidades
                 cantidad_tipo = "unidades"
                 precio = record.precio_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                #precio = int(precio * 10000)
-                #precio = precio / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/unidad" 
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
@@ -1386,13 +1402,13 @@ class sale_offer_oferta(models.Model):
                 precio_tipo = "€/millar" 
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
-                nombre = nombre + str(precio) + " €/millar, " + str(eton) + "€/t"
+                nombre = nombre + str(precio) + " €/millar, " + str(eton) + " €/t"
             elif facturar == '4':
                 cantidad = record.kilos
                 cantidad_tipo = "kg"
                 precio = record.precio_kilo
-                #precio = int(precio * 10000)
-                #precio = precio / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/kg" 
                 eton = precio * 1000
                 nombre = str(record.num_pallets) + " pallets, " + str(record.kilos) + " kg/pallet, "
@@ -1412,20 +1428,4 @@ class sale_offer_oferta(models.Model):
             record.cantidad_tipo = cantidad_tipo
             record.precio = precio
             record.precio_tipo = precio_tipo
-            
-    """      
-    @api.depends('attribute_id', 'unidades', 'eton_user', 'num_pallets')
-    def _get_descripcion(self):
-        for record in self:
-            descripcion = ''
-            if record.attribute_id:
-                descripcion = record.attribute_id.referencia_cliente_id.referencia_id.type_id.name
-                if record.attribute_id.fsc_id:
-                    descripcion = descripcion + " " + record.attribute_id.fsc_id.name
-                descripcion = descripcion + "<br/>"
-                descripcion = descripcion + record.attribute_id.referencia_cliente_id.referencia_cliente_nombre + "<br/>"
-                descripcion = descripcion + record.attribute_id.descripcion
-            
-            record.descripcion_html = descripcion
-            
-     """
+
