@@ -24,6 +24,7 @@ class SaleOrderLine(models.Model):
                   ('2', 'NO'),
                   ]
     bultos = fields.Selection(selection = BULTOS_SEL, string = 'Es pallet', default='1')
+    actualizar = fields.Boolean('Actualizar')
     
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
@@ -203,6 +204,9 @@ class SaleOrderLine(models.Model):
             record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            
+            self.price_unit = importe / record.num_pallets
+            self.product_uom_qty = record.num_pallets
             
 
     def _get_fabricacion(self):
