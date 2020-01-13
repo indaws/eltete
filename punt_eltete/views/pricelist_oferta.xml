@@ -39,18 +39,24 @@
                 <form string="Color">
                     <sheet>
                         <group>
-                            <field name="name"/>
                             <field name="active"/>
+                            <field name="name"/>
                             <field name="partner_id"/>
                             <field name="user_id"/>
-                            <field name="number"/>
-                            <!--<field name="categoria"/>
                             <field name="eton"/>
-                            <field name="porcentaje"/>
-                            <field name="metro"/>
-                            <field name="unidad"/>
-                            <field name="pallet"/>-->
-                            <field name="description"/>
+				
+                            <field name="in_pallet_especial"/>
+		            <field name="in_fsc"/>
+			    <field name="in_reciclable"/>
+			    <field name="in_cantonera_color"/>
+			    <field name="in_cantonera_forma"/>
+			    <field name="in_cantonera_especial"/>
+			    <field name="in_cantonera_impresion"/>
+			    <field name="in_perfilu_color"/>
+			    <field name="in_inglete"/>
+			    <field name="in_plancha_color"/>
+			    <field name="in_papel_calidad"/>
+			    <field name="in_troquelado"/>
                         </group>
                         
                     </sheet>
