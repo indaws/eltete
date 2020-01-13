@@ -99,10 +99,10 @@ class SaleOrderLine(models.Model):
             #metros
             if facturar == '1':
                 cantidad_num = record.num_pallets * und_pallet * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                cantidad_num = int(cantidad_num * 10000) / 10000
+                cantidad_num = round(cantidad_num, 4)
                 cantidad = str(cantidad_num) + " metros"
                 precio_num = record.oferta_id.precio_metro
-                precio_num = int(precio_num * 10000) / 10000
+                precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/metro"
                 
                 if record.kilos_user > 0:
@@ -123,10 +123,10 @@ class SaleOrderLine(models.Model):
             #unidades
             elif facturar == '2':
                 cantidad_num = record.num_pallets * und_pallet
-                cantidad_num = int(cantidad_num * 10000) / 10000
+                cantidad_num = round(cantidad_num, 4)
                 cantidad = str(cantidad_num) + " unidades"
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                precio_num = int(precio_num * 10000) / 10000
+                precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/unidad"
                 
                 if record.kilos_user > 0:
@@ -147,10 +147,10 @@ class SaleOrderLine(models.Model):
             #Millares
             elif facturar == '3':
                 cantidad_num = record.num_pallets * und_pallet / 1000
-                cantidad_num = int(cantidad_num * 10000) / 10000
+                cantidad_num = round(cantidad_num, 4)
                 cantidad = str(cantidad_num) + " millares"
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
-                precio_num = int(precio_num * 10000) / 10000
+                precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/millar"
                 
                 if record.kilos_user > 0:
@@ -177,18 +177,18 @@ class SaleOrderLine(models.Model):
                     peso_neto = record.oferta_id.kilos
                     peso_bruto = peso_neto + 15
                 cantidad_num = record.num_pallets * peso_neto
-                cantidad_num = int(cantidad_num * 10000) / 10000
+                cantidad_num = round(cantidad_num, 4)
                 cantidad = str(cantidad_num) + " kilos"
                 precio_num = record.oferta_id.precio_kilo
-                precio_num = int(precio_num * 10000) / 10000
+                precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/kilo"
             #Varios
             elif facturar == '5':
                 cantidad_num = record.num_pallets * und_pallet
-                cantidad_num = int(cantidad_num * 10000) / 10000
+                cantidad_num = round(cantidad_num, 4)
                 cantidad = str(cantidad_num) + " unidades"
                 precio_num = record.oferta_id.precio_varios
-                precio_num = int(precio_num * 10000) / 10000
+                precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/unidad"
                 peso_neto = 0
                 peso_bruto = 0
