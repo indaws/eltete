@@ -392,7 +392,7 @@ class ProductReferencia(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
-    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?')
+    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
     
      #ELIMINAR
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
@@ -415,6 +415,8 @@ class ProductReferencia(models.Model):
     diametro = fields.Integer('Diámetro', readonly = True)
     gramaje = fields.Integer('Gramaje', readonly = True)
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
+    
+    #Campos tipo papel
     
     PAPEL_SEL = [('0', 'Gordo Cartoncillo Gris'), 
                ('1', 'Fino Test Marrón'), 
@@ -450,6 +452,8 @@ class ProductReferencia(models.Model):
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_valores_referencia")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_valores_referencia")
     orden = fields.Char('Orden', store=True, compute = "_get_ordenado")
+    
+    
     
     
     
@@ -840,6 +844,7 @@ class ProductTemplate(models.Model):
     is_formato = fields.Boolean('¿Es Formato?', related='categ_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='categ_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='categ_id.is_pieballet')
+    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='categ_id.is_mprima_papel')
     is_varios = fields.Boolean('¿Es Varios?', related='categ_id.is_varios')
     
     ala_1 = fields.Integer('Ala 1')
@@ -866,6 +871,28 @@ class ProductTemplate(models.Model):
                ('4', 'Alto 60 sin Adhesivo'),
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    
+    PAPEL_SEL = [('0', 'Gordo Cartoncillo Gris'), 
+               ('1', 'Fino Test Marrón'), 
+               ('2', 'Fino Test Blanco Mate'), 
+               ('3', 'Fino Test Blanco Brillo'), 
+               ('4', 'Fino Test Negro'),
+               ('11', 'Fino Kraft Marrón'),
+               ('12', 'Fino Kraft Blanco Mate'),
+               ('13', 'Fino Kraft Blanco Brillo'),
+               ('20', 'Gordo Kraft Marrón'),
+               ]
+    papel = fields.Selection(selection = PAPEL_SEL, string = 'Tipo Papel')
+    FSC_SEL = [('0', 'NINGUNO'), 
+               ('1', 'FSC 100%'), 
+               ('2', 'FSC MIX CREDIT'),
+               ('3', 'FSC MIX %'),
+               ('4', 'FSC RECYCLED CREDIT'),                 
+               ('5', 'FSC RECYCLED %'), 
+               ('6', 'FSC CONTROLLED WOOD'), 
+               ]
+    fsc_tipo = fields.Selection(selection = FSC_SEL, string = 'Tipo FSC')
+    fsc_valor = fields.Integer('% FSC', default = 0)
     
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
@@ -901,6 +928,10 @@ class ProductTemplate(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = True)
     cantonera_4 = fields.Boolean('Cantonera 4', default = True)
     sierra = fields.Boolean('Sierra', default = True)
+    
+    #Alta de pallets
+    lotes_alta = fields.Char('Lotes')
+    fecha_entrada_lotes = fields.Char('Fecha de entrada')
     
     
     
@@ -1054,7 +1085,7 @@ class ProductTemplate(models.Model):
                 if not self.fsc_tipo:
                     raise ValidationError("Error: Hay que indicar un valor en FSC TIPO")
                 
-                referencia_id, error = self.categ_id.create_mprima_papel(self.ancho, self.papel, self.fsc_tipo, self._fsc_valor)
+                referencia_id, error = self.categ_id.create_mprima_papel(self.ancho, self.papel, self.fsc_tipo, self.fsc_valor)
                 if not referencia_id:
                     raise ValidationError(error)
                 self.referencia_id = referencia_id
