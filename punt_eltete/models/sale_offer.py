@@ -1280,8 +1280,8 @@ class sale_offer_oferta(models.Model):
             in_troquelado = True
             
             if record.tarifa_id:
-                if tarifa_id.eton > 0:
-                    eton = tarifa_id.eton
+                if record.tarifa_id.eton > 0:
+                    eton = record.tarifa_id.eton
                 in_pallet_especial = record.tarifa_id.inpallet_especial
                 in_fsc = record.tarifa_id.in_fsc
                 in_reciclable = record.tarifa_id.in_reciclable
@@ -1305,8 +1305,73 @@ class sale_offer_oferta(models.Model):
                         in_porcentaje = in_porcentaje + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
                     elif record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo == '4':
                         in_pallet = in_pallet + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
-  
+                        
+            if in_fsc == True and record.attribute_id.fsc_id:
+                if record.attribute_id.fsc_id.incremento > 0 and record.attribute_id.fsc_id.tipo:
+                    if record.attribute_id.fsc_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.fsc_id.incremento
+                    elif record.attribute_id.fsc_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.fsc_id.incremento
+                    elif record.attribute_id.fsc_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.fsc_id.incremento
+                    elif record.attribute_id.fsc_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.fsc_id.incremento
+            
+            if in_reciclable == True and record.attribute_id.reciclable_id:
+                if record.attribute_id.reciclable_id.incremento > 0 and record.attribute_id.reciclable_id.tipo:
+                    if record.attribute_id.reciclable_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.reciclable_id.incremento
+                    elif record.attribute_id.reciclable_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.reciclable_id.incremento
+                    elif record.attribute_id.reciclable_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.reciclable_id.incremento
+                    elif record.attribute_id.reciclable_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.reciclable_id.incremento
+                        
+            if in_cantonera_color == True and record.attribute_id.cantonera_color_id:
+                if record.attribute_id.cantonera_color_id.incremento > 0 and record.attribute_id.cantonera_color_id.tipo:
+                    if record.attribute_id.cantonera_color_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.cantonera_color_id.incremento
+                    elif record.attribute_id.cantonera_color_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.cantonera_color_id.incremento
+                    elif record.attribute_id.cantonera_color_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.cantonera_color_id.incremento
+                    elif record.attribute_id.cantonera_color_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.cantonera_color_id.incremento
+            
+            if in_cantonera_forma == True and record.attribute_id.cantonera_forma_id:
+                if record.attribute_id.cantonera_forma_id.incremento > 0 and record.attribute_id.cantonera_forma_id.tipo:
+                    if record.attribute_id.cantonera_forma_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.cantonera_forma_id.incremento
+                    elif record.attribute_id.cantonera_forma_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.cantonera_forma_id.incremento
+                    elif record.attribute_id.cantonera_forma_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.cantonera_forma_id.incremento
+                    elif record.attribute_id.cantonera_forma_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.cantonera_forma_id.incremento
 
+            if in_cantonera_especial == True and record.attribute_id.cantonera_especial_id:
+                if record.attribute_id.cantonera_especial_id.incremento > 0 and record.attribute_id.cantonera_especial_id.tipo:
+                    if record.attribute_id.cantonera_especial_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.cantonera_especial_id.incremento
+                    elif record.attribute_id.cantonera_especial_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.cantonera_especial_id.incremento
+                    elif record.attribute_id.cantonera_especial_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.cantonera_especial_id.incremento
+                    elif record.attribute_id.cantonera_especial_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.cantonera_especial_id.incremento
+            """           
+            if in_cantonera_especial == True and record.attribute_id.cantonera_especial_id:
+                if record.attribute_id.cantonera_especial_id.incremento > 0 and record.attribute_id.cantonera_especial_id.tipo:
+                    if record.attribute_id.cantonera_especial_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.cantonera_especial_id.incremento
+                    elif record.attribute_id.cantonera_especial_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.cantonera_especial_id.incremento
+                    elif record.attribute_id.cantonera_especial_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.cantonera_especial_id.incremento
+                    elif record.attribute_id.cantonera_especial_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.cantonera_especial_id.incremento
+            """
             if eton > 0:
                 emetro = eton * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
                 #Incremento por porcentaje
