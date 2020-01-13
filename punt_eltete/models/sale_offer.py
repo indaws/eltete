@@ -1291,7 +1291,7 @@ class sale_offer_oferta(models.Model):
                         in_pallet = in_pallet + record.attribute_id.pallet_especial_id.incremento
              """      
 
-            if record.eton > 0:
+            if eton > 0:
                 emetro = eton * record.attribute_id.referencia_cliente_id.referencia_id.peso_metro / 1000
                 #Incremento por porcentaje
                 emetro = emetro * (1 + in_porcentaje / 100)
