@@ -13,18 +13,20 @@
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <tree string="Producto">
+	            <field name="active"/>
                     <field name="name"/>
-                    <field name="active"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>
                     <field name="number"/>
-                    <field name="categoria"/>
                     <field name="eton"/>
-                    <field name="porcentaje"/>
-                    <field name="metro"/>
-                    <field name="unidad"/>
-                    <field name="pallet"/>
-                    <field name="description"/>
+		    <field name="description"/>
+	            
+		    <field name="pallet_especial_incremento"/>
+	            <field name="pallet_especial_tipo"/>
+		    <field name="fsc_incremento"/>
+		    <field name="fsc_tipo"/>
+
+                    
                 </tree>
             </field>
         </record>
