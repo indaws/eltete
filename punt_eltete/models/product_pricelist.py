@@ -13,7 +13,7 @@ class ProductPricelistOferta(models.Model):
     name = fields.Char(string='Nombre', required=True)
     partner_id = fields.Many2one('res.partner', string="Solo para el Cliente")
     user_id = fields.Many2one('res.users', string="Solo para el Comercial", default=lambda self: self.env.user)
-    eton = fields.Float('Incremento', digits=(8,1))
+    eton = fields.Float('Eton', digits=(8,1))
     
     in_pallet_especial = fields.Boolean('Incremento Pallet Especial', default = True)
     in_fsc = fields.Boolean('Incremento FSC', default = True)
