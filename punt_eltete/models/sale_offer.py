@@ -1372,7 +1372,7 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.kilos
                 cantidad_tipo = "kg"
                 precio = record.precio_kilo
-                precio = int(precio * 10000) / 10000
+                #precio = int(precio * 10000) / 10000
                 precio_tipo = "€/kg" 
                 eton = precio * 1000
                 nombre = str(record.num_pallets) + " pallets, " + str(record.kilos) + " kg/pallet, "
