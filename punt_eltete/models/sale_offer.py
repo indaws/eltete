@@ -1126,10 +1126,10 @@ class sale_offer_oferta(models.Model):
     num_pallets = fields.Integer('Número Pallets', default = 1)
     
     unidades = fields.Integer('Unidades Pallet')
-    precio_metro = fields.Float('Precio Metro', digits = (12,4))
+    precio_metro = fields.Float('Precio Metro', digits = (12,5))
     kilos = fields.Integer('Kilos Pallet')
-    precio_kilo = fields.Float('Precio kilo', digits = (12,4))
-    precio_varios = fields.Float('Precio Varios Unidad', digits = (12,4))
+    precio_kilo = fields.Float('Precio kilo', digits = (12,5))
+    precio_varios = fields.Float('Precio Varios Unidad', digits = (12,5))
     
     #DERECHA
     peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
