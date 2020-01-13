@@ -1295,7 +1295,7 @@ class sale_offer_oferta(models.Model):
                 in_papel_calidad = record.tarifa_id.in_papel_calidad
                 in_troquelado = record.tarifa_id.in_troquelado
 
-            if in_pallet_especial == True and record.attribute_id.pallet_especial_id::
+            if in_pallet_especial == True and record.attribute_id.pallet_especial_id:
                 if record.attribute_id.pallet_especial_id.incremento > 0 and record.attribute_id.pallet_especial_id.tipo:
                     if record.attribute_id.pallet_especial_id.tipo == '1':
                         in_metro = in_metro + record.attribute_id.pallet_especial_id.incremento
