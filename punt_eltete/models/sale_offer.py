@@ -1126,10 +1126,10 @@ class sale_offer_oferta(models.Model):
     num_pallets = fields.Integer('Número Pallets', default = 1)
     
     unidades = fields.Integer('Unidades Pallet')
-    precio_metro = fields.Float('Precio Metro', digits = (12,5))
+    precio_metro = fields.Float('Precio Metro', digits = (12,4))
     kilos = fields.Integer('Kilos Pallet')
-    precio_kilo = fields.Float('Precio kilo', digits = (12,5))
-    precio_varios = fields.Float('Precio Varios Unidad', digits = (12,5))
+    precio_kilo = fields.Float('Precio kilo', digits = (12,4))
+    precio_varios = fields.Float('Precio Varios Unidad', digits = (12,4))
     
     #DERECHA
     peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
@@ -1343,7 +1343,8 @@ class sale_offer_oferta(models.Model):
                 aux = aux / (decimales * 10)
                 cantidad_texto = str(aux)
                 precio = record.precio_metro
-                precio = int(precio * 10000) / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/metro"
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
@@ -1353,7 +1354,8 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.unidades
                 cantidad_tipo = "unidades"
                 precio = record.precio_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                precio = int(precio * 10000) / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/unidad" 
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
@@ -1363,7 +1365,8 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.unidades / 1000
                 cantidad_tipo = "millares"
                 precio = record.precio_metro * record.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
-                precio = int(precio * 10000) / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/millar" 
                 eton = int(record.precio_metro * 10000 / record.attribute_id.referencia_cliente_id.referencia_id.peso_metro) / 10
                 nombre = str(record.num_pallets) + " pallets, " + str(record.unidades) + " und/pallet, "
@@ -1372,7 +1375,8 @@ class sale_offer_oferta(models.Model):
                 cantidad = record.kilos
                 cantidad_tipo = "kg"
                 precio = record.precio_kilo
-                #precio = int(precio * 10000) / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/kg" 
                 eton = precio * 1000
                 nombre = str(record.num_pallets) + " pallets, " + str(record.kilos) + " kg/pallet, "
@@ -1381,7 +1385,8 @@ class sale_offer_oferta(models.Model):
                 cantidad = 1
                 cantidad_tipo = "unidades"
                 precio = record.precio_varios
-                precio = int(precio * 10000) / 10000
+                precio = int(precio * 10000)
+                precio = precio / 10000
                 precio_tipo = "€/unidad" 
                 eton = 0
                 nombre = str(precio) + " €/unidad, "
