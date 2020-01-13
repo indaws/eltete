@@ -1295,16 +1295,16 @@ class sale_offer_oferta(models.Model):
                 in_papel_calidad = record.tarifa_id.in_papel_calidad
                 in_troquelado = record.tarifa_id.in_troquelado
 
-            if in_pallet_especial == True and record.attribute_id.pallet_especial_id:
-                if record.attribute_id.pallet_especial_id.incremento > 0 and record.attribute_id.pallet_especial_id.tipo:
-                    if record.attribute_id.pallet_especial_id.tipo == '1':
-                        in_metro = in_metro + record.attribute_id.pallet_especial_id.incremento
-                    elif record.attribute_id.pallet_especial_id.tipo == '2':
-                        in_unidad = in_unidad + record.attribute_id.pallet_especial_id.incremento
-                    elif record.attribute_id.pallet_especial_id.tipo == '3':
-                        in_porcentaje = in_porcentaje + record.attribute_id.pallet_especial_id.incremento
-                    elif record.attribute_id.pallet_especial_id.tipo == '4':
-                        in_pallet = in_pallet + record.attribute_id.pallet_especial_id.incremento
+            if in_pallet_especial == True and record.attribute_id.referencia_cliente_id.pallet_especial_id:
+                if record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento > 0 and record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo:
+                    if record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo == '1':
+                        in_metro = in_metro + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
+                    elif record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo == '2':
+                        in_unidad = in_unidad + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
+                    elif record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo == '3':
+                        in_porcentaje = in_porcentaje + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
+                    elif record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo == '4':
+                        in_pallet = in_pallet + record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento
   
 
             if eton > 0:
