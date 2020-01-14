@@ -149,7 +149,7 @@ class SaleOrderLine(models.Model):
             ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
             grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_2
             longitud = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
-            
+  """          
             alas = str(ala_1) + " x " + str(ala_2)
             aux1 = ala_1 - 2
             aux2 = ala_1 + 2
@@ -163,7 +163,7 @@ class SaleOrderLine(models.Model):
             aux1 = longitud - 5
             aux2 = longitud + 5
             tolerancia_longitud = str(aux1) + " - " + str(aux2)
-"""
+
             ancho_pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
             tipo_pallet = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
