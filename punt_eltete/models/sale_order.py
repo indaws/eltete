@@ -163,7 +163,7 @@ class SaleOrderLine(models.Model):
             aux1 = longitud - 5
             aux2 = longitud + 5
             tolerancia_longitud = str(aux1) + " - " + str(aux2)
-            
+            """
             ancho pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
             tipo_pallet = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
@@ -180,7 +180,7 @@ class SaleOrderLine(models.Model):
             und_exactas = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
                 und_exactas = "SI"
-            """
+            
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
             minutos = int(metros / 50)
