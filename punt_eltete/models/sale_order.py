@@ -231,6 +231,8 @@ class SaleOrderLine(models.Model):
             record.op_forma = forma
             record.op_especial = especial
 """
+
+"""
             record.op_maquina = ""
             record.op_superficie_color = ""
             record.op_superficie_ancho = ""
@@ -259,7 +261,7 @@ class SaleOrderLine(models.Model):
             record.op_comentario = ""
             record.op_forma = ""
             record.op_especial = ""
-            
+     """       
             
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
