@@ -808,8 +808,8 @@ class sale_product_attribute(models.Model):
                             descripcion = descripcion + ", "
                     if record.inglete_num > 0 and record.inglete_id:
                         nombre = nombre + str(record.inglete_num) + " " + record.inglete_id.name + ", "
-                        if record.cantonera_inglete_id.description:
-                            descripcion = descripcion + str(record.inglete_num) + " " + record.cantonera_inglete_id.description + ", "
+                        if record.inglete_id.description:
+                            descripcion = descripcion + str(record.inglete_num) + " " + record.inglete_id.description + ", "
                     if record.cantonera_forma_id:
                         nombre = nombre + record.cantonera_forma_id.name + ", "
                         if record.cantonera_forma_id.description:

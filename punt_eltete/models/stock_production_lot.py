@@ -11,6 +11,9 @@ class StockProductionLot(models.Model):
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
     sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
     
+    #ATRIBUTO
+    attribute_id = fields.Many2one('sale.product.attribute', string = "Atributo")
+    
     #CAMPOS REFERENCIA CLIENTE
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
     paletizado = fields.Integer('Paletizado')
