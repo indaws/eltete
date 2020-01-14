@@ -59,7 +59,7 @@ class SaleOrderLine(models.Model):
                   ('20', 'LISTO'),
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
-    
+    """
     op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion")
     op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion")
     op_superficie_ancho = fields.Char('Superficie Ancho', compute = "_get_produccion")
@@ -163,7 +163,7 @@ class SaleOrderLine(models.Model):
             aux1 = longitud - 5
             aux2 = longitud + 5
             tolerancia_longitud = str(aux1) + " - " + str(aux2)
-"""
+
             ancho_pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
             tipo_pallet = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
@@ -200,7 +200,7 @@ class SaleOrderLine(models.Model):
             especial = ""
             if record.oferta_id.attribute_id.cantonera_especial_id:
                 forma = record.oferta_id.attribute_id.cantonera_especial_id.name
-       """     
+   
             record.op_maquina = maquina
             record.op_superficie_color = superficie_color
             record.op_superficie_ancho = superficie_ancho
@@ -229,7 +229,7 @@ class SaleOrderLine(models.Model):
             record.op_comentario = comentario
             record.op_forma = forma
             record.op_especial = especial
-            
+      """      
             
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
