@@ -59,7 +59,7 @@ class SaleOrderLine(models.Model):
                   ('20', 'LISTO'),
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
-    
+    """
     op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion")
     op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion")
     op_superficie_ancho = fields.Char('Superficie Ancho', compute = "_get_produccion")
@@ -87,6 +87,7 @@ class SaleOrderLine(models.Model):
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
+    """
     
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
