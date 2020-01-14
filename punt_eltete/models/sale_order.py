@@ -85,6 +85,9 @@ class SaleOrderLine(models.Model):
     op_peso = fields.Char('Peso', compute = "_get_produccion")
     op_duracion = fields.Char('Duración', compute = "_get_produccion")
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
+    op_forma = fields.Char('Forma', compute = "_get_produccion")
+    op_especial = fields.Char('Especial', compute = "_get_produccion")
+    
     
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
@@ -188,7 +191,17 @@ class SaleOrderLine(models.Model):
             duracion = str(horas) + " horas " + str(minutos) + " minutos"
             metros = str(metros) + " metros"
             peso = str(peso) + " kg"
-            comentario = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
+            comentario = ""
+            if record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado:
+                comentario = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado:
+            
+            forma = "Canto Recto"
+            if record.oferta_id.attribute_id.cantonera_forma_id:
+                forma = record.oferta_id.attribute_id.cantonera_forma_id.name
+            
+            especial = ""
+            if record.oferta_id.attribute_id.cantonera_especial_id:
+                forma = record.oferta_id.attribute_id.cantonera_especial_id.name
             
             record.op_maquina = maquina
             record.op_superficie_color = superficie_color
@@ -216,6 +229,8 @@ class SaleOrderLine(models.Model):
             record.op_peso = peso
             record.op_duracion = duracion
             record.op_comentario = comentario
+            record.op_forma = forma
+            record.op_especial = especial
              
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
