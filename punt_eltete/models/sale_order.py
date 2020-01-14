@@ -286,20 +286,26 @@ class SaleOrder(models.Model):
                                 estado = '2'
             record.estado = estado
                         
-                        
-                        
-                
-                        
-                    
-            
-        
-    
-    
     
     @api.multi
     def create_sale_order_line_referencia(self, line_product_id, lot_ids, referencia_cliente_id, attribute_id, oferta_id, num_pallets):
         for record in self:
-        
+
+            product_id = None
+            for prod in self.env['product.template'].search([('referencia_id', '=', referencia_cliente_id.referencia_id.id),
+                                                             ]):
+                product_id = prod
+                
+            if product_id == None:
+                product_id = self.env['product.template'].create({'name': referencia_cliente_id.referencia_id.name, 
+                                                                  'type': 'product',
+                                                                  'purchase_ok': False,
+                                                                  'sale_ok': True,
+                                                                  'tracking': 'serial',
+                                                                  'categ_id': referencia_cliente_id.type_id.id,
+                                                                 })
+            
+            """
             #_logger.warning('222')
         
             referencia_id = None
@@ -318,7 +324,7 @@ class SaleOrder(models.Model):
             
             if referencia_cliente_id.referencia_id:
                 referencia_id = referencia_cliente_id.referencia_id.id
-                
+            
             if referencia_cliente_id.pallet_especial_id:
                 pallet_especial_id = referencia_cliente_id.pallet_especial_id.id
                 
@@ -354,7 +360,7 @@ class SaleOrder(models.Model):
                 
             if attribute_id.reciclable_id:
                 reciclable_id = attribute_id.reciclable_id.id
-            
+
             
             product_id = None
             for prod in self.env['product.template'].search([('referencia_id', '=', referencia_cliente_id.referencia_id.id),
@@ -401,9 +407,7 @@ class SaleOrder(models.Model):
                                                                   'cantonera_4': attribute_id.cantonera_4,
                                                                   'sierra': attribute_id.sierra,
                                                                  })
-            
-            
-            if len(lot_ids) > 0 and line_product_id.id == product_id.id:
+             if len(lot_ids) > 0 and line_product_id.id == product_id.id:
             
                 sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
                                                     'name':product_id.name, 
@@ -465,8 +469,12 @@ class SaleOrder(models.Model):
                                                         'product_id': product_id.product_variant_id.id,
                                                        })
                     sale_line._compute_tax_id()
-    
-    
+            
+            
+            """
+            
+            
+            
     @api.depends('order_line',)
     def _get_lots_sale(self):
         for record in self:
