@@ -12,107 +12,99 @@
                           <p t-if="doc.partner_id.vat">NIF: <span t-field="doc.partner_id.vat"/></p>
                       </t>-->
                       <div class="page">
-                      
                           
-                          <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN</strong></h3>
+                          <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN CANTONERAS</strong></h3>
                           
+                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Pedido: </strong><span t-field="doc.name"/><br/>
+                                  <strong>Orden de producción: </strong><span t-field="line.id"/><br/>
+                                  <strong>Cliente: </strong><span t-field="doc.partner_id.ref"/><br/>
+                              </div>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Máquina</strong><br/>
+                                  <span t-field="line.oferta_id.op_cantonera_maquina"/><br/>
+                              </div>
+                          </div>
                           
-                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 25px;" >
+                          <br/><br/>
                           
-                              <strong>Pedido: </strong><span t-field="doc.name"/><br/>
-                              <strong>Orden de producción: </strong>OP<span t-field="line.id"/><br/>
-                              <strong>Fecha Pedido: </strong><span t-field="doc.date_order"  t-options='{"format": "dd/MM/yyyy"}'/><br/>
-                              <strong>Cliente: </strong><span t-field="doc.partner_id.ref"/><br/>
+                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Superficie Color: </strong><span t-field="line.op_superficie_color"/><br/>
+                                  <strong>Superficie Ancho: </strong><span t-field="line.op_superficie_ancho"/><br/>
+                                  <strong>Interior Ancho: </strong><span t-field="line.op_interior_ancho"/><br/>
+                                  <strong>Interior Gramaje: </strong><span t-field="line.op_interior_gramaje"/><br/>
+                              </div>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Metros Totales: </strong><span t-field="line.op_metros"/><br/>
+                                  <strong>Kg Totales: </strong><span t-field="line.op_peso"/><br/>
+                                  <strong>Duración: </strong><span t-field="line.op_duracion"/><br/>
+                              </div>
+                          
+                              <br/><br/>
+                          
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Tinta 1: </strong><span t-field="line.op_tinta_1"/><br/>
+                                  <strong>Texto 1: </strong><span t-field="line.op_texto_1"/><br/>
+                              </div>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Tinta 2: </strong><span t-field="line.op_tinta_2"/><br/>
+                                  <strong>Texto 2: </strong><span t-field="line.op_texto_2"/><br/>
+                              </div> 
+                              
+                              <br/><br/>
+                              
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Alas: </strong><span t-field="line.op_alas"/><br/>
+                                  <strong>Grosor: </strong><span t-field="line.op_grosor"/><br/>
+                                  <strong>Longitud: </strong><span t-field="line.op_longitud"/><br/>
+                              </div>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Tolerancia Alas: </strong><span t-field="line.op_tolerancia_alas"/><br/>
+                                  <strong>Tolerancia Grosor: </strong><span t-field="line.op_tolerancia_grosor"/><br/>
+                                  <strong>Tolerancia Longitud: </strong><span t-field="line.op_tolerancia_longitud"/><br/>
+                              </div> 
+                              
+                              <br/><br/>
+                              
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Forma: </strong><span t-field="line.op_forma"/><br/>
+                              </div>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Especial: </strong><span t-field="line.op_especial"/><br/>
+                              </div> 
+                              
+                              <br/><br/>
+                              
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Ancho Pallet: </strong><span t-field="line.op_ancho_pallet"/><br/>
+                                  <strong>Tipo Pallet: </strong><span t-field="line.op_tipo_pallet"/><br/>
+                              </div>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Paletizado: </strong><span t-field="line.op_paletizado"/><br/>
+                                  <strong>Unidades Paquete: </strong><span t-field="line.op_und_paquete"/><br/>
+                                  <strong>Paquetes Fila: </strong><span t-field="line.op_paquetes_fila"/><br/>
+                              </div> 
+                              
+                              <br/><br/>
+                              
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Unidades Pallet: </strong><span t-field="line.und_pallet"/><br/>
+                                  <strong>Unidades Exactas: </strong><span t-field="line.op_und_exactas"/><br/>
+                              </div>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                                  <strong>Número Pallets: </strong><span t-field="line.num_pallets"/><br/>
+                              </div> 
                               
                           </div>
                           
-                          <br/><br/><br/>
+                          <br/><br/>
                           
-                          
-                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 25px;" >
-                          
-                          
-                          <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                            <strong>Lista de Producción EBM</strong> 
-                            <t t-if="line.oferta_id.attribute_id.cantonera_1 == True">CANTONERA 1<br/></t>
-                            <t t-if="line.oferta_id.attribute_id.cantonera_2 == True">CANTONERA 2<br/></t>
-                            <t t-if="line.oferta_id.attribute_id.cantonera_3 == True">CANTONERA 3<br/></t>
-                            <t t-if="line.oferta_id.attribute_id.cantonera_4 == True">CANTONERA 4<br/></t>
+                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+                              <strong>Comentario: </strong><span t-field="line.op_comentario"/><br/>
                           </div>
                           
-                          <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                            <strong>Color impresión:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_cliche_id.name"/><br/>
-                            <strong>Texto impreso:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_cliche_id.description"/><br/>
-                          </div>
-                          
-                          <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                            <strong>Cantonera Color:</strong> <span t-field="line.oferta_id.attribute_id.cantonera_color_id"/><br/>
-                          </div>
-                          
-                          <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                            <strong>Medidas cantonera (mm):</strong> <span t-field="line.product_id.referencia_id.ala_1"/> + 0 + <span t-field="line.product_id.referencia_id.ala_2"/><br/>
-                            <strong>Grosor cantonera (mm):</strong> <span t-field="line.product_id.referencia_id.grosor_2"/><br/>
-                            <strong>Largo cantonera (mm):</strong> <span t-field="line.product_id.referencia_id.longitud"/><br/>
-                          </div>
-                          
-                          <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                            <strong>Tolerancia de:</strong> 43/47 | 0 | 43/47<br/>
-                            <strong>Tolerancia de:</strong> 2,8 | a | 3,2<br/>
-                            <strong>Tolerancia de:</strong> 2195 | 0 | 2205<br/>
-                          </div>
-                          
-                          <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                            <strong>Cantoneras / Paquete:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.und_paquete"/><br/>
-                            <strong>Alturas / Capa Pallet:</strong> <span t-field="line.oferta_id.attribute_id.referencia_cliente_id.alto_fila"/><br/>
-                            <strong>Tipo de ángulo:</strong> <br/>
-                            <strong>Reciclable:</strong> <span t-field="line.oferta_id.attribute_id.reciclable_id.name"/><br/>
-                            <strong>Peso (kg / m):</strong> <span t-field="line.oferta_id.peso_metro"/><br/>
-                            <strong>Cantidad (Piezas):</strong> <span t-field="line.oferta_unidades"/> -> <span t-esc="int(line.product_uom_qty)"/> Pallets a <span t-esc="int(line.oferta_unidades / line.product_uom_qty)"/> Piezas<br/>
-                            <strong>Total Metros (m):</strong> <span t-field="line.oferta_id.peso_metro"/><br/>
-                            <strong>Total Peso Pedido (kgs):</strong> <span t-field="doc.peso_bruto"/><br/>
-                          </div>
-                          
-                          </div>
-                          
-                          
-                          
-                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 25px;" >
-                          
-                          <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                          
-                              <table style="width:100%">
-                              
-                                    <tr>
-                                        <td><strong></strong></td>
-                                        <td><strong>Ancho (mm)</strong></td>
-                                        <td><strong>%</strong></td>
-                                        <td><strong>Total kg</strong></td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td><strong>Capa Interior</strong></td>
-                                        <td><span t-field="line.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet"/></td>
-                                        <td>80</td>
-                                        <td><span t-esc="round(line.peso_bruto * 0.8,2)"/></td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td><strong>Papel para superficie</strong></td>
-                                        <td></td>
-                                        <td>20</td>
-                                        <td><span t-esc="round(line.peso_bruto * 0.2,2)"/></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            
-                            </div>
-                          
-                          
-                          
-                          
-                          
-
-      
                       </div>
                   </t>
               </t>
