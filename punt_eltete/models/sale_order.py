@@ -60,6 +60,29 @@ class SaleOrderLine(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
     
+    op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion_cantonera")
+    op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion_cantonera")
+    op_superficie_ancho = fields.Char('Superficie Ancho', compute = "_get_produccion_cantonera")
+    op_interior_ancho = fields.Char('Interior Ancho', compute = "_get_produccion_cantonera")
+    op_interior_gramaje = fields.Char('Interior Gramaje', compute = "_get_produccion_cantonera")
+    op_tinta_1 = fields.Char('Tinta 1', compute = "_get_produccion_cantonera")
+    op_texto_1 = fields.Char('Texto 1', compute = "_get_produccion_cantonera")
+    op_tinta_2 = fields.Char('Tinta 2', compute = "_get_produccion_cantonera")
+    op_texto_2 = fields.Char('Texto 2', compute = "_get_produccion_cantonera")
+    op_alas = fields.Char('Alas', compute = "_get_produccion_cantonera")
+    op_grosor = fields.Char('Grosor', compute = "_get_produccion_cantonera")
+    op_longitud = fields.Char('Longitud', compute = "_get_produccion_cantonera")
+    op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion_cantonera")
+    op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion_cantonera")
+    op_tolerancia_longitud = fields.Char('Tolerancia Longitud', compute = "_get_produccion_cantonera")
+    op_ancho_pallet = fields.Char('Ancho Pallet', compute = "_get_produccion_cantonera")  
+    op_tipo_pallet = fields.Char('Tipo Pallet', compute = "_get_produccion_cantonera")
+    op_paletizado = fields.Char('Paletizado', compute = "_get_produccion_cantonera")
+    op_und_paquete = fields.Char('Unidades Paquete', compute = "_get_produccion_cantonera")
+    op_paquetes_fila= fields.Char('Paquetes Fila', compute = "_get_produccion_cantonera")
+    
+    
+    
     ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_fabricacion")
     ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_fabricacion")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_fabricacion")
@@ -68,6 +91,119 @@ class SaleOrderLine(models.Model):
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_fabricacion")
     comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
     
+    @api.depends('oferta_id')
+    def _get_produccion_cantonera(self):
+        for record in self:
+
+            maquina = ""
+            if record.oferta_id.attribute_id.cantonera_1 == True:
+                maquina = maquina + "Línea 1, "
+            if record.oferta_id.attribute_id.cantonera_2 == True:
+                maquina = maquina + "Línea 2, "
+            if record.oferta_id.attribute_id.cantonera_3 == True:
+                maquina = maquina + "Línea 3, "
+            if record.oferta_id.attribute_id.cantonera_4 == True:
+                maquina = maquina + "Línea 4, "
+            
+            superficie_color = ""
+            if record.oferta_id.attribute_id.cantonera_color_id:
+                superficie_color = record.oferta_id.attribute_id.cantonera_color_id.name
+            superficie_ancho = "" 
+            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie:
+                superficie_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+            interior_ancho = ""
+            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior:
+                interior_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior 
+            interior_gramaje = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram)
+            
+            tintero1 = False
+            tintero2 = False
+            tinta_1 = ""
+            texto_1 = ""
+            tinta_2 = ""
+            texto_2 = ""
+            if record.oferta_id.attribute_id.cliche_id:
+                if record.oferta_id.attribute_id.cliche_id.tinta_1_id:
+                    tinta_1 = record.oferta_id.attribute_id.cliche_id.tinta_1_id.name
+                    tintero1 = True
+                    if record.oferta_id.attribute_id.cliche_id.texto_1:
+                        texto_1 = record.oferta_id.attribute_id.cliche_id.texto_1
+                if record.oferta_id.attribute_id.cliche_id.tinta_2_id:
+                    if tintero1 == False:
+                        tinta_1 = record.oferta_id.attribute_id.cliche_id.tinta_2_id.name
+                        tintero1 = True
+                        if record.oferta_id.attribute_id.cliche_id.texto_2:
+                            texto_1 = record.oferta_id.attribute_id.cliche_id.texto_2
+                    elif tintero2 == False:
+                        tinta_2 = record.oferta_id.attribute_id.cliche_id.tinta_2_id.name
+                        tintero2 = True
+                        if record.oferta_id.attribute_id.cliche_id.texto_2:
+                            texto_2 = record.oferta_id.attribute_id.cliche_id.texto_2
+            
+            if record.oferta_id.attribute_id.reciclable_id:
+                if tintero1 == False:
+                    texto_1 = record.oferta_id.attribute_id.reciclable_id.name
+                elif tintero2 == False:
+                    texto_2 == record.oferta_id.attribute_id.reciclable_id.name
+            
+            
+            ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
+            ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
+            grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_2
+            longitud = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+            
+            alas = str(ala_1) + " x " + str(ala_2)
+            aux1 = ala_1 - 2
+            aux2 = ala_1 + 2
+            tolerancia_alas = str(aux1) + " - " + str(aux2) + " x "
+            aux1 = ala_2 - 2
+            aux2 = ala_2 + 2
+            tolerancia_alas = tolerancia_alas + str(aux1) + " - " + str(aux2)
+            aux1 = grosor - 0.2
+            aux2 = grosor + 0.2
+            tolerancia_grosor = str(aux1) + " - " + str(aux2)
+            aux1 = longitud - 5
+            aux2 = longitud + 5
+            tolerancia_longitud = str(aux1) + " - " + str(aux2)
+            
+            ancho pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
+            tipo_pallet = ""
+            if record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
+                tipo_pallet = record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id,name
+            else:
+                tipo_pallet = "Pallet de Madera"
+            paletizado = "Compacto (Normal)"
+            if record.oferta_id.attribute_id.referencia_cliente_id.paletizado:
+                if record.oferta_id.attribute_id.referencia_cliente_id.paletizado == '2':
+                    paletizado = "Columnas"  
+            und_paquete = str(record.oferta_id.attribute_id.referencia_cliente_id.und_paquete) + " unidades / paquete"
+            paquetes_fila = str(record.oferta_id.attribute_id.referencia_cliente_id.paquetes_fila) + " paquetes / fila"
+            
+            
+            record.op_maquina = maquina
+            record.op_superficie_color = superficie_color
+            record.op_superficie_ancho = superficie_ancho
+            record.op_interior_ancho = interior_ancho
+            record.op_interior_gramaje = interior_gramaje
+            record.op_tinta_1 = tinta_1
+            record.op_texto_1 = texto_1
+            record.op_tinta_2 = tinta_2
+            record.op_texto_2 = texto_2
+            record.op_alas = alas
+            record.op_grosor = str(grosor)
+            record.op_longitud = str(longitud)
+            record.op_tolerancia_alas = tolerancia_alas
+            record.op_tolerancia_grosor = tolerancia_grosor
+            record.op_tolerancia_longitud = tolerancia_longitud
+            record.op_ancho_pallet = str(ancho_pallet)
+            record.op_tipo_pallet = tipo_pallet
+            record.op_paletizado = paletizado
+            record.op_und_paquete = und_paquete
+            record.op_paquetes_fila = paquetes_fila
+            
+            
+            
+            
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
     def _onchange_oferta_cantidad(self):
