@@ -163,8 +163,8 @@ class SaleOrderLine(models.Model):
             aux1 = longitud - 5
             aux2 = longitud + 5
             tolerancia_longitud = str(aux1) + " - " + str(aux2)
-            """
-            ancho pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
+
+            ancho_pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
             tipo_pallet = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
                 tipo_pallet = record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id,name
@@ -200,8 +200,6 @@ class SaleOrderLine(models.Model):
             especial = ""
             if record.oferta_id.attribute_id.cantonera_especial_id:
                 forma = record.oferta_id.attribute_id.cantonera_especial_id.name
-            
-            """
             
             record.op_maquina = maquina
             record.op_superficie_color = superficie_color
