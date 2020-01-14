@@ -87,12 +87,12 @@ class SaleOrderLine(models.Model):
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
-    """
+
     
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
         for record in self:
-"""
+
             maquina = ""
             if record.oferta_id.attribute_id.cantonera_1 == True:
                 maquina = maquina + "Línea 1, "
