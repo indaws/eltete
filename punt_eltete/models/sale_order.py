@@ -144,7 +144,6 @@ class SaleOrderLine(models.Model):
                     texto_1 = record.oferta_id.attribute_id.reciclable_id.name
                 elif tintero2 == False:
                     texto_2 == record.oferta_id.attribute_id.reciclable_id.name
-            """
             
             ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
             ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
@@ -181,7 +180,7 @@ class SaleOrderLine(models.Model):
             und_exactas = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
                 und_exactas = "SI"
-            
+            """
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
             minutos = int(metros / 50)
