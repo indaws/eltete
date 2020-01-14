@@ -92,7 +92,6 @@ class SaleOrderLine(models.Model):
     def _get_produccion(self):
         for record in self:
 
-            """
             maquina = ""
             if record.oferta_id.attribute_id.cantonera_1 == True:
                 maquina = maquina + "Línea 1, "
@@ -145,7 +144,7 @@ class SaleOrderLine(models.Model):
                     texto_1 = record.oferta_id.attribute_id.reciclable_id.name
                 elif tintero2 == False:
                     texto_2 == record.oferta_id.attribute_id.reciclable_id.name
-            
+            """
             
             ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
             ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
