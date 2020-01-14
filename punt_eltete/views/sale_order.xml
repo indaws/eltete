@@ -96,17 +96,6 @@
                 </page>
             </xpath>
             
-            
-            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='product_id']" position="before">
-		<field name="peso_neto" />
-		<field name="ancho_interior" />
-		<field name="ancho_superficie" />
-		<field name="j_gram" />
-		<field name="j_superficie" />
-		<field name="j_superficie_max" />
-		<field name="comentario_paletizado" />
-		    
-		    
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="before">
                 <field name="oferta_id" />
