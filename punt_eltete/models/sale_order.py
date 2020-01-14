@@ -200,7 +200,7 @@ class SaleOrderLine(models.Model):
             especial = ""
             if record.oferta_id.attribute_id.cantonera_especial_id:
                 forma = record.oferta_id.attribute_id.cantonera_especial_id.name
-   """
+
             record.op_maquina = maquina
             record.op_superficie_color = superficie_color
             record.op_superficie_ancho = superficie_ancho
@@ -229,7 +229,7 @@ class SaleOrderLine(models.Model):
             record.op_comentario = comentario
             record.op_forma = forma
             record.op_especial = especial
-    
+    """
             
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
