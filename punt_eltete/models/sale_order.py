@@ -83,6 +83,7 @@ class SaleOrderLine(models.Model):
     op_und_exactas = fields.Char('Unidades Exactas', compute = "_get_produccion")
     op_metros = fields.Char('Metros', compute = "_get_produccion")
     op_peso = fields.Char('Peso', compute = "_get_produccion")
+    op_duracion = fields.Char('Duración', compute = "_get_produccion")
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
@@ -181,9 +182,12 @@ class SaleOrderLine(models.Model):
             
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            minutos = int(metros / 50)
+            horas = int(minutos / 60)
+            minutos = minutos - 60 * horas
+            duracion = str(horas) + " horas " + str(minutos) + " minutos"
             metros = str(metros) + " metros"
             peso = str(peso) + " kg"
-            
             comentario = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
             
             record.op_maquina = maquina
@@ -210,6 +214,7 @@ class SaleOrderLine(models.Model):
             record.op_und_exactas = und_exactas
             record.op_metros = metros
             record.op_peso = peso
+            record.op_duracion = duracion
             record.op_comentario = comentario
              
     
