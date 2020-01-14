@@ -178,7 +178,7 @@ class SaleOrderLine(models.Model):
             
             und_exactas = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
-                und_exactas = str(record.und_pallet)
+                und_exactas = "SI"
             
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
