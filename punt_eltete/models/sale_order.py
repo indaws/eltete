@@ -60,6 +60,7 @@ class SaleOrderLine(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
     
+    """
     op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion")
     op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion")
     op_superficie_ancho = fields.Char('Superficie Ancho', compute = "_get_produccion")
@@ -231,7 +232,7 @@ class SaleOrderLine(models.Model):
             record.op_comentario = comentario
             record.op_forma = forma
             record.op_especial = especial
-             
+        """     
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
     def _onchange_oferta_cantidad(self):
