@@ -60,39 +60,33 @@ class SaleOrderLine(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
     
-    op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion_cantonera")
-    op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion_cantonera")
-    op_superficie_ancho = fields.Char('Superficie Ancho', compute = "_get_produccion_cantonera")
-    op_interior_ancho = fields.Char('Interior Ancho', compute = "_get_produccion_cantonera")
-    op_interior_gramaje = fields.Char('Interior Gramaje', compute = "_get_produccion_cantonera")
-    op_tinta_1 = fields.Char('Tinta 1', compute = "_get_produccion_cantonera")
-    op_texto_1 = fields.Char('Texto 1', compute = "_get_produccion_cantonera")
-    op_tinta_2 = fields.Char('Tinta 2', compute = "_get_produccion_cantonera")
-    op_texto_2 = fields.Char('Texto 2', compute = "_get_produccion_cantonera")
-    op_alas = fields.Char('Alas', compute = "_get_produccion_cantonera")
-    op_grosor = fields.Char('Grosor', compute = "_get_produccion_cantonera")
-    op_longitud = fields.Char('Longitud', compute = "_get_produccion_cantonera")
-    op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion_cantonera")
-    op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion_cantonera")
-    op_tolerancia_longitud = fields.Char('Tolerancia Longitud', compute = "_get_produccion_cantonera")
-    op_ancho_pallet = fields.Char('Ancho Pallet', compute = "_get_produccion_cantonera")  
-    op_tipo_pallet = fields.Char('Tipo Pallet', compute = "_get_produccion_cantonera")
-    op_paletizado = fields.Char('Paletizado', compute = "_get_produccion_cantonera")
-    op_und_paquete = fields.Char('Unidades Paquete', compute = "_get_produccion_cantonera")
-    op_paquetes_fila= fields.Char('Paquetes Fila', compute = "_get_produccion_cantonera")
+    op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion")
+    op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion")
+    op_superficie_ancho = fields.Char('Superficie Ancho', compute = "_get_produccion")
+    op_interior_ancho = fields.Char('Interior Ancho', compute = "_get_produccion")
+    op_interior_gramaje = fields.Char('Interior Gramaje', compute = "_get_produccion")
+    op_tinta_1 = fields.Char('Tinta 1', compute = "_get_produccion")
+    op_texto_1 = fields.Char('Texto 1', compute = "_get_produccion")
+    op_tinta_2 = fields.Char('Tinta 2', compute = "_get_produccion")
+    op_texto_2 = fields.Char('Texto 2', compute = "_get_produccion")
+    op_alas = fields.Char('Alas', compute = "_get_produccion")
+    op_grosor = fields.Char('Grosor', compute = "_get_produccion")
+    op_longitud = fields.Char('Longitud', compute = "_get_produccion")
+    op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion")
+    op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion")
+    op_tolerancia_longitud = fields.Char('Tolerancia Longitud', compute = "_get_produccion")
+    op_ancho_pallet = fields.Char('Ancho Pallet', compute = "_get_produccion")  
+    op_tipo_pallet = fields.Char('Tipo Pallet', compute = "_get_produccion")
+    op_paletizado = fields.Char('Paletizado', compute = "_get_produccion")
+    op_und_paquete = fields.Char('Unidades Paquete', compute = "_get_produccion")
+    op_paquetes_fila= fields.Char('Paquetes Fila', compute = "_get_produccion")
+    op_und_exactas = fields.Char('Unidades Exactas', compute = "_get_produccion")
+    op_metros = fields.Char('Metros', compute = "_get_produccion")
+    op_peso = fields.Char('Peso', compute = "_get_produccion")
+    op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     
-    
-    
-    ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_fabricacion")
-    ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_fabricacion")
-    j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_fabricacion")
-    j_interior = fields.Integer('J Interior', readonly = True, compute = "_get_fabricacion")
-    j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_fabricacion")
-    j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_fabricacion")
-    comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
-    
-    @api.depends('oferta_id')
-    def _get_produccion_cantonera(self):
+    @api.depends('oferta_id', 'und_pallet', 'num_pallets')
+    def _get_produccion(self):
         for record in self:
 
             maquina = ""
@@ -114,7 +108,9 @@ class SaleOrderLine(models.Model):
             interior_ancho = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior:
                 interior_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior 
-            interior_gramaje = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram)
+            aux1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
+            aux2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram + 100
+            interior_gramaje = str(aux1) + " - " + str(aux2)
             
             tintero1 = False
             tintero2 = False
@@ -179,6 +175,16 @@ class SaleOrderLine(models.Model):
             und_paquete = str(record.oferta_id.attribute_id.referencia_cliente_id.und_paquete) + " unidades / paquete"
             paquetes_fila = str(record.oferta_id.attribute_id.referencia_cliente_id.paquetes_fila) + " paquetes / fila"
             
+            und_exactas = ""
+            if record.oferta_id.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
+                und_exactas = str(record.und_pallet)
+            
+            metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            metros = str(metros) + " metros"
+            peso = str(peso) + " kg"
+            
+            comentario = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
             
             record.op_maquina = maquina
             record.op_superficie_color = superficie_color
@@ -200,10 +206,12 @@ class SaleOrderLine(models.Model):
             record.op_paletizado = paletizado
             record.op_und_paquete = und_paquete
             record.op_paquetes_fila = paquetes_fila
-            
-            
-            
-            
+            record.op_und_pallet = und_pallet
+            record.op_und_exactas = und_exactas
+            record.op_metros = metros
+            record.op_peso = peso
+            record.op_comentario = comentario
+             
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
     def _onchange_oferta_cantidad(self):
@@ -342,18 +350,6 @@ class SaleOrderLine(models.Model):
             record.peso_bruto = peso_bruto
             
 
-    def _get_fabricacion(self):
-        for record in self:
-            record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
-            record.ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
-            record.j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
-            record.j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
-            record.j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
-            record.j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
-            record.comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
-    
-    
-    
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
         self.oferta_ids = self.env['stock.production.lot'].search([('sale_order_line_id.order_id', '=', lista_ids)])
