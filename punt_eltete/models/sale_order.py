@@ -91,7 +91,7 @@ class SaleOrderLine(models.Model):
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
         for record in self:
-
+"""
             maquina = ""
             if record.oferta_id.attribute_id.cantonera_1 == True:
                 maquina = maquina + "Línea 1, "
@@ -229,7 +229,36 @@ class SaleOrderLine(models.Model):
             record.op_comentario = comentario
             record.op_forma = forma
             record.op_especial = especial
-
+"""
+            record.op_maquina = ""
+            record.op_superficie_color = ""
+            record.op_superficie_ancho = ""
+            record.op_interior_ancho = ""
+            record.op_interior_gramaje = ""
+            record.op_tinta_1 = ""
+            record.op_texto_1 = ""
+            record.op_tinta_2 = ""
+            record.op_texto_2 = ""
+            record.op_alas = ""
+            record.op_grosor = ""
+            record.op_longitud = ""
+            record.op_tolerancia_alas = ""
+            record.op_tolerancia_grosor = ""
+            record.op_tolerancia_longitud = ""
+            record.op_ancho_pallet = ""
+            record.op_tipo_pallet = ""
+            record.op_paletizado = ""
+            record.op_und_paquete = ""
+            record.op_paquetes_fila = ""
+            record.op_und_pallet = ""
+            record.op_und_exactas = ""
+            record.op_metros = ""
+            record.op_peso = ""
+            record.op_duracion = ""
+            record.op_comentario = ""
+            record.op_forma = ""
+            record.op_especial = ""
+            
             
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
