@@ -222,7 +222,6 @@ class SaleOrderLine(models.Model):
             record.op_paletizado = paletizado
             record.op_und_paquete = und_paquete
             record.op_paquetes_fila = paquetes_fila
-            record.op_und_pallet = und_pallet
             record.op_und_exactas = und_exactas
             record.op_metros = metros
             record.op_peso = peso
