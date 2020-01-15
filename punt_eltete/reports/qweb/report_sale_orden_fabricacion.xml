@@ -23,7 +23,7 @@
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Máquina</strong><br/>
-                                  <span t-field="line.oferta_id.op_cantonera_maquina"/><br/>
+                                  <span t-field="line.op_cantonera_maquina"/><br/>
                               </div>
                           </div>
                           
