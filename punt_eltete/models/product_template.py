@@ -1521,8 +1521,8 @@ class ProductCaracteristicaCliche(models.Model):
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción para el Cliente')
     
-    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1")
-    texto_1 = fields.Char('Tinta 1 Texto')
+    tinta_1_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 1", required=True)
+    texto_1 = fields.Char('Tinta 1 Texto', required=True)
     tinta_2_id = fields.Many2one('product.caracteristica.tinta', string="Tinta 2")
     texto_2 = fields.Char('Tinta 2 Texto')   
     proveedor = fields.Char('Proveedor')  
