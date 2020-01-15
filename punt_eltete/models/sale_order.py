@@ -121,23 +121,23 @@ class SaleOrderLine(models.Model):
             texto_1 = ""
             tinta_2 = ""
             texto_2 = ""
-            if record.oferta_id.attribute_id.cliche_id:
-                if record.oferta_id.attribute_id.cliche_id.tinta_1_id:
-                    tinta_1 = record.oferta_id.attribute_id.cliche_id.tinta_1_id.name
+            if record.oferta_id.attribute_id.cantonera_cliche_id:
+                if record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id:
+                    tinta_1 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id.name
                     tintero1 = True
-                    if record.oferta_id.attribute_id.cliche_id.texto_1:
-                        texto_1 = record.oferta_id.attribute_id.cliche_id.texto_1
-                if record.oferta_id.attribute_id.cliche_id.tinta_2_id:
+                    if record.oferta_id.attribute_id.cantonera_cliche_id.texto_1:
+                        texto_1 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_1
+                if record.oferta_id.attribute_id.cantonera_cliche_id.tinta_2_id:
                     if tintero1 == False:
-                        tinta_1 = record.oferta_id.attribute_id.cliche_id.tinta_2_id.name
+                        tinta_1 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_2_id.name
                         tintero1 = True
-                        if record.oferta_id.attribute_id.cliche_id.texto_2:
-                            texto_1 = record.oferta_id.attribute_id.cliche_id.texto_2
+                        if record.oferta_id.attribute_id.cantonera_cliche_id.texto_2:
+                            texto_1 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_2
                     elif tintero2 == False:
-                        tinta_2 = record.oferta_id.attribute_id.cliche_id.tinta_2_id.name
+                        tinta_2 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_2_id.name
                         tintero2 = True
-                        if record.oferta_id.attribute_id.cliche_id.texto_2:
-                            texto_2 = record.oferta_id.attribute_id.cliche_id.texto_2
+                        if record.oferta_id.attribute_id.cantonera_cliche_id.texto_2:
+                            texto_2 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_2
             
             if record.oferta_id.attribute_id.reciclable_id:
                 if tintero1 == False:
