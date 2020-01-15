@@ -42,7 +42,8 @@
                                   <strong>Duración: </strong><span t-field="line.op_duracion"/><br/>
                               </div>
                           
-                              <br/><br/>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>
                           
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Tinta 1: </strong><span t-field="line.op_tinta_1"/><br/>
@@ -53,7 +54,8 @@
                                   <strong>Texto 2: </strong><span t-field="line.op_texto_2"/><br/>
                               </div> 
                               
-                              <br/><br/>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Alas: </strong><span t-field="line.op_alas"/><br/>
@@ -66,7 +68,8 @@
                                   <strong>Tolerancia Longitud: </strong><span t-field="line.op_tolerancia_longitud"/><br/>
                               </div> 
                               
-                              <br/><br/>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Forma: </strong><span t-field="line.op_forma"/><br/>
@@ -75,7 +78,8 @@
                                   <strong>Especial: </strong><span t-field="line.op_especial"/><br/>
                               </div> 
                               
-                              <br/><br/>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Ancho Pallet: </strong><span t-field="line.op_ancho_pallet"/><br/>
@@ -87,7 +91,8 @@
                                   <strong>Paquetes Fila: </strong><span t-field="line.op_paquetes_fila"/><br/>
                               </div> 
                               
-                              <br/><br/>
+                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Unidades Pallet: </strong><span t-field="line.und_pallet"/><br/>
@@ -102,7 +107,8 @@
                           <br/><br/>
                           
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-                              <strong>Comentario: </strong><span t-field="line.op_comentario"/><br/>
+                              <strong>Comentario: </strong><br/>
+                              <span t-field="line.op_comentario"/><br/>
                           </div>
                           
                       </div>
