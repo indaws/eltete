@@ -160,7 +160,7 @@ class SaleOrderLine(models.Model):
             tolerancia_alas = tolerancia_alas + str(aux1) + " - " + str(aux2)
             aux1 = grosor - 0.2
             aux2 = grosor + 0.2
-            tolerancia_grosor = str(aux1) + " - " + str(aux2)
+            tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
             aux1 = longitud - 5
             aux2 = longitud + 5
             tolerancia_longitud = str(aux1) + " - " + str(aux2)
@@ -184,12 +184,12 @@ class SaleOrderLine(models.Model):
             
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
-            minutos = int(metros / 50)
+            minutos = int(metros / 60)
             horas = int(minutos / 60)
             minutos = minutos - 60 * horas
             duracion = str(horas) + " horas " + str(minutos) + " minutos"
-            metros = str(metros) + " metros"
-            peso = str(peso) + " kg"
+            metros = str(int(metros)) + " metros"
+            peso = str(int(peso)) + " kg"
             comentario = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado:
                 comentario = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
