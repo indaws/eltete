@@ -139,7 +139,7 @@ class SaleOrderLine(models.Model):
                         if record.oferta_id.attribute_id.cantonera_cliche_id.texto_2:
                             texto_2 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_2
             
-            if record.oferta_id.attribute_id.reciclable_id:
+            if record.oferta_id.attribute_id.reciclable_id and record.oferta_id.attribute_id.reciclable_id.number > 0:
                 if tintero1 == False:
                     texto_1 = record.oferta_id.attribute_id.reciclable_id.name
                 elif tintero2 == False:
@@ -202,7 +202,7 @@ class SaleOrderLine(models.Model):
             if record.oferta_id.attribute_id.cantonera_especial_id:
                 forma = record.oferta_id.attribute_id.cantonera_especial_id.name
             
-            record.op_maquina = maquina
+            record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
             record.op_superficie_ancho = superficie_ancho
             record.op_interior_ancho = interior_ancho
