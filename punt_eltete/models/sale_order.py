@@ -168,7 +168,7 @@ class SaleOrderLine(models.Model):
             ancho_pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
             tipo_pallet = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
-                tipo_pallet = record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id,name
+                tipo_pallet = record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id.name
             else:
                 tipo_pallet = "Pallet de Madera"
             paletizado = "Compacto (Normal)"
