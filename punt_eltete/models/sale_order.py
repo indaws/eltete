@@ -24,7 +24,6 @@ class SaleOrderLine(models.Model):
                   ('2', 'NO'),
                   ]
     bultos = fields.Selection(selection = BULTOS_SEL, string = 'Es pallet', default='1')
-    actualizar = fields.Boolean('Actualizar')
     
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
@@ -250,7 +249,7 @@ class SaleOrderLine(models.Model):
     comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
     """
     
-    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio', 'actualizar')
+    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio')
     def _onchange_oferta_cantidad(self):
         if self.num_pallets > 0:
             self.price_unit = self.importe / self.num_pallets
@@ -416,7 +415,7 @@ class SaleOrder(models.Model):
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
     
-    descuento_cliente = fields.Integer('Descuento Cliente', readonly = True, compute="_get_importe")
+    descuento_cliente = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_importe")
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
@@ -431,7 +430,7 @@ class SaleOrder(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
     
-    @api.depends('num_pallets')
+    #@api.depends('num_pallets')
     def _get_importe(self):
         for record in self:
             descuento = partner_id.sale_discount
