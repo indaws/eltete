@@ -88,7 +88,8 @@ class SaleOrderLine(models.Model):
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
-    
+
+
     
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
@@ -415,7 +416,7 @@ class SaleOrder(models.Model):
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
     
-    descuento_cliente = fields.Integer('sale_discount')
+    descuento_cliente = fields.Integer('Descuento Cliente', readonly = True, compute="_get_importe")
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
@@ -429,6 +430,16 @@ class SaleOrder(models.Model):
                   ('4', 'ENTREGA TOTAL'),
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
+    
+    @api.depends('num_pallets')
+    def _get_importe(self):
+        for record in self:
+            descuento = partner_id.sale_discount
+            
+            record.descuento_cliente = descuento
+    
+    
+    
     
     @api.depends('state', 'invoice_status', 'picking_ids', 'lot_ids')
     def _get_estado_pedido(self):
