@@ -209,7 +209,7 @@ class SaleOrderLine(models.Model):
             
             especial = ""
             if record.oferta_id.attribute_id.cantonera_especial_id:
-                forma = record.oferta_id.attribute_id.cantonera_especial_id.name
+                especial = record.oferta_id.attribute_id.cantonera_especial_id.name
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
