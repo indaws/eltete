@@ -433,7 +433,7 @@ class SaleOrder(models.Model):
     #@api.depends('num_pallets')
     def _get_importe(self):
         for record in self:
-            descuento = partner_id.sale_discount
+            descuento = record.partner_id.sale_discount
             
             record.descuento_cliente = descuento
 
