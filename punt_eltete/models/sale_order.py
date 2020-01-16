@@ -82,7 +82,8 @@ class SaleOrderLine(models.Model):
     op_paquetes_fila= fields.Char('Paquetes Fila', compute = "_get_produccion")
     op_und_exactas = fields.Char('Unidades Exactas', compute = "_get_produccion")
     op_metros = fields.Char('Metros', compute = "_get_produccion")
-    op_peso = fields.Char('Peso', compute = "_get_produccion")
+    op_peso_interior = fields.Char('Peso Interior', compute = "_get_produccion")
+    op_peso_superficie = fields.Char('Peso Superficie', compute = "_get_produccion")
     op_duracion = fields.Char('Duración', compute = "_get_produccion")
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     op_forma = fields.Char('Forma', compute = "_get_produccion")
@@ -172,9 +173,8 @@ class SaleOrderLine(models.Model):
             else:
                 tipo_pallet = "Pallet de Madera"
             paletizado = "Compacto (Normal)"
-            if record.oferta_id.attribute_id.referencia_cliente_id.paletizado:
-                if record.oferta_id.attribute_id.referencia_cliente_id.paletizado == '2':
-                    paletizado = "Columnas"  
+            if record.oferta_id.attribute_id.referencia_cliente_id.paletizado == 2:
+                paletizado = "Columnas" 
             und_paquete = str(record.oferta_id.attribute_id.referencia_cliente_id.und_paquete) + " unidades / paquete"
             paquetes_fila = str(record.oferta_id.attribute_id.referencia_cliente_id.paquetes_fila) + " paquetes / fila"
             
@@ -183,13 +183,22 @@ class SaleOrderLine(models.Model):
                 und_exactas = "SI"
             
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-            peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            #peso = metros * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+            peso_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram / 1000
+            peso_interior = peso_interior * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior / 1000
+            peso_interior = peso_interior * metros * 1.1
+            peso_interior = int(peso_interior / 100) * 100
+            peso_superficie = 0.180 * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie / 1000
+            peso_superficie = peso_superficie * metros * 1.1
+            peso_superficie = int(peso_interior / 100) * 100
             minutos = int(metros / 60)
             horas = int(minutos / 60)
             minutos = minutos - 60 * horas
             duracion = str(horas) + " horas " + str(minutos) + " minutos"
             metros = str(int(metros)) + " metros"
-            peso = str(int(peso)) + " kg"
+            #peso = str(int(peso)) + " kg"
+            peso_interior = str(peso_interior) + " kg"
+            peso_superficie = str(peso_superficie) + " kg"
             comentario = ""
             if record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado:
                 comentario = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
@@ -224,7 +233,8 @@ class SaleOrderLine(models.Model):
             record.op_paquetes_fila = paquetes_fila
             record.op_und_exactas = und_exactas
             record.op_metros = metros
-            record.op_peso = peso
+            record.op_peso_interior = peso_interior
+            record.op_peso_superficie = peso_superficie
             record.op_duracion = duracion
             record.op_comentario = comentario
             record.op_forma = forma
