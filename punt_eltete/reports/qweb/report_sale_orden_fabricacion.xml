@@ -20,10 +20,12 @@
                                   <strong>Pedido: </strong><span t-field="doc.name"/><br/>
                                   <strong>Orden de producción: </strong><span t-field="line.id"/><br/>
                                   <strong>Cliente: </strong><span t-field="doc.partner_id.ref"/><br/>
+                                  <strong>Duración: </strong><span t-field="line.op_duracion"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Máquina</strong><br/>
                                   <span t-field="line.op_cantonera_maquina"/><br/>
+                                  <strong>Metros Totales: </strong><span t-field="line.op_metros"/><br/>
                               </div>
                           </div>
                           
@@ -33,13 +35,12 @@
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Superficie Color: </strong><span t-field="line.op_superficie_color"/><br/>
                                   <strong>Superficie Ancho: </strong><span t-field="line.op_superficie_ancho"/><br/>
-                                  <strong>Interior Ancho: </strong><span t-field="line.op_interior_ancho"/><br/>
-                                  <strong>Interior Gramaje: </strong><span t-field="line.op_interior_gramaje"/><br/>
+                                  <strong>Superficie kg: </strong><span t-field="line.op_peso_superficie"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                                  <strong>Metros Totales: </strong><span t-field="line.op_metros"/><br/>
-                                  <strong>Kg Totales: </strong><span t-field="line.op_peso"/><br/>
-                                  <strong>Duración: </strong><span t-field="line.op_duracion"/><br/>
+                                  <strong>Interior Gramaje: </strong><span t-field="line.op_interior_gramaje"/><br/>
+                                  <strong>Interior Ancho: </strong><span t-field="line.op_interior_ancho"/><br/>
+                                  <strong>Interior kg: </strong><span t-field="line.op_peso_interior"/><br/>
                               </div>
                           
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
