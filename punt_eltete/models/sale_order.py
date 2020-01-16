@@ -434,11 +434,16 @@ class SaleOrder(models.Model):
     def _get_importe(self):
         for record in self:
             descuento = record.partner_id.sale_discount
-            
+            self.general_discount = descuento
             record.descuento_cliente = descuento
-
-    
-    
+"""
+    @api.onchange('num_pallets')
+    def _onchange_descuento(self):
+        if self.num_pallets > 0:
+            self.price_unit = self.importe / self.num_pallets
+        self.product_uom_qty = self.num_pallets
+        self.general_discount = record.descuento_cliente
+    """
     
     @api.depends('state', 'invoice_status', 'picking_ids', 'lot_ids')
     def _get_estado_pedido(self):
