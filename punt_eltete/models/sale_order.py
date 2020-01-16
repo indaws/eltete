@@ -190,7 +190,7 @@ class SaleOrderLine(models.Model):
             peso_interior = int(peso_interior / 100) * 100
             peso_superficie = 0.180 * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie / 1000
             peso_superficie = peso_superficie * metros * 1.1
-            peso_superficie = int(peso_interior / 100) * 100
+            peso_superficie = int(peso_superficie / 100) * 100
             minutos = int(metros / 60)
             horas = int(minutos / 60)
             minutos = minutos - 60 * horas
