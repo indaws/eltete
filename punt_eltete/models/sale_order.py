@@ -6,13 +6,13 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
-    
+    """
     oferta_precio = fields.Float('Precio Julio', digits = (12,4))
     oferta_precio_tipo = fields.Char('Precio Tipo Julio')
     oferta_cantidad = fields.Float('Cantidad Julio', digits = (12,4))
     oferta_cantidad_tipo = fields.Char('Cantidad Tipo Julio')
     oferta_unidades = fields.Integer('Unidades Pallet julio')
-    
+    """
     #Campos visibles
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
@@ -239,7 +239,7 @@ class SaleOrderLine(models.Model):
             record.op_comentario = comentario
             record.op_forma = forma
             record.op_especial = especial
-
+"""
     ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_fabricacion")
     ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_fabricacion")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_fabricacion")
@@ -247,7 +247,7 @@ class SaleOrderLine(models.Model):
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_fabricacion")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_fabricacion")
     comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
-
+"""
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio')
     def _onchange_oferta_cantidad(self):
@@ -385,7 +385,7 @@ class SaleOrderLine(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             
-
+"""
     def _get_fabricacion(self):
         for record in self:
             record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
@@ -395,7 +395,7 @@ class SaleOrderLine(models.Model):
             record.j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
             record.j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
             record.comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
-
+"""
     
     
     @api.depends('attribute_ids',)
