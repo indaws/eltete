@@ -396,7 +396,7 @@ class SaleOrder(models.Model):
     importe_sin_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     editar = fields.Boolean('Editar', default = True)
-    descuento_porcentaje = fields.Float('Descuento Porcentaje', digits = (10, 2), readonly = True, store = True, compute="_get_descuento")
+    descuento_porcentaje = fields.Float('Descuento Porcentaje', digits = (10, 2), readonly = True, compute="_get_descuento")
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
