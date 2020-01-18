@@ -255,10 +255,10 @@ class SaleOrderLine(models.Model):
             self.price_unit = self.importe / self.num_pallets
         self.product_uom_qty = self.num_pallets
     
-    @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
+    @api.depends('order_partner_id', 'oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
         for record in self:
-            if record.editar == True:
+            if record.order_partner_id.editar == True:
                 codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
                 descripcion = ''
                 if record.oferta_id:
