@@ -425,12 +425,7 @@ class SaleOrder(models.Model):
             record.descuento_porcentaje = porcentaje
             record.descuento_euros = euros
 
-            
-    @api.onchange('descuento_porcentaje', 'num_pallets', 'importe_sin_descuento', 'importe_con_descuento')
-    def _onchange_descuento(self):
-        #self.general_discount = self.descuento_porcentaje   
-     
-    
+
     
     @api.depends('state', 'invoice_status', 'picking_ids', 'lot_ids')
     def _get_estado_pedido(self):
