@@ -126,9 +126,10 @@
             
 			<field name="confirmation_date" position="after">
 				<field name="editar"/>
-				<field name="descuento_cliente"/>
+				<field name="descuento_porcentaje"/>
 				<field name="importe_sin_descuento"/>
 				<field name="importe_con_descuento"/>
+				<field name="descuento_euros"/>
 				<field name="fecha_cliente"/>
 				<field name="fecha_entrega_cliente"/>
                 <field name="peso_neto"/>
