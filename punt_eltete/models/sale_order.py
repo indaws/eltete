@@ -385,18 +385,7 @@ class SaleOrderLine(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             
-"""
-    def _get_fabricacion(self):
-        for record in self:
-            record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
-            record.ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
-            record.j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
-            record.j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
-            record.j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
-            record.j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
-            record.comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
-"""
-    
+            
     
     @api.depends('attribute_ids',)
     def _get_lots_sale(self):
