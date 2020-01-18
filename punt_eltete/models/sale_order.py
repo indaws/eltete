@@ -415,9 +415,12 @@ class SaleOrder(models.Model):
             if record.editar == True:
                 porcentaje = record.partner_id.sale_discount
                 euros = record.importe_sin_descuento - record.importe_con_descuento
+            else:
+                porcentaje = record.descuento_porcentaje
+                euros = record.descuento_euros
                 
-                record.descuento_porcentaje = porcentaje
-                record.descuento_euros = euros
+            record.descuento_porcentaje = porcentaje
+            record.descuento_euros = euros
 
             
     @api.onchange('descuento_porcentaje', 'num_pallets', 'importe_sin_descuento', 'importe_con_descuento')
