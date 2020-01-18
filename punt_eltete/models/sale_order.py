@@ -428,7 +428,7 @@ class SaleOrder(models.Model):
             
     @api.onchange('descuento_porcentaje', 'num_pallets', 'importe_sin_descuento', 'importe_con_descuento')
     def _onchange_descuento(self):
-        self.general_discount = self.descuento_porcentaje   
+        #self.general_discount = self.descuento_porcentaje   
      
     
     
