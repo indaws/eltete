@@ -6,15 +6,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
-    """
-    oferta_precio = fields.Float('Precio Julio', digits = (12,4))
-    oferta_precio_tipo = fields.Char('Precio Tipo Julio')
-    oferta_cantidad = fields.Float('Cantidad Julio', digits = (12,4))
-    oferta_cantidad_tipo = fields.Char('Cantidad Tipo Julio')
-    oferta_unidades = fields.Integer('Unidades Pallet julio')
-    """
-    #Campos visibles
-    #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', ondelete='cascade')
+
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     und_user = fields.Integer('Unidades Pallet Fabricadas', default = -1)
@@ -248,6 +240,8 @@ class SaleOrderLine(models.Model):
             self.price_unit = self.importe / self.num_pallets
         self.product_uom_qty = self.num_pallets
     
+    
+    
     @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
         for record in self:
@@ -391,18 +385,19 @@ class SaleOrder(models.Model):
     
     pedido_cliente = fields.Char('Número Pedido Cliente')
     fecha_entrega = fields.Date('Fecha Entrega Bemeco')
-    
     fecha_cliente = fields.Date('Fecha del Pedido Cliente')
     fecha_entrega_cliente = fields.Date('Fecha Entrega del Pedido Cliente')
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
-    
-    descuento_cliente = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_descuento")
+
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
     importe_sin_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
+    editar = fields.Boolean('Editar', default = True)
+    descuento_porcentaje = fields.Float('Descuento Porcentaje', digits = (10, 2), readonly = True, compute="_get_descuento")
+    descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
                   ('1', 'CONFIRMADO'),
@@ -412,16 +407,24 @@ class SaleOrder(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
 
-    #@api.depends('num_pallets')
+    #@api.depends('importe_con_descuento', 'importe_sin_descuento')
     def _get_descuento(self):
         for record in self:
-            descuento = record.partner_id.sale_discount
-            record.descuento_cliente = descuento
+            porcentaje = 0
+            euros = 0
+            if record.editar == True:
+                porcentaje = record.partner_id.sale_discount
+                euros = record.importe_sin_descuento - record.importe_con_descuento
+                
+            record.descuento_porcentaje = porcentaje
+            record.descuento_euros = euros
 
-    @api.onchange('num_pallets')
+            
+    @api.onchange('descuento_porcentaje')
     def _onchange_descuento(self):
         self.general_discount = record.descuento_cliente   
      
+    
     
     @api.depends('state', 'invoice_status', 'picking_ids', 'lot_ids')
     def _get_estado_pedido(self):
