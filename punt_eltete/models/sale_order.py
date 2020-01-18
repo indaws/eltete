@@ -415,12 +415,12 @@ class SaleOrder(models.Model):
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
     
-    descuento_cliente = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_importe")
+    descuento_cliente = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_descuento")
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
-    toneladas = fields.Float('Toneladas', digits = (8, 1), compute="_get_num_pallets")
-    eton = fields.Float('Eton', digits = (8, 1), compute="_get_num_pallets")
+    importe_sin_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
+    importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
                   ('1', 'CONFIRMADO'),
@@ -431,7 +431,7 @@ class SaleOrder(models.Model):
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
 
     #@api.depends('num_pallets')
-    def _get_importe(self):
+    def _get_descuento(self):
         for record in self:
             descuento = record.partner_id.sale_discount
             record.descuento_cliente = descuento
@@ -584,23 +584,23 @@ class SaleOrder(models.Model):
             num_pallets = 0
             peso_neto = 0
             peso_bruto = 0
-
+            importe_sin_descuento = 0
+            importe_con_descuento = 0
             
             for line in record.order_line:
                 if line.bultos == '1':
                     num_pallets = num_pallets + line.num_pallets
                 peso_neto = peso_neto + (line.peso_neto * line.num_pallets)
                 peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
-
+                importe_sin_descuento = importe_sin_descuento + line.importe
+                importe_con_descuento = importe_con_descuento + line.price_subtotal
             
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
-            
-            record.toneladas = 0
-            record.eton = 0
+            record.importe_sin_descuento = importe_sin_descuento
+            record.importe_con_descuento = importe_con_descuento
 
-            
 
     
     @api.multi
