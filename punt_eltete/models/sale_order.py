@@ -239,7 +239,7 @@ class SaleOrderLine(models.Model):
             record.op_comentario = comentario
             record.op_forma = forma
             record.op_especial = especial
-"""
+
     ancho_interior = fields.Char('Ancho Interior', readonly = True, compute = "_get_fabricacion")
     ancho_superficie = fields.Char('Ancho Superficie', readonly = True, compute = "_get_fabricacion")
     j_gram = fields.Integer('J Gram', readonly = True, compute = "_get_fabricacion")
@@ -247,7 +247,18 @@ class SaleOrderLine(models.Model):
     j_superficie = fields.Integer('J Superficie', readonly = True, compute = "_get_fabricacion")
     j_superficie_max = fields.Integer('J Superficie Max', readonly = True, compute = "_get_fabricacion")
     comentario_paletizado = fields.Text('Comentario Paletizado', readonly = True, compute = "_get_fabricacions")
-"""
+
+    def _get_fabricacion(self):
+        for record in self:
+            record.ancho_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior
+            record.ancho_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+            record.j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
+            record.j_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior
+            record.j_superficie = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie
+            record.j_superficie_max = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie_max
+            record.comentario_paletizado = record.oferta_id.attribute_id.referencia_cliente_id.comentario_paletizado
+
+    
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'importe', 'cantidad', 'precio')
     def _onchange_oferta_cantidad(self):
