@@ -396,7 +396,7 @@ class SaleOrder(models.Model):
     importe_sin_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     editar = fields.Boolean('Editar', default = True)
-    descuento_porcentaje = fields.Float('Descuento Porcentaje', digits = (10, 2), readonly = True, compute="_get_descuento")
+    descuento_porcentaje = fields.Float('Descuento Porcentaje', digits = (10, 2), readonly = True, store = True, compute="_get_descuento")
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
@@ -416,11 +416,11 @@ class SaleOrder(models.Model):
                 porcentaje = record.partner_id.sale_discount
                 euros = record.importe_sin_descuento - record.importe_con_descuento
                 
-            record.descuento_porcentaje = porcentaje
-            record.descuento_euros = euros
+                record.descuento_porcentaje = porcentaje
+                record.descuento_euros = euros
 
             
-    @api.onchange('descuento_porcentaje', 'editar')
+    @api.onchange('descuento_porcentaje', 'num_pallets', 'importe_sin_descuento', 'importe_con_descuento')
     def _onchange_descuento(self):
         self.general_discount = self.descuento_porcentaje   
      
