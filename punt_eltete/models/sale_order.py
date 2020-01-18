@@ -422,7 +422,7 @@ class SaleOrder(models.Model):
             
     @api.onchange('descuento_porcentaje', 'editar')
     def _onchange_descuento(self):
-        self.general_discount = record.descuento_cliente   
+        self.general_discount = record.descuento_porcentaje   
      
     
     
