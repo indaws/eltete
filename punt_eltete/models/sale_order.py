@@ -376,15 +376,25 @@ class SaleOrderLine(models.Model):
                     peso_bruto = 0
 
                 importe = precio_num * cantidad_num
+            
+            else:
+                codigo_cliente = record.codigo_cliente
+                descripcion = record.descripcion
+                und_pallet = record.und_pallet
+                cantidad = record.cantidad
+                precio = record.precio
+                importe = record.importe
+                peso_neto = record.peso_neto
+                peso_bruto = record.peso_bruto
 
-                record.codigo_cliente = codigo_cliente
-                record.descripcion = descripcion
-                record.und_pallet = und_pallet
-                record.cantidad = cantidad
-                record.precio = precio
-                record.importe = importe
-                record.peso_neto = peso_neto
-                record.peso_bruto = peso_bruto
+            record.codigo_cliente = codigo_cliente
+            record.descripcion = descripcion
+            record.und_pallet = und_pallet
+            record.cantidad = cantidad
+            record.precio = precio
+            record.importe = importe
+            record.peso_neto = peso_neto
+            record.peso_bruto = peso_bruto
             
 """
     def _get_fabricacion(self):
@@ -434,12 +444,14 @@ class SaleOrder(models.Model):
     #@api.depends('importe_sin_descuento', 'importe_con_descuento')
     def _get_descuento(self):
         for record in self:
+            porcentaje = 0
+            euros = 0
             if record.editar == True:
                 porcentaje = record.partner_id.sale_discount
                 euros = record.importe_sin_descuento - record.importe_con_descuento    
             
-                record.descuento_porcentaje = porcentaje
-                record.descuento_euros = euros
+            record.descuento_porcentaje = porcentaje
+            record.descuento_euros = euros
 
     @api.onchange('estado', 'editar')
     def _onchange_descuento(self):
