@@ -258,7 +258,9 @@ class SaleOrderLine(models.Model):
     @api.depends('order_partner_id', 'oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
         for record in self:
-            if record.order_partner_id.editar == True:
+            editar = True:
+            if editar == True:
+            #if record.order_partner_id.editar == True:
                 codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
                 descripcion = ''
                 if record.oferta_id:
@@ -376,7 +378,7 @@ class SaleOrderLine(models.Model):
                     peso_bruto = 0
 
                 importe = precio_num * cantidad_num
-            
+            """
             else:
                 codigo_cliente = record.codigo_cliente
                 descripcion = record.descripcion
@@ -386,7 +388,7 @@ class SaleOrderLine(models.Model):
                 importe = record.importe
                 peso_neto = record.peso_neto
                 peso_bruto = record.peso_bruto
-
+"""
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
             record.und_pallet = und_pallet
