@@ -407,9 +407,10 @@ class SaleOrder(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
 
-    #@api.depends('importe_con_descuento', 'importe_sin_descuento', 'partner_id')
+    #@api.depends('importe_con_descuento', 'importe_sin_descuento', 'partner_id.sale_discount')
     def _get_descuento(self):
         for record in self:
+            """
             porcentaje = 0
             euros = 0
             if record.editar == True:
@@ -418,7 +419,9 @@ class SaleOrder(models.Model):
             else:
                 porcentaje = record.descuento_porcentaje
                 euros = record.descuento_euros
-                
+            """   
+            porcentaje = record.partner_id.sale_discount
+            euros = record.importe_sin_descuento - record.importe_con_descuento
             record.descuento_porcentaje = porcentaje
             record.descuento_euros = euros
 
