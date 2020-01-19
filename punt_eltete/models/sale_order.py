@@ -403,13 +403,14 @@ class SaleOrder(models.Model):
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
-    eton = fields.Integer('Eton', compute="_get_num_pallets")
+    eton = fields.Float('Eton', digits=(8, 1), compute="_get_num_pallets")
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_num_pallets")
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     haycodigo = fields.Boolean('Hay Código', compute = "_get_num_pallets")
+    
     descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_descuento")
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
-    comercial_id = fields.Many2many('res.users', compute="_get_descuento", string="Comercial Bueno")
+    comercial = fields.Char('Comercial Bueno', compute="_get_descuento")
     editar = fields.Boolean('Editar', default = True)
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
@@ -427,7 +428,7 @@ class SaleOrder(models.Model):
             euros = record.importe_sin_descuento - record.importe_con_descuento
             record.descuento_porcentaje = porcentaje
             record.descuento_euros = euros
-            record.comercial_id = record.partner_id.user_id.name
+            record.comercial = record.partner_id.user_id.name
 
 
     
