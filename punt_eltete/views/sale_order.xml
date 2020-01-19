@@ -51,9 +51,7 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
-        
-	    <field name='user_id' invisible="1"/>
-		
+
             <xpath expr="//field[@name='name']" position="after">
 				<field name="fecha_entrega"/>
 			</xpath>
@@ -63,7 +61,9 @@
 				<field name="peso_neto"/>
 				<field name="eton"/>
 			</xpath>
-			
+		        <xpath expr="//field[@name='amount_total']" position="before">
+		            <field name='user_id' invisible="1"/>
+		       </xpath>
 			<xpath expr="//field[@name='state']" position="after">
 				<field name="estado"/>
 			</xpath>
