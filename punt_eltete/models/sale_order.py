@@ -393,11 +393,12 @@ class SaleOrder(models.Model):
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
-    importe_sin_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
+    importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_num_pallets")
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
-    editar = fields.Boolean('Editar', default = True)
-    descuento_porcentaje = fields.Float('Descuento Porcentaje', digits = (10, 2), readonly = True, compute="_get_descuento")
+    haycodigo = fields.Boolean('Hay Código', compute = "_get_num_pallets")
+    descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_descuento")
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
+    editar = fields.Boolean('Editar', default = True)
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
                   ('1', 'CONFIRMADO'),
@@ -410,16 +411,6 @@ class SaleOrder(models.Model):
     #@api.depends('importe_con_descuento', 'importe_sin_descuento', 'partner_id.sale_discount')
     def _get_descuento(self):
         for record in self:
-            """
-            porcentaje = 0
-            euros = 0
-            if record.editar == True:
-                porcentaje = record.partner_id.sale_discount
-                euros = record.importe_sin_descuento - record.importe_con_descuento
-            else:
-                porcentaje = record.descuento_porcentaje
-                euros = record.descuento_euros
-            """   
             porcentaje = record.partner_id.sale_discount
             euros = record.importe_sin_descuento - record.importe_con_descuento
             record.descuento_porcentaje = porcentaje
@@ -572,6 +563,7 @@ class SaleOrder(models.Model):
             peso_bruto = 0
             importe_sin_descuento = 0
             importe_con_descuento = 0
+            haycodigo = False
             
             for line in record.order_line:
                 if line.bultos == '1':
@@ -580,12 +572,15 @@ class SaleOrder(models.Model):
                 peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
                 importe_sin_descuento = importe_sin_descuento + line.importe
                 importe_con_descuento = importe_con_descuento + line.price_subtotal
+                if line.codigo_cliente != "":
+                    haycodigo = True
             
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.importe_sin_descuento = importe_sin_descuento
             record.importe_con_descuento = importe_con_descuento
+            record.haycodigo = haycodigo
 
 
     
