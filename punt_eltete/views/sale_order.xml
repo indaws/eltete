@@ -60,10 +60,8 @@
 				<field name="amount_untaxed"/>
 				<field name="peso_neto"/>
 				<field name="eton"/>
+				<field name="comercial"/>
 			</xpath>
-		        <xpath expr="//field[@name='amount_total']" position="before">
-		            <field name='user_id' invisible="1"/>
-		       </xpath>
 			<xpath expr="//field[@name='state']" position="after">
 				<field name="estado"/>
 			</xpath>
