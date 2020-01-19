@@ -566,7 +566,7 @@ class SaleOrder(models.Model):
             haycodigo = False
             
             for line in record.order_line:
-                if line.bultos == '1':
+                if line.descripcion and len(line.descripcion > 0) and line.bultos == '1':
                     num_pallets = num_pallets + line.num_pallets
                 peso_neto = peso_neto + (line.peso_neto * line.num_pallets)
                 peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
