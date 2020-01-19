@@ -52,6 +52,8 @@
         <field name="inherit_id" ref="sale.view_order_tree"/>
         <field name="arch" type="xml">
         
+	    <field name='user_id' invisible="1"/>
+		
             <xpath expr="//field[@name='name']" position="after">
 				<field name="fecha_entrega"/>
 			</xpath>
