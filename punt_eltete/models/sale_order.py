@@ -26,6 +26,7 @@ class SaleOrderLine(models.Model):
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
+    eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
     
     ESTADO_SEL = [('0', 'NO CONFIRMADO - FALTA PAPEL'),    
                   ('1', 'NO CONFIRMADO - FALTA CLICHE'),
@@ -255,6 +256,7 @@ class SaleOrderLine(models.Model):
             importe = 0
             peso_neto = 0
             peso_bruto = 0
+            eton = 0
 
             if record.und_user > 0:
                 und_pallet = record.und_user
@@ -272,6 +274,8 @@ class SaleOrderLine(models.Model):
                 precio_num = record.oferta_id.precio_metro
                 precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/metro"
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
+                    eton = record.oferta_id.precio_metro * 1000 / record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
                 
                 if record.kilos_user > 0:
                     peso_bruto = record.kilos_user
@@ -296,6 +300,8 @@ class SaleOrderLine(models.Model):
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                 precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/unidad"
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
+                    eton = record.oferta_id.precio_metro * 1000 / record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
                 
                 if record.kilos_user > 0:
                     peso_bruto = record.kilos_user
@@ -320,6 +326,8 @@ class SaleOrderLine(models.Model):
                 precio_num = record.oferta_id.precio_metro * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
                 precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/millar"
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro > 0:
+                    eton = record.oferta_id.precio_metro * 1000 / record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
                 
                 if record.kilos_user > 0:
                     peso_bruto = record.kilos_user
@@ -350,6 +358,7 @@ class SaleOrderLine(models.Model):
                 precio_num = record.oferta_id.precio_kilo
                 precio_num = round(precio_num, 4)
                 precio = str(precio_num) + " €/kilo"
+                eton = record.oferta_id.precio_kilo * 1000
             #Varios
             elif facturar == '5':
                 cantidad_num = record.num_pallets * und_pallet
@@ -371,6 +380,7 @@ class SaleOrderLine(models.Model):
             record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            record.eton = eton
             
             
     
@@ -393,6 +403,7 @@ class SaleOrder(models.Model):
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
+    eton = fields.Integer('Eton', compute="_get_num_pallets")
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_num_pallets")
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     haycodigo = fields.Boolean('Hay Código', compute = "_get_num_pallets")
@@ -564,23 +575,29 @@ class SaleOrder(models.Model):
             importe_sin_descuento = 0
             importe_con_descuento = 0
             haycodigo = False
+            eton = 0
             
             for line in record.order_line:
                 if line.descripcion and len(line.descripcion) > 0 and line.bultos == '1':
                     num_pallets = num_pallets + line.num_pallets
-                peso_neto = peso_neto + (line.peso_neto * line.num_pallets)
-                peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
-                importe_sin_descuento = importe_sin_descuento + line.importe
-                importe_con_descuento = importe_con_descuento + line.price_subtotal
-                if line.codigo_cliente and len(line.codigo_cliente) > 0:
-                    haycodigo = True
+                    peso_neto = peso_neto + (line.peso_neto * line.num_pallets)
+                    if line.peso_neto > 0:
+                        eton = eton + line.peso_neto * line.num_pallets * line.eton
+                    peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
+                    importe_sin_descuento = importe_sin_descuento + line.importe
+                    importe_con_descuento = importe_con_descuento + line.price_subtotal
+                    if line.codigo_cliente and len(line.codigo_cliente) > 0:
+                        haycodigo = True
             
+            if peso_neto > 0:
+                eton = eton / peso_neto
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.importe_sin_descuento = importe_sin_descuento
             record.importe_con_descuento = importe_con_descuento
             record.haycodigo = haycodigo
+            record.eton = eton
 
 
     
