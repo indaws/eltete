@@ -572,7 +572,8 @@ class SaleOrder(models.Model):
                 peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
                 importe_sin_descuento = importe_sin_descuento + line.importe
                 importe_con_descuento = importe_con_descuento + line.price_subtotal
-                if len(line.codigo_cliente) > 0:
+                num_caracteres = len(line.codigo_cliente)
+                if num_caracteres > 0:
                     haycodigo = True
             
             record.num_pallets = num_pallets
