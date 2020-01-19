@@ -427,7 +427,7 @@ class SaleOrder(models.Model):
             euros = record.importe_sin_descuento - record.importe_con_descuento
             record.descuento_porcentaje = porcentaje
             record.descuento_euros = euros
-            record.comercial_id = record.partner_id.user_id
+            record.comercial_id = record.partner_id.user_id.name
 
 
     
