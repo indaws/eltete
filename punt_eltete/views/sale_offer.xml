@@ -56,7 +56,7 @@
                             <field name='grosor_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}" />
                             <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
 			    <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
-                            <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
+                            <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_flatboard', '=', False),]}" />
                             <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                             <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                             <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>	
