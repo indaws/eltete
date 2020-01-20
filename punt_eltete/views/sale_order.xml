@@ -133,5 +133,76 @@
     </record>
     
     
+    <!-- VISTAS DE LINEAS DE PEDIDO -->
+    
+    <record model="ir.actions.act_window" id="action_sale_order_line_cantonera">
+        <field name="name">Líneas cantoneras</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_cantonera', '=', True)]</field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_sale_order_line_perfilu">
+        <field name="name">Líneas Perfil U</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_perfilu', '=', True)]</field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_sale_order_line_slipsheet">
+        <field name="name">Líneas Slipsheets</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_slipsheet', '=', True)]</field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_sale_order_line_solidboard">
+        <field name="name">Líneas Solidboard</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_solidboard', '=', True)]</field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_sale_order_line_formato">
+        <field name="name">Líneas Formato</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_formato', '=', True)]</field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_sale_order_line_bobina">
+        <field name="name">Líneas Bobina</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_bobina', '=', True)]</field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_sale_order_line_pieballet">
+        <field name="name">Líneas Pie de ballet</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_pieballet', '=', True)]</field>
+    </record>
+    
+    
+    
+    
+    <menuitem name="Órdenes de producción" parent="sale.sale_menu_root" id="menu_sale_order_line_ordenes" sequence="3"/>
+    <menuitem name="Cantoneras" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_cantonera" action="action_sale_order_line_cantonera" sequence="1"/>
+    <menuitem name="Perfiles U" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_perfilu" action="action_sale_order_line_perfilu" sequence="2"/>
+    <menuitem name="Slip sheets" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_slipsheet" action="action_sale_order_line_slipsheet" sequence="3"/>
+    <menuitem name="Solid board" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_solidboard" action="action_sale_order_line_solidboard" sequence="4"/>
+    <menuitem name="Formatos" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_formato" action="action_sale_order_line_formato" sequence="5"/>
+    <menuitem name="Bobinas" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_bobina" action="action_sale_order_line_bobina" sequence="6"/>
+    <menuitem name="Pie de ballet" parent="menu_sale_order_line_ordenes" id="action_sale_order_line_pieballet" action="action_sale_order_line_pieballet" sequence="7"/>
+    
+    
     
 </odoo>
