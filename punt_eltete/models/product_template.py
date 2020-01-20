@@ -233,10 +233,10 @@ class ProductCategory(models.Model):
     @api.multi
     def create_prod_formato(self, ancho, longitud, gramaje):
 
-        if ancho < 500 or ancho > 1400:
-            return None, "Error: ancho debe estar entre 500 y 1400"
-        if longitud < 500 or longitud > 1800:
-            return None, "Error: Longitud debe estar entre 500 y 1800"
+        if ancho < 480 or ancho > 1450:
+            return None, "Error: ancho debe estar entre 480 y 1450"
+        if longitud < 480 or longitud > 2300:
+            return None, "Error: Longitud debe estar entre 480 y 2300"
         if gramaje < 50 or gramaje > 1000:
             return None, "Error: Gramaje debe estar entre 50 y 1000"
 
