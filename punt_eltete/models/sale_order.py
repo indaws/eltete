@@ -17,6 +17,7 @@ class SaleOrderLine(models.Model):
                   ]
     bultos = fields.Selection(selection = BULTOS_SEL, string = 'Es pallet', default='1')
     aclaracion = fields.Char('Aclaración')
+    hayaclaracion = fields.Boolean('Hay Aclaración', compute = "_hay_aclaracion")
     
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
@@ -82,7 +83,17 @@ class SaleOrderLine(models.Model):
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
 
-
+    
+    
+    @api.depends('aclaracion')
+    def _hay_aclaracion(self):
+        for record in self:
+            hayaclaracion = False
+            if record.aclaracion and len(record.aclaracion) > 0:
+                hayaclaracion = True
+            record.hayaclaracion = hayaclaracion
+    
+    
     
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
