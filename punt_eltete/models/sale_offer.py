@@ -1294,6 +1294,9 @@ class sale_offer_oferta(models.Model):
                 in_plancha_color = record.tarifa_id.in_plancha_color
                 in_papel_calidad = record.tarifa_id.in_papel_calidad
                 in_troquelado = record.tarifa_id.in_troquelado
+                
+            elif record.eton_user > 0:
+                eton = record.eton_user
 
             if in_pallet_especial == True and record.attribute_id.referencia_cliente_id.pallet_especial_id:
                 if record.attribute_id.referencia_cliente_id.pallet_especial_id.incremento > 0 and record.attribute_id.referencia_cliente_id.pallet_especial_id.tipo:
