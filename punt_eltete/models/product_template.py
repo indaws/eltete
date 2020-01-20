@@ -141,7 +141,13 @@ class ProductCategory(models.Model):
         
     @api.multi
     def create_prod_slipsheet(self, ala1, ancho, ala2, grosor_1, longitud, ala3, ala4):
-    
+        if ala2 > 0 and ala1 == 0:
+            ala1 = ala2
+            ala2 = 0
+        if ala3 > 0 and ala4 == 0:
+            ala4 = ala3
+            ala3 = 0
+        
         sumaAncho = ancho
         if ala1 > 0:
             sumaAncho = sumaAncho + ala1
