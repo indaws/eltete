@@ -787,6 +787,7 @@ class ProductReferencia(models.Model):
             #Flat Board
             elif record.type_id.is_flatboard == True:
                 peso1 = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
+                peso1 = peso1 * record.ancho / 1000
                 peso1 = peso1 / 1000
                         
             record.peso_metro = peso1
@@ -865,7 +866,7 @@ class ProductReferencia(models.Model):
             #Solid Board
             elif record.type_id.is_flatboard == True:
                 metros = record.longitud / 1000
-                gram = int((record.grosor_1 / 1.4 - 300) / 50) * 50
+                gram = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
                 interior = record.ancho
         
         
