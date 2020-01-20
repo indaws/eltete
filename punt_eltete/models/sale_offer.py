@@ -6,8 +6,10 @@ from odoo.addons import decimal_precision as dp
     
 class sale_referencia_cliente(models.Model):
     _name = 'sale.referencia.cliente'
+    _order = orden
 
     name = fields.Char(string='Título', compute="_get_name", store=True) ##POR DEFERCTO EL TITULO, no el name
+    orden = fields.Char('Orden', compute = "_get_orden")
     referencia_cliente_nombre = fields.Char(string='Ref cliente nombre')
     
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
@@ -112,6 +114,18 @@ class sale_referencia_cliente(models.Model):
     attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos", copy=True)
     #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
     oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas", copy=True)
+    
+    
+    @api.depends('referencia_id')
+    def _get_name(self):
+    for record in self:
+        orden = ""
+        if record.referencia_id:
+            orden = referencia_id.orden
+            
+        record.orden = orden
+                
+                
     
     
     @api.depends('type_id', 'referencia_id', 'referencia_cliente_nombre')
