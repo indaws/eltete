@@ -117,7 +117,7 @@ class sale_referencia_cliente(models.Model):
     
     
     @api.depends('referencia_id')
-    def _get_name(self):
+    def _get_orden(self):
     for record in self:
         orden = ""
         if record.referencia_id:
