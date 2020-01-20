@@ -953,6 +953,7 @@ class ProductTemplate(models.Model):
     is_formato = fields.Boolean('¿Es Formato?', related='categ_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='categ_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='categ_id.is_pieballet')
+    is_flatboard = fields.Boolean('¿Es FlatBoard?')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='categ_id.is_mprima_papel')
     is_varios = fields.Boolean('¿Es Varios?', related='categ_id.is_varios')
     
