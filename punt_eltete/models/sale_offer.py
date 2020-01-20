@@ -35,6 +35,7 @@ class sale_referencia_cliente(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
+    is_flatboard = fields.Boolean('¿Es Flat Board?', related='type_id.is_flatboard')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
     
     TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
@@ -430,6 +431,34 @@ class sale_referencia_cliente(models.Model):
                     
                     fila_max = int(1100 / alto_fila)
                     fila_buena = fila_max
+                    
+                #Flat Board
+                elif record.type_id.is_flatboard == True:
+                    if record.ancho_pallet_cliente:
+                        ancho_pallet = int(record.ancho_pallet_cliente)
+                    paquetes = int(ancho_pallet / record.referencia_id.ancho)
+                    if record.longitud <= 600:
+                        paquetes = paquetes * 2
+              
+                    und_paquete = 1
+                    alto_fila = record.referencia_id.grosor_1
+                    #Fila Max
+                    altoMax = 1600
+                    if record.contenedor == True:
+                        altoMax = 1100
+                    if record.alto_max_cliente > 0 and record.alto_max_cliente < altoMax:
+                        altoMax = int(record.alto_max_cliente)
+                    altoMax = altoMax - 150
+                    fila_max = int(altoMax / alto_fila)
+                    #Fila buena
+                    altoMax = 1250
+                    if record.contenedor == True:
+                        altoMax = 1100
+                    if record.alto_max_cliente > 0 and record.alto_max_cliente < altoMax:
+                        altoMax = int(record.alto_max_cliente)
+                    altoMax = altoMax - 150
+                    fila_buena = int(altoMax / alto_fila)
+                    
         
         
             record.paletizado = paletizado
@@ -666,6 +695,30 @@ class sale_referencia_cliente(models.Model):
             self.referencia_cliente_nombre = self.referencia_id.titulo
             
             
+        if self.type_id.is_flatboard == True:
+        
+            if not self.ancho or self.ancho <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en ancho")
+            if not self.grosor_1 or self.grosor_1 <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en GROSOR")
+            if not self.longitud or self.longitud <= 0:
+                raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
+                
+            referencia_id, error = self.type_id.create_prod_flatboard(self.ancho, self.grosor_1, self.longitud)
+            
+            
+            
+            if not referencia_id:
+                raise ValidationError(error)
+                
+            if self.check_duplicado_referencia(referencia_id):
+                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
+                
+            self.referencia_id = referencia_id    
+            self.state = 'REF'
+            self.referencia_cliente_nombre = self.referencia_id.titulo
+            
+            
         
     @api.multi
     def ref_to_rcl(self):
@@ -695,6 +748,7 @@ class sale_product_attribute(models.Model):
     is_formato = fields.Boolean('¿Es Formato?', related='type_id.is_formato')
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
+    is_flatboard = fields.Boolean('¿Es Flat Board?', related='type_id.is_flatboard')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
     
@@ -944,6 +998,24 @@ class sale_product_attribute(models.Model):
                     titulo = "Pie de Pallet "
                     nombre = nombre  + "Pie de Pallet, "
                     titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    
+                #Flat Board
+                elif record.type_id.is_flatboard == True:
+                    titulo = "Flat Board "
+                    if record.perfilu_color_id:
+                        nombre = nombre + record.perfilu_color_id.name + ", "
+                        if record.perfilu_color_id.description:
+                            titulo = titulo + record.perfilu_color_id.description
+                    else:
+                        nombre = nombre + "Sin Color, "
+                        estado = estado + "Falta Color, "
+                    if record.fsc_id:
+                        nombre = nombre + record.fsc_id.name + ", "
+                        if record.fsc_id.description:
+                            titulo = titulo + record.fsc_id.description
+                    
+                    titulo = titulo + "<br/>" + record.referencia_cliente_id.referencia_cliente_nombre
+                    
             
             if len(nombre) > 2:
                 nombre = nombre[:-2]
