@@ -108,6 +108,7 @@
 				<field name="precio" />
 				<field name="importe" />
 				<field name="estado" />	
+		                <field name="aclaracion" />	
             </xpath>
             
 		
