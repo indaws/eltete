@@ -786,58 +786,11 @@ class ProductReferencia(models.Model):
                     
             #Flat Board
             elif record.type_id.is_flatboard == True:
-                sumaAlas = record.ancho
-                if sumaAlas == 40:
-                    peso1 = 256
-                elif sumaAlas < 60:
-                    peso1 = (385 - 256) / (60 - 40) * (sumaAlas - 40) + 256
-                elif sumaAlas == 60:
-                    peso1 = 385
-                elif sumaAlas < 66:
-                    peso1 = (425 - 385) / (66 - 60) * (sumaAlas - 60) + 385
-                elif sumaAlas == 66:
-                    peso1 = 425
-                elif sumaAlas < 70:
-                    peso1 = (450 - 425) / (70 - 66) * (sumaAlas - 66) + 425
-                elif sumaAlas == 70:
-                    peso1 = 450
-                elif sumaAlas < 76:
-                    peso1 = (510 - 450) / (76 - 70) * (sumaAlas - 70) + 450
-                elif sumaAlas == 76:
-                    peso1 = 510
-                elif sumaAlas < 80:
-                    peso1 = (535 - 510) / (80 - 76) * (sumaAlas - 76) + 510
-                elif sumaAlas == 80:
-                    peso1 = 535
-                elif sumaAlas < 84:
-                    peso1 = (560 - 535) / (84 - 80) * (sumaAlas - 80) + 535
-                elif sumaAlas == 84:
-                    peso1 = 560
-                elif sumaAlas < 90:
-                    peso1 = (600 - 560) / (90 - 84) * (sumaAlas - 84) + 560
-                elif sumaAlas == 90:
-                    peso1 = 600
-                elif sumaAlas < 100:
-                    peso1 = (700 - 600) / (100 - 90) * (sumaAlas - 90) + 600
-                elif sumaAlas == 100:
-                    peso1 = 700
-                elif sumaAlas < 120:
-                    peso1 = (835 - 700) / (120 - 100) * (sumaAlas - 100) + 700
-                elif sumaAlas == 120:
-                    peso1 = 835
-                elif sumaAlas < 140:
-                    peso1 = (875 - 835) / (140 - 120) * (sumaAlas - 120) + 835
-                elif sumaAlas == 140:
-                    peso1 = 875
-                elif sumaAlas < 150:
-                    peso1 = (940 - 875) / (150 - 140) * (sumaAlas - 140) + 875
-                elif sumaAlas == 150:
-                    peso1 = 940
-                
-                peso1 = int(peso1 * record.grosor_1)
-                peso1 = peso1 / 10000
+                peso1 = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
+                peso1 = peso1 / 1000
                         
             record.peso_metro = peso1
+            
     
     
     
@@ -913,7 +866,7 @@ class ProductReferencia(models.Model):
             elif record.type_id.is_flatboard == True:
                 metros = record.longitud / 1000
                 gram = int((record.grosor_1 / 1.4 - 300) / 50) * 50
-                interior = record.ancho - grosor * 2 - 1
+                interior = record.ancho
         
         
             record.metros_unidad = metros
