@@ -16,6 +16,7 @@ class SaleOrderLine(models.Model):
                   ('2', 'NO'),
                   ]
     bultos = fields.Selection(selection = BULTOS_SEL, string = 'Es pallet', default='1')
+    aclaracion = fields.Char('Aclaración')
     
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
