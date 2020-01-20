@@ -36,7 +36,7 @@ class ProductCategory(models.Model):
         product_name = "VARIOS - " + titulo
 
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
-                                                          'titulo': product_name, 
+                                                          'titulo': titulo, 
                                                           'type_id': self.id, 
                                                           'tipo_varios_id': tipo_varios_id.id,
                                                          })
@@ -379,8 +379,8 @@ class ProductReferencia(models.Model):
     _name = 'product.referencia'
     _order = 'orden'
     
-    name = fields.Char('Nombre', readonly = True)
-    titulo = fields.Char('Título', readonly = True)
+    name = fields.Char('Nombre')
+    titulo = fields.Char('Título')
     
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True, readonly = True)
     
