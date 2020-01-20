@@ -19,8 +19,9 @@ class ProductCategory(models.Model):
     is_solidboard = fields.Boolean('¿Es Solid Board?')
     is_formato = fields.Boolean('¿Es Formato?')
     is_bobina = fields.Boolean('¿Es Bobina?')
-    is_pieballet = fields.Boolean('¿Es Pie de Ballet?')
+    is_pieballet = fields.Boolean('¿Es Pie de Pallet?')
     is_varios = fields.Boolean('¿Es Varios?')
+    is_flatboard = fields.Boolean('¿Es FlatBoard?')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?')
     
     
@@ -315,6 +316,35 @@ class ProductCategory(models.Model):
         return referencia_id, None
     
     
+    
+    @api.multi
+    def create_prod_flatboard(self, ancho, grosor_1, longitud):
+    
+        if ancho < 40 or ancho > 150:
+            return None, "Error: ancho debe estar entre 40 y 150"
+        if longitud < 50 or longitud > 5000:
+            return None, "Error: Longitud debe estar entre 50 y 5000"
+        if grosor_1 < 2 or grosor_1 > 5.5:
+            return None, "Error: Grosor debe estar entre 2 y 5.5"
+
+        #Buscamos
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('ancho', '=', ancho), ('grosor_1', '=', grosor_1), ('longitud', '=', longitud), ]):
+            return prod, None
+
+        titulo = str(ancho) + " x " + str(longitud) + " x " + str(grosor_1)
+        product_name = "FLAT BOARD - " + titulo
+            
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo,
+                                                          'type_id': self.id, 
+                                                          'ancho': ancho,
+                                                          'grosor_1': grosor_1,
+                                                          'longitud': longitud,
+                                                         })
+        return referencia_id, None
+    
+    
+    
 
     @api.multi
     def create_mprima_papel(self, ancho, papel, fsc_tipo, fsc_valor):
@@ -398,6 +428,7 @@ class ProductReferencia(models.Model):
     is_bobina = fields.Boolean('¿Es Bobina?', related='type_id.is_bobina')
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
+    is_flatboard = fields.Boolean('¿Es Flat Board?', related='type_id.is_flatboard')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
     
      #ELIMINAR
@@ -571,11 +602,24 @@ class ProductReferencia(models.Model):
                 if record.longitud < 1000:
                     ordenado1 = ordenado1 + "0"
                 ordenado1 + ordenado1 + str(record.longitud)
-            
+           
+            #Flat Board
+            elif record.type_id.is_flatboard == True:
+                ordenado1 = "08-"
+                if record.ancho < 100:
+                    ordenado1 = ordenado1 + "00"
+                elif record.ancho < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.ancho) + "x"
+                if record.longitud < 100:
+                    ordenado1 = ordenado1 + "00"
+                elif record.longitud < 1000:
+                    ordenado1 = ordenado1 + "0"
+                ordenado1 = ordenado1 + str(record.longitud) + "x" + str(record.grosor_1)
             
               
             #mPrima Papel
-            if record.type_id.is_mprima_papel == True:
+            elif record.type_id.is_mprima_papel == True:
                 ordenado1 = "50-PAPEL-"
                 if record.ancho < 100:
                     ordenado1 = ordenado1 + "0"
@@ -811,6 +855,12 @@ class ProductReferencia(models.Model):
             #Pie de Pallet
             elif record.type_id.is_pieballet == True:
                 metros = record.longitud / 1000
+                
+            #Solid Board
+            elif record.type_id.is_flatboard == True:
+                metros = record.longitud / 1000
+                gram = int((record.grosor_1 / 1.4 - 300) / 50) * 50
+                interior = record.ancho - grosor * 2 - 1
         
         
             record.metros_unidad = metros
