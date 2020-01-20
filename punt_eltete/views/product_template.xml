@@ -194,6 +194,7 @@
                 <field name="is_bobina" class="oe_inline"/>
                 <field name="is_pieballet" class="oe_inline"/>
                 <field name="is_varios" class="oe_inline"/>
+		<field name="is_flatboard" class="oe_inline"/>
                 <field name="is_mprima_papel" class="oe_inline"/>
             </xpath>
         </field>
@@ -244,6 +245,7 @@
                         <field name="is_formato" invisible="1"/>
                         <field name="is_bobina" invisible="1"/>
                         <field name="is_pieballet" invisible="1"/>
+			<field name="is_solidboard" invisible="1"/>
                         <field name="is_mprima_papel" invisible="1"/>
                     </group>
                     
@@ -253,7 +255,7 @@
                         <field name='ala_1' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
                         <field name='ancho' attrs="{'invisible': ['|',('is_cantonera', '=', True),('is_pieballet', '=', True),]}"/>
                         <field name='ala_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),('is_slipsheet', '=', False),]}"/>
-                        <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),]}" />
+                        <field name='grosor_1' attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_flatboard', '=', False),]}" />
                         <field name='grosor_2' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}" />
                         <field name='longitud' attrs="{'invisible': [('is_bobina', '=', True)]}"/>
                         <field name='ala_3' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
