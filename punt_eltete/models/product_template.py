@@ -795,7 +795,7 @@ class ProductReferencia(models.Model):
             elif record.type_id.is_solidboard == True:
                 metros = record.ancho * record.longitud / 1000000
                 gram = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
-                interior = sumaAncho
+                interior = record.ancho
             #Formato
             elif record.type_id.is_formato == True:
                 metros = record.ancho * record.longitud / 1000000
