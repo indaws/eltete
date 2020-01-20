@@ -33,6 +33,7 @@
                             <field name="is_formato" invisible="1"/>
                             <field name="is_bobina" invisible="1"/>
                             <field name="is_pieballet" invisible="1"/>
+			    <field name="is_flatboard" invisible="1"/>
                             <field name="is_varios" invisible="1"/>
 							<field name="is_mprima_papel" invisible="1"/>
                             
@@ -130,6 +131,7 @@
                             <field name="is_formato" invisible="1"/>
                             <field name="is_bobina" invisible="1"/>
                             <field name="is_pieballet" invisible="1"/>
+			    <field name="is_flatboard" invisible="1"/>
                             <field name="is_varios" invisible="1"/>
 							<field name="is_mprima_papel" invisible="1"/>
                             
@@ -245,7 +247,7 @@
                         <field name="is_formato" invisible="1"/>
                         <field name="is_bobina" invisible="1"/>
                         <field name="is_pieballet" invisible="1"/>
-			<field name="is_solidboard" invisible="1"/>
+			<field name="is_flatboard" invisible="1"/>
                         <field name="is_mprima_papel" invisible="1"/>
                     </group>
                     
