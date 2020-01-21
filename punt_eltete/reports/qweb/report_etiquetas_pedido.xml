@@ -27,7 +27,7 @@
 						</tr>
 						
 						<tr>
-							<td><span t-esc="doc.descripcion"/></td>
+							<td><span t-esc="lot.sale_order_line_id.descripcion"/></td>
 							<td><span t-field="lot.unidades"/></td>
 						</tr>
 						
