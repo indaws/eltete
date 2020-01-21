@@ -190,8 +190,10 @@ class sale_referencia_cliente(models.Model):
                         #Compacto
                         elif paletizado == 1:
                             und_paquete = 25
-                            if record.referencia_id.grosor_2 >= 5:
+                            if record.referencia_id.grosor_2 >= 6:
                                 und_paquete = 10
+                            elif record.referencia_id.grosor_2 >= 5:
+                                und_paquete = 15
                             elif record.referencia_id.grosor_2 >= 4:
                                 und_paquete = 20
                             pesoPaquete = und_paquete * pesoUnidad
