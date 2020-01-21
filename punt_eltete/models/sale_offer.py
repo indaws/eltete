@@ -57,12 +57,15 @@ class sale_referencia_cliente(models.Model):
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     
+    """
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
     
     #varios
     peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
+    """
+    
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
     
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
