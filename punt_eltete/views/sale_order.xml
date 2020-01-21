@@ -136,7 +136,7 @@
     <!-- VISTAS DE LINEAS DE PEDIDO -->
     
     <record model="ir.actions.act_window" id="action_sale_order_line_cantonera">
-        <field name="name">Líneas cantoneras</field>
+        <field name="name">Cantoneras</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -144,7 +144,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_perfilu">
-        <field name="name">Líneas Perfil U</field>
+        <field name="name">Perfiles U</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -152,7 +152,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_slipsheet">
-        <field name="name">Líneas Slipsheets</field>
+        <field name="name">Slip Sheets</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -160,7 +160,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_solidboard">
-        <field name="name">Líneas Solidboard</field>
+        <field name="name">Solidboard</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -168,7 +168,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_formato">
-        <field name="name">Líneas Formato</field>
+        <field name="name"Formatos</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -176,7 +176,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_bobina">
-        <field name="name">Líneas Bobina</field>
+        <field name="name"Bobinas</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -184,11 +184,19 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_pieballet">
-        <field name="name">Líneas Pie de ballet</field>
+        <field name="name"Pies de Pallet</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[('product_id.categ_id.is_pieballet', '=', True)]</field>
+    </record>
+	
+    <record model="ir.actions.act_window" id="action_sale_order_line_flatboard">
+        <field name="name">Flat Board</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_flatboard', '=', True)]</field>
     </record>
     
     
@@ -201,8 +209,8 @@
     <menuitem name="Solid board" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_solidboard" action="action_sale_order_line_solidboard" sequence="4"/>
     <menuitem name="Formatos" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_formato" action="action_sale_order_line_formato" sequence="5"/>
     <menuitem name="Bobinas" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_bobina" action="action_sale_order_line_bobina" sequence="6"/>
-    <menuitem name="Pie de ballet" parent="menu_sale_order_line_ordenes" id="action_sale_order_line_pieballet" action="action_sale_order_line_pieballet" sequence="7"/>
-    
+    <menuitem name="Pie de Pallet" parent="menu_sale_order_line_ordenes" id="action_sale_order_line_pieballet" action="action_sale_order_line_pieballet" sequence="7"/>
+    <menuitem name="Flat Board" parent="menu_sale_order_line_ordenes" id="action_sale_order_line_flatboard" action="action_sale_order_line_flatboard" sequence="8"/>
     
     
 </odoo>
