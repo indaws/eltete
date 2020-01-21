@@ -168,7 +168,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_formato">
-        <field name="name"Formatos</field>
+        <field name="name">Formatos</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -176,7 +176,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_bobina">
-        <field name="name"Bobinas</field>
+        <field name="name">Bobinas</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -184,7 +184,7 @@
     </record>
     
     <record model="ir.actions.act_window" id="action_sale_order_line_pieballet">
-        <field name="name"Pies de Pallet</field>
+        <field name="name">Pies de Pallet</field>
         <field name="res_model">sale.order.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
