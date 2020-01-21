@@ -22,12 +22,12 @@
 						</tr>
 						
 						<tr>
-							<td><strong>TAMAÑO</strong></td>
-							<td><strong>CANTIDAD / PIEZAS</strong></td>
+							<td><strong>DESCRIPCIÓN</strong></td>
+							<td><strong>UNIDADES</strong></td>
 						</tr>
 						
 						<tr>
-							<td><span t-esc="lot.product_id.referencia_id.titulo"/></td>
+							<td><span t-esc="doc.descripcion"/></td>
 							<td><span t-field="lot.unidades"/></td>
 						</tr>
 						
@@ -42,18 +42,17 @@
 						</tr>
 						
 						<tr>
-							<td><strong>DATOS CLIENTE</strong></td>
-							<td><strong>OBSERVACIONES</strong></td>
+							<td><strong>CLIENTE</strong></td>
+							<td><strong>DIRECCIÓN DE ENTREGA</strong></td>
 						</tr>
 						
 						<tr>
+							<td><strong><span t-field="doc.partner_id.ref"/></strong><br/></td>
 							<td>
-								<strong><span t-field="doc.partner_id.ref"/></strong><br/>
-								<span t-field="doc.partner_id.zip"/> <span t-field="doc.partner_id.city"/><br/>
-								<span t-field="doc.partner_id.state_id"/><br/>
-								<span t-field="doc.partner_id.country_id"/>
+								<span t-field="doc.partner_shipping_id.zip"/> <span t-field="doc.partner_shipping_id.city"/><br/>
+								<span t-field="doc.partner_shipping_id.state_id"/><br/>
+								<span t-field="doc.partner_shipping_id.country_id"/>
 							</td>
-							<td></td>
 						</tr>
 					  
 					  </table>
