@@ -149,7 +149,7 @@ class SaleOrderLine(models.Model):
                 if tintero1 == False:
                     texto_1 = record.oferta_id.attribute_id.reciclable_id.name
                 elif tintero2 == False:
-                    texto_2 == "entra " + record.oferta_id.attribute_id.reciclable_id.name
+                    texto_2 = record.oferta_id.attribute_id.reciclable_id.name
             
             
             ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
