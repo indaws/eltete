@@ -144,8 +144,10 @@ class SaleOrderLine(models.Model):
                         tintero2 = True
                         if record.oferta_id.attribute_id.cantonera_cliche_id.texto_2:
                             texto_2 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_2
+                    texto_2 = "entra en tinta_2_id,"
             
             if record.oferta_id.attribute_id.reciclable_id and record.oferta_id.attribute_id.reciclable_id.number > 0:
+                texto_2 = texto_2 + " entra en reciclble " + str(tintero1) + str(tintero2)
                 if tintero1 == False:
                     texto_1 = record.oferta_id.attribute_id.reciclable_id.name
                 elif tintero2 == False:
