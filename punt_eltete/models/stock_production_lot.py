@@ -53,6 +53,7 @@ class StockProductionLot(models.Model):
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
     
+    
     #PARA CREAR EL LOTE SIN ORDEN DE PRODUCCIÓN
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
@@ -84,13 +85,20 @@ class StockProductionLot(models.Model):
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
-    #PARA TODOS
+
+    #OCULTOS
     cambios_fabricacion = fields.Boolean('Cambios Fabricación', readonly = True, compute = "_get_valores")
     cambios_cliente = fields.Boolean('Cambios Cliente', readonly = True, compute = "_get_cliente")
+
+
+    #PARA TODOS
+    hora_inicio = fields.Datetime('Hora Inicio')
+    hora_fin = fields.Datetime('Hora Fin')
+    pallet_sage = fields.Char('Pallet Sage')
+    maquina = fields.Integer('Máquina')
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', readonly = True, compute = "_get_etiqueta")
     peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
 
-    
     
     #CANTONERA
     cantonera_color = fields.Char('Cantonera Color', readonly = True, compute = "_get_valores")
