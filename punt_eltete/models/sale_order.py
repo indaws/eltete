@@ -489,12 +489,56 @@ class SaleOrder(models.Model):
             for prod in self.env['product.template'].search([('referencia_id', '=', referencia_cliente_id.referencia_id.id),
                                                              ]):
                 product_id = prod
-                
+ 
             if product_id == None:
+                es_vendido = False
+                es_comprado = False
+                tipo_producto = ''
+                if referencia_cliente_id.is_cantonera == True:
+                    es_vendido = True
+                    es_comprado = False
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_perfilu == True:
+                    es_vendido = True
+                    es_comprado = True
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_slipsheet == True:
+                    es_vendido = True
+                    es_comprado = False
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_solidboard == True:
+                    es_vendido = True
+                    es_comprado = False
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_formato == True:
+                    es_vendido = True
+                    es_comprado = True
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_bobina == True:
+                    es_vendido = True
+                    es_comprado = True
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_pieballet == True:
+                    es_vendido = True
+                    es_comprado = True
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_flatboard == True:
+                    es_vendido = True
+                    es_comprado = True
+                    tipo_producto = 'product'
+                if referencia_cliente_id.is_varios == True:
+                    es_vendido = True
+                    es_comprado = True
+                    tipo_producto = 'consu'
+                if referencia_cliente_id.is_mprima_papel == True:
+                    es_vendido = True
+                    es_comprado = False
+                    tipo_producto = 'product'
+                
                 product_id = self.env['product.template'].create({'name': referencia_cliente_id.referencia_id.name, 
-                                                                  'type': 'product',
-                                                                  'purchase_ok': False,
-                                                                  'sale_ok': True,
+                                                                  'type': tipo_producto,
+                                                                  'purchase_ok': es_comprado,
+                                                                  'sale_ok': es_vendido,
                                                                   'tracking': 'serial',
                                                                   'categ_id': referencia_cliente_id.type_id.id,
                                                                   'referencia_id':referencia_cliente_id.referencia_id.id, 
@@ -659,7 +703,7 @@ class SaleOrder(models.Model):
                                                             'referencia_id': line.referencia_cliente_id.referencia_id.id, 
                                                             'cliente_id': cliente_id,
                                                             'sale_order_line_id': line.id,
-                                                            'fabricado': False
+                                                            'fabricado': False,
                                                            })
                                 lista_lotes.append(lot_id.id)
                         
