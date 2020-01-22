@@ -494,46 +494,70 @@ class SaleOrder(models.Model):
                 es_vendido = False
                 es_comprado = False
                 tipo_producto = ''
+                cuenta_ingresos_code = -1
+                cuenta_gastos_code = -1
+                
                 if referencia_cliente_id.is_cantonera == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70100001
+                    cuenta_gastos_code = -1
                 if referencia_cliente_id.is_perfilu == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70000008
+                    cuenta_gastos_code = 60000003
                 if referencia_cliente_id.is_slipsheet == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70100009
+                    cuenta_gastos_code = -1
                 if referencia_cliente_id.is_solidboard == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70000011
+                    cuenta_gastos_code = -1
                 if referencia_cliente_id.is_formato == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70000004
+                    cuenta_gastos_code = 60000004
                 if referencia_cliente_id.is_bobina == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70000004
+                    cuenta_gastos_code = 60000004
                 if referencia_cliente_id.is_pieballet == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70000002
+                    cuenta_gastos_code = 60000005
                 if referencia_cliente_id.is_flatboard == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70000005
+                    cuenta_gastos_code = 60000007
                 if referencia_cliente_id.is_varios == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'consu'
+                    cuenta_gastos_code = -1
+                    if referencia_cliente_id.tipo_varios_id:
+                        cuenta_ingresos_code = referencia_cliente_id.tipo_varios_id.number
                 if referencia_cliente_id.is_mprima_papel == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
+                    cuenta_ingresos_code = 70000004
+                    cuenta_gastos_code = 60100001
                 
                 product_id = self.env['product.template'].create({'name': referencia_cliente_id.referencia_id.name, 
                                                                   'type': tipo_producto,
@@ -542,6 +566,8 @@ class SaleOrder(models.Model):
                                                                   'tracking': 'serial',
                                                                   'categ_id': referencia_cliente_id.type_id.id,
                                                                   'referencia_id':referencia_cliente_id.referencia_id.id, 
+                                                                  #'property_account_income_id': 
+                                                                  #'property_account_expense_id': 
                                                                  })
             
             
