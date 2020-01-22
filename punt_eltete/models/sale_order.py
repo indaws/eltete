@@ -659,7 +659,7 @@ class SaleOrder(models.Model):
                                                             'referencia_id': line.referencia_cliente_id.referencia_id.id, 
                                                             'cliente_id': cliente_id,
                                                             'sale_order_line_id': line.id,
-                                                            'fabricado': False,
+                                                            'fabricado': False
                                                            })
                                 lista_lotes.append(lot_id.id)
                         
