@@ -896,11 +896,7 @@ class ProductTemplate(models.Model):
     #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
     #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
     referencia_id = fields.Many2one('product.referencia', string='Referencia')
-    
-    #################################
-    #CAMPOS FORMULARIO DE REFERENCIA#
-    #################################
-    
+
     """
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='categ_id.is_cantonera')
     is_perfilu = fields.Boolean('¿Es Perfil U?', related='categ_id.is_perfilu')
