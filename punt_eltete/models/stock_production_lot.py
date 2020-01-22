@@ -570,8 +570,6 @@ class StockProductionLot(models.Model):
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70100001
                     cuenta_gastos_code = -1
-                    if attribute_id.cantonera_especial_id:
-                        cuenta_ingresos_code = attribute_id.cantonera_especial_id.number
                 if referencia_cliente_id.is_perfilu == True:
                     es_vendido = True
                     es_comprado = True
