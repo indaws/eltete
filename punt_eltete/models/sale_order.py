@@ -423,6 +423,7 @@ class SaleOrder(models.Model):
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
     comercial = fields.Char('Comercial Bueno', compute="_get_descuento")
     editar = fields.Boolean('Editar', default = True)
+    pedido_stock = fields.Boolean('Pedido de Stock', default = False)
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
                   ('1', 'CONFIRMADO'),
@@ -603,10 +604,8 @@ class SaleOrder(models.Model):
     @api.multi
     def procesar_fabricacion(self):
         for record in self:
-        
             #ubic produccion
             location_id = 7
-            
             #ubic stock
             location_dest_id = 13
         
@@ -626,8 +625,6 @@ class SaleOrder(models.Model):
                                                                 'product_uom_qty': 0,  # bypass reservation here
                                                                 'product_uom_id': line.product_id.uom_id.id,
                                                                 'qty_done': 1,
-                                                                #'package_id': out and self.package_id.id or False,
-                                                                #'result_package_id': (not out) and self.package_id.id or False,
                                                                 'location_id': location_id,
                                                                 'location_dest_id': location_dest_id,
                                                                 'owner_id': record.partner_id.id,
@@ -643,44 +640,33 @@ class SaleOrder(models.Model):
         for record in self:
             lista_lotes = []
             for line in record.order_line:
+                cliente_id = record.partner_id.id
+                if record.pedido_stock == True:
+                    cliente_id = None
             
                 if line.bultos == '1':
-            
                     cantidad_a_fabricar = int(line.product_uom_qty) - len(line.lot_ids)
 
-                    i = 0
                     if cantidad_a_fabricar > 0:
+                        i = 0
                         while i < cantidad_a_fabricar:
                             i = i+1
                     
                             if line.product_id:
-                                
-                        
                                 #Creamos lotes
                                 lot_id = self.env['stock.production.lot'].create({'product_id': line.product_id.id, 
                                                             'name': self.env['ir.sequence'].next_by_code('stock.lot.serial'), 
-                                                            'attribute_id': line.attribute_id.id,
-                                                            #'pallet_especial_id': pallet_especial_id,
-                                                            #'ancho_pallet': line.product_id.referencia_cliente_id.ancho_pallet,
-                                                            #'und_paquete': line.product_id.referencia_cliente_id.und_paquete,
-                                                            #'paquetes_fila': line.product_id.referencia_cliente_id.paquetes_fila,
-                                                            #'alto_fila': line.product_id.referencia_cliente_id.alto_fila,
-                                                            #'fila_max': line.product_id.referencia_cliente_id.fila_max,
-                                                            #'fila_buena': line.product_id.referencia_cliente_id.fila_buena,
-                                                            'unidades': line.und_pallet,
+                                                            'referencia_id': line.referencia_cliente_id.referencia_id.id, 
+                                                            'cliente_id': cliente_id,
+                                                            'sale_order_line_id': line.id,
                                                             'fabricado': False,
-                                                            'sale_order_line_id': line.id
-
                                                            })
                                 lista_lotes.append(lot_id.id)
                         
                                 #Asignamos stock a lotes
                     line.fabricado = True
-                
 
-                
-                            
-                
+                    
                 
     @api.multi
     def borrar_fabricacion(self):
