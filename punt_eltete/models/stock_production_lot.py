@@ -7,6 +7,9 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
     
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
+    referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
+    cliente_id = fields.Many2one('res.partner', string="Cliente")
+    
     fabricado = fields.Boolean('Fabricado')
     
     """
@@ -49,7 +52,6 @@ class StockProductionLot(models.Model):
     """
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
-    referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
     
     #PARA CREAR EL LOTE SIN ORDEN DE PRODUCCIÓN
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
@@ -84,12 +86,10 @@ class StockProductionLot(models.Model):
 
     #PARA TODOS
     cambios_fabricacion = fields.Boolean('Cambios Fabricación', readonly = True, compute = "_get_valores")
-    cliente_id = fields.Many2one('res.partner', string="Cliente", readonly = True, compute = "_get_cliente")
     cambios_cliente = fields.Boolean('Cambios Cliente', readonly = True, compute = "_get_cliente")
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', readonly = True, compute = "_get_etiqueta")
     peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
-    
-    user_cliente_id = fields.Many2one('res.partner', string="Cambio Cliente")
+
     
     
     #CANTONERA
@@ -177,13 +177,9 @@ class StockProductionLot(models.Model):
 
 
 
-    @api.depends('user_cliente_id', 'sale_order_line_id')
-    def _get_cliente(self):
-        for record in self:
-            if record.user_cliente_id:
-                record.cliente_id = record.user_cliente_id
-            elif record.sale_order_line_id:
-                record.cliente_id = record.sale_order_line_id.order_id.partner_id
+    @api.onchange('cliente_id')
+    def _onchange_cliente(self):
+        self.cambios_cliente = True
     
     
     
