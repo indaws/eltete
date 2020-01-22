@@ -9,23 +9,14 @@
                 <xpath expr="//field[@name='ref']" position="after">
                 
                     
-					<field name="pallet_especial_id"/>
-					<field name="paletizado"/>
-					<field name="ancho_pallet"/>
-					<field name="und_paquete"/>
-					<field name="paquetes_fila"/>
-					<field name="alto_fila"/>
-					<field name="fila_max"/>
-					<field name="fila_buena"/>
-					<field name="unidades"/>
-					<field name="fabricado"/>
-                    <field name="sale_order_line_id"/>
-                    <field name="sale_order_id"/>
-
-
+			<field name="pallet_especial_id"/>
+			<field name="ancho_pallet"/>
+			<field name="und_paquete"/>
+		        <field name="unidades"/>
+		        <field name="fabricado"/>
+                        <field name="sale_order_line_id"/>
                 </xpath>
             
-                
 
             
         </field>
@@ -41,19 +32,12 @@
                 <xpath expr="//field[@name='ref']" position="after">
                 
                     
-					<field name="pallet_especial_id"/>
-					<field name="paletizado"/>
-					<field name="ancho_pallet"/>
-					<field name="und_paquete"/>
-					<field name="paquetes_fila"/>
-					<field name="alto_fila"/>
-					<field name="fila_max"/>
-					<field name="fila_buena"/>
-					<field name="unidades"/>
-					<field name="fabricado"/>
+			<field name="pallet_especial_id"/>
+			<field name="ancho_pallet"/>
+			<field name="und_paquete"/>
+			<field name="unidades"/>
+			<field name="fabricado"/>
                     <field name="sale_order_line_id"/>
-                    <field name="sale_order_id"/>
-
 
                 </xpath>
             
@@ -73,7 +57,6 @@
                 <xpath expr="//field[@name='create_date']" position="after">
 					<field name="fabricado"/>
                     <field name="unidades"/>
-					<field name="sale_order_id"/>
                 </xpath>
             
                 
