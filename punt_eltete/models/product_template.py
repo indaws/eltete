@@ -893,13 +893,15 @@ class ProductReferencia(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
-    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
-    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
+    #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
+    #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
     referencia_id = fields.Many2one('product.referencia', string='Referencia')
     
     #################################
     #CAMPOS FORMULARIO DE REFERENCIA#
     #################################
+    
+    """
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='categ_id.is_cantonera')
     is_perfilu = fields.Boolean('¿Es Perfil U?', related='categ_id.is_perfilu')
     is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='categ_id.is_slipsheet')
@@ -962,9 +964,6 @@ class ProductTemplate(models.Model):
     peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
     metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
-    
-    #################################
-    #################################
 
     #CAMPOS ATRIBUTOS
     #CANTONERA COLOR
@@ -1154,10 +1153,11 @@ class ProductTemplate(models.Model):
                     raise ValidationError(error)
                 self.referencia_id = referencia_id
                 self.name = referencia_id.name
-    
+    """
 
 
         
+
         
 ###############################
 # CARACTERISTICAS REF CLIENTE #
@@ -1179,20 +1179,8 @@ class ProductCaracteristicaPalletEspecial(models.Model):
                ('4', 'Por Pallet'),
                ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo')
-    
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
     
-"""
-
     
     
     
@@ -1212,15 +1200,12 @@ class ProductCaracteristicaVarios(models.Model):
     
    
     
-    
-    
+        
 ############################
 # CARACTERISTICAS ATRIBUTO #
 ############################  
 
 ## CANTONERA ##
-
-
 
 class ProductCaracteristicaCantoneraColor(models.Model):
     _name = 'product.caracteristica.cantonera.color'
@@ -1241,17 +1226,8 @@ class ProductCaracteristicaCantoneraColor(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None and record.description != '':
-                description_str = record.description_str
-            record.description_str = description_str
-    """
+    
+    
     
     
 class ProductCaracteristicaCantoneraForma(models.Model):
@@ -1274,17 +1250,8 @@ class ProductCaracteristicaCantoneraForma(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
+  
 
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
 
 
 class ProductCaracteristicaCantoneraEspecial(models.Model):
@@ -1306,20 +1273,11 @@ class ProductCaracteristicaCantoneraEspecial(models.Model):
     cantonera_2 = fields.Boolean('Cantonera 2', default = False)
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
+
+
+
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
-
-
+    
 class ProductCaracteristicaCantoneraImpresion(models.Model):
     _name = 'product.caracteristica.cantonera.impresion'
     _order = 'number'
@@ -1341,21 +1299,11 @@ class ProductCaracteristicaCantoneraImpresion(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
     
 
+    
 ## PERFILU ##
-
 
 class ProductCaracteristicaPerfiluColor(models.Model):
     _name = 'product.caracteristica.perfilu.color'
@@ -1374,20 +1322,11 @@ class ProductCaracteristicaPerfiluColor(models.Model):
                 ('4', 'Por Pallet'),
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
+
+
+
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
-
-
+    
 ## TODOS ##        
     
 class ProductCaracteristicaReciclable(models.Model):
@@ -1411,17 +1350,9 @@ class ProductCaracteristicaReciclable(models.Model):
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     image = fields.Binary('Imagen')
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
+    
+    
+    
     
 class ProductCaracteristicaFSC(models.Model):
     _name = 'product.caracteristica.fsc'
@@ -1443,18 +1374,10 @@ class ProductCaracteristicaFSC(models.Model):
     cantonera_3 = fields.Boolean('Cantonera 3', default = False)
     cantonera_4 = fields.Boolean('Cantonera 4', default = False)
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
 
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
-
+    
+    
+    
 class ProductCaracteristicaInglete(models.Model):
     _name = 'product.caracteristica.inglete'
     _order = 'number'
@@ -1472,19 +1395,10 @@ class ProductCaracteristicaInglete(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
 
 
+
+    
 class ProductCaracteristicaPlanchacolor(models.Model):
     _name = 'product.caracteristica.planchacolor'
     _order = 'number'
@@ -1503,21 +1417,9 @@ class ProductCaracteristicaPlanchacolor(models.Model):
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-"""
 
 
-
-    
+   
     
 class ProductCaracteristicaTroquelado(models.Model):
     _name = 'product.caracteristica.troquelado'
@@ -1538,17 +1440,9 @@ class ProductCaracteristicaTroquelado(models.Model):
     troqueladora_2 = fields.Boolean('Troqueladora 2', default = False)
     image = fields.Binary('Imagen')
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-    """
+    
+    
+    
     
 class ProductCaracteristicaPapelCalidad(models.Model):
     _name = 'product.caracteristica.papelcalidad'
@@ -1565,18 +1459,11 @@ class ProductCaracteristicaPapelCalidad(models.Model):
                 ('4', 'Por Pallet'),
                 ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-      """      
-            
+     
+    
+    
+    
+    
 class ProductCaracteristicaCliche(models.Model):
     _name = 'product.caracteristica.cliche'
     _order = 'number'
@@ -1592,18 +1479,10 @@ class ProductCaracteristicaCliche(models.Model):
     proveedor = fields.Char('Proveedor')  
     image = fields.Binary('Imagen')
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
-
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-     """       
-            
+      
+    
+    
+    
 class ProductCaracteristicaTinta(models.Model):
     _name = 'product.caracteristica.tinta'
     _order = 'number'
@@ -1612,14 +1491,6 @@ class ProductCaracteristicaTinta(models.Model):
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción para el Cliente')
     
-    """
-    description_str = fields.Char('Descripción', readonly = True, compute = "_get_description")
+   
 
-    @api.depends('description',)
-    def _get_description(self):
-        for record in self:
-            description_str = ''
-            if record.description != None:
-                description_str = record.description_str
-            record.description_str = description_str
-     """       
+
