@@ -200,83 +200,83 @@ class StockProductionLot(models.Model):
             cambios_fabricacion = False
         
             if record.user_cantonera_color_id:
-                record.cantonera_color_id = record.user_cantonera_color_id
+                record.cantonera_color_id = record.user_cantonera_color_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id:
-                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id
+                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id.id
             
             if record.user_cantonera_forma_id:
-                record.cantonera_forma_id = record.user_cantonera_forma_id
+                record.cantonera_forma_id = record.user_cantonera_forma_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.cantonera_forma_id:
-                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_forma_id
+                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_forma_id.id
             
             if record.user_cantonera_especial_id:
-                record.cantonera_especial_id = record.user_cantonera_especial_id
+                record.cantonera_especial_id = record.user_cantonera_especial_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.cantonera_especial_id:
-                    record.cantonera_especial_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_especial_id
+                    record.cantonera_especial_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_especial_id.id
             
             if record.user_cantonera_impresion_id:
-                record.cantonera_impresion_id = record.user_cantonera_impresion_id
+                record.cantonera_impresion_id = record.user_cantonera_impresion_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.cantonera_impresion_id:
-                    record.cantonera_impresion_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_impresion_id
+                    record.cantonera_impresion_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_impresion_id.id
             
             if record.user_cantonera_cliche_id:
-                record.cantonera_cliche_id = record.user_cantonera_cliche_id
+                record.cantonera_cliche_id = record.user_cantonera_cliche_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.cantonera_cliche_id:
-                    record.cantonera_cliche_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_cliche_id
+                    record.cantonera_cliche_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_cliche_id.id
             
             if record.user_fsc_id:
-                record.fsc_id = record.user_fsc_id
+                record.fsc_id = record.user_fsc_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.fsc_id:
-                    record.fsc_id = record.sale_order_line_id.oferta_id.attribute_id.fsc_id
+                    record.fsc_id = record.sale_order_line_id.oferta_id.attribute_id.fsc_id.id
             
             if record.user_reciclable_id:
-                record.reciclable_id = record.user_reciclable_id
+                record.reciclable_id = record.user_reciclable_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.reciclable_id:
-                    record.reciclable_id = record.sale_order_line_id.oferta_id.attribute_id.reciclable_id
+                    record.reciclable_id = record.sale_order_line_id.oferta_id.attribute_id.reciclable_id.id
             
             if record.user_perfilu_color_id:
-                record.perfilu_color_id = record.user_perfilu_color_id
+                record.perfilu_color_id = record.user_perfilu_color_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.perfilu_color_id:
-                    record.perfilu_color_id = record.sale_order_line_id.oferta_id.attribute_id.perfilu_color_id
+                    record.perfilu_color_id = record.sale_order_line_id.oferta_id.attribute_id.perfilu_color_id.id
             
             if record.user_inglete_id:
-                record.inglete_id = record.user_inglete_id
+                record.inglete_id = record.user_inglete_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.inglete_id:
-                    record.inglete_id = record.sale_order_line_id.oferta_id.attribute_id.inglete_id
+                    record.inglete_id = record.sale_order_line_id.oferta_id.attribute_id.inglete_id.id
             
-            if record.user_inglete_num:
+            if record.user_inglete_num > 0:
                 record.inglete_num = record.user_inglete_num
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.inglete_num:
+                if record.sale_order_line_id.oferta_id.attribute_id.inglete_num > 0:
                     record.inglete_num = record.sale_order_line_id.oferta_id.attribute_id.inglete_num
             
             if record.user_inglete_texto:
@@ -288,28 +288,28 @@ class StockProductionLot(models.Model):
                     record.inglete_texto = record.sale_order_line_id.oferta_id.attribute_id.inglete_texto
                     
             if record.user_plancha_color_id:
-                record.plancha_color_id = record.user_plancha_color_id
+                record.plancha_color_id = record.user_plancha_color_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.plancha_color_id:
-                    record.plancha_color_id = record.sale_order_line_id.oferta_id.attribute_id.plancha_color_id  
+                    record.plancha_color_id = record.sale_order_line_id.oferta_id.attribute_id.plancha_color_id.id
             
             if record.user_papel_calidad_id:
-                record.papel_calidad_id = record.user_papel_calidad_id
+                record.papel_calidad_id = record.user_papel_calidad_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.papel_calidad_id:
-                    record.papel_calidad_id = record.sale_order_line_id.oferta_id.attribute_id.papel_calidad_id
+                    record.papel_calidad_id = record.sale_order_line_id.oferta_id.attribute_id.papel_calidad_id.id
             
             if record.user_troquelado_id:
-                record.troquelado_id = record.user_troquelado_id
+                record.troquelado_id = record.user_troquelado_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.troquelado_id:
-                    record.troquelado_id = record.sale_order_line_id.oferta_id.attribute_id.troquelado_id
+                    record.troquelado_id = record.sale_order_line_id.oferta_id.attribute_id.troquelado_id.id
                     
             if record.user_paletizado:
                 if record.user_paletizado == '1':
@@ -323,12 +323,12 @@ class StockProductionLot(models.Model):
                     record.paletizado = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.paletizado
                     
             if record.user_pallet_especial_id:
-                record.pallet_especial_id = record.user_pallet_especial_id
+                record.pallet_especial_id = record.user_pallet_especial_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
-                    record.pallet_especial_id = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id
+                    record.pallet_especial_id = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id.id
 
             if record.user_ancho_pallet:
                 if record.user_ancho_pallet == '1200':
@@ -345,7 +345,7 @@ class StockProductionLot(models.Model):
                 if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet > 0:
                     record.ancho_pallet = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
                     
-            if record.user_und_paquete:
+            if record.user_und_paquete > 0:
                 record.und_paquete = record.user_und_paquete
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
@@ -353,8 +353,8 @@ class StockProductionLot(models.Model):
                 if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_paquete > 0:
                     record.und_paquete = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_paquete
                     
-            if record.user_unidades > 0
-                record.unidadesrd.user_und_paquete
+            if record.user_unidades > 0:
+                record.unidades = record.user_und_paquete
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
