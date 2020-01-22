@@ -7,8 +7,6 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
     
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
-    sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
-    attribute_id = fields.Many2one('sale.product.attribute', string = "Atributo")
     
     """
     SOBREESCRITOS BAJO
@@ -27,6 +25,8 @@ class StockProductionLot(models.Model):
     fila_max = fields.Integer('Fila Max')
     fila_buena = fields.Integer('Fila Buena')
     fabricado = fields.Boolean('Fabricado')
+    sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
+    attribute_id = fields.Many2one('sale.product.attribute', string = "Atributo")
     
     
     
@@ -49,10 +49,11 @@ class StockProductionLot(models.Model):
     """
     #ref = fields.Char('Referencia Interna')
     #name = fields.Char('Lote/Nº Serie')
+    referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True, compute="_get_valores")
+    oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     
+    #PARA CREAR EL LOTE SIN ORDEN DE PRODUCCIÓN
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
-    referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
-    
     is_cantonera = fields.Boolean('¿Es Cantonera?', related='type_id.is_cantonera')
     is_perfilu = fields.Boolean('¿Es Perfil U?', related='type_id.is_perfilu')
     is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='type_id.is_slipsheet')
@@ -81,49 +82,119 @@ class StockProductionLot(models.Model):
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
-
-    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
+    
+    #CANTONERA
+    user_antonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
+    user_cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
+    user_cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
+    user_cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
+    user_cantonera_cliche_id = fields.Many2one('product.caracteristica.cliche', string="Cliché")
+    user_fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
+    user_reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
+    #PERFILU
+    user_perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color")
+    #CANTONERA Y PERFILU
+    user_inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete")
+    user_inglete_num = fields.Integer('Numero de Ingletes')
+    user_inglete_texto = fields.Char('Inglete Descripcion')
+    #SOLID BOARD
+    user_plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Color")
+    #FORMATO Y BOBINA
+    user_papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad")
+    #SLIPSHEET, SOLIDBOARD Y FORMATO
+    user_troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
+    
+    user_pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
     PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
                       ('2', 'Columnas'),
                       ]
-    paletizado = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado', default = '1')
+    user_paletizado = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado', default = '1')
     ANCHO_PALLET_SEL = [('1200', '1200'),     
                         ('1150', '1150'),
                         ('1000', '1000'),
                         ('800', '800'), 
                         ]
-    ancho_pallet = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet')
-    und_paquete = fields.Integer('Und paquete')
-    unidades = fields.Integer('Unidades')
+    user_ancho_pallet = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet', default='1200')
+    user_und_paquete = fields.Integer('Und paquete')
+    user_unidades = fields.Integer('Unidades')
     
+    #CAMPOS DEL LOTE
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial", compute="_get_valores")
+    paletizado = fields.Integer('Paletizado', compute="_get_valores")
+    ancho_pallet = fields.Integer('Ancho Pallet', compute="_get_valores")
+    und_paquete = fields.Integer('Und paquete', compute="_get_valores")
+    unidades = fields.Integer('Unidades', compute="_get_valores")
     peso_neto = fields.Float('Peso Neto', digits=(10, 2), compute = "_get_valores")
     
     #CANTONERA
-    cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
-    cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
-    cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
-    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
-    cantonera_cliche_id = fields.Many2one('product.caracteristica.cliche', string="Cliché")
-    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
-    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
+    cantonera_color = fields.Char('Cantonera Color', compute = "_get_valores")
+    cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma", compute = "_get_valores")
+    cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial", compute = "_get_valores")
+    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión", compute = "_get_valores")
+    cantonera_cliche_id = fields.Many2one('product.caracteristica.cliche', string="Cliché", compute = "_get_valores")
+    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC", compute = "_get_valores")
+    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable", compute = "_get_valores")
     #PERFILU
-    perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color")
+    perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color", compute = "_get_valores")
     #CANTONERA Y PERFILU
-    inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete")
-    inglete_num = fields.Integer('Numero de Ingletes')
-    inglete_texto = fields.Char('Inglete Descripcion')
+    inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete", compute = "_get_valores")
+    inglete_num = fields.Integer('Numero de Ingletes', compute = "_get_valores")
+    inglete_texto = fields.Char('Inglete Descripcion', compute = "_get_valores")
     #SOLID BOARD
-    plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Color")
+    plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Color", compute = "_get_valores")
     #FORMATO Y BOBINA
-    papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad")
+    papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad", compute = "_get_valores")
     #SLIPSHEET, SOLIDBOARD Y FORMATO
-    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
+    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado", compute = "_get_valores")
     
     
     
-    @api.depends('referencia_id', 'und_pallet')
+    @api.multi
     def _get_valores(self):
         for record in self:
+            if record.user_cantonera_color_id:
+                record.cantonera_color_id = record.user_cantonera_color_id
+            elif record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id:
+                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id
+            
+            if record.user_cantonera_forma_id:
+                record.cantonera_forma_id = record.user_cantonera_forma_id
+            elif record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_forma_id:
+                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_forma_id
+            
+            if record.user_cantonera_especial_id:
+                record.cantonera_especial_id = record.user_cantonera_especial_id
+            elif record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_especial_id:
+                    record.cantonera_especial_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_especial_id
+            
+            if record.user_cantonera_impresion_id:
+                record.cantonera_impresion_id = record.user_cantonera_impresion_id
+            elif record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_impresion_id:
+                    record.cantonera_impresion_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_impresion_id
+            
+            if record.user_cantonera_cliche_id:
+                record.cantonera_cliche_id = record.user_cantonera_cliche_id
+            elif record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_cliche_id:
+                    record.cantonera_cliche_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_cliche_id
+            
+            if record.user_fsc_id:
+                record.fsc_id = record.user_fsc_id
+            elif record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.attribute_id.fsc_id:
+                    record.fsc_id = record.sale_order_line_id.oferta_id.attribute_id.fsc_id
+            
+            if record.user_reciclable_id:
+                record.reciclable_id = record.user_reciclable_id
+            elif record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.attribute_id.reciclable_id:
+                    record.reciclable_id = record.sale_order_line_id.oferta_id.attribute_id.reciclable_id
+            
+
             peso_und = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
             peso = peso_und * record.und_pallet
             record.peso_neto = peso
