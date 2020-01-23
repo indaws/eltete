@@ -1,6 +1,7 @@
 ﻿
 from odoo import fields, models, api
-
+from odoo.exceptions import UserError, ValidationError
+from odoo.addons import decimal_precision as dp
 
 
 class StockProductionLot(models.Model):
@@ -15,21 +16,22 @@ class StockProductionLot(models.Model):
     """
     SOBREESCRITOS BAJO
     """
-    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
-    paletizado = fields.Integer('Paletizado')
-    ancho_pallet = fields.Integer('Ancho Pallet')
-    unidades = fields.Integer('Unidades')
-    und_paquete = fields.Integer('Und Paquete')
+    #pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
+    #paletizado = fields.Integer('Paletizado')
+    #ancho_pallet = fields.Integer('Ancho Pallet')
+    #unidades = fields.Integer('Unidades')
+    #und_paquete = fields.Integer('Und Paquete')
     
     """
     PARA ELIMINAR
     """
-    paquetes_fila = fields.Integer('Paquetes Fila')
-    alto_fila = fields.Integer('Alto Fila')
-    fila_max = fields.Integer('Fila Max')
-    fila_buena = fields.Integer('Fila Buena')
+    #paquetes_fila = fields.Integer('Paquetes Fila')
+    #alto_fila = fields.Integer('Alto Fila')
+    #fila_max = fields.Integer('Fila Max')
+    #fila_buena = fields.Integer('Fila Buena')
+    #attribute_id = fields.Many2one('sale.product.attribute', string = "Atributo")
+    
     sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
-    attribute_id = fields.Many2one('sale.product.attribute', string = "Atributo")
     
     
     
@@ -49,7 +51,7 @@ class StockProductionLot(models.Model):
     NUEVA VERSIÓN
     """
     
-    """
+    
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
     
@@ -101,7 +103,7 @@ class StockProductionLot(models.Model):
 
     
     #CANTONERA
-    cantonera_color = fields.Char('Cantonera Color', readonly = True, compute = "_get_valores")
+    cantonera_color_id = fields.Char('Cantonera Color', readonly = True, compute = "_get_valores")
     cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma", readonly = True, compute = "_get_valores")
     cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial", readonly = True, compute = "_get_valores")
     cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión", readonly = True, compute = "_get_valores")
@@ -110,7 +112,7 @@ class StockProductionLot(models.Model):
     reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable", readonly = True, compute = "_get_valores")
     paletizado = fields.Integer('Paletizado', compute="_get_valores")
     
-    user_antonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cambiar Cantonera Color")
+    user_cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cambiar Cantonera Color")
     user_cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Cambiar Forma")
     user_cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Cambiar Especial")
     user_cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Cambiar Impresión")
@@ -211,7 +213,7 @@ class StockProductionLot(models.Model):
                 record.cantonera_color_id = record.user_cantonera_color_id.id
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
-            elif record.sale_order_line_id:
+            if record.sale_order_line_id:
                 if record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id:
                     record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id.id
             
@@ -375,9 +377,10 @@ class StockProductionLot(models.Model):
 
 
     @api.multi
-    def _crear_sin_pedido(self):
-        self._crear_referencia()
-        self._crear_producto()
+    def crear_sin_pedido(self):
+        for record in self:
+            record._crear_referencia()
+            record.product_id = record._crear_producto()
 
     
     
@@ -553,7 +556,7 @@ class StockProductionLot(models.Model):
     def _crear_producto(self):
         for record in self:
             product_id = None
-            for prod in self.env['product.template'].search([('referencia_id', '=', self.referencia_id),
+            for prod in self.env['product.template'].search([('referencia_id', '=', self.referencia_id.id),
                                                              ]):
                 product_id = prod
                 
@@ -564,77 +567,78 @@ class StockProductionLot(models.Model):
                 cuenta_ingresos_code = -1
                 cuenta_gastos_code = -1
                 
-                if referencia_cliente_id.is_cantonera == True:
+                if record.is_cantonera == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70100001
                     cuenta_gastos_code = -1
-                if referencia_cliente_id.is_perfilu == True:
+                if record.is_perfilu == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000008
                     cuenta_gastos_code = 60000003
-                if referencia_cliente_id.is_slipsheet == True:
+                if record.is_slipsheet == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70100009
                     cuenta_gastos_code = -1
-                if referencia_cliente_id.is_solidboard == True:
+                if record.is_solidboard == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000011
                     cuenta_gastos_code = -1
-                if referencia_cliente_id.is_formato == True:
+                if record.is_formato == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000004
                     cuenta_gastos_code = 60000004
-                if referencia_cliente_id.is_bobina == True:
+                if record.is_bobina == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000004
                     cuenta_gastos_code = 60000004
-                if referencia_cliente_id.is_pieballet == True:
+                if record.is_pieballet == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000002
                     cuenta_gastos_code = 60000005
-                if referencia_cliente_id.is_flatboard == True:
+                if record.is_flatboard == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000005
                     cuenta_gastos_code = 60000007
-                if referencia_cliente_id.is_varios == True:
+                if record.is_varios == True:
                     es_vendido = True
                     es_comprado = True
                     tipo_producto = 'consu'
                     cuenta_gastos_code = -1
-                    if referencia_cliente_id.tipo_varios_id:
-                        cuenta_ingresos_code = referencia_cliente_id.tipo_varios_id.number
-                if referencia_cliente_id.is_mprima_papel == True:
+                    if record.tipo_varios_id:
+                        cuenta_ingresos_code = record.tipo_varios_id.number
+                if record.is_mprima_papel == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000004
                     cuenta_gastos_code = 60100001
                 
-                product_id = self.env['product.template'].create({'name': referencia_cliente_id.referencia_id.name, 
+                product_id = self.env['product.template'].create({'name': record.referencia_id.name, 
                                                                   'type': tipo_producto,
                                                                   'purchase_ok': es_comprado,
                                                                   'sale_ok': es_vendido,
                                                                   'tracking': 'serial',
-                                                                  'categ_id': referencia_cliente_id.type_id.id,
-                                                                  'referencia_id':referencia_cliente_id.referencia_id.id, 
+                                                                  'categ_id': record.type_id.id,
+                                                                  'referencia_id':record.referencia_id.id, 
                                                                   #'property_account_income_id': 
                                                                   #'property_account_expense_id': 
                                                                  })
+            return product_id.product_variant_id.id,
             
-    """        
+    
