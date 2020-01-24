@@ -200,7 +200,7 @@ class StockProductionLot(models.Model):
             if record.referencia_id and record.unidades > 0:
                 peso_und = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
                 peso = peso_und * record.unidades
-            record.peso_neto = peso
+            record.peso_neto = peso_neto
     
     
     
