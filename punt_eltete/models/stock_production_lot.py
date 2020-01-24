@@ -100,6 +100,7 @@ class StockProductionLot(models.Model):
     maquina = fields.Integer('Máquina')
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', readonly = True, compute = "_get_etiqueta")
     peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
+    fecha_salida = fields.Date('Fecha Salida')
 
     
     #CANTONERA
