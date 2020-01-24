@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
         
                 <xpath expr="//field[@name='ref']" position="after">
+			<field name="referencia_id"/>
 			<field name="cliente_id"/>
 			<field name="sale_order_id"/>
 			<field name="sale_order_line_id"/>
