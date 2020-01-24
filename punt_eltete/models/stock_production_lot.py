@@ -369,8 +369,8 @@ class StockProductionLot(models.Model):
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_pallet > 0:
-                    record.unidades = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_pallet
+                if record.sale_order_line_id.und_pallet > 0:
+                    record.unidades = record.sale_order_line_id.und_pallet
             
             
             record.cambios_fabricacion = cambios_fabricacion
