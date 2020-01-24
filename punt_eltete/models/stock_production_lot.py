@@ -8,7 +8,7 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
     
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
-    referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
+    referencia_id = fields.Many2one('product.referencia', string="Referencia")
     cliente_id = fields.Many2one('res.partner', string="Cliente")
     
     fabricado = fields.Boolean('Fabricado')
