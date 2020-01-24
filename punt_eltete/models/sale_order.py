@@ -726,7 +726,7 @@ class SaleOrder(models.Model):
                                 #Creamos lotes
                                 lot_id = self.env['stock.production.lot'].create({'product_id': line.product_id.id, 
                                                             'name': self.env['ir.sequence'].next_by_code('stock.lot.serial'), 
-                                                            'referencia_id': line.referencia_cliente_id.referencia_id.id, 
+                                                            'referencia_id': line.product_id.referencia_id.id, 
                                                             'cliente_id': cliente_id,
                                                             'sale_order_line_id': line.id,
                                                             'fabricado': False,
