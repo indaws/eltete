@@ -173,7 +173,7 @@ class StockProductionLot(models.Model):
                         ]
     user_ancho_pallet = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet')
     user_und_paquete = fields.Integer('Und paquete')
-    user_unidades = fields.Integer('Unidades')
+    user_unidades = fields.Integer('User Unidades')
 
     
     
@@ -365,12 +365,12 @@ class StockProductionLot(models.Model):
                     record.und_paquete = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_paquete
                     
             if record.user_unidades > 0:
-                record.unidades = record.user_und_paquete
+                record.unidades = record.user_unidades
                 if record.sale_order_line_id:
                     cambios_fabricacion = True
             elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_paquete > 0:
-                    record.und_paquete = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_paquete
+                if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_pallet > 0:
+                    record.unidades = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_pallet
             
             
             record.cambios_fabricacion = cambios_fabricacion
