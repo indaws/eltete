@@ -94,13 +94,15 @@ class StockProductionLot(models.Model):
 
 
     #PARA TODOS
-    hora_inicio = fields.Datetime('Hora Inicio')
-    hora_fin = fields.Datetime('Hora Fin')
+    hora_inicio = fields.Datetime('Hora Inicio Fabricación')
+    hora_fin = fields.Datetime('Hora Fin Fabricación')
     pallet_sage = fields.Char('Pallet Sage')
     maquina = fields.Integer('Máquina')
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', readonly = True, compute = "_get_etiqueta")
     peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
+    fecha_entrada = fields.Date('Fecha Entrada')
     fecha_salida = fields.Date('Fecha Salida')
+    disponible = fields.Boolean('Disponible', readonly = True, compute = "_get_disponible")
 
     
     #CANTONERA
@@ -175,6 +177,22 @@ class StockProductionLot(models.Model):
     user_und_paquete = fields.Integer('Und paquete')
     user_unidades = fields.Integer('User Unidades')
 
+    
+    
+    @api.depends('cliente_id', 'fecha_entrada', 'fecha_salida')
+    def _get_disponible(self):
+        for record in self:
+            disponible = False
+            if record.fecha_entrada:
+                if record.fecha_salida:
+                    x = 0
+                elif record.cliente_id:
+                    x = 0
+                else:
+                    disponible = True
+                
+            record.disponible = disponible
+    
     
     
     @api.depends('cambios_fabricacion', 'cambios_cliente')
