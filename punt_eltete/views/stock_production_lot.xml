@@ -19,7 +19,9 @@
 			<field name="user_unidades"/>
 			<field name="peso_neto"/>
 			<field name="fabricado"/>  
+			<field name="fecha_entrada"/>
 			<field name="fecha_salida"/>
+			<field name="disponible"/>
                 </xpath>
             
 
