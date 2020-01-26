@@ -18,6 +18,7 @@
 			<field name="unidades"/>
 			<field name="user_unidades"/>
 			<field name="peso_neto"/>
+			<field name="user_peso_bruto"/>
 			<field name="fabricado"/>  
 			<field name="fecha_entrada"/>
 			<field name="fecha_salida"/>
