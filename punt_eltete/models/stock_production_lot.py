@@ -99,7 +99,6 @@ class StockProductionLot(models.Model):
     pallet_sage = fields.Char('Pallet Sage')
     maquina = fields.Integer('Máquina')
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', readonly = True, compute = "_get_etiqueta")
-    peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
     fecha_entrada = fields.Date('Fecha Entrada')
     fecha_salida = fields.Date('Fecha Salida')
     disponible = fields.Boolean('Disponible', readonly = True, compute = "_get_disponible")
@@ -166,6 +165,7 @@ class StockProductionLot(models.Model):
     ancho_pallet = fields.Integer('Ancho Pallet', readonly = True, compute="_get_valores")
     und_paquete = fields.Integer('Und paquete', readonly = True, compute="_get_valores")
     unidades = fields.Integer('Unidades', readonly = True, compute="_get_valores")
+    peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
     
     user_pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
     ANCHO_PALLET_SEL = [('1200', '1200'),     
@@ -176,6 +176,7 @@ class StockProductionLot(models.Model):
     user_ancho_pallet = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet')
     user_und_paquete = fields.Integer('Und paquete')
     user_unidades = fields.Integer('User Unidades')
+    user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
 
     
     
@@ -216,7 +217,9 @@ class StockProductionLot(models.Model):
     def _get_peso(self):
         for record in self:
             peso_neto = 0
-            if record.referencia_id and record.unidades > 0:
+            if record.user_peso_bruto > 0:
+                peso_neto = record.user_peso_bruto - 15
+            elif record.referencia_id and record.unidades > 0:
                 peso_und = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
                 peso_neto = peso_und * record.unidades
             record.peso_neto = peso_neto
