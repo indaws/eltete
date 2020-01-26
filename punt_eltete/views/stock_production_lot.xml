@@ -69,6 +69,7 @@
 		    <field name="cliente_id"/>
 		    <field name="unidades"/>
 		    <field name="peso_neto"/>
+		    <field name="sale_order_line_id"/>
                     <field name="fecha_entrada"/>
 		    <field name="fecha_salida"/>
                 </xpath>
