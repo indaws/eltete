@@ -62,14 +62,20 @@
         <field name="inherit_id" ref="stock.view_production_lot_tree"/>
         <field name="arch" type="xml">
         
-                <xpath expr="//field[@name='create_date']" position="after">
-					<field name="fabricado"/>
-                    <field name="unidades"/>
+                <xpath expr="//field[@name='name']" position="before">
+		    <field name="type_id"/>
+		    <field name="referencia_id"/>
+		    <field name="cliente_id"/>
+		    <field name="unidades"/>
+		    <field name="peso_neto"/>
+                    <field name="fecha_entrada"/>
+		    <field name="fecha_salida"/>
                 </xpath>
-            
-                
+		
+		<field name="ref" invisible="1"/>
+		<field name="product_id" invisible="1"/>
+		<field name="create_date" invisible="1"/>
 
-            
         </field>
     </record>
     
