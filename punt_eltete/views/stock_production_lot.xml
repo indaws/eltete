@@ -71,12 +71,14 @@
 		    <field name="peso_neto"/>
 		    <field name="sale_order_line_id"/>
                     <field name="fecha_entrada"/>
-		    <field name="fecha_salida"/>
+		    <field name="fecha_salida
+				 
+		    <field name="ref" invisible="1"/>
+		    <field name="product_id" invisible="1"/>
+		    <field name="create_date" invisible="1"/>
                 </xpath>
 		
-		<field name="ref" invisible="1"/>
-		<field name="product_id" invisible="1"/>
-		<field name="create_date" invisible="1"/>
+		
 
         </field>
     </record>
