@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
         
                 <xpath expr="//field[@name='ref']" position="after">
+			<field name="type_id"/>
 			<field name="referencia_id"/>
 			<field name="cliente_id"/>
 			<field name="sale_order_id"/>
@@ -62,7 +63,7 @@
         <field name="inherit_id" ref="stock.view_production_lot_tree"/>
         <field name="arch" type="xml">
         
-                <xpath expr="//field[@name='name']" position="before">
+                <xpath expr="//field[@name='name']" position="after">
 		    <field name="type_id"/>
 		    <field name="referencia_id"/>
 		    <field name="cliente_id"/>
