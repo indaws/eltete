@@ -21,7 +21,18 @@ class AccountInvoice(models.Model):
             record.num_pallets = num_pallets
     
     
+    pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
+    fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
     
+    @api.depends('invoice_line_ids')
+    def _get_datos_lineas(self):
+        for record in self:
+            num_pallets = 0
+            for line in record.invoice_line_ids:
+                pedido_cliente = line.pedido_cliente
+                fecha_entrega_albaran = line.fecha_albaran
+            record.pedido_cliente = pedido_cliente
+            record.fecha_entrega_albaran = fecha_entrega_albaran
 
 
 
@@ -42,8 +53,12 @@ class AccountInvoiceLine(models.Model):
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
     
     
-    num_albaran = fields.Char('Nun albarán', compute = "_get_datos_albaran")
-    fecha_albaran = fields.Char('Fecha albarán', compute = "_get_datos_albaran")
+    num_albaran = fields.Char('Num albarán', compute = "_get_datos_albaran")
+    fecha_albaran = fields.Date('Fecha albarán', compute = "_get_datos_albaran")
+    
+    pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
+    
+    
     
     
     @api.depends('move_line_ids')
@@ -52,10 +67,19 @@ class AccountInvoiceLine(models.Model):
             num_albaran = ''
             fecha_albaran = ''
             for move in record.move_line_ids:
-                num_albaran = move.reference
-                fecha_albaran = move.date
+                num_albaran = move.picking_id.name
+                fecha_albaran = move.picking_id.date_done.date()
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
+            
+            
+    @api.depends('sale_line_ids')
+    def _get_datos_pedido(self):
+        for record in self:
+            pedido_cliente = ''
+            for sale in record.sale_line_ids:
+                pedido_cliente = sale.order_id.pedido_cliente
+            record.pedido_cliente = pedido_cliente
                 
     
     
@@ -118,7 +142,7 @@ class AccountInvoiceLine(models.Model):
                         peso_bruto = int((peso_neto + pesoMadera) / 5) * 5
                 #unidades
                 elif facturar == '2':
-                    cantidad_num = sale_line_id.quantity * und_pallet
+                    cantidad_num = record.quantity * und_pallet
                     cantidad_num = round(cantidad_num, 4)
                     cantidad = str(cantidad_num) + " unidades"
                     precio_num = sale_line_id.oferta_id.precio_metro * sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
