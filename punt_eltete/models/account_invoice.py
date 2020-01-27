@@ -2,6 +2,30 @@ from odoo import fields, models, api
 import logging
 _logger = logging.getLogger(__name__)
 
+
+
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+    
+    
+    num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
+    
+    @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
+    def _get_num_pallets(self):
+        for record in self:
+            num_pallets = 0
+            for line in record.invoice_line_ids:
+                if line.product_id:
+                    if line.product_id.type == 'product':
+                        num_pallets = num_pallets + line.quantity
+            record.num_pallets = num_pallets
+    
+    
+    
+
+
+
+
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
@@ -18,6 +42,21 @@ class AccountInvoiceLine(models.Model):
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
     
     
+    num_albaran = fields.Char('Nun albarán', compute = "_get_datos_albaran")
+    fecha_albaran = fields.Char('Fecha albarán', compute = "_get_datos_albaran")
+    
+    
+    @api.depends('move_line_ids')
+    def _get_datos_albaran(self):
+        for record in self:
+            num_albaran = ''
+            fecha_albaran = ''
+            for move in record.move_line_ids:
+                num_albaran = move.reference
+                fecha_albaran = move.date
+            record.num_albaran = num_albaran
+            record.fecha_albaran = fecha_albaran
+                
     
     
     @api.depends('sale_line_ids')
