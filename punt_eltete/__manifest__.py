@@ -15,7 +15,8 @@
         "sale",
         "product",
         "sale_stock",
-        "account"
+        "account",
+        "stock_picking_invoice_link"
     ],
     "data": [
         "security/ir.model.access.csv",
