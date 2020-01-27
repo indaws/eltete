@@ -68,7 +68,7 @@ class AccountInvoiceLine(models.Model):
             fecha_albaran = ''
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
-                fecha_albaran = move.picking_id.date_done.date()
+                fecha_albaran = move.picking_id.scheduled_date.date()
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
             
