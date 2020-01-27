@@ -1259,7 +1259,7 @@ class sale_offer_oferta(models.Model):
                 record.num_filas = record.num_filas - 1
     
 
-    @api.depends('attribute_id', 'num_filas', 'und_pallet')
+    @api.depends('attribute_id', 'num_filas',)
     def _get_und_pallet(self):
         for record in self:
             und = 0
