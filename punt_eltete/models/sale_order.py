@@ -637,6 +637,9 @@ class SaleOrder(models.Model):
             
             
             
+            discount = 0.0
+            if record.general_discount > 0.0:
+                discount = record.general_discount
             if len(lot_ids) > 0 and line_product_id.id == product_id.id:
             
                 sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
@@ -649,6 +652,7 @@ class SaleOrder(models.Model):
                                                     'attribute_id': attribute_id.id,
                                                     'oferta_id': oferta_id.id,
                                                     'product_id': product_id.product_variant_id.id,
+                                                    'discount': discount,
                                                    })
                 sale_line._compute_tax_id()
                 for lot in lot_ids:
@@ -668,6 +672,7 @@ class SaleOrder(models.Model):
                                                         'attribute_id': attribute_id.id,
                                                         'oferta_id': oferta_id.id,
                                                         'product_id': line_product_id.product_variant_id.id,
+                                                        'discount': discount,
                                                        })
                     sale_line._compute_tax_id()
                     for lot in lot_ids:
@@ -685,6 +690,7 @@ class SaleOrder(models.Model):
                                                         'attribute_id': attribute_id.id,
                                                         'oferta_id': oferta_id.id,
                                                         'product_id': product_id.product_variant_id.id,
+                                                        'discount': discount,
                                                        })
                     sale_line._compute_tax_id()
             
