@@ -30,7 +30,7 @@
                     <sheet>
                         <group>
                             <field name="name" attrs="{'invisible': [('state', '!=', 'BOR')]}" invisible="1"/>
-                            <field name="partner_id" attrs="{'readonly': [('state', '!=', 'BOR')]}"/>
+                            <field name="partner_id" attrs="{'readonly': [('state', '!=', 'BOR')]}" domain="[('customer','=',True), ('parent_id', '=', False)]"/>
                             <field name="user_id"/>
                             <field name="date" invisible="1"/>
                             <field name="type_id" domain="[('product_type','=',True)]" options="{'no_create': True, 'no_create_edit':True}"  attrs="{'readonly': [('state', '!=', 'BOR')]}"/>

@@ -9,7 +9,7 @@
                 <xpath expr="//field[@name='ref']" position="after">
 			<field name="type_id"/>
 			<field name="referencia_id"/>
-			<field name="cliente_id"/>
+			<field name="cliente_id" domain="[('customer','=',True), ('parent_id', '=', False)]"/>
 			<field name="sale_order_id"/>
 			<field name="sale_order_line_id"/>
 			<field name="hora_inicio"/>
