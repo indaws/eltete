@@ -3,23 +3,19 @@
 <data>
 <template id="report_orden_fabricacion">
     <t t-call="web.html_container">
-        <t t-foreach="docs" t-as="doc">
-            <t t-foreach="doc.order_line" t-as="line">
-                <t t-if="line.product_uom_qty &gt; 0">
-                  <t t-call="web.external_layout">
-                      <!--<t t-set="address">
-                          <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
-                          <p t-if="doc.partner_id.vat">NIF: <span t-field="doc.partner_id.vat"/></p>
-                      </t>-->
+        <t t-foreach="docs" t-as="line">
+			<t t-if="line.product_uom_qty &gt; 0">
+				<t t-call="web.external_layout">
+
                       <div class="page">
                           
                           <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN CANTONERAS</strong></h3>
                           
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                                  <strong>Pedido: </strong><span t-field="doc.name"/><br/>
+                                  <strong>Pedido: </strong><span t-field="line.order_id.name"/><br/>
                                   <strong>Orden de producción: </strong><span t-field="line.id"/><br/>
-                                  <strong>Cliente: </strong><span t-field="doc.partner_id.ref"/><br/>
+                                  <strong>Cliente: </strong><span t-field="line.order_id.partner_id.ref"/><br/>
                                   <strong>Duración: </strong><span t-field="line.op_duracion"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
@@ -115,7 +111,6 @@
                       </div>
                   </t>
               </t>
-            </t>
         </t>
     </t>
 </template>
