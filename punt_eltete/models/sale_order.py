@@ -82,6 +82,71 @@ class SaleOrderLine(models.Model):
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
+    
+    
+    
+    @api.multi
+    def procesar_fabricacion_linea(self):
+        for record in self:
+            #ubic produccion
+            location_id = 7
+            #ubic stock
+            location_dest_id = 13
+        
+            for line in record.lot_ids:
+                if line.fabricado == False:
+                    mov_id = self.env['stock.move'].create({'name': 'FABRICACION PEDIDO ' + record.order_id.name,
+                                                            'product_id': line.product_id.id,
+                                                            'product_uom': line.product_id.uom_id.id,
+                                                            'product_uom_qty': 1,
+                                                            'date': fields.Date.today(),
+                                                            'state': 'confirmed',
+                                                            'location_id': location_id,
+                                                            'location_dest_id': location_dest_id,
+                                                            'move_line_ids': [(0, 0, {
+                                                                'product_id': line.product_id.id,
+                                                                'lot_id': line.id,
+                                                                'product_uom_qty': 0,  # bypass reservation here
+                                                                'product_uom_id': line.product_id.uom_id.id,
+                                                                'qty_done': 1,
+                                                                'location_id': location_id,
+                                                                'location_dest_id': location_dest_id,
+                                                                'owner_id': record.order_id.partner_id.id,
+                                                            })]
+                                                           })
+                    line.fabricado = True
+                    mov_id._action_done()
+                
+    
+    
+    @api.multi
+    def enviar_a_fabricar_linea(self):
+        for line in self:
+            cliente_id = line.order_id.partner_id.id
+            if line.order_id.pedido_stock == True:
+                cliente_id = None
+        
+            if line.bultos == '1':
+                cantidad_a_fabricar = int(line.product_uom_qty) - len(line.lot_ids)
+
+                if cantidad_a_fabricar > 0:
+                    i = 0
+                    while i < cantidad_a_fabricar:
+                        i = i+1
+                
+                        if line.product_id:
+                            #Creamos lotes
+                            lot_id = self.env['stock.production.lot'].create({'product_id': line.product_id.id, 
+                                                        'name': self.env['ir.sequence'].next_by_code('stock.lot.serial'), 
+                                                        'referencia_id': line.product_id.referencia_id.id, 
+                                                        'cliente_id': cliente_id,
+                                                        'sale_order_line_id': line.id,
+                                                        'fabricado': False,
+                                                       })
+                    
+                            #Asignamos stock a lotes
+                line.fabricado = True
+    
 
     
     
