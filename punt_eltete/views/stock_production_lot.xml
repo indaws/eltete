@@ -64,19 +64,29 @@
         <field name="arch" type="xml">
         
                 <xpath expr="//field[@name='name']" position="after">
-		    <field name="type_id"/>
-		    <field name="referencia_id"/>
-		    <field name="cliente_id"/>
-		    <field name="unidades"/>
-		    <field name="peso_neto"/>
-		    <field name="sale_order_line_id"/>
+					<field name="type_id"/>
+					<field name="referencia_id"/>
+					<field name="cliente_id"/>
+					<field name="unidades"/>
+					<field name="peso_neto"/>
+					<field name="sale_order_line_id"/>
                     <field name="fecha_entrada"/>
-		    <field name="fecha_salida" />
+					<field name="fecha_salida" />
                 </xpath>
                 
-		    <field name="ref" invisible="1"/>
-		    <field name="product_id" invisible="1"/>
-		    <field name="create_date" invisible="1"/>	 
+				
+				<field name="ref" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+				
+				<field name="product_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+				
+				<field name="create_date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+				 
 
 		
 
