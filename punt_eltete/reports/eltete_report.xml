@@ -13,7 +13,7 @@
         <report 
             id="rep_sale_order_fabricacion"
             string="Orden de fabricación"
-            model="sale.order" 
+            model="sale.order.line" 
             report_type="qweb-pdf"
             file="punt_eltete.report_orden_fabricacion" 
             name="punt_eltete.report_orden_fabricacion" 
@@ -22,7 +22,7 @@
 		<report 
             id="rep_sale_order_etiquetas"
             string="Etiquetas pedido"
-            model="sale.order" 
+            model="sale.order.line" 
             report_type="qweb-pdf"
             file="punt_eltete.report_etiquetas_pedido" 
             name="punt_eltete.report_etiquetas_pedido" 
