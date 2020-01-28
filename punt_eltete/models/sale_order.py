@@ -88,6 +88,10 @@ class SaleOrderLine(models.Model):
             self.oferta_id.write({'no_editar': True})
     
     
+    @api.onchange('partner_shipping_id',)
+    def _onchange_provincia(self):
+        self.provincia_id = self.partner_shipping_id.state_id
+    
     
     @api.multi
     def procesar_fabricacion_linea(self):
