@@ -60,7 +60,7 @@
 				<field name="amount_untaxed" sum="Suma base"/>
 				<field name="peso_neto"/>
 				<field name="eton"/>
-				<field name="comercial"/>
+				<field name="comercial_bueno_id"/>
 			</xpath>
 			<xpath expr="//field[@name='state']" position="after">
 				<field name="estado"/>
@@ -110,6 +110,7 @@
 				<field name="importe" />
 				<field name="estado" />	
 		                <field name="aclaracion" />	
+		                <field name="no_editar"/>
             </xpath>
             
 		
@@ -121,7 +122,6 @@
             
 			<field name="confirmation_date" position="after">
 				<field name="no_editar"/>
-				<field name="descuento_porcentaje"/>
 				<field name="fecha_cliente"/>
 				<field name="fecha_entrega_cliente"/>
                 <field name="peso_neto"/>
