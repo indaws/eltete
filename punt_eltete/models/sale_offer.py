@@ -804,8 +804,24 @@ class sale_product_attribute(models.Model):
     incremento_pallet = fields.Float('Incremento Pallet', digits = (10,4), readonly = True, compute = "_get_incremento_param")
     
     fila_max = fields.Integer('Fila Max', readonly = True, compute = "_get_fila_max")
-
     
+    no_editar = fields.Boolean('No Editar')
+    referencia_cliente_nombre = fields.Char('Referencia_cliente_nombre', readonly = True)
+    paletizado = fields.Integer('Paletizado', readonly = True)
+    ancho_pallet = fields.Integer('Ancho Pallet', readonly = True)
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
+    und_paquete = fields.Integer('Und Paquete', readonly = True)
+    paquetes_fila = fields.Integer('Paquetes Fila', readonly = True)
+    
+
+    @api.onchange('referencia_cliente_id')
+    def _onchange_referencia_cliente(self):
+        self.referencia_cliente_nombre = self.referencia_cliente_id.referencia_cliente_nombre
+        self.paletizado = self.referencia_cliente_id.paletizado
+        self.ancho_pallet = self.referencia_cliente_id.ancho_pallet
+        self.pallet_especial_id = self.referencia_cliente_id.pallet_especial_id
+        self.und_paquete = self.referencia_cliente_id.und_paquete
+        self.paquetes_fila = self.referencia_cliente_id.paquetes_fila
     
     
     #OFERTA
@@ -1201,6 +1217,8 @@ class sale_offer_oferta(models.Model):
     state_id = fields.Many2one('res.country.state', string="Provincia")
     country_id = fields.Many2one('res.country', string="País")
     num_pallets = fields.Integer('Número Pallets', default = 1)
+    und_exactas = fields.Boolean('Unidades Exactas')
+    no_editar = fields.Boolean('No editar')
     
     unidades = fields.Integer('Unidades Pallet')
     precio_metro = fields.Float('Precio Metro', digits = (12,4))
@@ -1241,7 +1259,9 @@ class sale_offer_oferta(models.Model):
     estado = fields.Char('Estado', compute = "_get_estado")
     
     #descripcion_html = fields.Html('Descripción', readonly = True, compute = "_get_descripcion")
-        
+
+    
+    
     @api.multi
     def suma_filas(self):
         for record in self:
