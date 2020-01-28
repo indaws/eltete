@@ -12,27 +12,11 @@ class StockProductionLot(models.Model):
     cliente_id = fields.Many2one('res.partner', string="Cliente")
     
     fabricado = fields.Boolean('Fabricado')
-    
-    """
-    SOBREESCRITOS BAJO
-    """
-    #pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
-    #paletizado = fields.Integer('Paletizado')
-    #ancho_pallet = fields.Integer('Ancho Pallet')
-    #unidades = fields.Integer('Unidades')
-    #und_paquete = fields.Integer('Und Paquete')
-    
-    """
-    PARA ELIMINAR
-    """
-    #paquetes_fila = fields.Integer('Paquetes Fila')
-    #alto_fila = fields.Integer('Alto Fila')
-    #fila_max = fields.Integer('Fila Max')
-    #fila_buena = fields.Integer('Fila Buena')
-    #attribute_id = fields.Many2one('sale.product.attribute', string = "Atributo")
-    
+
     sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
     
+    #YA EXISTEN     ref = fields.Char('Referencia Interna')
+    #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
     
     
     @api.multi
@@ -45,16 +29,7 @@ class StockProductionLot(models.Model):
                 display_value = display_value + ' (' + str(lot.unidades) + ')'
             data.append((lot.id, display_value))
         return data
-    
-    
-    """
-    NUEVA VERSIÓN
-    """
-    
-    
-    #YA EXISTEN     ref = fields.Char('Referencia Interna')
-    #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
-    
+
     
     #PARA CREAR EL LOTE SIN ORDEN DE PRODUCCIÓN
     type_id = fields.Many2one('product.category', string="Tipo de producto", required=True)
@@ -102,8 +77,18 @@ class StockProductionLot(models.Model):
     fecha_entrada = fields.Date('Fecha Entrada')
     fecha_salida = fields.Date('Fecha Salida')
     disponible = fields.Boolean('Disponible', readonly = True, compute = "_get_disponible")
-
+    descripcion = fields.Html('Descripcion')
     
+    #PARA TODOS
+    ancho_pallet = fields.Integer('Ancho Pallet')
+    und_paquete = fields.Integer('Und paquete')
+    unidades = fields.Integer('Unidades')
+    peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
+
+    user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
+
+
+    """
     #CANTONERA
     cantonera_color_id = fields.Char('Cantonera Color', readonly = True, compute = "_get_valores")
     cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma", readonly = True, compute = "_get_valores")
@@ -159,26 +144,8 @@ class StockProductionLot(models.Model):
     
     user_troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Cambiar Troquelado")
     
-    
-    #PARA TODOS
-    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial", readonly = True, compute="_get_valores")
-    ancho_pallet = fields.Integer('Ancho Pallet', readonly = True, compute="_get_valores")
-    und_paquete = fields.Integer('Und paquete', readonly = True, compute="_get_valores")
-    unidades = fields.Integer('Unidades', readonly = True, compute="_get_valores")
-    peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
-    
-    user_pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
-    ANCHO_PALLET_SEL = [('1200', '1200'),     
-                        ('1150', '1150'),
-                        ('1000', '1000'),
-                        ('800', '800'), 
-                        ]
-    user_ancho_pallet = fields.Selection(selection = ANCHO_PALLET_SEL, string = 'Ancho Pallet')
-    user_und_paquete = fields.Integer('Und paquete')
-    user_unidades = fields.Integer('User Unidades')
-    user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
+    """
 
-    
     
     @api.depends('cliente_id', 'fecha_entrada', 'fecha_salida')
     def _get_disponible(self):
@@ -224,7 +191,7 @@ class StockProductionLot(models.Model):
                 peso_neto = peso_und * record.unidades
             record.peso_neto = peso_neto
     
-    
+    """
     
     @api.multi
     def _get_valores(self):
@@ -396,7 +363,7 @@ class StockProductionLot(models.Model):
             
             record.cambios_fabricacion = cambios_fabricacion
 
-
+    """
 
     @api.multi
     def crear_sin_pedido(self):
