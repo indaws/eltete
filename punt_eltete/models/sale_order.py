@@ -31,7 +31,6 @@ class SaleOrderLine(models.Model):
     peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
     
-    lotes_agregados = fields.Integer('Lotes Agregados', readonly = True, compute = "_get_lotes_fabricar")
     lotes_fabricar = fields.Integer('Lotes Fabricar', readonly = True, compute = "_get_lotes_fabricar")
     
     
@@ -101,10 +100,7 @@ class SaleOrderLine(models.Model):
     @api.depends('lot_ids')
     def _get_lotes_fabricar(self):
         for record in self:
-            lotes_agregados = len(record.lot_ids)
-            lotes_fabricar = record.num_pallets - lotes_agregados
-            
-            record.lotes_agregados = lotes_agregados
+            lotes_fabricar = record.num_pallets - len(record.lot_ids)
             record.lotes_fabricar = lotes_fabricar
             
     
