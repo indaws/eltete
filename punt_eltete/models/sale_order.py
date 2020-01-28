@@ -500,7 +500,7 @@ class SaleOrder(models.Model):
                   ('3', 'ENTREGA PARCIAL'),
                   ('4', 'ENTREGA TOTAL'),
                   ]
-    estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
+    estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=True, compute="_get_estado_pedido")
     
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
@@ -537,7 +537,7 @@ class SaleOrder(models.Model):
 
 
     
-    @api.depends('state', 'invoice_status', 'picking_ids', 'lot_ids')
+    @api.depends('state', 'invoice_status', 'picking_ids', 'picking_ids.state', 'lot_ids')
     def _get_estado_pedido(self):
         for record in self:
             estado = '0'
