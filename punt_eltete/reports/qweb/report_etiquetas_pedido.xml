@@ -7,19 +7,23 @@
             <t t-foreach="range(doc.lotes_fabricar)" t-as="lot">
               <t t-call="web.external_layout">
                   <div class="page">
-			  
-			<div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-				<td><strong>CLIENTE</strong></td>
-                         </div>
-			  <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-				<td><strong>PALLET</strong></td>
-                         </div>
-			  <div class="float-left company_address" style="padding:10px; font-size:48pt; width:50%;">
-				<td><span t-field="doc.order_id.partner_id.ref"/></td>
-                         </div>
-			  <div class="float-left company_address" style="padding:10px; font-size:48pt; width:50%;">
-				<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
-                         </div>
+			
+			<div class="float-left company_address" style="width:100%">
+				<div class="float-left company_address" style="font-size:12pt; width:50%;">
+					<td><strong>CLIENTE</strong></td>
+				 </div>
+				  <div class="float-left company_address" style= "font-size:12pt; width:50%;">
+					<td><strong>PALLET</strong></td>
+				 </div>
+			  </div>
+			  <div class="float-left company_address" style="width:100%">
+				  <div class="float-left company_address" style="text-align:center; font-size:40pt; width:50%;">
+					<td><span t-field="doc.order_id.partner_id.ref"/></td>
+				 </div>
+				  <div class="float-left company_address" style="text-align:center; font-size:40pt; width:50%;">
+					<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
+				</div>
+			 </div>
 			 <table class="table" style="width:100%">
 					  
 				<tr>
