@@ -69,7 +69,11 @@ class SaleOrderLine(models.Model):
     
     
     
-    
+    @api.onchange('no_editar',)
+    def _onchange_no_editar(self):
+        if self.no_editar == True:
+            self.attribute_id.write({'no_editar': True})
+            self.oferta_id.write({'no_editar': True})
     
     
     
@@ -483,6 +487,14 @@ class SaleOrder(models.Model):
                   ('4', 'ENTREGA TOTAL'),
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
+    
+    @api.onchange('no_editar',)
+    def _onchange_no_editar(self):
+        if self.no_editar == True:
+            for line in self.order_line:
+                line.no_editar = True
+                line.attribute_id.write({'no_editar': True})
+                line.oferta_id.write({'no_editar': True})
     
     
     @api.multi
