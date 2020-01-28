@@ -27,7 +27,7 @@
 						</tr>
 						
 						<tr>
-							<td><span t-field="lot.sale_order_line_id.descripcion"/></td>
+							<td><span t-field="lot.descripcion"/></td>
 							<td><span t-field="lot.unidades"/></td>
 						</tr>
 						
@@ -37,7 +37,7 @@
 						</tr>
 						
 						<tr>
-							<td>OP<span t-field="lot.sale_order_line_id.id"/></td>
+							<td>OP<span t-field="lot.id"/></td>
 							<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
 						</tr>
 						
