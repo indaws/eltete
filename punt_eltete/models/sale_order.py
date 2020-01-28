@@ -560,141 +560,105 @@ class SaleOrder(models.Model):
     @api.multi
     def create_sale_order_line_referencia(self, line_product_id, lot_ids, referencia_cliente_id, attribute_id, oferta_id, num_pallets):
         for record in self:
+        
+            if record.no_editar == False:
 
-            product_id = None
-            for prod in self.env['product.template'].search([('referencia_id', '=', referencia_cliente_id.referencia_id.id),
-                                                             ]):
-                product_id = prod
- 
-            if product_id == None:
-                es_vendido = False
-                es_comprado = False
-                tipo_producto = ''
-                cuenta_ingresos_code = -1
-                cuenta_gastos_code = -1
+                product_id = None
+                for prod in self.env['product.template'].search([('referencia_id', '=', referencia_cliente_id.referencia_id.id),
+                                                                 ]):
+                    product_id = prod
+     
+                if product_id == None:
+                    es_vendido = False
+                    es_comprado = False
+                    tipo_producto = ''
+                    cuenta_ingresos_code = -1
+                    cuenta_gastos_code = -1
+                    
+                    if referencia_cliente_id.is_cantonera == True:
+                        es_vendido = True
+                        es_comprado = False
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70100001
+                        cuenta_gastos_code = -1
+                    if referencia_cliente_id.is_perfilu == True:
+                        es_vendido = True
+                        es_comprado = True
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70000008
+                        cuenta_gastos_code = 60000003
+                    if referencia_cliente_id.is_slipsheet == True:
+                        es_vendido = True
+                        es_comprado = False
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70100009
+                        cuenta_gastos_code = -1
+                    if referencia_cliente_id.is_solidboard == True:
+                        es_vendido = True
+                        es_comprado = False
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70000011
+                        cuenta_gastos_code = -1
+                    if referencia_cliente_id.is_formato == True:
+                        es_vendido = True
+                        es_comprado = True
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70000004
+                        cuenta_gastos_code = 60000004
+                    if referencia_cliente_id.is_bobina == True:
+                        es_vendido = True
+                        es_comprado = True
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70000004
+                        cuenta_gastos_code = 60000004
+                    if referencia_cliente_id.is_pieballet == True:
+                        es_vendido = True
+                        es_comprado = True
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70000002
+                        cuenta_gastos_code = 60000005
+                    if referencia_cliente_id.is_flatboard == True:
+                        es_vendido = True
+                        es_comprado = True
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70000005
+                        cuenta_gastos_code = 60000007
+                    if referencia_cliente_id.is_varios == True:
+                        es_vendido = True
+                        es_comprado = True
+                        tipo_producto = 'consu'
+                        cuenta_gastos_code = -1
+                        if referencia_cliente_id.tipo_varios_id:
+                            cuenta_ingresos_code = referencia_cliente_id.tipo_varios_id.number
+                    if referencia_cliente_id.is_mprima_papel == True:
+                        es_vendido = True
+                        es_comprado = False
+                        tipo_producto = 'product'
+                        cuenta_ingresos_code = 70000004
+                        cuenta_gastos_code = 60100001
+                    
+                    product_id = self.env['product.template'].create({'name': referencia_cliente_id.referencia_id.name, 
+                                                                      'type': tipo_producto,
+                                                                      'purchase_ok': es_comprado,
+                                                                      'sale_ok': es_vendido,
+                                                                      'tracking': 'serial',
+                                                                      'categ_id': referencia_cliente_id.type_id.id,
+                                                                      'referencia_id':referencia_cliente_id.referencia_id.id, 
+                                                                      #'property_account_income_id': 
+                                                                      #'property_account_expense_id': 
+                                                                     })
                 
-                if referencia_cliente_id.is_cantonera == True:
-                    es_vendido = True
-                    es_comprado = False
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70100001
-                    cuenta_gastos_code = -1
-                if referencia_cliente_id.is_perfilu == True:
-                    es_vendido = True
-                    es_comprado = True
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70000008
-                    cuenta_gastos_code = 60000003
-                if referencia_cliente_id.is_slipsheet == True:
-                    es_vendido = True
-                    es_comprado = False
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70100009
-                    cuenta_gastos_code = -1
-                if referencia_cliente_id.is_solidboard == True:
-                    es_vendido = True
-                    es_comprado = False
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70000011
-                    cuenta_gastos_code = -1
-                if referencia_cliente_id.is_formato == True:
-                    es_vendido = True
-                    es_comprado = True
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70000004
-                    cuenta_gastos_code = 60000004
-                if referencia_cliente_id.is_bobina == True:
-                    es_vendido = True
-                    es_comprado = True
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70000004
-                    cuenta_gastos_code = 60000004
-                if referencia_cliente_id.is_pieballet == True:
-                    es_vendido = True
-                    es_comprado = True
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70000002
-                    cuenta_gastos_code = 60000005
-                if referencia_cliente_id.is_flatboard == True:
-                    es_vendido = True
-                    es_comprado = True
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70000005
-                    cuenta_gastos_code = 60000007
-                if referencia_cliente_id.is_varios == True:
-                    es_vendido = True
-                    es_comprado = True
-                    tipo_producto = 'consu'
-                    cuenta_gastos_code = -1
-                    if referencia_cliente_id.tipo_varios_id:
-                        cuenta_ingresos_code = referencia_cliente_id.tipo_varios_id.number
-                if referencia_cliente_id.is_mprima_papel == True:
-                    es_vendido = True
-                    es_comprado = False
-                    tipo_producto = 'product'
-                    cuenta_ingresos_code = 70000004
-                    cuenta_gastos_code = 60100001
                 
-                product_id = self.env['product.template'].create({'name': referencia_cliente_id.referencia_id.name, 
-                                                                  'type': tipo_producto,
-                                                                  'purchase_ok': es_comprado,
-                                                                  'sale_ok': es_vendido,
-                                                                  'tracking': 'serial',
-                                                                  'categ_id': referencia_cliente_id.type_id.id,
-                                                                  'referencia_id':referencia_cliente_id.referencia_id.id, 
-                                                                  #'property_account_income_id': 
-                                                                  #'property_account_expense_id': 
-                                                                 })
-            
-            
-            
-            discount = 0.0
-            if record.general_discount > 0.0:
-                discount = record.general_discount
-            if len(lot_ids) > 0 and line_product_id.id == product_id.id:
-            
-                sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
-                                                    'name':product_id.name, 
-                                                    'product_uom_qty': num_pallets,
-                                                    'num_pallets': num_pallets,
-                                                    'price_unit': oferta_id.cantidad * oferta_id.precio,
-                                                    'customer_lead': 1,
-                                                    'product_uom': 1,
-                                                    'attribute_id': attribute_id.id,
-                                                    'oferta_id': oferta_id.id,
-                                                    'product_id': product_id.product_variant_id.id,
-                                                    'discount': discount,
-                                                   })
-                sale_line._compute_tax_id()
-                for lot in lot_ids:
-                    lot.sale_order_line_id = sale_line.id
-            else:
                 
-                #CREAMOS LÍNEA DE LOTES
-                quantity = len(lot_ids)
-                if quantity > 0:
+                discount = 0.0
+                if record.general_discount > 0.0:
+                    discount = record.general_discount
+                if len(lot_ids) > 0 and line_product_id.id == product_id.id:
+                
                     sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
                                                         'name':product_id.name, 
-                                                        'product_uom_qty': quantity,
-                                                        'num_pallets': quantity,
-                                                        'price_unit': oferta_id.cantidad * oferta_id.precio,
-                                                        'customer_lead': 1,
-                                                        'product_uom': 1,
-                                                        'attribute_id': attribute_id.id,
-                                                        'oferta_id': oferta_id.id,
-                                                        'product_id': line_product_id.product_variant_id.id,
-                                                        'discount': discount,
-                                                       })
-                    sale_line._compute_tax_id()
-                    for lot in lot_ids:
-                        lot.sale_order_line_id = sale_line.id
-                                                   
-                quantity2 = num_pallets - quantity
-                if quantity2 > 0:
-                    sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
-                                                        'name':product_id.name, 
-                                                        'product_uom_qty': quantity2,
-                                                        'num_pallets': quantity2,
+                                                        'product_uom_qty': num_pallets,
+                                                        'num_pallets': num_pallets,
                                                         'price_unit': oferta_id.cantidad * oferta_id.precio,
                                                         'customer_lead': 1,
                                                         'product_uom': 1,
@@ -704,6 +668,44 @@ class SaleOrder(models.Model):
                                                         'discount': discount,
                                                        })
                     sale_line._compute_tax_id()
+                    for lot in lot_ids:
+                        lot.sale_order_line_id = sale_line.id
+                else:
+                    
+                    #CREAMOS LÍNEA DE LOTES
+                    quantity = len(lot_ids)
+                    if quantity > 0:
+                        sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
+                                                            'name':product_id.name, 
+                                                            'product_uom_qty': quantity,
+                                                            'num_pallets': quantity,
+                                                            'price_unit': oferta_id.cantidad * oferta_id.precio,
+                                                            'customer_lead': 1,
+                                                            'product_uom': 1,
+                                                            'attribute_id': attribute_id.id,
+                                                            'oferta_id': oferta_id.id,
+                                                            'product_id': line_product_id.product_variant_id.id,
+                                                            'discount': discount,
+                                                           })
+                        sale_line._compute_tax_id()
+                        for lot in lot_ids:
+                            lot.sale_order_line_id = sale_line.id
+                                                       
+                    quantity2 = num_pallets - quantity
+                    if quantity2 > 0:
+                        sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
+                                                            'name':product_id.name, 
+                                                            'product_uom_qty': quantity2,
+                                                            'num_pallets': quantity2,
+                                                            'price_unit': oferta_id.cantidad * oferta_id.precio,
+                                                            'customer_lead': 1,
+                                                            'product_uom': 1,
+                                                            'attribute_id': attribute_id.id,
+                                                            'oferta_id': oferta_id.id,
+                                                            'product_id': product_id.product_variant_id.id,
+                                                            'discount': discount,
+                                                           })
+                        sale_line._compute_tax_id()
             
             
             
