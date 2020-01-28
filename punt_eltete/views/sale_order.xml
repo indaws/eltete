@@ -57,7 +57,7 @@
 			</xpath>
 			
 			<xpath expr="//field[@name='partner_id']" position="after">
-				<field name="amount_untaxed"/>
+				<field name="amount_untaxed" sum="Suma base"/>
 				<field name="peso_neto"/>
 				<field name="eton"/>
 				<field name="comercial"/>
@@ -203,7 +203,8 @@
     
     
     
-    <menuitem name="Órdenes de producción" parent="sale.sale_menu_root" id="menu_sale_order_line_ordenes" sequence="3"/>
+    <menuitem name="Líneas de pedido" parent="sale.sale_menu_root" id="menu_sale_order_line_ordenes" sequence="3"/>
+	<menuitem name="Pedidos" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_pedidos" action="sale.action_orders" sequence="1"/>
     <menuitem name="Cantoneras" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_cantonera" action="action_sale_order_line_cantonera" sequence="1"/>
     <menuitem name="Perfiles U" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_perfilu" action="action_sale_order_line_perfilu" sequence="2"/>
     <menuitem name="Slip sheets" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_slipsheet" action="action_sale_order_line_slipsheet" sequence="3"/>
