@@ -9,12 +9,16 @@
                   <div class="page">
 			  
 			<div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-				<td><strong>FECHA</strong></td>
-				<td><span t-field="doc.order_id.date_order" t-options='{"format": "dd/MM/yyyy"}'/></td>
+				<td><strong>CLIENTE</strong></td>
                          </div>
 			  <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-				<td><strong>PEDIDO</strong></td>
-				<td><span t-field="doc.order_id.name"/></td>
+				<td><strong>PALLET</strong></td>
+                         </div>
+			  <div class="float-left company_address" style="padding:10px; font-size:48pt; width:50%;">
+				<td><span t-field="doc.order_id.partner_id.ref"/></td>
+                         </div>
+			  <div class="float-left company_address" style="padding:10px; font-size:48pt; width:50%;">
+				<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
                          </div>
 			 <table class="table" style="width:100%">
 					  
