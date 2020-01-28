@@ -7,50 +7,57 @@
             <t t-foreach="range(doc.lotes_fabricar)" t-as="lot">
               <t t-call="web.external_layout">
                   <div class="page">
-                      
+			  
+			<div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+				<td><strong>FECHA</strong></td>
+				<td><span t-field="doc.order_id.date_order" t-options='{"format": "dd/MM/yyyy"}'/></td>
+                         </div>
+			  <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+				<td><strong>PEDIDO</strong></td>
+				<td><span t-field="doc.order_id.name"/></td>
+                         </div>
+			 <table class="table" style="width:100%">
 					  
-					  <table class="table" style="width:100%">
-					  
-						<tr>
-							<td><strong>FECHA</strong></td>
-							<td><strong>PEDIDO</strong></td>
-						</tr>
+				<tr>
+					<td><strong>FECHA</strong></td>
+					<td><strong>PEDIDO</strong></td>
+				</tr>
 						
-						<tr>
-							<td><span t-field="doc.order_id.date_order" t-options='{"format": "dd/MM/yyyy"}'/></td>
-							<td><span t-field="doc.order_id.name"/></td>
-						</tr>
+				<tr>
+					<td><span t-field="doc.order_id.date_order" t-options='{"format": "dd/MM/yyyy"}'/></td>
+					<td><span t-field="doc.order_id.name"/></td>
+				</tr>
 						
-						<tr>
-							<td><strong>DESCRIPCIÓN</strong></td>
-							<td><strong>UNIDADES</strong></td>
-						</tr>
+				<tr>
+					<td><strong>DESCRIPCIÓN</strong></td>
+					<td><strong>UNIDADES</strong></td>
+				</tr>
 						
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
 						
-						<tr>
-							<td><strong>ORDEN DE PRODUCCIÓN</strong></td>
-							<td><strong>PALLET Nº</strong></td>
-						</tr>
+				<tr>
+					<td><strong>ORDEN DE PRODUCCIÓN</strong></td>
+					<td><strong>PALLET Nº</strong></td>
+				</tr>
 						
-						<tr>
-							<td></td>
-							<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
-						</tr>
+				<tr>
+					<td></td>
+					<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
+				</tr>
 						
-						<tr>
-							<td><strong>CLIENTE</strong></td>
-							<td><strong>DIRECCIÓN DE ENTREGA</strong></td>
-						</tr>
+				<tr>
+					<td><strong>CLIENTE</strong></td>
+					<td><strong>DIRECCIÓN DE ENTREGA</strong></td>
+				</tr>
 						
-						<tr>
-							<td><strong><span t-field="doc.order_id.partner_id.ref"/></strong><br/></td>
-							<td>
-								<span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
-								<span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
+				<tr>
+					<td><strong><span t-field="doc.order_id.partner_id.ref"/></strong><br/></td>
+					<td>
+						<span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
+						<span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
 								<span t-field="doc.order_id.partner_shipping_id.country_id"/>
 							</td>
 						</tr>
