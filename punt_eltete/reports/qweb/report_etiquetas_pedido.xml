@@ -37,7 +37,7 @@
 						</tr>
 						
 						<tr>
-							<td>OP<span t-field="lot.id"/></td>
+							<td></td>
 							<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
 						</tr>
 						
