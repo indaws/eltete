@@ -28,7 +28,7 @@
 						
 						<tr>
 							<td></td>
-							<td><span t-field="lot.unidades"/></td>
+							<td></td>
 						</tr>
 						
 						<tr>
