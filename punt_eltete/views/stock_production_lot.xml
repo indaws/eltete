@@ -40,7 +40,6 @@
                 <xpath expr="//field[@name='ref']" position="after">
                 
                     
-			<field name="pallet_especial_id"/>
 			<field name="ancho_pallet"/>
 			<field name="und_paquete"/>
 			<field name="unidades"/>
