@@ -136,14 +136,7 @@
                     </group>
                     
 
-                    
-                    <br/><br/>
-                    <h3>ATRIBUTOS</h3>
-                    
-                    <group>
-                    
-                        
-                    
+                   
                     <group>
                         <button name="crear_sin_pedido" type="object" string="Crear sin pedido" />
                     </group>
