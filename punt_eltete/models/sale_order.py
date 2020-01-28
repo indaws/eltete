@@ -464,6 +464,8 @@ class SaleOrder(models.Model):
     fecha_entrega = fields.Date('Fecha Entrega Bemeco')
     fecha_cliente = fields.Date('Fecha del Pedido Cliente')
     fecha_entrega_cliente = fields.Date('Fecha Entrega del Pedido Cliente')
+    provincia_id = fields.Many2one('res.country.state', string="Provincia")
+    transportista = fields.Integer('Transportista')
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
 
