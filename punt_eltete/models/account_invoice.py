@@ -33,6 +33,28 @@ class AccountInvoice(models.Model):
                 fecha_entrega_albaran = line.fecha_albaran
             record.pedido_cliente = pedido_cliente
             record.fecha_entrega_albaran = fecha_entrega_albaran
+            
+            
+    importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
+    descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_valores_descuento")
+    
+    
+    @api.depends('invoice_line_ids')
+    def _get_valores_descuento(self):
+    
+        for record in self:
+
+            importe_sin_descuento = 0
+            descuento_porcentaje = 0.0
+            
+            for line in record.invoice_line_ids:
+                importe_sin_descuento = importe_sin_descuento + line.importe
+                if line.discount > 0.0:
+                    descuento_porcentaje = line.discount
+
+            record.descuento_porcentaje = descuento_porcentaje
+            record.importe_sin_descuento = importe_sin_descuento
+
 
 
 
