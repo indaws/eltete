@@ -802,12 +802,12 @@ class sale_product_attribute(models.Model):
     fila_max = fields.Integer('Fila Max', readonly = True, compute = "_get_fila_max")
     
     no_editar = fields.Boolean('No Editar')
-    referencia_cliente_nombre = fields.Char('Referencia_cliente_nombre', readonly = False)
-    paletizado = fields.Integer('Paletizado', readonly = False)
-    ancho_pallet = fields.Integer('Ancho Pallet', readonly = False)
-    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', readonly = False, string = "Pallet especial")
-    und_paquete = fields.Integer('Und Paquete', readonly = False)
-    paquetes_fila = fields.Integer('Paquetes Fila', readonly = False)
+    referencia_cliente_nombre = fields.Char('Referencia_cliente_nombre', readonly = True)
+    paletizado = fields.Integer('Paletizado', readonly = True)
+    ancho_pallet = fields.Integer('Ancho Pallet', readonly = True)
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', readonly = True, string = "Pallet especial")
+    und_paquete = fields.Integer('Und Paquete', readonly = True)
+    paquetes_fila = fields.Integer('Paquetes Fila', readonly = True)
     
 
     @api.onchange('referencia_cliente_id')
@@ -1268,16 +1268,11 @@ class sale_offer_oferta(models.Model):
     
     name = fields.Char('Título', readonly = True, compute = "_get_precio")
     cantidad = fields.Float('Cantidad', digits = (12,4), readonly = True, compute = "_get_precio")
-    #cantidad_texto = fields.Char('Cantidad Texto', readonly = True, compute = "_get_precio")
     cantidad_tipo = fields.Char('Cantidad Tipo', readonly = True, compute = "_get_precio")
     precio = fields.Float('Precio', digits = (12,4), readonly = True, compute = "_get_precio")
     precio_tipo = fields.Char('Precio Tipo', readonly = True, compute = "_get_precio")
     
     estado = fields.Char('Estado', compute = "_get_estado")
-    
-    #descripcion_html = fields.Html('Descripción', readonly = True, compute = "_get_descripcion")
-
-    
     
     @api.multi
     def suma_filas(self):
