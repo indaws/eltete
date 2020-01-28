@@ -495,6 +495,9 @@ class SaleOrder(models.Model):
                 line.no_editar = True
                 line.attribute_id.write({'no_editar': True})
                 line.oferta_id.write({'no_editar': True})
+        else:
+            for line in self.order_line:
+                line.no_editar = False
     
     
     @api.multi
