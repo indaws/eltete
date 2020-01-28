@@ -69,6 +69,10 @@ class SaleOrderLine(models.Model):
     
     
     
+    
+    
+    
+    
     @api.multi
     def procesar_fabricacion_linea(self):
         for record in self:
@@ -479,6 +483,20 @@ class SaleOrder(models.Model):
                   ('4', 'ENTREGA TOTAL'),
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=False, compute="_get_estado_pedido")
+    
+    
+    @api.multi
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        for so in self:
+            so.no_editar = True
+            for line in so.order_line:
+                line.no_editar = True
+                line.attribute_id.no_editar = True
+                line.oferta_id.no_editar = True
+        return res
+        
+        
 
     #@api.depends('importe_con_descuento', 'importe_sin_descuento', 'partner_id.sale_discount')
     def _get_descuento(self):
