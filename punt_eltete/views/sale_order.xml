@@ -53,6 +53,8 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='name']" position="after">
+		    		<field name="provincia_id"/>
+		    		<field name="transportista"/>
 				<field name="fecha_entrega"/>
 			</xpath>
 			
