@@ -809,7 +809,7 @@ class sale_product_attribute(models.Model):
     referencia_cliente_nombre = fields.Char('Referencia_cliente_nombre', readonly = True)
     paletizado = fields.Integer('Paletizado', readonly = True)
     ancho_pallet = fields.Integer('Ancho Pallet', readonly = True)
-    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', readonly = True, string = "Pallet especial")
     und_paquete = fields.Integer('Und Paquete', readonly = True)
     paquetes_fila = fields.Integer('Paquetes Fila', readonly = True)
     
