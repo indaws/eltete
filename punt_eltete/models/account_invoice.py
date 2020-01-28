@@ -36,6 +36,7 @@ class AccountInvoice(models.Model):
             
             
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
+    importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
     descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_valores_descuento")
     
     
@@ -54,6 +55,7 @@ class AccountInvoice(models.Model):
 
             record.descuento_porcentaje = descuento_porcentaje
             record.importe_sin_descuento = importe_sin_descuento
+            record.importe_descuento = record.amount_untaxed - record.importe_sin_descuento
 
 
 
