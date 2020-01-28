@@ -113,6 +113,13 @@
 				<field name="aclaracion" />	
 				<field name="no_editar" invisible="1" />
             </xpath>
+		
+			<xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+				<button string="Ir" 
+						name="action_view_form_sale_order" 
+						type="object" 
+						class="oe_highlight"/>  
+           		 </xpath>
             
 		
 			<field name="partner_shipping_id" position="after">
