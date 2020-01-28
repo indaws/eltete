@@ -142,65 +142,7 @@
                     
                     <group>
                     
-                        <!-- CANTONERA -->
-                        <field name='cantonera_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='cantonera_forma_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='cantonera_especial_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='cantonera_impresion_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='cantonera_cliche_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='fsc_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='reciclable_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='paletizado' attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_cantonera_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_cantonera_forma_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_cantonera_especial_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_cantonera_impresion_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_cantonera_cliche_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_fsc_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_reciclable_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                        <field name='user_paletizado' attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                
-                
-                        <!-- PERFIL U -->
-                        <field name='perfilu_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_perfilu', '=', False)]}"/>
-                        <field name='user_perfilu_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_perfilu', '=', False)]}"/>
                         
-                        
-                        <!-- CANTONERA Y PERFIL U -->
-                        <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                        <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                        <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                        <field name='user_inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                        <field name='user_inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                        <field name='user_inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                        
-                        
-                        <!-- SOLIDBOARD -->
-                        <field name='plancha_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_solidboard', '=', False)]}"/>
-                        <field name='user_plancha_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_solidboard', '=', False)]}"/>
-                        
-                        
-                        <!-- FORMATO Y BOBINA -->
-                        <field name='papel_calidad_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
-                        <field name='user_papel_calidad_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
-                        
-                        
-                        <!-- SLIPSHEET, SOLIDBOARD Y FORMATO -->
-                        <field name='troquelado_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),]}"/>
-                        <field name='user_troquelado_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),]}"/>
-                        
-                        
-                        <!-- TODOS -->
-                        <field name="pallet_especial_id"/>
-                        <field name="ancho_pallet"/>
-                        <field name="und_paquete"/>
-                        <field name="unidades"/>
-                        <field name="user_pallet_especial_id"/>
-                        <field name="user_ancho_pallet"/>
-                        <field name="user_und_paquete"/>
-                        <field name="user_unidades"/>
-                        
-                    </group>
                     
                     <group>
                         <button name="crear_sin_pedido" type="object" string="Crear sin pedido" />
