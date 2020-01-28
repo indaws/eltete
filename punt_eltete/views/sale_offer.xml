@@ -197,9 +197,9 @@
 					<field name='no_editar' invisible="1"/>
 					<field name='referencia_cliente_nombre' attrs="{'readonly': [('no_editar', '=', True)]}"/>
 					<field name='paletizado' attrs="{'readonly': [('no_editar', '=', True)]}" />
+				        <field name='ancho_pallet' attrs="{'readonly': [('no_editar', '=', True)]}" />
 		           </group>
 			   <group>
-					<field name='ancho_pallet' attrs="{'readonly': [('no_editar', '=', True)]}" />
 					<field name='pallet_especial_id' attrs="{'readonly': [('no_editar', '=', True)]}" />
 					<field name='und_paquete' attrs="{'readonly': [('no_editar', '=', True)]}" />
 					<field name='paquetes_fila' attrs="{'readonly': [('no_editar', '=', True)]}" />
