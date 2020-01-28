@@ -163,15 +163,15 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name='cantonera_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                                <field name='cantonera_forma_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                                <field name='cantonera_especial_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                                <field name='cantonera_impresion_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-				<field name='cantonera_cliche_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                                <field name='perfilu_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_perfilu', '=', False)]}"/>
-                                <field name='plancha_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_solidboard', '=', False)]}"/>
-                                <field name='papel_calidad_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
-                                <field name='troquelado_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),]}"/>
+                                <field name='cantonera_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='cantonera_forma_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='cantonera_especial_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='cantonera_impresion_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+				<field name='cantonera_cliche_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='perfilu_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_perfilu', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='plancha_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_solidboard', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='papel_calidad_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='troquelado_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 
                                 <field name="referencia_cliente_id" invisible="1"  />
                                 <field name="type_id"  invisible="1" />
@@ -186,22 +186,22 @@
                                 <field name="is_varios" invisible="1"/>
                             </group>
                             <group>
-                                <field name='codigo_cliente' />
-				<field name='fsc_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-				<field name='reciclable_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-                                <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                                <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
-                                <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),]}"/>
+                                <field name='codigo_cliente' attrs="{'readonly': [('no_editar', '=', True)]}"/>
+								<field name='fsc_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+								<field name='reciclable_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                             
-				<field name='no_editar' />
-				<field name='referencia_cliente_nombre' />
-				<field name='paletizado' />
-				<field name='ancho_pallet' />
-				<field name='pallet_especial_id' />
-				<field name='und_paquete' />
-				<field name='paquetes_fila' />
+								<field name='no_editar' />
+								<field name='referencia_cliente_nombre' attrs="{'readonly': [('no_editar', '=', True)]}"/>
+								<field name='paletizado' attrs="{'readonly': [('no_editar', '=', True)]}" />
+								<field name='ancho_pallet' attrs="{'readonly': [('no_editar', '=', True)]}" />
+								<field name='pallet_especial_id' attrs="{'readonly': [('no_editar', '=', True)]}" />
+								<field name='und_paquete' attrs="{'readonly': [('no_editar', '=', True)]}" />
+								<field name='paquetes_fila' attrs="{'readonly': [('no_editar', '=', True)]}" />
 				
-			    </group>
+							</group>
                         </group>
                     </sheet>
                 </form>
@@ -246,19 +246,19 @@
                                 <field name="attribute_id" domain="[('referencia_cliente_id','=', referencia_cliente_id)]" context="{'default_referencia_cliente_id': referencia_cliente_id,  }"/>
                                 <field name='user_id' />
                                 <field name='date' />
-				<field name='fecha_enviada' />
+								<field name='fecha_enviada' />
                                 <field name='state_id' />
                                 <field name='country_id' />
-				<h3>Oferta:</h3>
-				<field name='precio_cliente' invisible="1"/>
-                                <field name='num_pallets' attrs="{'invisible': [('precio_cliente', '=', '5')]}"/>
+								<h3>Oferta:</h3>
+								<field name='precio_cliente' invisible="1" attrs="{'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='num_pallets' attrs="{'invisible': [('precio_cliente', '=', '5')], 'readonly': [('no_editar', '=', True)]}"/>
 				 
-				<field name='und_exactas' />
-                                <field name='unidades' attrs="{'invisible': [('precio_cliente', '=', '5')]}"/>
-				<field name='precio_metro' attrs="{'invisible': ['|',('precio_cliente', '=', '4'),('precio_cliente', '=', '5'),]}"/>
-                                <field name='kilos' attrs="{'invisible': [('precio_cliente', '!=', '4')]}"/>
-                                <field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '!=', '4')]}"/>
-                                <field name='precio_varios' attrs="{'invisible': [('precio_cliente', '!=', '5')]}"/>
+								<field name='und_exactas' attrs="{'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='unidades' attrs="{'invisible': [('precio_cliente', '=', '5')], 'readonly': [('no_editar', '=', True)]}"/>
+								<field name='precio_metro' attrs="{'invisible': ['|',('precio_cliente', '=', '4'),('precio_cliente', '=', '5'),], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='kilos' attrs="{'invisible': [('precio_cliente', '!=', '4')], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '!=', '4')], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='precio_varios' attrs="{'invisible': [('precio_cliente', '!=', '5')], 'readonly': [('no_editar', '=', True)]}"/>
 			</group>
                             <group>
 				<field name='no_editar' />
