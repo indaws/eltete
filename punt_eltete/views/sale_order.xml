@@ -99,7 +99,6 @@
                 <field name="order_partner_id" invisible="1" />
 				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
-		                <field name="id" />
 				<field name="bultos" />
 				<field name="und_user" />
 				<field name="kilos_user" />
