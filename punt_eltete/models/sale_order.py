@@ -486,7 +486,7 @@ class SaleOrder(models.Model):
     descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_descuento")
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
     comercial = fields.Char('Comercial Bueno', compute="_get_descuento")
-    editar = fields.Boolean('Editar', default = True)
+    no_editar = fields.Boolean('Editar')
     pedido_stock = fields.Boolean('Pedido de Stock', default = False)
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
