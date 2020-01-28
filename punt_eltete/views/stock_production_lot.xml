@@ -17,7 +17,6 @@
 			<field name="pallet_sage"/>
 			<field name="maquina"/>
 			<field name="unidades"/>
-			<field name="user_unidades"/>
 			<field name="peso_neto"/>
 			<field name="user_peso_bruto"/>
 			<field name="fabricado"/>  
