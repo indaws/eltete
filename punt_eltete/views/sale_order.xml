@@ -236,7 +236,6 @@
             <xpath expr="//form/sheet/group" position="after">
             
                     <group>
-                        <field name="lotes_agregados"/>
 		    	<field name="lotes_fabricar"/>
 			 <field name="lot_ids"/>
                     </group>
