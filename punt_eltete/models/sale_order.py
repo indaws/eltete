@@ -236,20 +236,20 @@ class SaleOrderLine(models.Model):
             aux2 = longitud + 5
             tolerancia_longitud = str(aux1) + " - " + str(aux2)
             
-            ancho_pallet = record.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
+            ancho_pallet = record.oferta_id.attribute_id.ancho_pallet
             tipo_pallet = ""
-            if record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
-                tipo_pallet = record.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id.name
+            if record.oferta_id.attribute_id.pallet_especial_id:
+                tipo_pallet = record.oferta_id.attribute_id.pallet_especial_id.name
             else:
                 tipo_pallet = "Pallet de Madera"
             paletizado = "Compacto (Normal)"
-            if record.oferta_id.attribute_id.referencia_cliente_id.paletizado == 2:
+            if record.oferta_id.attribute_id.paletizado == 2:
                 paletizado = "Columnas" 
-            und_paquete = str(record.oferta_id.attribute_id.referencia_cliente_id.und_paquete) + " unidades / paquete"
-            paquetes_fila = str(record.oferta_id.attribute_id.referencia_cliente_id.paquetes_fila) + " paquetes / fila"
+            und_paquete = str(record.oferta_id.attribute_id.und_paquete) + " unidades / paquete"
+            paquetes_fila = str(record.oferta_id.attribute_id.paquetes_fila) + " paquetes / fila"
             
             und_exactas = ""
-            if record.oferta_id.attribute_id.referencia_cliente_id.und_pallet_cliente > 0:
+            if record.oferta_id.und_exactas == True:
                 und_exactas = "SI"
             
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
@@ -265,7 +265,6 @@ class SaleOrderLine(models.Model):
             minutos = minutos - 60 * horas
             duracion = str(horas) + " horas " + str(minutos) + " minutos"
             metros = str(int(metros)) + " metros"
-            #peso = str(int(peso)) + " kg"
             peso_interior = str(peso_interior) + " kg"
             peso_superficie = str(peso_superficie) + " kg"
             comentario = ""
