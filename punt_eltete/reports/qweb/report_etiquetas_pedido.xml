@@ -7,7 +7,22 @@
             <t t-foreach="range(doc.lotes_fabricar)" t-as="lot">
               <t t-call="web.external_layout">
                   <div class="page">
-			
+			<div class="float-left company_address" style="width:100%">
+				<div class="float-left company_address" style="font-size:12pt; width:50%;">
+					<td><strong>PEDIDO</strong></td>
+				 </div>
+				  <div class="float-left company_address" style= "font-size:12pt; width:50%;">
+					<td><strong>FECHA</strong></td>
+				 </div>
+			  </div>
+			  <div class="float-left company_address" style="width:100%">
+				  <div class="float-left company_address" style="text-align:center; font-size:12pt; width:50%;">
+					<td><span t-field="doc.order_id.name"/></td>
+				 </div>
+				  <div class="float-left company_address" style="text-align:center; font-size:12pt; width:50%;">
+					<td><span t-field="doc.order_id.date_order" t-options='{"format": "dd/MM/yyyy"}'/></td>
+				</div>
+			 </div>
 			<div class="float-left company_address" style="width:100%">
 				<div class="float-left company_address" style="font-size:12pt; width:50%;">
 					<td><strong>CLIENTE</strong></td>
@@ -24,6 +39,43 @@
 					<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
 				</div>
 			 </div>
+			  <div class="float-left company_address" style="width:100%">
+				<div class="float-left company_address" style="font-size:12pt; width:50%;">
+					<td><strong>DESCRIPCIÓN</strong></td>
+				 </div>
+				  <div class="float-left company_address" style= "font-size:12pt; width:50%;">
+					<td><strong>UNIDADES</strong></td>
+				 </div>
+			  </div>
+			  <div class="float-left company_address" style="width:100%">
+				  <div class="float-left company_address" style="text-align:center; font-size:40pt; width:50%;">
+					<td><span t-field="doc.descripcion"/></td>
+				 </div>
+				  <div class="float-left company_address" style="text-align:center; font-size:40pt; width:50%;">
+					<td><span t-esc="doc.und_pallet"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
+				</div>
+			 </div>
+			  <div class="float-left company_address" style="width:100%">
+				<div class="float-left company_address" style="font-size:12pt; width:50%;">
+					<td><strong>DIRECCIÓN</strong></td>
+				 </div>
+				  <div class="float-left company_address" style= "font-size:12pt; width:50%;">
+					
+				 </div>
+			  </div>
+			  <div class="float-left company_address" style="width:100%">
+				  <div class="float-left company_address" style="text-align:center; font-size:12pt; width:50%;">
+					<td>
+						<span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
+						<span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
+						<span t-field="doc.order_id.partner_shipping_id.country_id"/>
+					</td>
+				 </div>
+				  <div class="float-left company_address" style="text-align:center; font-size:12pt; width:50%;">
+				
+				</div>
+			 </div>
+			  
 			 <table class="table" style="width:100%">
 					  
 				<tr>
