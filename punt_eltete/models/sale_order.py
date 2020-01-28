@@ -31,6 +31,11 @@ class SaleOrderLine(models.Model):
     peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
     
+    lotes_agregados = fields.Integer('Pallets Agregados', readonly = True, compute = "_get_lotes_fabricar")
+    lotes_fabricar = fields.Integer('Pallets Fabricar', readonly = True, compute = "_get_lotes_fabricar")
+    
+    
+    
     ESTADO_SEL = [('0', 'ESPERANDO'),    
                   ('1', 'MANDAR A FABRICAR'),
                   ('2', 'MANDAR A MANIPULAR'),
@@ -91,6 +96,18 @@ class SaleOrderLine(models.Model):
     @api.onchange('partner_shipping_id',)
     def _onchange_provincia(self):
         self.provincia_id = self.partner_shipping_id.state_id
+    
+    
+    @api.depends('aclaracion')
+    def _gat_lotes_fabricar(self):
+        for record in self:
+            lotes_agregados = len[record.lot_ids]
+            lotes_fabricar = record.num_pallets - lotes_gregados
+            
+            record.lotes_agregados = lotes_agregados
+            record.lotes_fabricar = lotes_fabricar
+            
+    
     
     
     @api.multi
