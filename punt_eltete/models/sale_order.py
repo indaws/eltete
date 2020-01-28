@@ -67,7 +67,19 @@ class SaleOrderLine(models.Model):
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
     
-    
+    @api.multi
+    def action_view_form_sale_order(self):
+        view = self.env.ref('sale.sale_order_line_view_form_readonly')
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'sale.order.line',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'res_id': self.id,
+            'context': self.env.context,
+        }
     
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
