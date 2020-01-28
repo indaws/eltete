@@ -53,14 +53,13 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='name']" position="after">
-		    		<field name="provincia_id"/>
-		    		<field name="transportista"/>
 				<field name="fecha_entrega"/>
 			</xpath>
 			
 			<xpath expr="//field[@name='partner_id']" position="after">
+				<field name="provincia_id"/>
 				<field name="amount_untaxed" sum="Suma base"/>
-				<field name="peso_neto"/>
+				<field name="peso_neto" sum="Peso Total"/>
 				<field name="eton"/>
 				<field name="comercial_bueno_id"/>
 			</xpath>
@@ -123,6 +122,8 @@
             
 		
 			<field name="partner_shipping_id" position="after">
+				<field name="provincia_id"/>
+		    		<field name="transportista"/>
 				<field name="pedido_cliente"/>
 				<field name="fecha_entrega"/>
 				<field name="estado"/>
