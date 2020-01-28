@@ -8,11 +8,11 @@
               <t t-call="web.external_layout">
                   <div class="page">
 			<div class="float-left company_address" style="padding:5px; width:100%">
-				<div class="float-left company_address" style="font-size:18pt; width:50%;">
-					<td><strong>PEDIDO</strong></td>
+				<div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
+					<td>PEDIDO:</td>
 				 </div>
-				  <div class="float-left company_address" style="font-size:18pt; width:50%;">
-					<td><strong>FECHA</strong></td>
+				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
+					<td>FECHA:</td>
 				 </div>
 			  </div>
 			  <div class="float-left company_address" style="padding:5px; width:100%">
@@ -26,11 +26,11 @@
 			  <div class="float-left company_address" style="padding:30px; width:100%">
 			  </div>
 			<div class="float-left company_address" style="padding:5px; width:100%">
-				<div class="float-left company_address" style="font-size:18pt; width:50%;">
-					<td><strong>CLIENTE</strong></td>
+				<div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
+					<td>CLIENTE:</td>
 				 </div>
-				  <div class="float-left company_address" style="font-size:18pt; width:50%;">
-					<td><strong>PALLET</strong></td>
+				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
+					<td>PALLET:</td>
 				 </div>
 			  </div>
 			  <div class="float-left company_address" style="padding:5px; width:100%">
@@ -43,20 +43,20 @@
 			 </div>
 			  <div class="float-left company_address" style="padding:30px; width:100%">
 			  </div>
-			  <div class="float-left company_address" style="padding:10px; font-size:18pt; text-align:center; width:100%">
-				<td><strong>DESCRIPCIÓN</strong></td>
+			  <div class="float-left company_address" style="text-align:center; padding:10px; font-size:18pt; text-align:center; width:100%">
+				<td>DESCRIPCIÓN:</td>
 			  </div>
 			  <div class="float-left company_address" style="padding:10px; font-size:36pt; text-align:center; width:100%">
 				<td><span t-field="doc.descripcion"/></td>
 			  </div>
 			  <div class="float-left company_address" style="padding:30px; width:100%">
 			  </div>
-			  <div class="float-left company_address" style="padding:10px; width:100%">
+			  <div class="float-left company_address" style="text-align:center; padding:10px; width:100%">
 				<div class="float-left company_address" style="font-size:18pt; width:50%;">
-					<td><strong>UNIDADES</strong></td>
+					<td>UNIDADES:</td>
 				 </div>
-				  <div class="float-left company_address" style="font-size:18pt; width:50%;">
-					<td><strong>DIRECCIÓN</strong></td>
+				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
+					<td>DIRECCIÓN:</td>
 				 </div>
 			  </div>
 			  <div class="float-left company_address" style="padding:10px; width:100%">
