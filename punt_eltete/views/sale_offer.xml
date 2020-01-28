@@ -192,16 +192,19 @@
                                 <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
-                            
-								<field name='no_editar' />
-								<field name='referencia_cliente_nombre' attrs="{'readonly': [('no_editar', '=', True)]}"/>
-								<field name='paletizado' attrs="{'readonly': [('no_editar', '=', True)]}" />
-								<field name='ancho_pallet' attrs="{'readonly': [('no_editar', '=', True)]}" />
-								<field name='pallet_especial_id' attrs="{'readonly': [('no_editar', '=', True)]}" />
-								<field name='und_paquete' attrs="{'readonly': [('no_editar', '=', True)]}" />
-								<field name='paquetes_fila' attrs="{'readonly': [('no_editar', '=', True)]}" />
+                            </group>
+			    <group>
+					<field name='no_editar' invisible="1"/>
+					<field name='referencia_cliente_nombre' attrs="{'readonly': [('no_editar', '=', True)]}"/>
+					<field name='paletizado' attrs="{'readonly': [('no_editar', '=', True)]}" />
+		           </group>
+			   <group>
+					<field name='ancho_pallet' attrs="{'readonly': [('no_editar', '=', True)]}" />
+					<field name='pallet_especial_id' attrs="{'readonly': [('no_editar', '=', True)]}" />
+					<field name='und_paquete' attrs="{'readonly': [('no_editar', '=', True)]}" />
+					<field name='paquetes_fila' attrs="{'readonly': [('no_editar', '=', True)]}" />
 				
-							</group>
+				</group>
                         </group>
                     </sheet>
                 </form>
@@ -249,19 +252,19 @@
 								<field name='fecha_enviada' />
                                 <field name='state_id' />
                                 <field name='country_id' />
-								<h3>Oferta:</h3>
-								<field name='precio_cliente' invisible="1" attrs="{'readonly': [('no_editar', '=', True)]}"/>
+				<h3>Oferta:</h3>
+				<field name='precio_cliente' invisible="1" attrs="{'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='num_pallets' attrs="{'invisible': [('precio_cliente', '=', '5')], 'readonly': [('no_editar', '=', True)]}"/>
 				 
-								<field name='und_exactas' attrs="{'readonly': [('no_editar', '=', True)]}"/>
+				<field name='und_exactas' />
                                 <field name='unidades' attrs="{'invisible': [('precio_cliente', '=', '5')], 'readonly': [('no_editar', '=', True)]}"/>
-								<field name='precio_metro' attrs="{'invisible': ['|',('precio_cliente', '=', '4'),('precio_cliente', '=', '5'),], 'readonly': [('no_editar', '=', True)]}"/>
+				<field name='precio_metro' attrs="{'invisible': ['|',('precio_cliente', '=', '4'),('precio_cliente', '=', '5'),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='kilos' attrs="{'invisible': [('precio_cliente', '!=', '4')], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '!=', '4')], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='precio_varios' attrs="{'invisible': [('precio_cliente', '!=', '5')], 'readonly': [('no_editar', '=', True)]}"/>
 			</group>
                             <group>
-				<field name='no_editar' />
+				<field name='no_editar' invisible="1"/>
                                 <h3>Unidades por Pallet:</h3>
                                 <field name='alto_pallet_text' />
                                 <field name='peso_neto_text' />
