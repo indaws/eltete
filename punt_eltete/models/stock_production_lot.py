@@ -62,18 +62,12 @@ class StockProductionLot(models.Model):
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
-
-    #OCULTOS
-    cambios_fabricacion = fields.Boolean('Cambios Fabricación', readonly = True, compute = "_get_valores")
-    cambios_cliente = fields.Boolean('Cambios Cliente', readonly = True, compute = "_get_cliente")
-
-
     #PARA TODOS
     hora_inicio = fields.Datetime('Hora Inicio Fabricación')
     hora_fin = fields.Datetime('Hora Fin Fabricación')
     pallet_sage = fields.Char('Pallet Sage')
     maquina = fields.Integer('Máquina')
-    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', readonly = True, compute = "_get_etiqueta")
+    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
     fecha_entrada = fields.Date('Fecha Entrada')
     fecha_salida = fields.Date('Fecha Salida')
     disponible = fields.Boolean('Disponible', readonly = True, compute = "_get_disponible")
@@ -160,23 +154,6 @@ class StockProductionLot(models.Model):
                     disponible = True
                 
             record.disponible = disponible
-    
-    
-    
-    @api.depends('cambios_fabricacion', 'cambios_cliente')
-    def _get_etiqueta(self):
-        for record in self:
-            cambiar_etiqueta = False
-            if record.cambios_fabricacion == True or record.cambios_cliente == True:
-                cambiar_etiqueta = True
-                
-            record.cambiar_etiqueta = True
-
-
-
-    @api.onchange('cliente_id')
-    def _onchange_cliente(self):
-        self.cambios_cliente = True
     
     
     
