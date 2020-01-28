@@ -806,12 +806,12 @@ class sale_product_attribute(models.Model):
     fila_max = fields.Integer('Fila Max', readonly = True, compute = "_get_fila_max")
     
     no_editar = fields.Boolean('No Editar')
-    referencia_cliente_nombre = fields.Char('Referencia_cliente_nombre', readonly = True)
-    paletizado = fields.Integer('Paletizado', readonly = True)
-    ancho_pallet = fields.Integer('Ancho Pallet', readonly = True)
-    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', readonly = True, string = "Pallet especial")
-    und_paquete = fields.Integer('Und Paquete', readonly = True)
-    paquetes_fila = fields.Integer('Paquetes Fila', readonly = True)
+    referencia_cliente_nombre = fields.Char('Referencia_cliente_nombre', readonly = False)
+    paletizado = fields.Integer('Paletizado', readonly = False)
+    ancho_pallet = fields.Integer('Ancho Pallet', readonly = False)
+    pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', readonly = False, string = "Pallet especial")
+    und_paquete = fields.Integer('Und Paquete', readonly = False)
+    paquetes_fila = fields.Integer('Paquetes Fila', readonly = False)
     
 
     @api.onchange('referencia_cliente_id')
