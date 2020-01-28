@@ -18,6 +18,7 @@ class SaleOrderLine(models.Model):
     bultos = fields.Selection(selection = BULTOS_SEL, string = 'Es pallet', default='1')
     aclaracion = fields.Char('Aclaración')
     hayaclaracion = fields.Boolean('Hay Aclaración', compute = "_hay_aclaracion")
+    no_editar = fields.Boolean('No Editar')
     
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
@@ -466,10 +467,9 @@ class SaleOrder(models.Model):
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
     haycodigo = fields.Boolean('Hay Código', compute = "_get_num_pallets")
     
-    descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_descuento")
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
-    comercial = fields.Char('Comercial Bueno', compute="_get_descuento")
-    no_editar = fields.Boolean('Editar')
+    comercial_bueno_id = fields.Char('Comercial Bueno', compute="_get_descuento")
+    no_editar = fields.Boolean('No Editar')
     pedido_stock = fields.Boolean('Pedido de Stock', default = False)
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
@@ -485,9 +485,8 @@ class SaleOrder(models.Model):
         for record in self:
             porcentaje = record.partner_id.sale_discount
             euros = record.importe_sin_descuento - record.importe_con_descuento
-            record.descuento_porcentaje = porcentaje
             record.descuento_euros = euros
-            record.comercial = record.partner_id.user_id.name
+            record.comercial = record.partner_id.user_id
 
 
     
