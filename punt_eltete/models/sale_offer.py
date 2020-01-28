@@ -60,11 +60,6 @@ class sale_referencia_cliente(models.Model):
 
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
-    
-    """
-    peso_metro_user = fields.Float('Peso Metro', digits = (12,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (12,4))
-    """
 
     referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly=True)
 
@@ -112,7 +107,6 @@ class sale_referencia_cliente(models.Model):
     
     
     attribute_ids = fields.One2many('sale.product.attribute', 'referencia_cliente_id', string="Atributos", copy=True)
-    #oferta_ids = fields.Many2many('sale.offer.oferta', string="Ofertas de la referencia", compute="_get_ofertas", readonly=True)
     oferta_ids = fields.One2many('sale.offer.oferta', 'referencia_cliente_id', string="Ofertas", copy=True)
      
     
@@ -760,6 +754,8 @@ class sale_product_attribute(models.Model):
     name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
     titulo = fields.Html('Descripción para el Cliente', readonly = True, compute = "_get_titulo")
+    producto_texto = fields.Char('Producto Texto', readonly = True, compute = "_get_titulo")
+    atributo_texto = fields.Char('Producto Texto', readonly = True, compute = "_get_titulo")
     
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
@@ -835,6 +831,9 @@ class sale_product_attribute(models.Model):
             estado = ''
             descripcion = ''
             titulo = ''
+            
+            producto_texto = ""
+            atributo_texto = ""
 
             if record.referencia_cliente_id:
                 
@@ -1064,6 +1063,8 @@ class sale_product_attribute(models.Model):
             record.name = nombre
             record.titulo = titulo
             record.estado = estado
+            record.producto_texto = producto_texto
+            record.atributo_texto = atributo_texto
     
 
 
