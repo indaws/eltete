@@ -30,27 +30,10 @@ class SaleOrderLine(models.Model):
     peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
     
-    ESTADO_SEL = [('0', 'NO CONFIRMADO - FALTA PAPEL'),    
-                  ('1', 'NO CONFIRMADO - FALTA CLICHE'),
-                  ('2', 'NO CONFIRMADO - FALTA TINTA'),
-                  ('3', 'NO CONFIRMADO - PARA FABRICAR'),
-
-                  ('7', 'NO CONFIRMADO - HAY QUE COMPRAR'),
-                  ('8', 'NO CONFIRMADO - COMPRADO'),
-                  ('9', 'NO CONFIRMADO - HAY STOCK'),
-                  
-                  ('10', 'CONFIRMADO - FALTA PAPEL'),
-                  ('11', 'CONFIRMADO - FALTA CLICHE'),
-                  ('12', 'CONFIRMADO - FALTA TINTA'),
-                  ('13', 'CONFIRMADO - PARA FABRICAR'),
-                  ('14', 'CONFIRMADO - FABRICANDO'),
-                  ('15', 'CONFIRMADO - FALTA CORTAR'),
-                  ('16', 'CONFIRMADO - FABRICADO'),
-                  ('17', 'CONFIRMADO - HAY QUE COMPRAR'),
-                  ('18', 'CONFIRMADO - COMPRADO'),
-                  ('19', 'CONFIRMADO - HAY STOCK'),
-                  
-                  ('20', 'LISTO'),
+    ESTADO_SEL = [('0', 'ESPERANDO'),    
+                  ('1', 'MANDAR A FABRICAR'),
+                  ('2', 'MANDAR A MANIPULAR'),
+                  ('3', 'PREPARAR'),
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
     
