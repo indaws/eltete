@@ -99,7 +99,7 @@ class SaleOrderLine(models.Model):
     
     
     @api.depends('aclaracion')
-    def _gat_lotes_fabricar(self):
+    def _get_lotes_fabricar(self):
         for record in self:
             lotes_agregados = len[record.lot_ids]
             lotes_fabricar = record.num_pallets - lotes_gregados
