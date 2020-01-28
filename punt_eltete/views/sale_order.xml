@@ -110,7 +110,7 @@
 				<field name="importe" />
 				<field name="estado" />	
 				<field name="aclaracion" />	
-				<field name="no_editar"/>
+				<field name="no_editar" invisible="1" />
             </xpath>
             
 		
