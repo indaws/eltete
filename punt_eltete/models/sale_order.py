@@ -102,7 +102,7 @@ class SaleOrderLine(models.Model):
     def _get_lotes_fabricar(self):
         for record in self:
             lotes_agregados = len(record.lot_ids)
-            lotes_fabricar = record.num_pallets - lotes_gregados
+            lotes_fabricar = record.num_pallets - lotes_agregados
             
             record.lotes_agregados = lotes_agregados
             record.lotes_fabricar = lotes_fabricar
