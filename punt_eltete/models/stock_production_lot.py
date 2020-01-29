@@ -91,7 +91,7 @@ class StockProductionLot(models.Model):
     @api.depends('unidades', 'peso_neto')
     def _get_cantidad(self):
         for record in self:
-            cantidad_1 = referencia_id.metros_unidad * record.unidades
+            cantidad_1 = record.referencia_id.metros_unidad * record.unidades
             cantidad_2 = record.unidades
             cantidad_3 = record.unidades / 1000
             cantidad_4 = record.peso_neto
