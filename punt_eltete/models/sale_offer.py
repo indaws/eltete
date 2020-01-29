@@ -7,7 +7,6 @@ from odoo.addons import decimal_precision as dp
 class sale_referencia_cliente(models.Model):
     _name = 'sale.referencia.cliente'
 
-
     name = fields.Char(string='Título', compute="_get_name", store=True) ##POR DEFERCTO EL TITULO, no el name
     referencia_cliente_nombre = fields.Char(string='Ref cliente nombre')
     
