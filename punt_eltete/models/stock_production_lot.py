@@ -85,17 +85,16 @@ class StockProductionLot(models.Model):
     cantidad_2 = fields.Float('Cantidad 2', digits=(12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_3 = fields.Float('Cantidad 3', digits=(12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_4 = fields.Float('Cantidad 4', digits=(12, 4), readonly = True, compute = "_get_cantidad")
-    cantidad_tipo = fields.Char('Cantidad Tipo')
     
     
     
     @api.depends('unidades', 'peso_neto')
     def _get_cantidad(self):
         for record in self:
-            cantidad_1 = 0
-            cantidad_2 = 0
-            cantidad_3 = 0
-            cantidad_4 = 0
+            cantidad_1 = referencia_id.metros_unidad * record.unidades
+            cantidad_2 = record.unidades
+            cantidad_3 = record.unidades / 1000
+            cantidad_4 = record.peso_neto
             
             record.cantidad_1 = cantidad_1
             record.cantidad_2 = cantidad_2
