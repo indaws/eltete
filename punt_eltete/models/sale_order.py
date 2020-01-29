@@ -551,7 +551,7 @@ class SaleOrder(models.Model):
 
 
     
-    @api.depends('state', 'invoice_status', 'picking_ids', 'picking_ids.state', 'lot_ids')
+    @api.depends('state', 'invoice_status', 'picking_ids', 'picking_ids.state', 'lot_ids', 'provincia_id')
     def _get_estado_pedido(self):
         for record in self:
             estado = '0'
