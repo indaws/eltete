@@ -23,42 +23,37 @@ class StockMove(models.Model):
         for record in self:
             peso_neto = 0
             peso_bruto = 0
-            cantidad_1_num = 0
-            cantidad_2_num = 0
-            cantidad_3_num = 0
-            cantidad_4_num = 0
+            cantidad_1 = 0
+            cantidad_2 = 0
+            cantidad_3 = 0
+            cantidad_4 = 0
             
             for line in record.move_line_ids:
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
-                cantidad_1_num = cantidad_1_num + line.cantidad_1_num
-                cantidad_2_num = cantidad_2_num + line.cantidad_2_num
-                cantidad_3_num = cantidad_3_num + line.cantidad_3_num
-                cantidad_4_num = cantidad_4_num + line.cantidad_4_num
+                cantidad_1 = cantidad_1 + line.cantidad_1_num
+                cantidad_2 = cantidad_2 + line.cantidad_2_num
+                cantidad_3 = cantidad_3 + line.cantidad_3_num
+                cantidad_4 = cantidad_4 + line.cantidad_4_num
                 
-            cantidad_1_num = round(cantidad_1_num, 4)
-            cantidad_2_num = round(cantidad_2_num, 4)
-            cantidad_3_num = round(cantidad_3_num, 4)
-            cantidad_4_num = round(cantidad_4_num, 4)
+            cantidad_1 = round(cantidad_1, 4)
+            cantidad_2 = round(cantidad_2, 4)
+            cantidad_3 = round(cantidad_3, 4)
+            cantidad_4 = round(cantidad_4, 4)
             
-            cantidad_1 = str(cantidad_1_num)
-            cantidad_2 = str(cantidad_2_num)
-            cantidad_3 = str(cantidad_3_num)
-            cantidad_4 = str(cantidad_4_num)
+            record.cantidad_1_num = cantidad_1
+            record.cantidad_2_num = cantidad_2
+            record.cantidad_3_num = cantidad_3
+            record.cantidad_4_num = cantidad_4
             
+            record.cantidad_1 = str(cantidad_1)
+            record.cantidad_2 = str(cantidad_2)
+            record.cantidad_3 = str(cantidad_3)
+            record.cantidad_4 = str(cantidad_4)
+   
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
-            
-            record.cantidad_1_num = cantidad_1_num
-            record.cantidad_2_num = cantidad_2_num
-            record.cantidad_3_num = cantidad_3_num
-            record.cantidad_4_num = cantidad_4_num
-            
-            record.cantidad_1 = cantidad_1
-            record.cantidad_2 = cantidad_2
-            record.cantidad_3 = cantidad_3
-            record.cantidad_4 = cantidad_4
-            
+
             #record.peso_neto = record.sale_line_id.peso_neto * record.product_uom_qty
             #record.peso_bruto = record.sale_line_id.peso_bruto * record.product_uom_qty
 
