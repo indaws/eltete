@@ -91,15 +91,20 @@ class StockProductionLot(models.Model):
     @api.depends('unidades', 'peso_neto')
     def _get_cantidad(self):
         for record in self:
-            cantidad_1 = str(record.referencia_id.metros_unidad * record.unidades)
-            cantidad_2 = str(record.unidades)
-            cantidad_3 = str(record.unidades / 1000)
-            cantidad_4 = str(record.peso_neto)
+            cantidad_1 = record.referencia_id.metros_unidad * record.unidades
+            cantidad_2 = record.unidades
+            cantidad_3 = record.unidades / 1000
+            cantidad_4 = record.peso_neto
             
-            record.cantidad_1 = cantidad_1
-            record.cantidad_2 = cantidad_2
-            record.cantidad_3 = cantidad_3
-            record.cantidad_4 = cantidad_4
+            cantidad_1 = round(cantidad_1, 4)
+            cantidad_2 = round(cantidad_2, 4)
+            cantidad_3 = round(cantidad_3, 4)
+            cantidad_4 = round(cantidad_4, 4)
+            
+            record.cantidad_1 = str(cantidad_1)
+            record.cantidad_2 = str(cantidad_2)
+            record.cantidad_3 = str(cantidad_3)
+            record.cantidad_4 = str(cantidad_4)
 
 
     """
