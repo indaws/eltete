@@ -38,7 +38,7 @@
 					<td><span t-field="doc.order_id.partner_id.ref"/></td>
 				 </div>
 				  <div class="float-left company_address" style="text-align:center; font-size:36pt; width:50%;">
-					<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+1"/></td>
+					<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
 				</div>
 			 </div>
 			  <div class="float-left company_address" style="padding:30px; width:100%">
