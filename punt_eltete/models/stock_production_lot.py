@@ -81,20 +81,20 @@ class StockProductionLot(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
     user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
     
-    cantidad_1 = fields.Float('Cantidad 1', digits=(12, 4), readonly = True, compute = "_get_cantidad")
-    cantidad_2 = fields.Float('Cantidad 2', digits=(12, 4), readonly = True, compute = "_get_cantidad")
-    cantidad_3 = fields.Float('Cantidad 3', digits=(12, 4), readonly = True, compute = "_get_cantidad")
-    cantidad_4 = fields.Float('Cantidad 4', digits=(12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_1 = fields.Char('Cantidad 1', readonly = True, compute = "_get_cantidad")
+    cantidad_2 = fields.Char('Cantidad 2', readonly = True, compute = "_get_cantidad")
+    cantidad_3 = fields.Char('Cantidad 3', readonly = True, compute = "_get_cantidad")
+    cantidad_4 = fields.Char('Cantidad 4', readonly = True, compute = "_get_cantidad")
     
     
     
     @api.depends('unidades', 'peso_neto')
     def _get_cantidad(self):
         for record in self:
-            cantidad_1 = record.referencia_id.metros_unidad * record.unidades
-            cantidad_2 = record.unidades
-            cantidad_3 = record.unidades / 1000
-            cantidad_4 = record.peso_neto
+            cantidad_1 = str(record.referencia_id.metros_unidad * record.unidades)
+            cantidad_2 = str(record.unidades)
+            cantidad_3 = str(record.unidades / 1000)
+            cantidad_4 = str(record.peso_neto)
             
             record.cantidad_1 = cantidad_1
             record.cantidad_2 = cantidad_2
