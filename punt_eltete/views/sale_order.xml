@@ -237,6 +237,11 @@
             
                     <group>
 		    	<field name="lotes_fabricar"/>
+		    </group>
+		    <group>
+		    	<field name="lotes_inicio"/>
+		    </group>
+		    <group>
 			 <field name="lot_ids"/>
                     </group>
                                 
