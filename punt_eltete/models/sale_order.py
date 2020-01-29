@@ -5,8 +5,8 @@ _logger = logging.getLogger(__name__)
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes", readonly=True)
-    add_lot_id = fields.Many2one('stock.production.lot', string="Añadir lote", )
+    lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes", )
+    
 
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
@@ -104,14 +104,7 @@ class SaleOrderLine(models.Model):
         self.lotes_fabricar = self.num_pallets - len(self.lot_ids)
     
     
-    @api.multi
-    def add_lot_line(self):
-        for record in self:
-        
-           
-            record.add_lot_id.sale_order_line_id = record.id
-            record.add_lot_id = None
-    
+
     
     @api.multi
     def procesar_fabricacion_linea(self):
