@@ -31,6 +31,7 @@ class SaleOrderLine(models.Model):
     peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
+    facturar = fields.Char('Facturar Por', readonly = True, compute = "_get_valores")
     
     lotes_fabricar = fields.Integer('Lotes Fabricar')
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
@@ -477,6 +478,7 @@ class SaleOrderLine(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.eton = eton
+            record.facturar = facturar
             
             
     
