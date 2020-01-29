@@ -13,6 +13,11 @@ class StockMove(models.Model):
     @api.depends('move_line_ids')
     def _get_pesos(self):
         for record in self:
+            
+            for line in record.move_line_ids:
+                peso_neto = line.peso_neto
+            
+            
             record.peso_neto = record.sale_line_id.peso_neto * record.product_uom_qty
             record.peso_bruto = record.sale_line_id.peso_bruto * record.product_uom_qty
 
