@@ -5,7 +5,8 @@ _logger = logging.getLogger(__name__)
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes")
+    lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes", readonly=True)
+    add_lot_id = fields.Many2one('stock.production.lot', string="Añadir lote", )
 
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
@@ -94,7 +95,6 @@ class SaleOrderLine(models.Model):
     
     @api.onchange('partner_shipping_id',)
     def _onchange_provincia(self):
-        _logger.warning("CAMBIANDO PROVINCIA")
         if self.partner_shipping_id.state_id:
             self.provincia_id = self.partner_shipping_id.state_id.id
     
@@ -102,6 +102,15 @@ class SaleOrderLine(models.Model):
     @api.onchange('lot_ids', 'num_pallets')
     def _onchange_lotes_fabricar(self):
         self.lotes_fabricar = self.num_pallets - len(self.lot_ids)
+    
+    
+    @api.multi
+    def add_lot_line(self):
+        for record in self:
+        
+           
+            record.add_lot_id.sale_order_line_id = record.id
+            record.add_lot_id = None
     
     
     @api.multi

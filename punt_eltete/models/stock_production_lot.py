@@ -70,7 +70,7 @@ class StockProductionLot(models.Model):
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
     fecha_entrada = fields.Date('Fecha Entrada')
     fecha_salida = fields.Date('Fecha Salida')
-    disponible = fields.Boolean('Disponible', readonly = True, compute = "_get_disponible")
+    disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     descripcion = fields.Html('Descripcion')
     
     #PARA TODOS
