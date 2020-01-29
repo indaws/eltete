@@ -111,6 +111,8 @@
 				<field name="estado" />	
 				<field name="aclaracion" />	
 				<field name="no_editar" invisible="1" />
+				<field name="lotes_fabricar" invisible="1" />
+				<field name="lot_ids" invisible="1" />
             </xpath>
 		
 			<xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
@@ -235,25 +237,73 @@
         
             <xpath expr="//form/sheet/group" position="after">
             
-                    <group>
-		    	<field name="lotes_fabricar"/>
-		    </group>
-		    <group>
-		    	<field name="lotes_inicio"/>
-		    </group>
-		    <group>
-			 <field name="lot_ids"/>
-                    </group>
-                                
-                    <group>
-                        <button name="enviar_a_fabricar_linea" type="object" string="Mandar a fabricar"  />
-                    </group>
-                                
-                    <group>
-                        <button name="procesar_fabricacion_linea" type="object" string="Fabricado"  />
-                    </group>
+				<group>
+					<field name="lotes_fabricar"/>
+				</group>
+				<group>
+					<field name="lotes_inicio"/>
+				</group>
+				<group>
+					<field name="lot_ids"/>
+				</group>
+							
+				<group>
+					<button name="enviar_a_fabricar_linea" type="object" string="Mandar a fabricar"  />
+				</group>
+							
+				<group>
+					<button name="procesar_fabricacion_linea" type="object" string="Fabricado"  />
+				</group>
 
             </xpath>
+            
+
+
+        </field>
+    </record>
+	
+	
+	
+	
+	
+	<record id="view_sale_order_line_eltete_tree" model="ir.ui.view">
+        <field name="name">sale.order.line.eltete.tree</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
+        <field name="arch" type="xml">
+        
+            <field name="order_partner_id" position="after">
+				<field name="und_pallet"/>
+				<field name="num_pallets"/>
+				<field name="cantidad"/>
+				<field name="precio"/>
+				<field name="importe"/>
+				<field name="estado"/>
+			</field>
+			
+			<field name="salesman_id" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			
+			<field name="product_uom_qty" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			
+			<field name="qty_delivered" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			
+			<field name="qty_invoiced" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			
+			<field name="qty_to_invoice" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			
+			<field name="product_uom" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
             
 
 
