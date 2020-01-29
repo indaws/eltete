@@ -11,7 +11,7 @@ class SaleOrderLine(models.Model):
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     und_user = fields.Integer('Und Pallet Fabricadas', default = -1)
     kilos_user = fields.Float('kg Pallet Fabricados', digits=(10, 2), default = -1)
-    num_pallets = fields.Integer('NUm Pallets', default = 1)
+    num_pallets = fields.Integer('Num Pallets', default = 1)
     BULTOS_SEL = [('1', 'SI'),     
                   ('2', 'NO'),
                   ]
@@ -94,13 +94,14 @@ class SaleOrderLine(models.Model):
     
     @api.onchange('partner_shipping_id',)
     def _onchange_provincia(self):
-        self.provincia_id = self.partner_shipping_id.state_id
+        _logger.warning("CAMBIANDO PROVINCIA")
+        if self.partner_shipping_id.state_id:
+            self.provincia_id = self.partner_shipping_id.state_id.id
     
 
     @api.onchange('lot_ids', 'num_pallets')
     def _onchange_lotes_fabricar(self):
-        lotes_fabricar = self.num_pallets - len(self.lot_ids)
-        self.lotes_fabricar = lotes_fabricar
+        self.lotes_fabricar = self.num_pallets - len(self.lot_ids)
     
     
     @api.multi
@@ -504,7 +505,7 @@ class SaleOrder(models.Model):
     haycodigo = fields.Boolean('Hay Código', compute = "_get_num_pallets")
     
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
-    comercial_bueno_id = fields.Char('Comercial Bueno', compute="_get_descuento")
+    comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_descuento")
     no_editar = fields.Boolean('No Editar')
     pedido_stock = fields.Boolean('Pedido de Stock', default = False)
     
