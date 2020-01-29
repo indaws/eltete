@@ -86,6 +86,11 @@ class StockProductionLot(models.Model):
     cantidad_3 = fields.Char('Cantidad 3', readonly = True, compute = "_get_cantidad")
     cantidad_4 = fields.Char('Cantidad 4', readonly = True, compute = "_get_cantidad")
     
+    cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    
     
     
     @api.depends('unidades', 'peso_neto')
@@ -100,6 +105,11 @@ class StockProductionLot(models.Model):
             cantidad_2 = round(cantidad_2, 4)
             cantidad_3 = round(cantidad_3, 4)
             cantidad_4 = round(cantidad_4, 4)
+            
+            record.cantidad_1_num = cantidad_1
+            record.cantidad_2_num = cantidad_2
+            record.cantidad_3_num = cantidad_3
+            record.cantidad_4_num = cantidad_4
             
             record.cantidad_1 = str(cantidad_1)
             record.cantidad_2 = str(cantidad_2)
