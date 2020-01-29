@@ -78,8 +78,29 @@ class StockProductionLot(models.Model):
     und_paquete = fields.Integer('Und paquete')
     unidades = fields.Integer('Unidades')
     peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
-
+    peso_bruto = fields.Float('Peso Bruto', digits=(10, 2), readonly = True, compute = "_get_peso")
     user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
+    
+    cantidad_1 = fields.Float('Cantidad 1', digits=(12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_2 = fields.Float('Cantidad 2', digits=(12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_3 = fields.Float('Cantidad 3', digits=(12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_4 = fields.Float('Cantidad 4', digits=(12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_tipo = fields.Char('Cantidad Tipo')
+    
+    
+    
+    @api.depends('unidades', 'peso_neto')
+    def _get_cantidad(self):
+        for record in self:
+            cantidad_1 = 0
+            cantidad_2 = 0
+            cantidad_3 = 0
+            cantidad_4 = 0
+            
+            record.cantidad_1 = cantidad_1
+            record.cantidad_2 = cantidad_2
+            record.cantidad_3 = cantidad_3
+            record.cantidad_4 = cantidad_4
 
 
     """
@@ -161,11 +182,14 @@ class StockProductionLot(models.Model):
     def _get_peso(self):
         for record in self:
             peso_neto = 0
+            peso_bruto = 0
             if record.user_peso_bruto > 0:
                 peso_neto = record.user_peso_bruto - 15
+                peso_bruto = record.user_peso_bruto
             elif record.referencia_id and record.unidades > 0:
                 peso_und = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
                 peso_neto = peso_und * record.unidades
+                peso_bruto = peso_neto + 15
             record.peso_neto = peso_neto
     
     """
