@@ -77,8 +77,8 @@ class StockProductionLot(models.Model):
     ancho_pallet = fields.Integer('Ancho Pallet')
     und_paquete = fields.Integer('Und paquete')
     unidades = fields.Integer('Unidades')
-    peso_neto = fields.Float('Peso Neto', digits=(10, 2), readonly = True, compute = "_get_peso")
-    peso_bruto = fields.Float('Peso Bruto', digits=(10, 2), readonly = True, compute = "_get_peso")
+    peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
+    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
     user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
     
     cantidad_1 = fields.Float('Cantidad 1', digits=(12, 4), readonly = True, compute = "_get_cantidad")
@@ -190,6 +190,7 @@ class StockProductionLot(models.Model):
                 peso_neto = peso_und * record.unidades
                 peso_bruto = peso_neto + 15
             record.peso_neto = peso_neto
+            record.peso_bruto = peso_bruto
     
     """
     
