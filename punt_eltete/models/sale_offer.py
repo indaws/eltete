@@ -1236,7 +1236,7 @@ class sale_offer_oferta(models.Model):
     und_exactas = fields.Boolean('Unidades Exactas')
     no_editar = fields.Boolean('No editar')
     
-    unidades = fields.Integer('Unidades Pallet')
+    unidades = fields.Integer('Unidades Pallet', default = 1)
     precio_metro = fields.Float('Precio Metro', digits = (12,4))
     kilos = fields.Integer('Kilos Pallet')
     precio_kilo = fields.Float('Precio kilo', digits = (12,4))
