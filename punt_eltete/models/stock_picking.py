@@ -17,6 +17,7 @@ class StockMove(models.Model):
     cantidad_2 = fields.Char('Cantidad 2', compute = "_get_pesos")
     cantidad_3 = fields.Char('Cantidad 3', compute = "_get_pesos")
     cantidad_4 = fields.Char('Cantidad 4', compute = "_get_pesos")
+    num_pallets = fields.Integer('Num Pallets', compute = "_get_pesos")
     
     @api.depends('move_line_ids')
     def _get_pesos(self):
@@ -27,6 +28,7 @@ class StockMove(models.Model):
             cantidad_2 = 0
             cantidad_3 = 0
             cantidad_4 = 0
+            num_pallets = 0
             
             for line in record.move_line_ids:
                 peso_neto = peso_neto + line.peso_neto
@@ -35,6 +37,7 @@ class StockMove(models.Model):
                 cantidad_2 = cantidad_2 + line.cantidad_2_num
                 cantidad_3 = cantidad_3 + line.cantidad_3_num
                 cantidad_4 = cantidad_4 + line.cantidad_4_num
+                num_pallets = num_pallets + 1
                 
             cantidad_1 = round(cantidad_1, 4)
             cantidad_2 = round(cantidad_2, 4)
@@ -53,6 +56,7 @@ class StockMove(models.Model):
    
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            record.num_pallets = num_pallets
 
             #record.peso_neto = record.sale_line_id.peso_neto * record.product_uom_qty
             #record.peso_bruto = record.sale_line_id.peso_bruto * record.product_uom_qty
@@ -76,7 +80,7 @@ class StockPicking(models.Model):
             peso_bruto_total = 0
             for line in record.move_lines:
                 if line.sale_line_id.bultos == '1':
-                    num_pallets = num_pallets + int(line.product_uom_qty)
+                    num_pallets = num_pallets + line.num_pallets
                 peso_neto_total = peso_neto_total + line.peso_neto
                 peso_bruto_total = peso_bruto_total + line.peso_bruto
             record.num_pallets = num_pallets
