@@ -132,7 +132,7 @@
 			</field>
             
 			<field name="confirmation_date" position="after">
-				<field name="no_editar" invisible="1" />
+				<field name="no_editar"/>
 				<field name="descuento_porcentaje"/>
 				<field name="fecha_cliente"/>
 				<field name="fecha_entrega_cliente"/>
