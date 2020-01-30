@@ -140,9 +140,12 @@
                     <group>
                         <button name="crear_sin_pedido" type="object" string="Crear sin pedido" />
                     </group>
-                    
-
-                    
+			
+		    <group>
+			    <field name="unidades"/>
+			    <field name="user_peso_bruto"/>
+			    <field name="fecha_entrada"/>
+		    </group>
 
                 </sheet>
             </form>
