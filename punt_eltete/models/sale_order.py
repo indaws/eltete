@@ -187,7 +187,7 @@ class SaleOrderLine(models.Model):
     def _get_produccion(self):
         for record in self:
             
-            orden_fabricacion = record.order_id.id + "-" + record.id
+            orden_fabricacion = str(record.order_id.id) + "-" + str(record.id)
             record.orden_fabricacion = orden_fabricacion
             
             maquina = ""
