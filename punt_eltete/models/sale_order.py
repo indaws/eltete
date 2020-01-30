@@ -509,6 +509,7 @@ class SaleOrder(models.Model):
     haycodigo = fields.Boolean('Hay Código', compute = "_get_num_pallets")
     
     descuento_euros = fields.Float('Descuento Euros', digits = (10, 2), readonly = True, compute="_get_descuento")
+    descuento_porcentaje = fields.Float('Descuento Porcentaje', digits = (10, 2), readonly = True, compute="_get_descuento")
     comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_descuento")
     no_editar = fields.Boolean('No Editar')
     pedido_stock = fields.Boolean('Pedido de Stock', default = False)
@@ -551,6 +552,7 @@ class SaleOrder(models.Model):
         for record in self:
             porcentaje = record.partner_id.sale_discount
             euros = record.importe_sin_descuento - record.importe_con_descuento
+            record.descuento_procentaje = porcentaje
             record.descuento_euros = euros
             record.comercial_bueno_id = record.partner_id.user_id.id
 
