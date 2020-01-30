@@ -31,12 +31,12 @@ class StockMove(models.Model):
             num_pallets = 0
             
             for line in record.move_line_ids:
-                peso_neto = peso_neto + line.peso_neto
-                peso_bruto = peso_bruto + line.peso_bruto
-                cantidad_1 = cantidad_1 + line.cantidad_1_num
-                cantidad_2 = cantidad_2 + line.cantidad_2_num
-                cantidad_3 = cantidad_3 + line.cantidad_3_num
-                cantidad_4 = cantidad_4 + line.cantidad_4_num
+                peso_neto = peso_neto + line.lot_id.peso_neto
+                peso_bruto = peso_bruto + line.lot_id.peso_bruto
+                cantidad_1 = cantidad_1 + line.lot_id.cantidad_1_num
+                cantidad_2 = cantidad_2 + line.lot_id.cantidad_2_num
+                cantidad_3 = cantidad_3 + line.lot_id.cantidad_3_num
+                cantidad_4 = cantidad_4 + line.lot_id.cantidad_4_num
                 num_pallets = num_pallets + 1
                 
             cantidad_1 = round(cantidad_1, 4)
