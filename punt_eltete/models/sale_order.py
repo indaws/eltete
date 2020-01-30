@@ -33,6 +33,7 @@ class SaleOrderLine(models.Model):
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
     facturar = fields.Char('Facturar Por', readonly = True, compute = "_get_valores")
     
+    orden_fabricacion = fields.Char('Orden Fabricación', compute = "_get_produccion")
     lotes_fabricar = fields.Integer('Lotes Fabricar')
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     
@@ -185,6 +186,10 @@ class SaleOrderLine(models.Model):
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
         for record in self:
+            
+            orden_fabricacion = record.order_id.id + "-" + record.id
+            record.orden_fabricacion = orden_fabricacion
+            
             maquina = ""
             if record.oferta_id.attribute_id.cantonera_1 == True:
                 maquina = maquina + "Línea 1, "
