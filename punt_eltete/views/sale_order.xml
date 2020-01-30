@@ -132,7 +132,8 @@
 			</field>
             
 			<field name="confirmation_date" position="after">
-				<field name="no_editar"/>
+				<field name="no_editar" invisible="1" />
+				<field name="descuento_porcentaje"/>
 				<field name="fecha_cliente"/>
 				<field name="fecha_entrega_cliente"/>
                 <field name="peso_neto"/>
@@ -249,13 +250,13 @@
 				
 
 							
-				<group>
+				<!--<group>
 					<button name="enviar_a_fabricar_linea" type="object" string="Mandar a fabricar"  />
 				</group>
 							
 				<group>
 					<button name="procesar_fabricacion_linea" type="object" string="Fabricado"  />
-				</group>
+				</group>-->
 
             </xpath>
             
