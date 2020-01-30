@@ -183,7 +183,7 @@ class StockProductionLot(models.Model):
             if record.fecha_entrada:
                 if record.fecha_salida:
                     x = 0
-                elif record.cliente_id:
+                elif record.sale_order_line_id:
                     x = 0
                 else:
                     disponible = True
