@@ -14,7 +14,7 @@
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Pedido: </strong><span t-field="doc.order_id.name"/><br/>
-                                  <strong>Orden de producción: </strong><span t-field="doc.id"/><br/>
+                                  <strong>Orden de producción: </strong><span t-field="doc.orden_fabricacion"/><br/>
                                   <strong>Cliente: </strong><span t-field="doc.order_id.partner_id.ref"/><br/>
                                   <strong>Duración: </strong><span t-field="doc.op_duracion"/><br/>
                               </div>
