@@ -176,7 +176,7 @@ class StockProductionLot(models.Model):
     """
 
     
-    @api.depends('cliente_id', 'fecha_entrada', 'fecha_salida')
+    @api.depends('sale_order_line_id', 'fecha_entrada', 'fecha_salida')
     def _get_disponible(self):
         for record in self:
             disponible = False
