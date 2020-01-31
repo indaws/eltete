@@ -69,13 +69,11 @@ class AccountInvoiceLine(models.Model):
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
-    cantidad = fields.Char('Cantidad', compute = "_get_valores")
+    cantidad = fields.Char('Cantidad', compute = "_get_datos_albaran")
     precio = fields.Char('Precio', readonly = True, compute = "_get_valores")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
-    eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
-    
     
     num_albaran = fields.Char('Num albarán', compute = "_get_datos_albaran")
     fecha_albaran = fields.Date('Fecha albarán', compute = "_get_datos_albaran")
@@ -93,8 +91,15 @@ class AccountInvoiceLine(models.Model):
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
                 fecha_albaran = move.picking_id.scheduled_date.date()
+                
+                cantidad = move.cantidad_1
+                
+                #facturar = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.precio_cliente
+                
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
+            
+            record.cantidad = cantidad
             
             
     @api.depends('sale_line_ids')
@@ -115,7 +120,6 @@ class AccountInvoiceLine(models.Model):
             for sale in record.sale_line_ids:
                 sale_line_id = sale
         
-        
             if sale_line_id:
         
                 codigo_cliente = sale_line_id.oferta_id.attribute_id.codigo_cliente
@@ -129,7 +133,10 @@ class AccountInvoiceLine(models.Model):
                 peso_neto = 0
                 peso_bruto = 0
                 eton = 0
+                
+                
 
+                """
                 if sale_line_id.und_user > 0:
                     und_pallet = sale_line_id.und_user
                 else:
@@ -241,6 +248,9 @@ class AccountInvoiceLine(models.Model):
                     precio = str(precio_num) + " €/unidad"
                     peso_neto = 0
                     peso_bruto = 0
+                    
+                    
+               """
                 
                 importe = precio_num * cantidad_num
                 
