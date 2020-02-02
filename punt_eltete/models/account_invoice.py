@@ -68,7 +68,7 @@ class AccountInvoiceLine(models.Model):
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
+    
     cantidad = fields.Char('Cantidad', compute = "_get_valores")
     precio = fields.Char('Precio', readonly = True, compute = "_get_valores")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
@@ -79,6 +79,7 @@ class AccountInvoiceLine(models.Model):
     
     num_albaran = fields.Char('Num albarán', compute = "_get_datos_albaran")
     fecha_albaran = fields.Date('Fecha albarán', compute = "_get_datos_albaran")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     
@@ -90,11 +91,15 @@ class AccountInvoiceLine(models.Model):
         for record in self:
             num_albaran = ''
             fecha_albaran = ''
+            und_pallet = 0
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
                 fecha_albaran = move.picking_id.scheduled_date.date()
+                und_pallet = move.picking_id.und_pallet
+                
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
+            record.und_pallet = und_pallet
             
             
     @api.depends('sale_line_ids')
@@ -246,7 +251,7 @@ class AccountInvoiceLine(models.Model):
                 
                 record.codigo_cliente = codigo_cliente
                 record.descripcion = descripcion
-                record.und_pallet = und_pallet
+                #record.und_pallet = und_pallet
                 record.cantidad = cantidad
                 record.precio = precio
                 record.importe = importe
