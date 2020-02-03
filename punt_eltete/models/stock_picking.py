@@ -44,6 +44,8 @@ class StockMove(models.Model):
                 cantidad_4 = cantidad_4 + line.lot_id.cantidad_4_num
                 num_pallets = num_pallets + 1
                 unidades = unidades + line.lot_id.unidades
+              
+            if num_pallets > 0:
                 hay_lotes = True
                 
             cantidad_1 = round(cantidad_1, 4)
