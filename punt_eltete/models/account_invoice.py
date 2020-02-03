@@ -99,6 +99,7 @@ class AccountInvoiceLine(models.Model):
             cantidad = ''
             importe = 0
             
+            """
             if record.facturar == '1':
                 cantidad_num = record.cantidad_1_num 
                 cantidad = str(cantidad_num) + " metros"
@@ -114,7 +115,7 @@ class AccountInvoiceLine(models.Model):
             elif record.facturar == '5':
                 cantidad_num = record.cantidad_5_num 
                 cantidad = str(cantidad_num) + " unidades"
-                
+            """    
             importe = cantidad_num * record.precio_num
 
             record.cantidad = cantidad
@@ -177,6 +178,7 @@ class AccountInvoiceLine(models.Model):
                 facturar = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.precio_cliente
                 cantidad_5_num = 0
                 
+                """
                 #metros
                 if facturar == '1':
                     precio_num = sale_line_id.oferta_id.precio_metro
@@ -204,6 +206,9 @@ class AccountInvoiceLine(models.Model):
                     precio_num = sale_line_id.oferta_id.precio_varios
                     precio_num = round(precio_num, 4)
                     precio = str(precio_num) + " €/unidad"
+                """
+                    
+                    
         """            
                     
                 und_pallet = 0
