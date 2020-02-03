@@ -83,6 +83,8 @@ class AccountInvoiceLine(models.Model):
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     
+    actualizar = fields.Boolean('Actualizar')
+    
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_importe")
@@ -90,6 +92,12 @@ class AccountInvoiceLine(models.Model):
     #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
     #peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_importe")
     #eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_importe")
+    
+    
+    @api.onchange('actualizar')
+    def _onchange_oferta_cantidad(self):
+        self.price_unit = self.importe / self.quantity
+    
     
     
     @api.depends('precio_num', 'facturar', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
