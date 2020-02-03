@@ -18,6 +18,7 @@ class StockMove(models.Model):
     cantidad_3 = fields.Char('Cantidad 3', compute = "_get_pesos")
     cantidad_4 = fields.Char('Cantidad 4', compute = "_get_pesos")
     num_pallets = fields.Integer('Num Pallets', compute = "_get_pesos")
+    unidades = fields.Integer('Unidades', compute = "_get_pesos")
     
     @api.depends('move_line_ids')
     def _get_pesos(self):
@@ -29,6 +30,7 @@ class StockMove(models.Model):
             cantidad_3 = 0
             cantidad_4 = 0
             num_pallets = 0
+            unidades = 0
             
             for line in record.move_line_ids:
                 peso_neto = peso_neto + line.lot_id.peso_neto
@@ -38,6 +40,7 @@ class StockMove(models.Model):
                 cantidad_3 = cantidad_3 + line.lot_id.cantidad_3_num
                 cantidad_4 = cantidad_4 + line.lot_id.cantidad_4_num
                 num_pallets = num_pallets + 1
+                unidades = unidades + line.lot_id.unidades
                 
             cantidad_1 = round(cantidad_1, 4)
             cantidad_2 = round(cantidad_2, 4)
@@ -57,6 +60,7 @@ class StockMove(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.num_pallets = num_pallets
+            record.unidades = unidades
 
             #record.peso_neto = record.sale_line_id.peso_neto * record.product_uom_qty
             #record.peso_bruto = record.sale_line_id.peso_bruto * record.product_uom_qty
