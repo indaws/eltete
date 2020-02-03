@@ -749,7 +749,7 @@ class sale_product_attribute(models.Model):
     is_flatboard = fields.Boolean('¿Es Flat Board?', related='type_id.is_flatboard')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
-    activa = fields.Boolean("Activa")
+    activa = fields.Boolean("Activa", default = True)
     
     name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
@@ -1230,7 +1230,7 @@ class sale_offer_oferta(models.Model):
     #IZQUIERDA
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
-    activa = fields.Boolean("Activa")
+    activa = fields.Boolean("Activa", default = True)
     state_id = fields.Many2one('res.country.state', string="Provincia")
     country_id = fields.Many2one('res.country', string="País")
     num_pallets = fields.Integer('Número Pallets', default = 1)
