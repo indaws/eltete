@@ -108,6 +108,7 @@
 				<field name="cantidad" />
 				<field name="precio" />
 				<field name="importe" />
+		    		<field name="price_unit" />
 				<field name="estado" />	
 				<field name="aclaracion" />	
 				<field name="no_editar" invisible="1" />
