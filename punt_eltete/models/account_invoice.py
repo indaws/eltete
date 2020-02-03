@@ -215,7 +215,7 @@ class AccountInvoiceLine(models.Model):
                     precio = str(precio_num) + " €/kilo"
                 #Varios
                 elif facturar == '5':
-                    
+                    cantidad_5_num = sale_line_id.und_pallet
                     precio_num = sale_line_id.oferta_id.precio_varios
                     precio_num = round(precio_num, 4)
                     precio = str(precio_num) + " €/unidad"
