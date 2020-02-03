@@ -749,6 +749,7 @@ class sale_product_attribute(models.Model):
     is_flatboard = fields.Boolean('¿Es Flat Board?', related='type_id.is_flatboard')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     
+    activa = fields.Boolean("Activa")
     
     name = fields.Char('Nombre Interno', readonly = True, compute = "_get_titulo")
     estado = fields.Char('Estado', readonly = True, compute = "_get_titulo")
