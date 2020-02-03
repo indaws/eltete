@@ -88,9 +88,7 @@ class AccountInvoiceLine(models.Model):
     
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
-    
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_importe")
-    
+
     #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
     #peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_importe")
     #eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_importe")
@@ -135,7 +133,7 @@ class AccountInvoiceLine(models.Model):
    
     
     
-    @api.depends('move_line_ids')
+    @api.depends('move_line_ids', 'facturar', 'cantidad_5_num')
     def _get_datos_albaran(self):
         for record in self:
             for move in record.move_line_ids:
@@ -148,6 +146,9 @@ class AccountInvoiceLine(models.Model):
                 cantidad_4_num = move.cantidad_4_num
                 num_pallets = move.num_pallets
                 unidades = move.unidades
+                
+            if record.facturar == '5':
+                unidades = record.cantidad_5_num
                 
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
@@ -188,6 +189,7 @@ class AccountInvoiceLine(models.Model):
                 precio = ""
                 facturar = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.precio_cliente
                 cantidad_5_num = 0
+                und_pedido = 0
                 
                 #metros
                 if facturar == '1':
@@ -211,8 +213,7 @@ class AccountInvoiceLine(models.Model):
                     precio = str(precio_num) + " €/kilo"
                 #Varios
                 elif facturar == '5':
-                    #cantidad_5_num = 0
-                    #cantidad_5_num = round(cantidad_num, 4)
+                    cantidad_5_num = sale_line_id.oferta_id.und_pallet
                     precio_num = sale_line_id.oferta_id.precio_varios
                     precio_num = round(precio_num, 4)
                     precio = str(precio_num) + " €/unidad"
