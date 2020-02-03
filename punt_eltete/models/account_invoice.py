@@ -64,63 +64,24 @@ class AccountInvoice(models.Model):
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
+    
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
-    precio_num = fields.Float('Precio', digits = (12, 4), readonly = True, compute = "_get_valores")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
+    cantidad = fields.Char('Cantidad', compute = "_get_valores")
     precio = fields.Char('Precio', readonly = True, compute = "_get_valores")
-    facturar = fields.Char('Facturar', readonly = True, compute = "_get_valores")
-    cantidad_5_num = fields.Float('Cantidad 5', digits = (12, 4), readonly = True, compute = "_get_valores")
+    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
+    peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
+    peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
+    eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
+    
     
     num_albaran = fields.Char('Num albarán', compute = "_get_datos_albaran")
     fecha_albaran = fields.Date('Fecha albarán', compute = "_get_datos_albaran")
-    cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
-    cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
-    cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
-    cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
-    num_pallets = fields.Integer('Num Pallets', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     
-    cantidad = fields.Char('Cantidad', compute = "_get_importe")
-    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_importe")
-    
-    #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
-    #peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_importe")
-    #eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_importe")
-    
-    
-    
-    @api.depends('precio_num', 'facturar', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
-    def _get_importe(self):
-        for record in self:
-            cantidad_num = 0
-            cantidad = ''
-            importe = 0
-            
-            """
-            if record.facturar == '1':
-                cantidad_num = record.cantidad_1_num 
-                cantidad = str(cantidad_num) + " metros"
-            elif record.facturar == '2':
-                cantidad_num = record.cantidad_2_num
-                cantidad = str(cantidad_num) + " unidades"
-            elif record.facturar == '3':
-                cantidad_num = record.cantidad_3_num 
-                cantidad = str(cantidad_num) + " millares"
-            elif record.facturar == '4':
-                cantidad_num = record.cantidad_4_num 
-                cantidad = str(cantidad_num) + " kg"
-            elif record.facturar == '5':
-                cantidad_num = record.cantidad_5_num 
-                cantidad = str(cantidad_num) + " unidades"
-            """    
-            importe = cantidad_num * record.precio_num
-
-            record.cantidad = cantidad
-            record.importe = importe
-            record.und_pallet = 0
     
     
     
@@ -132,20 +93,8 @@ class AccountInvoiceLine(models.Model):
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
                 fecha_albaran = move.picking_id.scheduled_date.date()
-                
-                cantidad_1_num = move.cantidad_1_num
-                cantidad_2_num = move.cantidad_2_num
-                cantidad_3_num = move.cantidad_3_num
-                cantidad_4_num = move.cantidad_4_num
-                num_pallets = move.num_pallets
-                
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
-            record.cantidad_1_num = cantidad_1_num
-            record.cantidad_2_num = cantidad_2_num
-            record.cantidad_3_num = cantidad_3_num
-            record.cantidad_4_num = cantidad_4_num
-            record.num_pallets = num_pallets
             
             
     @api.depends('sale_line_ids')
@@ -168,51 +117,14 @@ class AccountInvoiceLine(models.Model):
         
         
             if sale_line_id:
-                
+        
                 codigo_cliente = sale_line_id.oferta_id.attribute_id.codigo_cliente
                 descripcion = ''
                 if sale_line_id.oferta_id:
                     descripcion = sale_line_id.oferta_id.attribute_id.titulo
-                precio_num = 0
-                precio = ""
-                facturar = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.precio_cliente
-                cantidad_5_num = 0
-                
-                """
-                #metros
-                if facturar == '1':
-                    precio_num = sale_line_id.oferta_id.precio_metro
-                    precio_num = round(precio_num, 4)
-                    precio = str(precio_num) + " €/metro"
-                #unidades
-                elif facturar == '2':
-                    precio_num = sale_line_id.oferta_id.precio_metro * sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
-                    precio_num = round(precio_num, 4)
-                    precio = str(precio_num) + " €/unidad"
-                #Millares
-                elif facturar == '3':
-                    precio_num = sale_line_id.oferta_id.precio_metro * sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
-                    precio_num = round(precio_num, 4)
-                    precio = str(precio_num) + " €/millar"
-                #Kilos
-                elif facturar == '4':
-                    precio_num = sale_line_id.oferta_id.precio_kilo
-                    precio_num = round(precio_num, 4)
-                    precio = str(precio_num) + " €/kilo"
-                #Varios
-                elif facturar == '5':
-                    cantidad_5_num = record.quantity * und_pallet
-                    cantidad_5_num = round(cantidad_num, 4)
-                    precio_num = sale_line_id.oferta_id.precio_varios
-                    precio_num = round(precio_num, 4)
-                    precio = str(precio_num) + " €/unidad"
-                """
-                    
-                    
-        """            
-                    
                 und_pallet = 0
                 cantidad = ""
+                precio = ""
                 importe = 0
                 peso_neto = 0
                 peso_bruto = 0
@@ -223,8 +135,9 @@ class AccountInvoiceLine(models.Model):
                 else:
                     und_pallet = sale_line_id.oferta_id.unidades
                 
-                
+                facturar = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.precio_cliente
                 cantidad_num = 0
+                precio_num = 0
                 #metros
                 if facturar == '1':
                     cantidad_num = record.quantity * und_pallet * sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
@@ -331,21 +244,14 @@ class AccountInvoiceLine(models.Model):
                 
                 importe = precio_num * cantidad_num
                 
+                record.codigo_cliente = codigo_cliente
+                record.descripcion = descripcion
                 record.und_pallet = und_pallet
                 record.cantidad = cantidad
+                record.precio = precio
                 record.importe = importe
                 record.peso_neto = peso_neto
                 record.peso_bruto = peso_bruto
                 record.eton = eton
-       """         
-                
-                record.codigo_cliente = codigo_cliente
-                record.descripcion = descripcion
-                record.precio_num = precio_num
-                record.precio = precio
-                record.facturar = facturar
-                record.cantidad_5_num = cantidad_5_num
-                
-                
             
             
