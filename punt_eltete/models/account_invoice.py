@@ -117,6 +117,45 @@ class AccountInvoiceLine(models.Model):
         
         
             if sale_line_id:
+                
+                codigo_cliente = sale_line_id.oferta_id.attribute_id.codigo_cliente
+                descripcion = ''
+                if sale_line_id.oferta_id:
+                    descripcion = sale_line_id.oferta_id.attribute_id.titulo
+                precio_num = 0
+                precio = ""
+                facturar = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.precio_cliente
+                cantidad_5_num = 0
+                
+                #metros
+                if facturar == '1':
+                    precio_num = sale_line_id.oferta_id.precio_metro
+                    precio_num = round(precio_num, 4)
+                    precio = str(precio_num) + " €/metro"
+                #unidades
+                elif facturar == '2':
+                    precio_num = sale_line_id.oferta_id.precio_metro * sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+                    precio_num = round(precio_num, 4)
+                    precio = str(precio_num) + " €/unidad"
+                #Millares
+                elif facturar == '3':
+                    precio_num = sale_line_id.oferta_id.precio_metro * sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad * 1000
+                    precio_num = round(precio_num, 4)
+                    precio = str(precio_num) + " €/millar"
+                #Kilos
+                elif facturar == '4':
+                    precio_num = sale_line_id.oferta_id.precio_kilo
+                    precio_num = round(precio_num, 4)
+                    precio = str(precio_num) + " €/kilo"
+                #Varios
+                elif facturar == '5':
+                    cantidad_5_num = record.quantity * und_pallet
+                    cantidad_5_num = round(cantidad_num, 4)
+                    precio_num = sale_line_id.oferta_id.precio_varios
+                    precio_num = round(precio_num, 4)
+                    precio = str(precio_num) + " €/unidad"
+                    
+                    
         
                 codigo_cliente = sale_line_id.oferta_id.attribute_id.codigo_cliente
                 descripcion = ''
