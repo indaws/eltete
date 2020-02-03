@@ -80,16 +80,51 @@ class AccountInvoiceLine(models.Model):
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
     num_pallets = fields.Integer('Num Pallets', readonly = True, compute = "_get_datos_albaran")
     
-    
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
-    cantidad = fields.Char('Cantidad', compute = "_get_valores")
-    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
-    peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
-    peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
-    eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
-    
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     
+    cantidad = fields.Char('Cantidad', compute = "_get_importe")
+    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_importe")
+    
+    #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
+    #peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_importe")
+    #eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_importe")
+    
+    
+    
+    @api.depends('precio_num', 'facturar', 'num_pallets', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
+    def _get_importe(self):
+        for record in self:
+            cantidad_num = 0
+            cantidad = ''
+            importe = 0
+            
+            if record.facturar == '1':
+                cantidad_num = record.cantidad_1_num 
+                cantidad_num = round(cantidad_1_num, 4)
+                cantidad = str(cantidad_num) + " metros"
+            elif record.facturar == '2':
+                cantidad_num = record.cantidad_2_num
+                cantidad_num = round(cantidad_1_num, 4)
+                cantidad = str(cantidad_num) + " unidades"
+            elif record.facturar == '3':
+                cantidad_num = record.cantidad_3_num 
+                cantidad_num = round(cantidad_1_num, 4)
+                cantidad = str(cantidad_num) + " millares"
+            elif record.facturar == '4':
+                cantidad_num = record.cantidad_4_num 
+                cantidad_num = round(cantidad_1_num, 4)
+                cantidad = str(cantidad_num) + " kg"
+            elif record.facturar == '5':
+                cantidad_num = record.cantidad_5_num 
+                cantidad_num = round(cantidad_1_num, 4)
+                cantidad = str(cantidad_num) + " unidades"
+                
+            importe = cantidad_num * record.precio_num
+
+            record.cantidad = cantidad
+            record.importe = importe
+            record.und_pallet = 0
     
     
     
@@ -174,7 +209,7 @@ class AccountInvoiceLine(models.Model):
                     precio_num = sale_line_id.oferta_id.precio_varios
                     precio_num = round(precio_num, 4)
                     precio = str(precio_num) + " €/unidad"
-                    
+        """            
                     
                 und_pallet = 0
                 cantidad = ""
@@ -302,7 +337,7 @@ class AccountInvoiceLine(models.Model):
                 record.peso_neto = peso_neto
                 record.peso_bruto = peso_bruto
                 record.eton = eton
-                
+       """         
                 
                 record.codigo_cliente = codigo_cliente
                 record.descripcion = descripcion
