@@ -92,7 +92,31 @@ class AccountInvoiceLine(models.Model):
     #eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_importe")
     
     
-    
+    @api.depends('precio_num', 'facturar', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
+    def _get_importe(self):
+        for record in self:
+            cantidad_num = 0
+            cantidad = ''
+            importe = 0
+            
+
+            if record.facturar == '1':
+                cantidad_num = record.cantidad_1_num 
+                cantidad = str(cantidad_num) + " metros"
+            elif record.facturar == '2':
+                cantidad_num = record.cantidad_2_num
+                cantidad = str(cantidad_num) + " unidades"
+            elif record.facturar == '3':
+                cantidad_num = record.cantidad_3_num 
+                cantidad = str(cantidad_num) + " millares"
+            elif record.facturar == '4':
+                cantidad_num = record.cantidad_4_num 
+                cantidad = str(cantidad_num) + " kg"
+            elif record.facturar == '5':
+                cantidad_num = record.cantidad_5_num 
+                cantidad = str(cantidad_num) + " unidades"
+  
+            importe = cantidad_num * record.precio_num
    
     
     
