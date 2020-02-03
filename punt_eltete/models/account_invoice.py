@@ -80,6 +80,7 @@ class AccountInvoiceLine(models.Model):
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
     num_pallets = fields.Integer('Num Pallets', readonly = True, compute = "_get_datos_albaran")
+    unidades = fields.Integer('Unidades', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     
@@ -87,6 +88,7 @@ class AccountInvoiceLine(models.Model):
     
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
+    
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_importe")
     
     #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
@@ -106,7 +108,6 @@ class AccountInvoiceLine(models.Model):
             cantidad_num = 0
             cantidad = ''
             importe = 0
-            
 
             if record.facturar == '1':
                 cantidad_num = round(record.cantidad_1_num, 4)
@@ -146,6 +147,7 @@ class AccountInvoiceLine(models.Model):
                 cantidad_3_num = move.cantidad_3_num
                 cantidad_4_num = move.cantidad_4_num
                 num_pallets = move.num_pallets
+                unidades = move.unidades
                 
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
@@ -154,6 +156,7 @@ class AccountInvoiceLine(models.Model):
             record.cantidad_3_num = cantidad_3_num
             record.cantidad_4_num = cantidad_4_num
             record.num_pallets = num_pallets
+            record.unidades = unidades
             
             
     @api.depends('sale_line_ids')
