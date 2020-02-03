@@ -83,9 +83,9 @@ class AccountInvoiceLine(models.Model):
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     
-    cantidad = fields.Char('Cantidad', compute = "_get_valores")
-    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
+    cantidad = fields.Char('Cantidad', compute = "_get_importe")
+    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_importe")
     
     #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
     #peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_importe")
@@ -117,6 +117,12 @@ class AccountInvoiceLine(models.Model):
                 cantidad = str(cantidad_num) + " unidades"
   
             importe = cantidad_num * record.precio_num
+            
+            record.cantidad = cantidad
+            record.importe = importe
+            record.und_pallet = 0
+    
+    
    
     
     
@@ -207,9 +213,9 @@ class AccountInvoiceLine(models.Model):
                 record.facturar = facturar
                 record.cantidad_5_num = cantidad_5_num
                 
-                record.cantidad = ""
-                record.importe = 0
-                record.und_pallet = 0
+                #record.cantidad = ""
+                #record.importe = 0
+                #record.und_pallet = 0
                     
         
         
