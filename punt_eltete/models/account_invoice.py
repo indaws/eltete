@@ -28,6 +28,7 @@ class AccountInvoice(models.Model):
     def _get_datos_lineas(self):
         for record in self:
             num_pallets = 0
+            pedido_cliente = ""
             for line in record.invoice_line_ids:
                 pedido_cliente = line.pedido_cliente
                 fecha_entrega_albaran = line.fecha_albaran
