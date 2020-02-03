@@ -97,6 +97,7 @@
                                 <field name='name' />
 				<field name='titulo' />
 				<field name='estado' />
+				<field name='activa' />
                             </tree>
                         </field>   
                         
@@ -112,6 +113,7 @@
 				<field name='name' />
                                 <field name='state_id' />
                                 <field name='country_id' />
+				<field name='activa' />
                             </tree>
                         </field>   
                         
@@ -195,6 +197,7 @@
                             </group>
 			    <group>
 					<field name='no_editar' invisible="1"/>
+				        <field name='activa' />
 					<field name='referencia_cliente_nombre' attrs="{'readonly': [('no_editar', '=', True)]}"/>
 					<field name='paletizado' attrs="{'readonly': [('no_editar', '=', True)]}" />
 				        <field name='ancho_pallet' attrs="{'readonly': [('no_editar', '=', True)]}" />
@@ -229,7 +232,7 @@
                     <field name='name' />
                     <field name='state_id' />
                     <field name='country_id' />
-					
+		    <field name='activa' />		
                 </tree>
             </field>
         </record>
@@ -246,10 +249,11 @@
                         <group>
                             <group>
                                 <field name="referencia_cliente_id" invisible="1"/>
-                                <field name="attribute_id" domain="[('referencia_cliente_id','=', referencia_cliente_id)]" context="{'default_referencia_cliente_id': referencia_cliente_id,  }"/>
+                                <field name="attribute_id" domain="[('referencia_cliente_id','=', referencia_cliente_id), ('activa','=', True)]" context="{'default_referencia_cliente_id': referencia_cliente_id,  }"/>
                                 <field name='user_id' />
                                 <field name='date' />
-								<field name='fecha_enviada' />
+				<field name='fecha_enviada' />
+				<field name='activa' />
                                 <field name='state_id' />
                                 <field name='country_id' />
 				<h3>Oferta:</h3>
