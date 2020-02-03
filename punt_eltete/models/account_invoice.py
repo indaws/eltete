@@ -92,7 +92,7 @@ class AccountInvoiceLine(models.Model):
     
     
     
-    @api.depends('precio_num', 'facturar', 'num_pallets', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
+    @api.depends('precio_num', 'facturar', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
     def _get_importe(self):
         for record in self:
             cantidad_num = 0
