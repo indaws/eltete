@@ -68,33 +68,54 @@ class AccountInvoiceLine(models.Model):
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
-    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
-    cantidad = fields.Char('Cantidad', compute = "_get_valores")
+    precio_num = fields.Float('Precio', digits = (12, 4), readonly = True, compute = "_get_valores")
     precio = fields.Char('Precio', readonly = True, compute = "_get_valores")
-    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
-    peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
-    peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
-    eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
-    
+    facturar = fields.Char('Facturar', readonly = True, compute = "_get_valores")
+    cantidad_5_num = fields.Float('Cantidad 5', digits = (12, 4), readonly = True, compute = "_get_valores")
     
     num_albaran = fields.Char('Num albarán', compute = "_get_datos_albaran")
     fecha_albaran = fields.Date('Fecha albarán', compute = "_get_datos_albaran")
+    cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
+    cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
+    cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
+    cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
+    num_pallets = fields.Integer('Num Pallets', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     
+    cantidad = fields.Char('Cantidad', compute = "_get_valores")
+    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
+    und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
     
+    #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
+    #peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_importe")
+    #eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_importe")
+    
+    
+    
+   
     
     
     @api.depends('move_line_ids')
     def _get_datos_albaran(self):
         for record in self:
-            num_albaran = ''
-            fecha_albaran = ''
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
                 fecha_albaran = move.picking_id.scheduled_date.date()
+                
+                cantidad_1_num = move.cantidad_1_num
+                cantidad_2_num = move.cantidad_2_num
+                cantidad_3_num = move.cantidad_3_num
+                cantidad_4_num = move.cantidad_4_num
+                num_pallets = move.num_pallets
+                
             record.num_albaran = num_albaran
             record.fecha_albaran = fecha_albaran
+            record.cantidad_1_num = cantidad_1_num
+            record.cantidad_2_num = cantidad_2_num
+            record.cantidad_3_num = cantidad_3_num
+            record.cantidad_4_num = cantidad_4_num
+            record.num_pallets = num_pallets
             
             
     @api.depends('sale_line_ids')
@@ -155,8 +176,20 @@ class AccountInvoiceLine(models.Model):
                     precio_num = round(precio_num, 4)
                     precio = str(precio_num) + " €/unidad"
                     
+                record.codigo_cliente = codigo_cliente
+                record.descripcion = descripcion
+                record.precio_num = precio_num
+                record.precio = precio
+                record.facturar = facturar
+                record.cantidad_5_num = cantidad_5_num
+                
+                record.cantidad = ""
+                record.importe = 0
+                record.und_pallet = 0
                     
         
+        
+        """
                 codigo_cliente = sale_line_id.oferta_id.attribute_id.codigo_cliente
                 descripcion = ''
                 if sale_line_id.oferta_id:
@@ -293,4 +326,4 @@ class AccountInvoiceLine(models.Model):
                 record.peso_bruto = peso_bruto
                 record.eton = eton
             
-            
+        """    
