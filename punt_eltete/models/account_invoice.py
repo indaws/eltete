@@ -113,7 +113,7 @@ class AccountInvoiceLine(models.Model):
         for record in self:
             incorrecto = False
             calculado = record.price_unit * record.quantity
-            if importe != calculado:
+            if record.importe != calculado:
                 incorrecto = True
             
             record.importe_incorrecto = incorrecto
