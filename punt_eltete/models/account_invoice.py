@@ -9,16 +9,22 @@ class AccountInvoice(models.Model):
     
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
     
     @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
     def _get_num_pallets(self):
         for record in self:
             num_pallets = 0
+            incorrecto = False
             for line in record.invoice_line_ids:
                 if line.product_id:
                     if line.product_id.type == 'product':
-                        num_pallets = num_pallets + line.quantity
+                        num_pallets = num_pallets + line.num_pallets
+                if line.importe_incorrecto = True:
+                    incorrecto = True
+                    
             record.num_pallets = num_pallets
+            record.importe_incorrecto = incorrecto
     
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
@@ -88,6 +94,7 @@ class AccountInvoiceLine(models.Model):
     
     actualizar = fields.Boolean('Actualizar')
     
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "get_importe_incorrecto")
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
 
@@ -100,6 +107,17 @@ class AccountInvoiceLine(models.Model):
     def _onchange_oferta_cantidad(self):
         self.price_unit = self.importe / self.quantity
     
+    
+    @api.depends('importe', 'price_unit', 'quantity')
+    def _get_importe_incorrecto(self):
+        for record in self:
+            incorrecto = False
+            calculado = record.price_unit * record.quantity
+            if importe != calculado:
+                incorrecto = True
+            
+            record.importe_incorrecto = incorrecto
+            
     
     
     @api.depends('precio_num', 'facturar', 'num_pallets', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
