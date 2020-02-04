@@ -41,9 +41,9 @@ class SaleOrderLine(models.Model):
     ESTADO_SEL = [('0', 'ESPERANDO'),    
                   ('1', 'MANDAR A FABRICAR'),
                   ('2', 'MANDAR A MANIPULAR'),
-                  ('3', 'PREPARAR'),
+                  ('3', 'FABRICADO'),
                   ]
-    estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado')
+    estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado', default = '0')
     
     op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion")
     op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion")
