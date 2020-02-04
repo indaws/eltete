@@ -102,7 +102,6 @@
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="bultos" />
 				<field name="und_user" />
-				<field name="kilos_user" />
 				<field name="und_pallet" />
 				<field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="cantidad" />
