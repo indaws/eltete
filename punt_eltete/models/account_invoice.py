@@ -20,7 +20,7 @@ class AccountInvoice(models.Model):
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
-                if line.importe_incorrecto = True:
+                if line.importe_incorrecto == True:
                     incorrecto = True
                     
             record.num_pallets = num_pallets
