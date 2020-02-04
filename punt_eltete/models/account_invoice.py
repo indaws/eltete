@@ -94,7 +94,7 @@ class AccountInvoiceLine(models.Model):
     
     actualizar = fields.Boolean('Actualizar')
     
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "get_importe_incorrecto")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
 
