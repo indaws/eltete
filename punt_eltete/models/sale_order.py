@@ -27,7 +27,7 @@ class SaleOrderLine(models.Model):
     und_pallet = fields.Integer('Unidades Pallet', readonly = True, compute = "_get_valores")
     cantidad = fields.Char('Cantidad', compute = "_get_valores")
     precio = fields.Char('Precio', readonly = True, compute = "_get_valores")
-    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_valores")
+    importe = fields.Float('Importe', digits = (10,4), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_valores")
     peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_valores")
     eton = fields.Float('Eton', digits=(8, 1), readonly = True, compute = "_get_valores")
