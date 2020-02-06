@@ -12,6 +12,9 @@
 			<field name="cliente_id" domain="[('customer','=',True), ('parent_id', '=', False)]"/>
 			<field name="sale_order_id"/>
 			<field name="sale_order_line_id"/>
+            <field name="picking_id"/>
+            <field name="scheduled_date"/>
+            <field name="date_done"/>
 			<field name="hora_inicio"/>
 			<field name="hora_fin"/>
 			<field name="pallet_sage"/>
