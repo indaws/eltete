@@ -144,7 +144,9 @@ class AccountInvoiceLine(models.Model):
                 cantidad = str(cantidad_num) + " unidades"
   
             importe = cantidad_num * record.precio_num
-            price_unit = importe / record.num_pallets
+            price_unit = 0.0
+            if record.num_pallets > 0:
+                price_unit = importe / record.num_pallets
             
             record.cantidad = cantidad
             record.importe = importe
@@ -156,6 +158,16 @@ class AccountInvoiceLine(models.Model):
     @api.depends('move_line_ids', 'facturar', 'cantidad_5_num')
     def _get_datos_albaran(self):
         for record in self:
+        
+            num_albaran = ''
+            fecha_albaran = None
+            cantidad_1_num = 0.0
+            cantidad_2_num = 0.0
+            cantidad_3_num = 0.0
+            cantidad_4_num = 0.0
+            num_pallets = 0
+            unidades = 0
+        
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
                 fecha_albaran = move.picking_id.scheduled_date.date()

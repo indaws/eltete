@@ -3,6 +3,12 @@ from odoo import fields, models, api
 
 
 
+class StockMoveLine(models.Model):
+    _inherit = 'stock.move.line'
+    
+    sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido", related='move_id.sale_line_id', readonly=True)
+
+
 class StockMove(models.Model):
     _inherit = 'stock.move'
     
