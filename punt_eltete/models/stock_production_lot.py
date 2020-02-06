@@ -7,6 +7,11 @@ from odoo.addons import decimal_precision as dp
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
     
+    
+    picking_id = fields.Many2one('stock.picking', string = "Albarán", compute = "_get_datos_albaran", readonly=True)
+    scheduled_date = fields.Datetime(string = "Fecha prevista", compute = "_get_datos_albaran", readonly=True)
+    date_done = fields.Datetime(string = "Fecha efectiva", compute = "_get_datos_albaran", readonly=True)
+    
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
     referencia_id = fields.Many2one('product.referencia', string="Referencia")
     cliente_id = fields.Many2one('res.partner', string="Cliente")
@@ -91,6 +96,26 @@ class StockProductionLot(models.Model):
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
+    
+    
+    @api.depends('sale_order_line_id')
+    def _get_datos_albaran(self):
+        for record in self:
+            picking_id = None
+            scheduled_date = None
+            date_done = None
+            for move in record.sale_order_line_id.move_ids:
+                for line in move.move_line_ids:
+                    if line.lot_id:
+                        if line.lot_id.id == record.id:
+                            picking_id = move.picking_id.id
+                            date_done = move.picking_id.date_done
+                            scheduled_date  = move.picking_id.scheduled_date
+                            
+            record.picking_id = picking_id
+            record.scheduled_date = scheduled_date
+            record.date_done = date_done
+            
     
     
     @api.depends('unidades', 'peso_neto')
