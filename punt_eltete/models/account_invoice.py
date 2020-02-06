@@ -96,7 +96,7 @@ class AccountInvoiceLine(models.Model):
     
     importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
-    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
+    importe = fields.Float('Importe', digits = (12,4), readonly = True, compute = "_get_importe")
 
     #peso_neto = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_importe")
     #peso_bruto = fields.Integer('Peso Bruto Pallet', readonly = True, compute = "_get_importe")
