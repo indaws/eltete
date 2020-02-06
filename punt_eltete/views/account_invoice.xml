@@ -20,5 +20,21 @@
     
     
     
+    <record id="view_account_invoice_eltete_tree" model="ir.ui.view">
+        <field name="name">account.invoice.eltete.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+        
+			<field name="state" position="before">
+				<field name="importe_incorrecto"/>
+			</field>
+
+            
+        </field>
+    </record>
+    
+    
+    
     
 </odoo>
