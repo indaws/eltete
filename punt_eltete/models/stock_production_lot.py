@@ -103,7 +103,7 @@ class StockProductionLot(models.Model):
         for record in self:
             fecha_salida = None
             if record.date_done and record.scheduled_date:
-                fecha_salida = record.scheduled_date
+                fecha_salida = date(record.scheduled_date)
             
             record.fecha_salida = fecha_salida
             
