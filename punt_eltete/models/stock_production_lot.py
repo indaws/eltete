@@ -14,7 +14,8 @@ class StockProductionLot(models.Model):
     
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
     referencia_id = fields.Many2one('product.referencia', string="Referencia")
-    cliente_id = fields.Many2one('res.partner', string="Cliente")
+    cliente_id = fields.Many2one('res.partner', string="Cliente", store=True, related='sale_order_id.partner_id', readonly=True)
+    cliente_ref = fields.Char('Rerencia Cliente', readonly = True, compute = "_get_cliente")
     
     fabricado = fields.Boolean('Fabricado')
 
@@ -97,7 +98,7 @@ class StockProductionLot(models.Model):
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
     
-     @api.depends('date_done', 'scheduled_date')
+    @api.depends('date_done', 'scheduled_date')
     def _get_fecha_salida(self):
         for record in self:
             fecha_salida = None
@@ -105,6 +106,17 @@ class StockProductionLot(models.Model):
                 fecha_salida = record.scheduled_date
             
             record.fecha_salida = fecha_salida
+            
+            
+            
+    @api.depends('cliente_id')
+    def _get_cliente(self):
+        for record in self:
+            cliente_ref = ""
+            if record.cliente_id:
+                cliente_ref = record.cliente_id.ref
+            
+            record.cliente_ref = cliente_ref
     
     
     
