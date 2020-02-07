@@ -75,7 +75,7 @@ class StockProductionLot(models.Model):
     maquina = fields.Integer('Máquina')
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
     fecha_entrada = fields.Date('Fecha Entrada')
-    fecha_salida = fields.Date('Fecha Salida', readonly = True, compute = "_get_fecha_salida")
+    fecha_salida = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_fecha_salida")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     descripcion = fields.Html('Descripcion')
     
@@ -103,7 +103,7 @@ class StockProductionLot(models.Model):
         for record in self:
             fecha_salida = None
             if record.date_done and record.scheduled_date:
-                fecha_salida = date(record.scheduled_date)
+                fecha_salida = record.scheduled_date
             
             record.fecha_salida = fecha_salida
             
