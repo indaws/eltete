@@ -71,6 +71,11 @@
 			<field name="peso_neto"/>
 			<field name="fecha_entrada"/>
 			<field name="fecha_salida"/>
+			<field name="sale_order_id"/>
+			<field name="sale_order_line_id"/>
+			<field name="cliente_id"/>
+			<field name="cliente_ref"/>
+			<field name="picking_id"/>
                 </xpath>
                 
 				
