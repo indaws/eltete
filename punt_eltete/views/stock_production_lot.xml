@@ -67,15 +67,14 @@
         
                 <xpath expr="//field[@name='name']" position="after">
 			<field name="referencia_id"/>
-			<field name="unidades"/>
-			<field name="peso_neto"/>
+			<field name="unidades"  sum="Unidades"/>
+			<field name="peso_neto"  sum="Peso"/>
 			<field name="fecha_entrada"/>
 			<field name="fecha_salida"/>
+			<field name="picking_id"/>
 			<field name="sale_order_id"/>
 			<field name="sale_order_line_id"/>
 			<field name="cliente_id"/>
-			<field name="cliente_ref"/>
-			<field name="picking_id"/>
                 </xpath>
                 
 				
