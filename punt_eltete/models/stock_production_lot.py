@@ -14,7 +14,7 @@ class StockProductionLot(models.Model):
     
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
     referencia_id = fields.Many2one('product.referencia', string="Referencia")
-    cliente_id = fields.Many2one('res.partner', string="Cliente", store=True, related='sale_order_id.partner_id', readonly=True)
+    cliente_id = fields.Many2one('res.partner', string="Cliente", store=True, related='sale_order_id.partner_id')
     cliente_ref = fields.Char('Rerencia Cliente', readonly = True, compute = "_get_cliente")
     
     fabricado = fields.Boolean('Fabricado')
