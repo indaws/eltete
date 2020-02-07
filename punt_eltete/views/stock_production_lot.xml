@@ -9,23 +9,25 @@
                 <xpath expr="//field[@name='ref']" position="after">
 			<field name="type_id"/>
 			<field name="referencia_id"/>
-			<field name="cliente_id" domain="[('customer','=',True), ('parent_id', '=', False)]"/>
+			
 			<field name="sale_order_id"/>
 			<field name="sale_order_line_id"/>
-            <field name="picking_id"/>
-            <field name="scheduled_date"/>
-            <field name="date_done"/>
-			<field name="hora_inicio"/>
-			<field name="hora_fin"/>
-			<field name="pallet_sage"/>
-			<field name="maquina"/>
+			<field name="cliente_id"/>
+			<field name="cliente_ref"/>
+			<field name="picking_id"/>
+			
 			<field name="unidades"/>
 			<field name="peso_neto"/>
 			<field name="user_peso_bruto"/>
-			<field name="fabricado"/>  
 			<field name="fecha_entrada"/>
 			<field name="fecha_salida"/>
 			<field name="disponible"/>
+			
+			<field name="pallet_sage"/>
+
+			<field name="maquina"/>
+			<field name="hora_inicio"/>
+			<field name="hora_fin"/>
                 </xpath>
             
 
@@ -46,7 +48,6 @@
 			<field name="ancho_pallet"/>
 			<field name="und_paquete"/>
 			<field name="unidades"/>
-			<field name="fabricado"/>
                     <field name="sale_order_line_id"/>
 
                 </xpath>
@@ -65,14 +66,11 @@
         <field name="arch" type="xml">
         
                 <xpath expr="//field[@name='name']" position="after">
-					<field name="type_id"/>
-					<field name="referencia_id"/>
-					<field name="cliente_id"/>
-					<field name="unidades"/>
-					<field name="peso_neto"/>
-					<field name="sale_order_line_id"/>
-                    <field name="fecha_entrada"/>
-					<field name="fecha_salida" />
+			<field name="referencia_id"/>
+			<field name="unidades"/>
+			<field name="peso_neto"/>
+			<field name="fecha_entrada"/>
+			<field name="fecha_salida"/>
                 </xpath>
                 
 				
