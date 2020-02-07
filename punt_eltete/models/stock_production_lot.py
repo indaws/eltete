@@ -74,7 +74,7 @@ class StockProductionLot(models.Model):
     maquina = fields.Integer('Máquina')
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
     fecha_entrada = fields.Date('Fecha Entrada')
-    fecha_salida = fields.Date('Fecha Salida')
+    fecha_salida = fields.Date('Fecha Salida', readonly = True, compute = "_get_fecha_salida")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     descripcion = fields.Html('Descripcion')
     
@@ -95,6 +95,32 @@ class StockProductionLot(models.Model):
     cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    
+    
+     @api.depends('date_done', 'scheduled_date')
+    def _get_fecha_salida(self):
+        for record in self:
+            fecha_salida = None
+            if record.date_done and record.scheduled_date:
+                fecha_salida = record.scheduled_date
+            
+            record.fecha_salida = fecha_salida
+    
+    
+    
+    @api.depends('sale_order_line_id', 'fecha_entrada', 'fecha_salida')
+    def _get_disponible(self):
+        for record in self:
+            disponible = False
+            if record.fecha_entrada:
+                if record.fecha_salida:
+                    x = 0
+                elif record.sale_order_line_id:
+                    x = 0
+                else:
+                    disponible = True
+                
+            record.disponible = disponible
     
     
     
@@ -200,23 +226,7 @@ class StockProductionLot(models.Model):
     
     """
 
-    
-    @api.depends('sale_order_line_id', 'fecha_entrada', 'fecha_salida')
-    def _get_disponible(self):
-        for record in self:
-            disponible = False
-            if record.fecha_entrada:
-                if record.fecha_salida:
-                    x = 0
-                elif record.sale_order_line_id:
-                    x = 0
-                else:
-                    disponible = True
-                
-            record.disponible = disponible
-    
-    
-    
+
     @api.depends('referencia_id', 'unidades')
     def _get_peso(self):
         for record in self:
