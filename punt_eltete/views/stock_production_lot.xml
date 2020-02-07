@@ -67,7 +67,7 @@
         
                 <xpath expr="//field[@name='name']" position="after">
 			<field name="referencia_id"/>
-			<field name="unidades"  sum="Unidades"/>
+			<field name="unidades"/>
 			<field name="peso_neto"  sum="Peso"/>
 			<field name="fecha_entrada"/>
 			<field name="fecha_salida"/>
