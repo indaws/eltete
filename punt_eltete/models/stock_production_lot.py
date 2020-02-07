@@ -8,7 +8,7 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
     
     
-    picking_id = fields.Many2one('stock.picking', string = "Albarán", compute = "_get_datos_albaran", readonly=True)
+    picking_id = fields.Many2one('stock.picking', string = "Albarán", compute = "_get_datos_albaran")
     scheduled_date = fields.Datetime(string = "Fecha prevista", compute = "_get_datos_albaran", readonly=True)
     date_done = fields.Datetime(string = "Fecha efectiva", compute = "_get_datos_albaran", readonly=True)
     
