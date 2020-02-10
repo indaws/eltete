@@ -9,6 +9,7 @@
         <field name="arch" type="xml">
         
 			<field name="amount_untaxed" position="before">
+				<field name="peso_neto"/>
 				<field name="importe_sin_descuento"/>
 				<field name="descuento_porcentaje"/>
 				<field name="importe_descuento"/>
@@ -27,6 +28,7 @@
         <field name="arch" type="xml">
         
 			<field name="state" position="before">
+				<field name="peso_neto"/>
 				<field name="importe_incorrecto"/>
 			</field>
 
