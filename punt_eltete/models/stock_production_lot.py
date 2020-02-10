@@ -15,7 +15,7 @@ class StockProductionLot(models.Model):
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
     referencia_id = fields.Many2one('product.referencia', string="Referencia")
     cliente_id = fields.Many2one('res.partner', string="Cliente", store=True, related='sale_order_id.partner_id')
-    cliente_ref = fields.Char('Rerencia Cliente', readonly = True, compute = "_get_cliente")
+    cliente_ref = fields.Char('Rerencia Cliente', readonly = True, store=True, compute = "_get_cliente")
     
     fabricado = fields.Boolean('Fabricado')
 
@@ -127,8 +127,8 @@ class StockProductionLot(models.Model):
             if record.fecha_entrada:
                 if record.fecha_salida:
                     x = 0
-                #elif record.sale_order_line_id:
-                    #x = 0
+                elif record.sale_order_line_id:
+                    x = 0
                 else:
                     disponible = True
                 
