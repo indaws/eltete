@@ -27,7 +27,7 @@
         <field name="arch" type="xml">
         
 			<field name="state" position="before">
-				<field name="peso_neto"/>
+				<field name="peso_neto" sum="Peso Neto"/>
 				<field name="importe_incorrecto"/>
 			</field>
 
