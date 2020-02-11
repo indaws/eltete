@@ -78,7 +78,8 @@ class AccountInvoice(models.Model):
             descuento_porcentaje = 0.0
             
             for line in record.invoice_line_ids:
-                importe_sin_descuento = importe_sin_descuento + round(line.importe, 2)
+                importe_linea = round(line.importe, 2)
+                importe_sin_descuento = importe_sin_descuento + importe_linea
                 if line.discount > 0.0:
                     descuento_porcentaje = line.discount
 
