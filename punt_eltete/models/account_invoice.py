@@ -9,7 +9,7 @@ class AccountInvoice(models.Model):
     
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
     importe_calculado = fields.Float('Importe Calculado', digits = (12,2), readonly = True, compute = "_get_num_pallets")
     
@@ -20,30 +20,24 @@ class AccountInvoice(models.Model):
             num_pallets = 0
             peso_neto = 0
             calculado = 0
+            incorrecto = False
             
             for line in record.invoice_line_ids:
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
                         
+                if line.importe_incorrecto == True:
+                    incorrecto = True
+                
                 calculado = calculado + line.importe_calculado
                 peso_neto = line.peso_neto
                     
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.importe_calculado = calculado
-            
-            
-            
-    @api.depends('importe_sin_descuento', 'importe_calculado')
-    def _get_importe_incorrecto(self):
-        for record in self:
-            incorrecto = False
-            if record.importe_sin_descuento != record.importe_calculado:
-                incorrecto = True
-
             record.importe_incorrecto = incorrecto
-    
+
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
     fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
@@ -110,19 +104,12 @@ class AccountInvoiceLine(models.Model):
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
-    
-    actualizar = fields.Boolean('Actualizar')
-    
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
+
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (12,4), readonly = True, compute = "_get_importe")
-    importe_calculado = fields.Float('Importe Calculado', digits = (12,4), readonly = True, compute = "_get_importe_incorrecto")
+    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_importe_incorrecto")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
 
-    
-    
-    @api.onchange('actualizar')
-    def _onchange_oferta_cantidad(self):
-        self.price_unit = self.importe / self.quantity
     
     
     @api.depends('importe', 'price_unit', 'quantity')
@@ -170,7 +157,7 @@ class AccountInvoiceLine(models.Model):
             
             record.cantidad = cantidad
             record.importe = importe
-            record.price_unit = price_unit
+            self.price_unit = price_unit
 
    
     
