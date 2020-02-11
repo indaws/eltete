@@ -26,7 +26,14 @@ class AccountInvoice(models.Model):
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
-                        
+                
+                linea_calculado = line.price_unit * line.quantity
+                linea_calculado = round(linea_calculado, 2)
+                importe = round(line.importe, 2)
+                
+                if linea_calculado != importe:
+                    incorrecto = True
+                
                 if line.importe_incorrecto == True:
                     incorrecto = True
                 
