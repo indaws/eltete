@@ -28,7 +28,7 @@ class AccountInvoice(models.Model):
                         num_pallets = num_pallets + line.num_pallets
                 #if line.importe_incorrecto == True:
                     #incorrecto = True
-                if line.importe_calculado != line.importe:
+                if round(line.importe_calculado, 2) != round(line.importe, 2):
                     incorrecto = True
                 
                 calculado = calculado + line.importe_calculado
