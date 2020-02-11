@@ -26,10 +26,13 @@
         <field name="inherit_id" ref="account.invoice_tree"/>
         <field name="arch" type="xml">
         
-			<field name="state" position="before">
-				<field name="peso_neto" sum="Peso Neto"/>
+			<field name="origin" position="after">
 				<field name="importe_calculado"/>
 				<field name="importe_incorrecto"/>
+			</field>
+		
+			<field name="state" position="before">
+				<field name="peso_neto" sum="Peso Neto"/>
 			</field>
 
             
