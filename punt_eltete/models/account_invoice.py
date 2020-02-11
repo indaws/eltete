@@ -9,9 +9,20 @@ class AccountInvoice(models.Model):
     
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
-    importe_calculado = fields.Float('Importe Calculado', digits = (12,2), readonly = True, compute = "_get_num_pallets")
+    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_num_pallets")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_incorrecto")
+    
+    
+    @api.depends('importe_calculado', 'importe_sin_descuento')
+    def _get_incorrecto(self):
+        for record in self:
+            incorrecto = False
+            if record.importe_calculado != record.importe_sin_descuento:
+                incorrecto = True
+                    
+            record.importe_incorrecto = incorrecto
+    
     
     
     @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
@@ -26,24 +37,13 @@ class AccountInvoice(models.Model):
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
-                
-                linea_calculado = line.price_unit * line.quantity
-                linea_calculado = round(linea_calculado, 2)
-                importe = round(line.importe, 2)
-                
-                if linea_calculado != importe:
-                    incorrecto = True
-                
-                if line.importe_incorrecto == True:
-                    incorrecto = True
-                
-                calculado = calculado + line.importe_calculado
+                    
                 peso_neto = line.peso_neto
+                calculado = calculado + line.importe_calculado
                     
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.importe_calculado = calculado
-            record.importe_incorrecto = incorrecto
 
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
@@ -114,22 +114,14 @@ class AccountInvoiceLine(models.Model):
 
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (12,4), readonly = True, compute = "_get_importe")
-    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_importe_incorrecto")
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
+    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_importe_calculado")
 
     
     
-    @api.depends('importe', 'price_unit', 'quantity')
-    def _get_importe_incorrecto(self):
+    @api.depends('price_unit', 'quantity')
+    def _get_importe_calculado(self):
         for record in self:
-            incorrecto = False
             calculado = record.price_unit * record.quantity
-            calculado = round(calculado, 2)
-            importe = round(record.importe, 2)
-            if importe != calculado:
-                incorrecto = True
-            
-            record.importe_incorrecto = incorrecto
             record.importe_calculado = calculado
             
     
