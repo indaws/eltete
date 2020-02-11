@@ -28,6 +28,7 @@
         
 			<field name="state" position="before">
 				<field name="peso_neto" sum="Peso Neto"/>
+				<field name="importe_calculado"/>
 				<field name="importe_incorrecto"/>
 			</field>
 
