@@ -9,16 +9,15 @@ class AccountInvoice(models.Model):
     
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
-    importe_calculado = fields.Float('Importe Calculado', digits = (12,4), readonly = True, compute = "_get_num_pallets")
+    importe_calculado = fields.Float('Importe Calculado', digits = (12,2), readonly = True, compute = "_get_num_pallets")
     
     
     @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
     def _get_num_pallets(self):
         for record in self:
             num_pallets = 0
-            incorrecto = False
             peso_neto = 0
             calculado = 0
             
@@ -26,18 +25,24 @@ class AccountInvoice(models.Model):
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
-                #if line.importe_incorrecto == True:
-                    #incorrecto = True
-                if round(line.importe_calculado, 2) != round(line.importe, 2):
-                    incorrecto = True
-                
+                        
                 calculado = calculado + line.importe_calculado
                 peso_neto = line.peso_neto
                     
             record.num_pallets = num_pallets
-            record.importe_incorrecto = incorrecto
             record.peso_neto = peso_neto
             record.importe_calculado = calculado
+            
+            
+            
+    @api.depends('importe_sin_descuento', 'importe_calculado')
+    def _get_importe_incorrecto(self):
+        for record in self:
+            incorrecto = False
+            if record.importe_sin_descuento != record.importe_calculado:
+                incorrecto = True
+
+            record.importe_incorrecto = incorrecto
     
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
