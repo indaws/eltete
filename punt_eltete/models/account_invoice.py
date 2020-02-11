@@ -18,7 +18,9 @@ class AccountInvoice(models.Model):
     def _get_incorrecto(self):
         for record in self:
             incorrecto = False
-            if record.importe_calculado != record.importe_sin_descuento:
+            if record.importe_calculado > record.importe_sin_descuento:
+                incorrecto = True
+            elif record.importe_calculado < record.importe_sin_descuento:
                 incorrecto = True
                     
             record.importe_incorrecto = incorrecto
