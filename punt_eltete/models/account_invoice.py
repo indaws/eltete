@@ -157,7 +157,7 @@ class AccountInvoiceLine(models.Model):
             
             record.cantidad = cantidad
             record.importe = importe
-            record..price_unit = price_unit
+            record.price_unit = price_unit
 
    
     
