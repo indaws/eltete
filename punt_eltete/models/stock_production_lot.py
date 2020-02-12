@@ -10,7 +10,16 @@ class StockProductionLotOperario(models.Model):
     
     operario_id = fields.Many2one('hr.employee', string = "Empleado", required=True)
     lot_id = fields.Many2one('stock.production.lot', string = "Lote", required=True)
-    maquina = fields.Integer(string="Máquina")
+    TAREA_SEL = [ ('1', 'MAQUINA CANTONERAS 1'), 
+               ('2', 'MAQUINA CANTONERAS 2'), 
+               ('3', 'MAQUINA CANTONERAS 3'), 
+               ('4', 'MAQUINA CANTONERAS 4'), 
+               ('11', 'CONTRACOLADORA'), 
+               ('31', 'SIERRA'), 
+               ('32', 'TROQUELADORA'), 
+               ('33', 'PALETIZADO'), 
+               ]
+    tarea = fields.Selection(selection = TAREA_SEL, string = 'Tarea')
     fecha_inicio = fields.Datetime('Hora Inicio')
     und_inicio = fields.Integer(string="Und inicio", default=1)
     fecha_fin = fields.Datetime('Fecha Fin')
