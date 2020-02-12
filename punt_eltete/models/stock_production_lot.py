@@ -33,17 +33,18 @@ class StockProductionLotOperario(models.Model):
     
     @api.depends('und_inicio', 'und_fin', 'lot_id.referencia_id')
     def _get_produccion(self):
-        metros = 0
-        kilos = 0
-        if record.lot_id:
-            if record.lot_id.referencia_id:
-                if record.und_inicio > 0 and record.und_fin > 0 and record.und_fin > record.und_inicio:
-                    unidades = record.und_fin - record.und_inicio + 1
-                    metros = unidades * record.lot_id.referencia_id.metros_unidad
-                    kilos = metros * record.lot_id.referencia_id.peso_metro
+        for record in self:
+            metros = 0
+            kilos = 0
+            if record.lot_id:
+                if record.lot_id.referencia_id:
+                    if record.und_inicio > 0 and record.und_fin > 0 and record.und_fin > record.und_inicio:
+                        unidades = record.und_fin - record.und_inicio + 1
+                        metros = unidades * record.lot_id.referencia_id.metros_unidad
+                        kilos = metros * record.lot_id.referencia_id.peso_metro
          
-        record.metros = metros
-        record.kilos = kilos
+            record.metros = metros
+            record.kilos = kilos
         
         
 
