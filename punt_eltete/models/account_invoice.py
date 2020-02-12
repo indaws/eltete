@@ -11,6 +11,7 @@ class AccountInvoice(models.Model):
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
     importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
+    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_num_pallets")
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -26,6 +27,7 @@ class AccountInvoice(models.Model):
             num_pallets = 0
             peso_neto = 0
             incorrecto = False
+            calculado = 0
             
             for line in record.invoice_line_ids:
                 if line.product_id:
@@ -34,12 +36,14 @@ class AccountInvoice(models.Model):
                 
                 if line.importe_incorrecto = True:
                     incorrecto = True
-                    
+                calculado = calculado + line.impoorte_calculado
+                
                 peso_neto = line.peso_neto
                     
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.importe_incorrecto = incorrecto
+            record.importe_calculado = calculado
 
             
     
