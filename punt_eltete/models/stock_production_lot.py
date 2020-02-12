@@ -18,6 +18,7 @@ class StockProductionLotOperario(models.Model):
                ('31', 'SIERRA'), 
                ('32', 'TROQUELADORA'), 
                ('33', 'PALETIZADO'), 
+               ('51', 'CAMBIO'),
                ]
     tarea = fields.Selection(selection = TAREA_SEL, string = 'Tarea')
     fecha_inicio = fields.Datetime('Hora Inicio')
@@ -61,6 +62,7 @@ class StockProductionLot(models.Model):
     sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
     operario_ids = fields.One2many('stock.production.lot.operario', 'lot_id', string="Operarios")
     
+    metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
     fecha_entrada = fields.Date('Fecha Entrada')
     pallet_sage = fields.Char('Pallet Sage')
     fecha_salida = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_fecha_salida")
@@ -138,6 +140,16 @@ class StockProductionLot(models.Model):
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
+    
+    @api.depends('operario_ids')
+    def _get_metido(self):
+        for record in self:
+            metido = False
+            if len(record.operario_ids) > 0:
+                metido = True
+            
+            record.metido = metido
+    
     
     
     @api.depends('date_done', 'scheduled_date')
