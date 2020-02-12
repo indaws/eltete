@@ -50,23 +50,47 @@ class StockProductionLotOperario(models.Model):
 
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
-    
-    
+
     picking_id = fields.Many2one('stock.picking', string = "Albarán", compute = "_get_datos_albaran")
     scheduled_date = fields.Datetime(string = "Fecha prevista", compute = "_get_datos_albaran", readonly=True)
     date_done = fields.Datetime(string = "Fecha efectiva", compute = "_get_datos_albaran", readonly=True)
-    
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
     referencia_id = fields.Many2one('product.referencia', string="Referencia")
     cliente_id = fields.Many2one('res.partner', string="Cliente", store=False, related='sale_order_id.partner_id')
     cliente_ref = fields.Char('Rerencia Cliente', readonly = True, store=False, compute = "_get_cliente")
-    
-    fabricado = fields.Boolean('Fabricado')
-
     sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
-    
     operario_ids = fields.One2many('stock.production.lot.operario', 'lot_id', string="Operarios")
     
+    fecha_entrada = fields.Date('Fecha Entrada')
+    pallet_sage = fields.Char('Pallet Sage')
+    fecha_salida = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_fecha_salida")
+    disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
+    unidades = fields.Integer('Unidades')
+    peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
+    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
+    user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
+    
+    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
+    descripcion = fields.Html('Descripcion')
+
+    cantidad_1 = fields.Char('Cantidad 1', readonly = True, compute = "_get_cantidad")
+    cantidad_2 = fields.Char('Cantidad 2', readonly = True, compute = "_get_cantidad")
+    cantidad_3 = fields.Char('Cantidad 3', readonly = True, compute = "_get_cantidad")
+    cantidad_4 = fields.Char('Cantidad 4', readonly = True, compute = "_get_cantidad")
+    
+    cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    
+    #PARA TODOS
+    #hora_inicio = fields.Datetime('Hora Inicio Fabricación')
+    #hora_fin = fields.Datetime('Hora Fin Fabricación')
+    #maquina = fields.Integer('Máquina')
+    ancho_pallet = fields.Integer('Ancho Pallet')
+    und_paquete = fields.Integer('Und paquete')
+    
+    #fabricado = fields.Boolean('Fabricado')
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
     
@@ -114,34 +138,6 @@ class StockProductionLot(models.Model):
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
-    #PARA TODOS
-    hora_inicio = fields.Datetime('Hora Inicio Fabricación')
-    hora_fin = fields.Datetime('Hora Fin Fabricación')
-    pallet_sage = fields.Char('Pallet Sage')
-    maquina = fields.Integer('Máquina')
-    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
-    fecha_entrada = fields.Date('Fecha Entrada')
-    fecha_salida = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_fecha_salida")
-    disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
-    descripcion = fields.Html('Descripcion')
-    
-    #PARA TODOS
-    ancho_pallet = fields.Integer('Ancho Pallet')
-    und_paquete = fields.Integer('Und paquete')
-    unidades = fields.Integer('Unidades')
-    peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
-    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
-    user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
-    
-    cantidad_1 = fields.Char('Cantidad 1', readonly = True, compute = "_get_cantidad")
-    cantidad_2 = fields.Char('Cantidad 2', readonly = True, compute = "_get_cantidad")
-    cantidad_3 = fields.Char('Cantidad 3', readonly = True, compute = "_get_cantidad")
-    cantidad_4 = fields.Char('Cantidad 4', readonly = True, compute = "_get_cantidad")
-    
-    cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), readonly = True, compute = "_get_cantidad")
-    cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_cantidad")
-    cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
-    cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
     
     @api.depends('date_done', 'scheduled_date')
