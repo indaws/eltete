@@ -37,7 +37,7 @@ class AccountInvoice(models.Model):
                     incorrecto = True
                 calculado = calculado + line.importe_calculado
                 
-                peso_neto = line.peso_neto
+                peso_neto = peso_neto + line.peso_neto
                     
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
