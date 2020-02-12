@@ -10,21 +10,14 @@ class AccountInvoice(models.Model):
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
-    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_num_pallets")
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_incorrecto")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
     
+    importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
+    importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
+    descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_valores_descuento")
     
-    @api.depends('importe_calculado', 'importe_sin_descuento')
-    def _get_incorrecto(self):
-        for record in self:
-            incorrecto = False
-            if record.importe_calculado > record.importe_sin_descuento:
-                incorrecto = True
-            elif record.importe_calculado < record.importe_sin_descuento:
-                incorrecto = True
-                    
-            record.importe_incorrecto = incorrecto
-    
+    pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
+    fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
     
     
     @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
@@ -32,24 +25,23 @@ class AccountInvoice(models.Model):
         for record in self:
             num_pallets = 0
             peso_neto = 0
-            calculado = 0
             incorrecto = False
             
             for line in record.invoice_line_ids:
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
+                
+                if line.importe_incorrecto = True:
+                    incorrecto = True
                     
                 peso_neto = line.peso_neto
-                calculado = calculado + line.importe_calculado
                     
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
-            record.importe_calculado = calculado
+            record.importe_incorrecto = incorrecto
 
-    
-    pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
-    fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
+            
     
     @api.depends('invoice_line_ids')
     def _get_datos_lineas(self):
@@ -62,24 +54,17 @@ class AccountInvoice(models.Model):
                 fecha_entrega_albaran = line.fecha_albaran
             record.pedido_cliente = pedido_cliente
             record.fecha_entrega_albaran = fecha_entrega_albaran
+
             
             
-    importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
-    importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
-    descuento_porcentaje = fields.Float('Descuento Cliente', digits = (10, 2), readonly = True, compute="_get_valores_descuento")
-    
-    
     @api.depends('invoice_line_ids')
     def _get_valores_descuento(self):
-    
         for record in self:
-
             importe_sin_descuento = 0
             descuento_porcentaje = 0.0
             
             for line in record.invoice_line_ids:
-                importe_linea = round(line.importe, 2)
-                importe_sin_descuento = importe_sin_descuento + importe_linea
+                importe_sin_descuento = importe_sin_descuento + line.importe
                 if line.discount > 0.0:
                     descuento_porcentaje = line.discount
 
@@ -116,9 +101,20 @@ class AccountInvoiceLine(models.Model):
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
 
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
-    importe = fields.Float('Importe', digits = (12,4), readonly = True, compute = "_get_importe")
+    importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
     importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_importe_calculado")
+    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
 
+    
+    @api.depends('importe', 'importe_calculado')
+    def _get_importe_incorrecto(self):
+        for record in self:
+            incorrecto = False
+            if record.importe != record.importe_calculado:
+                incorrecto = True
+                
+            record.importe_incorrecto = incorrecto
+    
     
     
     @api.depends('price_unit', 'quantity')
