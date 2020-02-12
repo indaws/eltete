@@ -4,6 +4,25 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
 
 
+
+class StockProductionLotOperario(models.Model):
+    _name = 'stock.production.lot.operario'
+    
+    operario_id = fields.Many2one('hr.employee', string = "Empleado", required=True)
+    lot_id = fields.Many2one('stock.production.lot', string = "Lote", required=True)
+    maquina = fields.Integer(string="Máquina")
+    hora_inicio = fields.Float(string = "Hora inicio")
+    und_inicio = fields.Integer(string="Und inicio", default=1)
+    hora_fin = fields.Float(string = "Hora fin")
+    und_final = fields.Integer(string="Und inicio")
+    
+    @api.onchange('lot_id')
+    def _onchange_lot_id(self):
+        if self.lot_id:
+            self.und_final = self.lot_id.unidades
+
+
+
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
     
@@ -20,6 +39,8 @@ class StockProductionLot(models.Model):
     fabricado = fields.Boolean('Fabricado')
 
     sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
+    
+    operario_ids = fields.One2many('stock.production.lot.operario', 'lot_id', string="Operarios")
     
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
