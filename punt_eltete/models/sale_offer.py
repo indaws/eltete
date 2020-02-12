@@ -183,6 +183,7 @@ class sale_referencia_cliente(models.Model):
                             paquetes = int(undFilaMax / und_paquete)
                         #Compacto
                         elif paletizado == 1:
+                            ancho_pallet = ancho_pallet - 30
                             und_paquete = 25
                             if record.referencia_id.grosor_2 >= 6:
                                 und_paquete = 10
@@ -196,6 +197,8 @@ class sale_referencia_cliente(models.Model):
                                 pesoPaquete = und_paquete * pesoUnidad
                             undFilaMax = int((ancho_pallet - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
                             paquetes = int(undFilaMax / und_paquete)
+                            if paquetes > 14:
+                                paquetes = paquetes - 1
                         #Columnas
                         elif paletizado == 2:
                             undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
