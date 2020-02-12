@@ -4,7 +4,16 @@ from odoo.addons import decimal_precision as dp
 
  
 	
- class Papel(models.Model):
+class Maquina(models.Model):
+    _name = 'mprima.maquina'
+
+    name = fields.Char(string='Nombre', required = True)
+    
+
+
+
+
+class Papel(models.Model):
     _name = 'mprima.papel'
 
     name = fields.Char(string='Nombre', required = True, compute="_get_name")
