@@ -28,6 +28,16 @@
             name="punt_eltete.report_etiquetas_pedido" 
         />
         
+        
+        <report 
+            id="rep_stock_picking_orden_carga"
+            string="Orden de carga"
+            model="stock.picking" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_stock_picking_orden_carga" 
+            name="punt_eltete.report_stock_picking_orden_carga" 
+        />
+        
 
     </data>
 </openerp>
