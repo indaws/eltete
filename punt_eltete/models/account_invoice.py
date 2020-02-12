@@ -7,7 +7,6 @@ _logger = logging.getLogger(__name__)
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
     
-    
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
     importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
@@ -221,8 +220,7 @@ class AccountInvoiceLine(models.Model):
             sale_line_id = None
             for sale in record.sale_line_ids:
                 sale_line_id = sale
-        
-        
+
             if sale_line_id:
                 
                 codigo_cliente = sale_line_id.oferta_id.attribute_id.codigo_cliente
