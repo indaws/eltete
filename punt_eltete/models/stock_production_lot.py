@@ -10,10 +10,10 @@ class StockProductionLotOperario(models.Model):
     
     operario_id = fields.Many2one('hr.employee', string = "Empleado", required=True)
     lot_id = fields.Many2one('stock.production.lot', string = "Lote", required=True)
-    TAREA_SEL = [ ('1', 'MAQUINA CANTONERAS 1'), 
-               ('2', 'MAQUINA CANTONERAS 2'), 
-               ('3', 'MAQUINA CANTONERAS 3'), 
-               ('4', 'MAQUINA CANTONERAS 4'), 
+    TAREA_SEL = [ ('1', 'CANTONERA 1'), 
+               ('2', 'CANTONERA 2'), 
+               ('3', 'CANTONERA 3'), 
+               ('4', 'CANTONERA 4'), 
                ('11', 'CONTRACOLADORA'), 
                ('31', 'SIERRA'), 
                ('32', 'TROQUELADORA'), 
