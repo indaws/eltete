@@ -474,7 +474,8 @@ class SaleOrderLine(models.Model):
             
             importe = precio_num * cantidad_num
             
-            price_unit = importe / record.num_pallets
+            if record.num_pallets > 0:
+                price_unit = importe / record.num_pallets
             record.price_unit = price_unit
             record.product_uom_qty = record.num_pallets
             
