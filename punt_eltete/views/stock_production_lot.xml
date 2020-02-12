@@ -22,12 +22,8 @@
                 <field name="fecha_entrada"/>
                 <field name="fecha_salida"/>
                 <field name="disponible"/>
-                
                 <field name="pallet_sage"/>
 
-                <field name="maquina"/>
-                <field name="hora_inicio"/>
-                <field name="hora_fin"/>
             </xpath>
             
             
@@ -61,10 +57,7 @@
         
                 <xpath expr="//field[@name='ref']" position="after">
                 
-                    
-			<field name="ancho_pallet"/>
-			<field name="und_paquete"/>
-			<field name="unidades"/>
+		    <field name="unidades"/>
                     <field name="sale_order_line_id"/>
 
                 </xpath>
