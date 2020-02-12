@@ -11,17 +11,31 @@ class StockProductionLotOperario(models.Model):
     operario_id = fields.Many2one('hr.employee', string = "Empleado", required=True)
     lot_id = fields.Many2one('stock.production.lot', string = "Lote", required=True)
     maquina = fields.Integer(string="Máquina")
-    hora_inicio = fields.Float(string = "Hora inicio")
+    fecha_inicio = fields.Datetime('Hora Inicio')
     und_inicio = fields.Integer(string="Und inicio", default=1)
-    hora_fin = fields.Float(string = "Hora fin")
-    und_final = fields.Integer(string="Und inicio")
+    fecha_fin = fields.Datetime('Fecha Fin')
+    und_fin = fields.Integer(string="Und Fin")
+    metros = fields.Float('Metros', digits = (10, 2), readonly = True, compute = "_get_produccion")
+    kilos = fields.Float('Kilos', digits = (10, 2), readonly = True, compute = "_get_produccion")
     
-    @api.onchange('lot_id')
-    def _onchange_lot_id(self):
-        if self.lot_id:
-            self.und_final = self.lot_id.unidades
-
-
+    #hora_inicio = fields.Float(string = "Hora inicio")
+    #<field name='hora_inicio' widget="float_time"/>
+   
+    
+    @api.depends('und_inicio', 'und_fin', 'lot_id.referencia_id')
+    def _get_produccion(self):
+        metros = 0
+        kilos = 0
+        if record.lot_id.referencia_id:
+            if record.und_inicio > 0 and record.und_fin > 0 and record.und_fin > record.und_inicio:
+                unidades = record.und_fin - record.und_inicio + 1
+                metros = unidades * record.lot_id.referencia_id.metros_unidad
+                kilos = metros * record.lot_id.referencia_id.peso_metro
+         
+        record.metros = metros
+        record.kilos = kilos
+        
+        
 
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
