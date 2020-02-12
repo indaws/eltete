@@ -6,29 +6,46 @@
         <field name="inherit_id" ref="stock.view_production_lot_form"/>
         <field name="arch" type="xml">
         
-                <xpath expr="//field[@name='ref']" position="after">
-			<field name="type_id"/>
-			<field name="referencia_id"/>
-			
-			<field name="sale_order_id"/>
-			<field name="sale_order_line_id"/>
-			<field name="cliente_id"/>
-			<field name="cliente_ref"/>
-			<field name="picking_id"/>
-			
-			<field name="unidades"/>
-			<field name="peso_neto"/>
-			<field name="user_peso_bruto"/>
-			<field name="fecha_entrada"/>
-			<field name="fecha_salida"/>
-			<field name="disponible"/>
-			
-			<field name="pallet_sage"/>
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="type_id"/>
+                <field name="referencia_id"/>
+                
+                <field name="sale_order_id"/>
+                <field name="sale_order_line_id"/>
+                <field name="cliente_id"/>
+                <field name="cliente_ref"/>
+                <field name="picking_id"/>
+                
+                <field name="unidades"/>
+                <field name="peso_neto"/>
+                <field name="user_peso_bruto"/>
+                <field name="fecha_entrada"/>
+                <field name="fecha_salida"/>
+                <field name="disponible"/>
+                
+                <field name="pallet_sage"/>
 
-			<field name="maquina"/>
-			<field name="hora_inicio"/>
-			<field name="hora_fin"/>
-                </xpath>
+                <field name="maquina"/>
+                <field name="hora_inicio"/>
+                <field name="hora_fin"/>
+            </xpath>
+            
+            
+            <xpath expr="//group[@name='main_group']" position="after">
+                <group name="lot_operarios">
+                    <field name="operario_ids" context="{'default_lot_id': active_id,  }" >
+                        <tree string="Operarios" editable="top">
+                            <field name='lot_id' invisible="1" />
+                            <field name='operario_id' />
+                            <field name='maquina' />
+                            <field name='hora_inicio' widget="float_time"/>
+                            <field name='und_inicio' />
+                            <field name='hora_fin'  widget="float_time"/>
+                            <field name='und_final' />
+                        </tree>
+                    </field>   
+                </group>
+            </xpath>
             
 
             
@@ -168,6 +185,84 @@
 
     <menuitem name="Alta de lotes" parent="sale.product_menu_catalog" id="menu_stock_production_lot_eltete_nuevo" action="action_stock_production_lot_eltete_nuevo" sequence="105"/>
     
+    
+    
+    <!-- #######################################################
+                 stock.production.lot.operario
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_stock_production_lot_operario_tree">
+            <field name="name">stock.production.lot.operario.tree</field>
+            <field name="model">stock.production.lot.operario</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name='lot_id' />
+                    <field name='operario_id' />
+                    <field name='maquina' />
+                    <field name='hora_inicio' widget="float_time"/>
+                    <field name='und_inicio' />
+                    <field name='hora_fin'  widget="float_time"/>
+                    <field name='und_final' />
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_lot_operario_form">
+            <field name="name">stock.production.lot.operario.form</field>
+            <field name="model">stock.production.lot.operario</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name='lot_id' />
+                            <field name='operario_id' />
+                            <field name='maquina' />
+                            <field name='hora_inicio' widget="float_time"/>
+                            <field name='und_inicio' />
+                            <field name='hora_fin'  widget="float_time"/>
+                            <field name='und_final' />
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_lot_operario_search">
+            <field name="name">stock.production.lot.operario.search</field>
+            <field name="model">stock.production.lot.operario</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name='lot_id' />
+                    <field name='operario_id' />
+                    <field name='maquina' />
+                    <field name='hora_inicio' widget="float_time"/>
+                    <field name='und_inicio' />
+                    <field name='hora_fin'  widget="float_time"/>
+                    <field name='und_final' />
+                    
+                    <group expand="0" string="Agrupar por">
+                        <filter name="group_by_lot_id" string="Lote" domain="[]" context="{'group_by':'lot_id'}"/>
+                        <filter name="group_by_operario_id" string="Operario" domain="[]" context="{'group_by':'operario_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_stock_production_lot_operario">
+            <field name="name">Operarios lotes</field>
+            <field name="res_model">stock.production.lot.operario</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Operarios lotes" parent="stock.menu_stock_inventory_control" id="menu_stock_production_lot_operario" action="action_stock_production_lot_operario" sequence="999"/>
     
     
     
