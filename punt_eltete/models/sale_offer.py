@@ -194,7 +194,7 @@ class sale_referencia_cliente(models.Model):
                             while pesoPaquete > 20:
                                 und_paquete = und_paquete - 5
                                 pesoPaquete = und_paquete * pesoUnidad
-                            undFilaMax = int( ((ancho_pallet - 30) - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
+                            undFilaMax = int( ((ancho_pallet - 20) - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
                             paquetes = int(undFilaMax / und_paquete)
                             if paquetes > 14:
                                 paquetes = paquetes - 1
