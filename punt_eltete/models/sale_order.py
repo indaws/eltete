@@ -527,6 +527,29 @@ class SaleOrder(models.Model):
                   ]
     estado = fields.Selection(selection = ESTADOS_SEL, string = 'Estado pedido', store=True, compute="_get_estado_pedido")
     
+    pendiente_facturar = fields.Float('Pendiente facturar', digits = (10, 2), readonly = True, compute="_get_pendiente_facturar")
+    pendiente_cobrar = fields.Float('Pendiente cobrar', digits = (10, 2), readonly = True, compute="_get_pendiente_facturar")
+    
+    
+    @api.depends('invoice_ids', )
+    def _get_pendiente_facturar(self):
+        for record in self:
+            pendiente_facturar = 0.0
+            pendiente_cobrar = 0.0
+            
+            for invoice in record.invoice_ids:
+                pendiente_cobrar = pendiente_cobrar + invoice.residual
+                pendiente_facturar = pendiente_facturar + invoice.amount_untaxed
+                
+            pendiente_facturar = record.amount_untaxed - pendiente_facturar
+            if pendiente_facturar < 0.0:
+                pendiente_facturar = 0.0
+                
+            record.pendiente_facturar = pendiente_facturar
+            record.pendiente_cobrar = pendiente_cobrar
+    
+    
+    
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
         if self.no_editar == True:
