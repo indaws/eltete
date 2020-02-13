@@ -23,6 +23,7 @@
 		<field name="pallet_sage"/>
                 <field name="unidades"/>
 		<field name="user_peso_neto"/>
+		<field name="user_peso_bruto"/>
                 <field name="fecha_entrada"/>
                 
 		<field name="peso_metro"/>
