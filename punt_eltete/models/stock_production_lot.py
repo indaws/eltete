@@ -306,12 +306,12 @@ class StockProductionLot(models.Model):
             peso_neto = 0
             peso_bruto = 0
             peso_metro = 0
-            if record.user_peso_bruto > 0:
-                peso_neto = record.user_peso_bruto - 15
-                peso_bruto = record.user_peso_bruto
-            elif record.user_peso_neto > 0:
+            if record.user_peso_neto > 0:
                 peso_neto = record.user_peso_neto
-                peso_bruto = record.user_peso_neto + 15
+                peso_bruto = record.user_peso_neto + 10
+            elif record.user_peso_bruto > 0:
+                peso_neto = record.user_peso_bruto - 10
+                peso_bruto = record.user_peso_bruto
             elif record.referencia_id and record.unidades > 0:
                 peso_metro = record.referencia_id.peso_metro
                 peso_und = peso_metro * record.referencia_id.metros_unidad
