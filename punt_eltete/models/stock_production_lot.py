@@ -76,6 +76,8 @@ class StockProductionLot(models.Model):
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
     user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
+    user_peso_neto = fields.Float('User Peso Neto', digits=(10, 2))
+    peso_metro = fields.Float('Peso Metro', readonly = True, digits=(12, 4), compute = "_get_peso" )
     
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
     descripcion = fields.Html('Descripcion')
@@ -298,20 +300,27 @@ class StockProductionLot(models.Model):
     """
 
 
-    @api.depends('referencia_id', 'unidades')
+    @api.depends('referencia_id', 'unidades', 'user_peso_neto', 'user_peso_bruto')
     def _get_peso(self):
         for record in self:
             peso_neto = 0
             peso_bruto = 0
+            peso_metro = 0
             if record.user_peso_bruto > 0:
                 peso_neto = record.user_peso_bruto - 15
                 peso_bruto = record.user_peso_bruto
+            elif record.user_peso_neto > 0:
+                peso_neto = record.user_peso_neto
+                peso_bruto = record.user_peso_neto + 15
             elif record.referencia_id and record.unidades > 0:
-                peso_und = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
+                peso_metro = record.referencia_id.peso_metro
+                peso_und = peso_metro * record.referencia_id.metros_unidad
                 peso_neto = peso_und * record.unidades
                 peso_bruto = peso_neto + 15
+                
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            record.peso_metro = peso_metro
     
     """
     
