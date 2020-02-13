@@ -11,6 +11,7 @@ class AccountInvoice(models.Model):
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
     importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
     importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_num_pallets")
+    iva_incorrecto = fields.Boolean('IVA Incorrecto', readonly = True, compute="_get_iva_incorrecto")
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -18,6 +19,20 @@ class AccountInvoice(models.Model):
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
     fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
+    
+    
+    @api.depends('amount_untaxed', 'amount_tax')
+    def _get_iva_incorrecto(self):
+        for record in self:
+            incorrecto = False
+            iva_bueno = record.amount_untaxed * 0.21
+            iva_bueno = round(iva_bueno, 2)
+            if iva_bueno != record.amount_tax:
+                incorrecto = True
+            
+            record.iva_incorrecto = incorrecto
+    
+    
     
     
     @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
