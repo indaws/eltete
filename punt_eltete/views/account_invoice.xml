@@ -29,7 +29,7 @@
         <field name="arch" type="xml">
 		
 		<field name="number" position="after">
-			<field name="comercial_bueno"/>
+			<field name="comercial_bueno_id"/>
 		</field>	
 		
 		<field name="state" position="before">
