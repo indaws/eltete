@@ -9,20 +9,25 @@ class StockProductionLotOperario(models.Model):
     _name = 'stock.production.lot.operario'
     
     operario_id = fields.Many2one('hr.employee', string = "Empleado", required=True)
-    lot_id = fields.Many2one('stock.production.lot', string = "Lote", required=True)
-    TAREA_SEL = [ ('1', 'CANTONERA 1'), 
-               ('2', 'CANTONERA 2'), 
-               ('3', 'CANTONERA 3'), 
-               ('4', 'CANTONERA 4'), 
-               ('11', 'CONTRACOLADORA'), 
-               ('31', 'SIERRA'), 
-               ('32', 'TROQUELADORA'), 
-               ('33', 'PALETIZADO'), 
-               ('51', 'CAMBIO'),
+    lot_id = fields.Many2one('stock.production.lot', string = "Lote")
+    MAQUINA_SEL = [ ('CA1', 'CANTONERA 1'), 
+               ('CA2', 'CANTONERA 2'), 
+               ('CA3', 'CANTONERA 3'), 
+               ('CA4', 'CANTONERA 4'), 
+               ('SS1', 'CONTRACOLADORA 1'), 
+               ('SI1', 'SIERRA 1'), 
+               ('TR1', 'TROQUELADORA 1'), 
                ]
-    tarea = fields.Selection(selection = TAREA_SEL, string = 'Tarea')
+    maquina = fields.Selection(selection = MAQUINA_SEL, string = 'Máquina')
+    TAREA_SEL = [ ('FAB', 'FABRICACIÓN'), 
+               ('CAM', 'CAMBIO'), 
+               ('PAL', 'PALETIZADO'), 
+               ('IMP', 'PREPARAR IMPRESIÓN'),
+               ('AV1', 'AVERIA MÁQUINA'),
+               ]
+    tarea = fields.Selection(selection = TAREA_SEL, string = 'Tarea', required = True)
     fecha_inicio = fields.Datetime('Hora Inicio')
-    und_inicio = fields.Integer(string="Und inicio", default=1)
+    und_inicio = fields.Integer(string="Und inicio")
     fecha_fin = fields.Datetime('Fecha Fin')
     und_fin = fields.Integer(string="Und Fin")
     metros = fields.Float('Metros', digits = (10, 2), readonly = True, compute = "_get_produccion")
@@ -38,7 +43,7 @@ class StockProductionLotOperario(models.Model):
             metros = 0
             kilos = 0
             if record.lot_id:
-                if record.lot_id.referencia_id:
+                if record.lot_id.referencia_id nad record.tarea == 'FAB':
                     if record.und_inicio > 0 and record.und_fin > 0 and record.und_fin > record.und_inicio:
                         unidades = record.und_fin - record.und_inicio + 1
                         metros = unidades * record.lot_id.referencia_id.metros_unidad
@@ -91,8 +96,8 @@ class StockProductionLot(models.Model):
     #maquina = fields.Integer('Máquina')
     ancho_pallet = fields.Integer('Ancho Pallet')
     und_paquete = fields.Integer('Und paquete')
+    fabricado = fields.Boolean('Fabricado')
     
-    #fabricado = fields.Boolean('Fabricado')
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
     
