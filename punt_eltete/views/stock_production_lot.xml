@@ -33,6 +33,7 @@
                         <tree string="Operarios" editable="top">
                             <field name='lot_id' invisible="1" />
                             <field name='operario_id' />
+			    <field name='maquina' />
 			    <field name='tarea' />
                             <field name='fecha_inicio'/>
                             <field name='und_inicio' />
@@ -194,6 +195,7 @@
                 <tree string="Producto">
                     <field name='lot_id' />
                     <field name='operario_id' />
+		    <field name='maquina' />
                     <field name='tarea' />
                     <field name='fecha_inicio' />
                     <field name='und_inicio' />
@@ -215,6 +217,7 @@
                         <group>
                             <field name='lot_id' />
                             <field name='operario_id' />
+			    <field name='maquina' />
                             <field name='tarea' />
                             <field name='fecha_inicio' />
                             <field name='und_inicio' />
