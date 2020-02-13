@@ -15,15 +15,16 @@
                 <field name="cliente_id"/>
                 <field name="cliente_ref"/>
                 <field name="picking_id"/>
+		
+		<field name="peso_neto"/>
+		<field name="fecha_salida"/>
+                <field name="disponible"/>
                 
+		<field name="pallet_sage"/>
                 <field name="unidades"/>
-                <field name="peso_neto"/>
-                <field name="user_peso_bruto"/>
 		<field name="user_peso_neto"/>
                 <field name="fecha_entrada"/>
-                <field name="fecha_salida"/>
-                <field name="disponible"/>
-                <field name="pallet_sage"/>
+                
 		<field name="peso_metro"/>
 
             </xpath>
@@ -154,18 +155,16 @@
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>	
                         <field name='tipo_varios_id'  attrs="{'invisible': [('is_varios', '=', False)]}"/>
                     </group>
-                    
 
-                   
-                    <group>
-                        <button name="crear_sin_pedido" type="object" string="Crear sin pedido" />
-                    </group>
-			
 		    <group>
 			    <field name="unidades"/>
-			    <field name="user_peso_bruto"/>
 			    <field name="fecha_entrada"/>
+			    <field name="user_peso_neto"/>
 		    </group>
+			
+		    <group>
+                        <button name="crear_sin_pedido" type="object" string="Continuar" />
+                    </group>
 
                 </sheet>
             </form>
