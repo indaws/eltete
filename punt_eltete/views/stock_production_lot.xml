@@ -19,10 +19,12 @@
                 <field name="unidades"/>
                 <field name="peso_neto"/>
                 <field name="user_peso_bruto"/>
+		<field name="user_peso_neto"/>
                 <field name="fecha_entrada"/>
                 <field name="fecha_salida"/>
                 <field name="disponible"/>
                 <field name="pallet_sage"/>
+		<field name="peso_metro"/>
 
             </xpath>
             
