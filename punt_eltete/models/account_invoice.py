@@ -16,6 +16,7 @@ class AccountInvoice(models.Model):
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
     fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
+    comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_comercial")
     
     actualizar = fields.Boolean('Comprobada')
     
@@ -28,6 +29,12 @@ class AccountInvoice(models.Model):
                     precio_unidad = line.importe / line.num_pallets
                 line.price_unit = precio_unidad
                 line.quantity = line.num_pallets
+    
+    
+    @api.depends('partner_id')
+    def _get_comercial(self):
+        for record in self:
+            record.comercial_bueno_id = record.partner_id.user_id.id
     
     
     
