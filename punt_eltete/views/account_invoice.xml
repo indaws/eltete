@@ -30,6 +30,7 @@
 				<field name="importe_calculado"/>
 				<field name="importe_incorrecto"/>
 				<field name="iva_incorrecto"/>
+				<field name="iva_21"/>
 			</field>
 		
 			<field name="state" position="before">
