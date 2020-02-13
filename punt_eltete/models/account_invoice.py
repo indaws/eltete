@@ -22,6 +22,16 @@ class AccountInvoice(models.Model):
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
     fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
     
+    actualizar = fields.Boolean('Actualizar')
+    
+    
+    @api.onchange('actualizar')
+    def _onchange_actualizar(self):
+         for record in self:            
+            for line in record.invoice_line_ids:
+                line.actualizar = record.actualizar
+    
+    
     
     @api.depends('iva_21', 'amount_tax')
     def _get_iva_incorrecto(self):
@@ -131,7 +141,16 @@ class AccountInvoiceLine(models.Model):
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
     importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_importe_calculado")
     importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
+    actualizar = fields.Boolean('Actualizar')
 
+    
+    @api.onchange('actualizar')
+    def _onchange_actualizar(self):
+        if self.num_pallets > 0:
+            self.price_unit = self.importe / self.num_pallets
+    
+    
+    
     
     @api.depends('importe', 'importe_calculado')
     def _get_importe_incorrecto(self):
@@ -176,13 +195,13 @@ class AccountInvoiceLine(models.Model):
                 cantidad = str(cantidad_num) + " unidades"
   
             importe = cantidad_num * record.precio_num
-            price_unit = 0.0
-            if record.num_pallets > 0:
-                price_unit = importe / record.num_pallets
+            #price_unit = 0.0
+            #if record.num_pallets > 0:
+                #price_unit = importe / record.num_pallets
             
             record.cantidad = cantidad
             record.importe = importe
-            record.price_unit = price_unit
+            #record.price_unit = price_unit
 
    
     
