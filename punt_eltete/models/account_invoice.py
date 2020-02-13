@@ -27,6 +27,7 @@ class AccountInvoice(models.Model):
     
     @api.onchange('actualizar')
     def _onchange_actualizar(self):
+        x = 0
          #for record in self:            
             #for line in record.invoice_line_ids:
                 #line.actualizar = record.actualizar
