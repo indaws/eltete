@@ -29,6 +29,7 @@
 			<field name="amount_tax_signed" position="before">
 				<field name="importe_calculado"/>
 				<field name="importe_incorrecto"/>
+				<field name="iva_incorrecto"/>
 			</field>
 		
 			<field name="state" position="before">
