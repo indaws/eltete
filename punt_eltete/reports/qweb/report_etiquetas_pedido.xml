@@ -46,7 +46,7 @@
 			  <div class="float-left company_address" style="text-align:center; padding:10px; font-size:18pt; text-align:center; width:100%">
 				<td>DESCRIPCIÓN:</td>
 			  </div>
-			  <div class="float-left company_address" style="padding:10px; font-size:36pt; text-align:center; width:100%">
+			  <div class="float-left company_address" style="padding:10px; font-size:18pt; text-align:center; width:100%">
 				<td><span t-field="doc.descripcion"/></td>
 			  </div>
 			  <div class="float-left company_address" style="padding:30px; width:100%">
