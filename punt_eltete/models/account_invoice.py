@@ -9,11 +9,6 @@ class AccountInvoice(models.Model):
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_num_pallets")
-    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_num_pallets")
-    
-    iva_21 = fields.Float('IVA 21', readonly = True, compute="_get_iva_21")
-    iva_incorrecto = fields.Boolean('IVA Incorrecto', readonly = True, compute="_get_iva_incorrecto")
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -22,12 +17,11 @@ class AccountInvoice(models.Model):
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
     fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
     
-    actualizar = fields.Boolean('Actualizar')
+    actualizar = fields.Boolean('Comprobada')
     
     
     @api.onchange('actualizar')
     def _onchange_actualizar(self):
-        x = 0
         for record in self:            
             for line in record.invoice_line_ids:
                 if line.num_pallets > 0:
@@ -37,50 +31,21 @@ class AccountInvoice(models.Model):
     
     
     
-    @api.depends('iva_21', 'amount_tax')
-    def _get_iva_incorrecto(self):
-        for record in self:
-            incorrecto = False
-            if record.amount_tax != record.iva_21:
-                incorrecto = True
-            
-            record.iva_incorrecto = incorrecto
-    
-    
-    @api.depends('amount_untaxed')
-    def _get_iva_21(self):
-        for record in self:
-            iva_21 = 0
-            iva_21 = record.amount_untaxed * 0.21
-            
-            record.iva_21 = iva_21
-    
-    
-    
-    
     @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
     def _get_num_pallets(self):
         for record in self:
             num_pallets = 0
             peso_neto = 0
-            incorrecto = False
-            calculado = 0
             
             for line in record.invoice_line_ids:
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
                 
-                if line.importe_incorrecto == True:
-                    incorrecto = True
-                calculado = calculado + line.importe_calculado
-                
                 peso_neto = peso_neto + line.peso_neto
                     
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
-            record.importe_incorrecto = incorrecto
-            record.importe_calculado = calculado
 
             
     
@@ -143,38 +108,9 @@ class AccountInvoiceLine(models.Model):
 
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
-    importe_calculado = fields.Float('Importe Calculado', digits = (10,2), readonly = True, compute = "_get_importe_calculado")
-    importe_incorrecto = fields.Boolean('Importe Incorrecto', readonly = True, compute = "_get_importe_incorrecto")
-    actualizar = fields.Boolean('Actualizar')
 
     
-    @api.onchange('name')
-    def _onchange_actualizar(self):
-        if self.num_pallets > 0:
-            self.price_unit = self.importe / self.num_pallets
-    
-    
-    
-    
-    @api.depends('importe', 'importe_calculado')
-    def _get_importe_incorrecto(self):
-        for record in self:
-            incorrecto = False
-            if record.importe != record.importe_calculado:
-                incorrecto = True
-                
-            record.importe_incorrecto = incorrecto
-    
-    
-    
-    @api.depends('price_unit', 'quantity')
-    def _get_importe_calculado(self):
-        for record in self:
-            calculado = record.price_unit * record.quantity
-            record.importe_calculado = calculado
-            
-    
-    
+
     @api.depends('precio_num', 'facturar', 'num_pallets', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
     def _get_importe(self):
         for record in self:
@@ -199,14 +135,9 @@ class AccountInvoiceLine(models.Model):
                 cantidad = str(cantidad_num) + " unidades"
   
             importe = cantidad_num * record.precio_num
-            #price_unit = 0.0
-            #if record.num_pallets > 0:
-                #price_unit = importe / record.num_pallets
             
             record.cantidad = cantidad
             record.importe = importe
-            #record.price_unit = price_unit
-
    
     
     
