@@ -14,7 +14,9 @@
 				<field name="importe_descuento"/>
 			</field>
 
-            
+            		<field name="team_id" position="after">
+				<field name="actualizar"/>
+			</field>
         </field>
     </record>
     
