@@ -27,17 +27,14 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_tree"/>
         <field name="arch" type="xml">
-        
-			<field name="amount_tax_signed" position="before">
-				<field name="importe_calculado"/>
-				<field name="importe_incorrecto"/>
-				<field name="iva_incorrecto"/>
-				<field name="iva_21"/>
-			</field>
 		
-			<field name="state" position="before">
-				<field name="peso_neto" sum="Peso Neto"/>
-			</field>
+		<field name="number" position="after">
+			<field name="comercial_bueno"/>
+		</field>	
+		
+		<field name="state" position="before">
+			<field name="peso_neto" sum="Peso Neto"/>
+		</field>
 
             
         </field>
