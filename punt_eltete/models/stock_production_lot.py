@@ -26,7 +26,7 @@ class StockProductionLotOperario(models.Model):
                ('AV1', 'AVERIA MÁQUINA'),
                ]
     tarea = fields.Selection(selection = TAREA_SEL, string = 'Tarea', required = True)
-    fecha_inicio = fields.Datetime('Hora Inicio')
+    fecha_inicio = fields.Datetime('Fecha Inicio')
     und_inicio = fields.Integer(string="Und inicio")
     fecha_fin = fields.Datetime('Fecha Fin')
     und_fin = fields.Integer(string="Und Fin")
