@@ -27,9 +27,9 @@ class AccountInvoice(models.Model):
     
     @api.onchange('actualizar')
     def _onchange_actualizar(self):
-         for record in self:            
-            for line in record.invoice_line_ids:
-                line.actualizar = record.actualizar
+         #for record in self:            
+            #for line in record.invoice_line_ids:
+                #line.actualizar = record.actualizar
     
     
     
@@ -144,7 +144,7 @@ class AccountInvoiceLine(models.Model):
     actualizar = fields.Boolean('Actualizar')
 
     
-    @api.onchange('actualizar')
+    @api.onchange('invoice_id.actualizar')
     def _onchange_actualizar(self):
         if self.num_pallets > 0:
             self.price_unit = self.importe / self.num_pallets
