@@ -43,7 +43,7 @@ class StockProductionLotOperario(models.Model):
             metros = 0
             kilos = 0
             if record.lot_id:
-                if record.lot_id.referencia_id nad record.tarea == 'FAB':
+                if record.lot_id.referencia_id and record.tarea == 'FAB':
                     if record.und_inicio > 0 and record.und_fin > 0 and record.und_fin > record.und_inicio:
                         unidades = record.und_fin - record.und_inicio + 1
                         metros = unidades * record.lot_id.referencia_id.metros_unidad
