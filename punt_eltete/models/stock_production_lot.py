@@ -8,7 +8,8 @@ from odoo.addons import decimal_precision as dp
 class StockProductionLotOperario(models.Model):
     _name = 'stock.production.lot.operario'
     
-    operario_id = fields.Many2one('hr.employee', string = "Empleado", required=True)
+    trabajador = fields.Integer('Trabajador', required = True)
+    operario_id = fields.Many2one('hr.employee', string = "Empleado")
     lot_id = fields.Many2one('stock.production.lot', string = "Lote")
     MAQUINA_SEL = [ ('CA1', 'CANTONERA 1'), 
                ('CA2', 'CANTONERA 2'), 
@@ -27,7 +28,7 @@ class StockProductionLotOperario(models.Model):
                ]
     tarea = fields.Selection(selection = TAREA_SEL, string = 'Tarea', required = True)
     fecha_inicio = fields.Datetime('Fecha Inicio')
-    und_inicio = fields.Integer(string="Und inicio")
+    und_inicio = fields.Integer(string="Und inicio", default = 1)
     fecha_fin = fields.Datetime('Fecha Fin')
     und_fin = fields.Integer(string="Und Fin")
     metros = fields.Float('Metros', digits = (10, 2), readonly = True, compute = "_get_produccion")
