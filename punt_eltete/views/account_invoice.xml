@@ -35,7 +35,7 @@
 		<field name="state" position="before">
 			<field name="peso_neto" sum="Peso Neto"/>
 			<field name="peso_cantonera" sum="Peso Cantonera"/>
-			<field name="peso_slisheet" sum="Peso SlipSheet"/>
+			<field name="peso_slipsheet" sum="Peso SlipSheet"/>
 			<field name="actualizar"/>
 		</field>
 		
