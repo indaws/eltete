@@ -25,6 +25,7 @@
 		<field name="user_peso_neto"/>
 		<field name="user_peso_bruto"/>
                 <field name="fecha_entrada"/>
+		<field name="comentario"/>
                 
 		<field name="peso_metro"/>
 
@@ -160,12 +161,16 @@
 		    <group>
 			    <field name="unidades"/>
 			    <field name="fecha_entrada"/>
-			    <field name="user_peso_neto"/>
 		    </group>
 			
 		    <group>
                         <button name="crear_sin_pedido" type="object" string="Continuar" />
                     </group>
+			
+		    <group>
+			    <field name="user_peso_neto"/>
+			    <field name="comentario"/>
+		    </group>
 
                 </sheet>
             </form>
