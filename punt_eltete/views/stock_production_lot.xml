@@ -19,6 +19,7 @@
 		<field name="peso_neto"/>
 		<field name="fecha_salida"/>
                 <field name="disponible"/>
+		<field name="almacen"/>
                 
 		<field name="pallet_sage"/>
                 <field name="unidades"/>
