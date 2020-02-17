@@ -36,6 +36,7 @@
                     <field name="operario_ids" context="{'default_lot_id': active_id,  }" >
                         <tree string="Operarios" editable="top">
                             <field name='lot_id' invisible="1" />
+			    <field name='trabajador' />
                             <field name='operario_id' />
 			    <field name='maquina' />
 			    <field name='tarea' />
@@ -196,6 +197,7 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
                     <field name='lot_id' />
+		    <field name='trabajador' />
                     <field name='operario_id' />
 		    <field name='maquina' />
                     <field name='tarea' />
@@ -218,6 +220,7 @@
                     <sheet>
                         <group>
                             <field name='lot_id' />
+			    <field name='trabajador' />
                             <field name='operario_id' />
 			    <field name='maquina' />
                             <field name='tarea' />
@@ -241,6 +244,7 @@
             <field name="arch" type="xml">
                 <search string="Color">
                     <field name='lot_id' />
+		    <field name='trabajador' />
                     <field name='operario_id' />
                     <field name='tarea' />
                     <field name='fecha_inicio' />
