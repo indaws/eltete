@@ -9,6 +9,8 @@ class AccountInvoice(models.Model):
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
+    peso_cantoneras = fields.Integer('Peso Cantoneras', readonly = True, compute = "_get_num_pallets")
+    peso_slisheet = fields.Integer('Peso Slip Sheets', readonly = True, compute = "_get_num_pallets")
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -43,14 +45,23 @@ class AccountInvoice(models.Model):
         for record in self:
             num_pallets = 0
             peso_neto = 0
+            peso_cantonera = 0
+            peso_slipsheet = 0
             
             for line in record.invoice_line_ids:
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
-                
-                peso_neto = peso_neto + line.peso_neto
                     
+                if line.product_id.referencia_id.is_cantonera == True:
+                    peso_cantonera = peso_cantonera + line.peso_neto
+                if line.product_id.referencia_id.is_slipsheet == True:
+                    peso_slipsheet = peso_slipsheet + line.peso_neto
+
+                peso_neto = peso_neto + line.peso_neto
+              
+            record.peso_cantonera = peso_cantonera
+            record.peso_slipsheet = peso_slipsheet
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
 
