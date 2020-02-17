@@ -72,6 +72,7 @@ class StockProductionLot(models.Model):
     fecha_entrada = fields.Date('Fecha Entrada')
     pallet_sage = fields.Char('Pallet Sage')
     fecha_salida = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_fecha_salida")
+    almacen = fields.Boolean('En Almacen', readonly = True, compute = "_get_fecha_salida")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     unidades = fields.Integer('Unidades')
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
@@ -162,14 +163,19 @@ class StockProductionLot(models.Model):
     
     
     
-    @api.depends('date_done', 'scheduled_date')
+    @api.depends('date_done', 'scheduled_date', 'fecha_entrada')
     def _get_fecha_salida(self):
         for record in self:
             fecha_salida = None
+            almacen = False
+            if record.fecha_entrada:
+                almacen = True
             if record.date_done and record.scheduled_date:
                 fecha_salida = record.scheduled_date
+                almacen = False
             
             record.fecha_salida = fecha_salida
+            record.almacen = almacen
             
             
             
