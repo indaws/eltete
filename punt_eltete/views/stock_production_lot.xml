@@ -93,6 +93,7 @@
 			<field name="sale_order_line_id"/>
 			<field name="cliente_id"/>
 			<field name="disponible"/>
+			<field name="almacen"/>
                 </xpath>
                 
 				
