@@ -82,6 +82,8 @@ class StockProductionLot(models.Model):
     
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
     descripcion = fields.Html('Descripcion')
+    
+    comentario = fields.Char('Comentario')
 
     cantidad_1 = fields.Char('Cantidad 1', readonly = True, compute = "_get_cantidad")
     cantidad_2 = fields.Char('Cantidad 2', readonly = True, compute = "_get_cantidad")
