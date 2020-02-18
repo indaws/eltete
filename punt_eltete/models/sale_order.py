@@ -281,7 +281,7 @@ class SaleOrderLine(models.Model):
                     und_pallet = und_pallet + 1
                 p2 = longitud_final * (num_cortes + 1) + 300
                 p3 = 3300 + longitud_final
-                sierra = "Parámetro 1: " + longitud_final + ", Parámetro 2: " + str(p2) + ", R120: " + str(p3)
+                sierra = "Parámetro 1: " + str(longitud_final) + ", Parámetro 2: " + str(p2) + ", R120: " + str(p3)
                 sierra = sierra + + "<br/>" + paquetes_fila
                 paquetes_fila = "SIERRA"
                 und_exactas = "SI"
