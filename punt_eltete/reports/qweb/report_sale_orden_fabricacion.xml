@@ -92,7 +92,7 @@
                               </div>
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                                  <strong>Unidades Pallet: </strong><span t-field="doc.und_pallet"/><br/>
+                                  <strong>Unidades Pallet: </strong><span t-field="doc.op_und_pallet"/><br/>
                                   <strong>Unidades Exactas: </strong><span t-field="doc.op_und_exactas"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
