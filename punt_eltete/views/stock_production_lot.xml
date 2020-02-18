@@ -27,6 +27,7 @@
 		<field name="user_peso_bruto"/>
                 <field name="fecha_entrada"/>
 		<field name="comentario"/>
+		<field name="descripcion"/>
                 
 		<field name="peso_metro"/>
 
@@ -85,6 +86,7 @@
                 <xpath expr="//field[@name='name']" position="after">
 			<field name="metido"/>
 			<field name="referencia_id"/>
+			<field name="descripcion"/>
 			<field name="unidades"/>
 			<field name="peso_neto"  sum="Peso"/>
 			<field name="fecha_entrada"/>
