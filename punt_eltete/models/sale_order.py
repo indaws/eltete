@@ -58,7 +58,7 @@ class SaleOrderLine(models.Model):
     op_grosor = fields.Char('Grosor', compute = "_get_produccion")
     op_longitud = fields.Char('Longitud', compute = "_get_produccion")
     op_und_pallet = fields.Integer('Und Orden', compute = "_get_produccion")
-    op_sierra = fields.Html('Sierra', compute = "_get_produccion")
+    op_sierra = fields.Char('Sierra', compute = "_get_produccion")
     op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion")
     op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion")
     op_tolerancia_longitud = fields.Char('Tolerancia Longitud', compute = "_get_produccion")
@@ -293,8 +293,7 @@ class SaleOrderLine(models.Model):
                 und_pallet = int(record.und_pallet / num_cortes)
                 if record.und_pallet > und_pallet * num_cortes:
                     und_pallet = und_pallet + 1
-                sierra = "Cortar a " + str(longitud_final) + " mm<br/>"
-                sierra = sierra + "<span><strong>Paquetes Fila</strong></span> "
+                sierra = "Cortar a " + str(longitud_final) + " mm, "
                 sierra = sierra + paquetes_fila
                 paquetes_fila = "SIERRA"
                 und_exactas = "SI"
