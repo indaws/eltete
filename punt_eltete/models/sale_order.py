@@ -577,7 +577,11 @@ class SaleOrder(models.Model):
             record.pendiente_facturar = pendiente_facturar
             record.pendiente_cobrar = pendiente_cobrar
     
-    
+    @api.onchange('partner_id')
+    def _onchange_provincia(self):
+        if self.partner_id:
+            self.provincia_id = self.partner_id.state_id
+
     
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
