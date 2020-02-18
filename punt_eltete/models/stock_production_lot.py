@@ -61,11 +61,11 @@ class StockProductionLot(models.Model):
     picking_id = fields.Many2one('stock.picking', string = "Albarán", compute = "_get_datos_albaran")
     scheduled_date = fields.Datetime(string = "Fecha prevista", compute = "_get_datos_albaran", readonly=True)
     date_done = fields.Datetime(string = "Fecha efectiva", compute = "_get_datos_albaran", readonly=True)
-    sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea de pedido")
+    sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea Pedido Venta")
     referencia_id = fields.Many2one('product.referencia', string="Referencia")
     cliente_id = fields.Many2one('res.partner', string="Cliente", store=False, related='sale_order_id.partner_id')
     cliente_ref = fields.Char('Rerencia Cliente', readonly = True, store=False, compute = "_get_cliente")
-    sale_order_id = fields.Many2one('sale.order', string='Pedido', store=True, related='sale_order_line_id.order_id', readonly=True)
+    sale_order_id = fields.Many2one('sale.order', string='Pedido Venta', store=True, related='sale_order_line_id.order_id', readonly=True)
     operario_ids = fields.One2many('stock.production.lot.operario', 'lot_id', string="Operarios")
     
     metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
@@ -97,9 +97,6 @@ class StockProductionLot(models.Model):
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
     #PARA TODOS
-    #hora_inicio = fields.Datetime('Hora Inicio Fabricación')
-    #hora_fin = fields.Datetime('Hora Fin Fabricación')
-    #maquina = fields.Integer('Máquina')
     ancho_pallet = fields.Integer('Ancho Pallet')
     und_paquete = fields.Integer('Und paquete')
     fabricado = fields.Boolean('Fabricado')
@@ -151,6 +148,12 @@ class StockProductionLot(models.Model):
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
+    
+    @api.onchange('sale_order_line_id')
+    def _onchange_linea_pedido(self):
+        if self.sale_order_line_id:
+            self.descripcion = sale_order_line_id.descripcion
+    
     
     @api.depends('operario_ids')
     def _get_metido(self):
