@@ -7,71 +7,31 @@
             <t t-foreach="range(doc.lotes_fabricar)" t-as="lot">
               <t t-call="web.external_layout">
                   <div class="page">
-			<div class="float-left company_address" style="padding:5px; width:100%">
-				<div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td>PEDIDO:</td>
-				 </div>
-				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td>FECHA:</td>
-				 </div>
-			  </div>
-			  <div class="float-left company_address" style="padding:5px; width:100%">
-				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td><span t-field="doc.order_id.name"/></td>
-				 </div>
-				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td><span t-field="doc.order_id.date_order" t-options='{"format": "dd/MM/yyyy"}'/></td>
-				</div>
-			 </div>
-			  <div class="float-left company_address" style="padding:30px; width:100%">
-			  </div>
-			<div class="float-left company_address" style="padding:5px; width:100%">
-				<div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td>CLIENTE:</td>
-				 </div>
-				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td>PALLET:</td>
-				 </div>
-			  </div>
-			  <div class="float-left company_address" style="padding:5px; width:100%">
-				  <div class="float-left company_address" style="text-align:center; font-size:36pt; width:50%;">
-					<td><span t-field="doc.order_id.partner_id.ref"/></td>
-				 </div>
-				  <div class="float-left company_address" style="text-align:center; font-size:36pt; width:50%;">
-					<td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
-				</div>
-			 </div>
-			  <div class="float-left company_address" style="padding:30px; width:100%">
-			  </div>
-			  <div class="float-left company_address" style="text-align:center; padding:10px; font-size:18pt; text-align:center; width:100%">
-				<td>DESCRIPCIÓN:</td>
-			  </div>
-			  <div class="float-left company_address" style="padding:10px; font-size:18pt; text-align:center; width:100%">
-				<td><span t-field="doc.descripcion"/></td>
-			  </div>
-			  <div class="float-left company_address" style="padding:30px; width:100%">
-			  </div>
-			  <div class="float-left company_address" style="text-align:center; padding:10px; width:100%">
-				<div class="float-left company_address" style="font-size:18pt; width:50%;">
-					<td>UNIDADES:</td>
-				 </div>
-				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td>DIRECCIÓN:</td>
-				 </div>
-			  </div>
-			  <div class="float-left company_address" style="padding:10px; width:100%">
-				  <div class="float-left company_address" style="text-align:center; font-size:36pt; width:50%;">
-					<td><span t-field="doc.und_pallet"/></td>
-				 </div>
-				  <div class="float-left company_address" style="text-align:center; font-size:18pt; width:50%;">
-					<td>
-						<span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
-						<span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
-						<span t-field="doc.order_id.partner_shipping_id.country_id"/>
-					</td>
-				</div>
-			 </div>
-
+		      <div class="float-left company_address" style="padding:5px; font-size:32pt, width:100%">
+		          <td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
+		      </div> 
+		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:100%">
+		          <td><span t-field="doc.descripcion"/></td>
+		      </div>
+		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		          <td><span t-field="doc.und_pallet"/></td>
+		      </div> 
+		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		          <td><span t-field="doc.und_pallet"/></td>
+		      </div> 
+		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		          <td><span t-field="doc.order_id.name"/></td>
+		      </div>
+		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		          <td><span t-field="doc.order_id.partner_id.ref"/></td>
+		      </div>
+		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		          <td>
+			      <span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
+			      <span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
+			      <span t-field="doc.order_id.partner_shipping_id.country_id"/>
+		          </td>
+		      </div>
                   </div>
               </t>
             </t>
