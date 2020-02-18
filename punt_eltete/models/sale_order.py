@@ -267,7 +267,7 @@ class SaleOrderLine(models.Model):
                 und_pallet = int(record.und_pallet / num_cortes)
                 if record.und_pallet > und_pallet * num_cortes:
                     und_pallet = und_pallet + 1
-                sierra = "Cortar a " + str(longitud) + " mm"
+                sierra = "Cortar a " + str(longitud_final) + " mm"
                 und_exactas = "SI"
 
                 
