@@ -252,10 +252,10 @@ class SaleOrderLine(models.Model):
             sierra = ""
             
             if record.oferta_id.attribute_id.sierra == True:
-                num_cortes = int(2500 / longitud)
+                num_cortes = int(2400 / longitud)
                 if num_cortes % 2 != 0:
                     num_cortes = num_cortes - 1
-                sierra = "Cortar a " + str(longitud)
+                sierra = "Cortar a " + str(longitud) + " mm"
                 longitud = (longitud + 5) * num_cortes + 100
             
             alas = str(ala_1) + " x " + str(ala_2)
