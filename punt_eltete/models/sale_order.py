@@ -57,6 +57,7 @@ class SaleOrderLine(models.Model):
     op_alas = fields.Char('Alas', compute = "_get_produccion")
     op_grosor = fields.Char('Grosor', compute = "_get_produccion")
     op_longitud = fields.Char('Longitud', compute = "_get_produccion")
+    op_sierra = fields.Char('Sierra', compute = "_get_produccion")
     op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion")
     op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion")
     op_tolerancia_longitud = fields.Char('Tolerancia Longitud', compute = "_get_produccion")
@@ -248,6 +249,14 @@ class SaleOrderLine(models.Model):
             ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
             grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_2
             longitud = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+            sierra = ""
+            
+            if record.oferta_id.attribute_id.sierra == True:
+                num_cortes = int(2500 / longitud)
+                if num_cortes % 2 != 0:
+                    num_cortes = num_cortes - 1
+                sierra = "Cortar a " + longitud
+                longitud = (longitud + 5) * num_cortes + 100
             
             alas = str(ala_1) + " x " + str(ala_2)
             aux1 = ala_1 - 2
@@ -318,6 +327,7 @@ class SaleOrderLine(models.Model):
             record.op_alas = alas
             record.op_grosor = str(grosor)
             record.op_longitud = str(longitud)
+            record.op_sierra = sierra
             record.op_tolerancia_alas = tolerancia_alas
             record.op_tolerancia_grosor = tolerancia_grosor
             record.op_tolerancia_longitud = tolerancia_longitud
