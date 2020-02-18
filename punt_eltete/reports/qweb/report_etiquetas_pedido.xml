@@ -7,7 +7,7 @@
             <t t-foreach="range(doc.lotes_fabricar)" t-as="lot">
               <t t-call="web.external_layout">
                   <div class="page">
-		      <div class="float-left company_address" style="padding:5px; font-size:32pt, width:100%">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:100%;">
 		          <td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
 		      </div> 
 		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:100%">
