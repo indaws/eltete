@@ -254,20 +254,6 @@ class SaleOrderLine(models.Model):
             und_pallet = record.und_pallet
             sierra = ""
             
-            alas = str(ala_1) + " x " + str(ala_2)
-            aux1 = ala_1 - 2
-            aux2 = ala_1 + 2
-            tolerancia_alas = str(aux1) + " - " + str(aux2) + " x "
-            aux1 = ala_2 - 2
-            aux2 = ala_2 + 2
-            tolerancia_alas = tolerancia_alas + str(aux1) + " - " + str(aux2)
-            aux1 = grosor - 0.2
-            aux2 = grosor + 0.2
-            tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
-            aux1 = longitud - 5
-            aux2 = longitud + 5
-            tolerancia_longitud = str(aux1) + " - " + str(aux2)
-            
             ancho_pallet = record.oferta_id.attribute_id.ancho_pallet
             tipo_pallet = ""
             if record.oferta_id.attribute_id.pallet_especial_id:
@@ -297,6 +283,20 @@ class SaleOrderLine(models.Model):
                 sierra = sierra + paquetes_fila
                 paquetes_fila = "SIERRA"
                 und_exactas = "SI"
+                
+            alas = str(ala_1) + " x " + str(ala_2)
+            aux1 = ala_1 - 2
+            aux2 = ala_1 + 2
+            tolerancia_alas = str(aux1) + " - " + str(aux2) + " x "
+            aux1 = ala_2 - 2
+            aux2 = ala_2 + 2
+            tolerancia_alas = tolerancia_alas + str(aux1) + " - " + str(aux2)
+            aux1 = grosor - 0.2
+            aux2 = grosor + 0.2
+            tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
+            aux1 = longitud - 5
+            aux2 = longitud + 5
+            tolerancia_longitud = str(aux1) + " - " + str(aux2)
 
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram / 1000
