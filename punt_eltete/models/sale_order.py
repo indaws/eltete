@@ -255,7 +255,7 @@ class SaleOrderLine(models.Model):
                 num_cortes = int(2500 / longitud)
                 if num_cortes % 2 != 0:
                     num_cortes = num_cortes - 1
-                sierra = "Cortar a " + longitud
+                sierra = "Cortar a " + str(longitud)
                 longitud = (longitud + 5) * num_cortes + 100
             
             alas = str(ala_1) + " x " + str(ala_2)
