@@ -58,7 +58,7 @@ class SaleOrderLine(models.Model):
     op_grosor = fields.Char('Grosor', compute = "_get_produccion")
     op_longitud = fields.Char('Longitud', compute = "_get_produccion")
     op_und_pallet = fields.Integer('Und Orden', compute = "_get_produccion")
-    op_sierra = fields.Char('Sierra', compute = "_get_produccion")
+    op_sierra = fields.Html('Sierra', compute = "_get_produccion")
     op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion")
     op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion")
     op_tolerancia_longitud = fields.Char('Tolerancia Longitud', compute = "_get_produccion")
@@ -254,24 +254,6 @@ class SaleOrderLine(models.Model):
             und_pallet = record.und_pallet
             sierra = ""
             
-            und_exactas = ""
-            if record.oferta_id.und_exactas == True:
-                und_exactas = "SI"
-            
-            if record.oferta_id.attribute_id.sierra == True:
-                num_cortes = int(2400 / longitud / 5) * 5
-                longitud = (longitud_final + 5) * num_cortes + 100
-                while longitud > 2400:
-                    num_cortes = num_cortes - 1
-                    longitud = (longitud_final + 5) * num_cortes + 100
-                und_pallet = int(record.und_pallet / num_cortes)
-                if record.und_pallet > und_pallet * num_cortes:
-                    und_pallet = und_pallet + 1
-                sierra = "Cortar a " + str(longitud_final) + " mm"
-                und_exactas = "SI"
-
-                
-            
             alas = str(ala_1) + " x " + str(ala_2)
             aux1 = ala_1 - 2
             aux2 = ala_1 + 2
@@ -297,6 +279,25 @@ class SaleOrderLine(models.Model):
                 paletizado = "Columnas" 
             und_paquete = str(record.oferta_id.attribute_id.und_paquete) + " unidades / paquete"
             paquetes_fila = str(record.oferta_id.attribute_id.paquetes_fila) + " paquetes / fila"
+            
+            und_exactas = ""
+            if record.oferta_id.und_exactas == True:
+                und_exactas = "SI"
+            
+            if record.oferta_id.attribute_id.sierra == True:
+                num_cortes = int(2400 / longitud / 5) * 5
+                longitud = (longitud_final + 5) * num_cortes + 100
+                while longitud > 2400:
+                    num_cortes = num_cortes - 1
+                    longitud = (longitud_final + 5) * num_cortes + 100
+                und_pallet = int(record.und_pallet / num_cortes)
+                if record.und_pallet > und_pallet * num_cortes:
+                    und_pallet = und_pallet + 1
+                sierra = "Cortar a " + str(longitud_final) + " mm<br/>"
+                sierra = sierra + "<span><strong>Paquetes Fila</strong></span> "
+                sierra = sierra + paquetes_fila
+                paquetes_fila = "SIERRA"
+                und_exactas = "SI"
 
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram / 1000
