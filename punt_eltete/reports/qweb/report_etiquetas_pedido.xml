@@ -7,25 +7,25 @@
             <t t-foreach="range(doc.lotes_fabricar)" t-as="lot">
               <t t-call="web.external_layout">
                   <div class="page">
-		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:100%;">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:100%;">
 		          <td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
 		      </div> 
-		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:100%">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:100%;">
 		          <td><span t-field="doc.descripcion"/></td>
 		      </div>
-		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 		          <td><span t-field="doc.und_pallet"/></td>
 		      </div> 
-		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 		          <td><span t-field="doc.und_pallet"/></td>
 		      </div> 
-		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 		          <td><span t-field="doc.order_id.name"/></td>
 		      </div>
-		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 		          <td><span t-field="doc.order_id.partner_id.ref"/></td>
 		      </div>
-		      <div class="float-left company_address" style="padding:5px; font-size:24pt, width:50%">
+		      <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 		          <td>
 			      <span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
 			      <span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
