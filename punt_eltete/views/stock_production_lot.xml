@@ -28,6 +28,7 @@
                 <field name="fecha_entrada"/>
 		<field name="comentario"/>
 		<field name="descripcion"/>
+		<field name="cambiar_etiqueta"/>
                 
 		<field name="peso_metro"/>
 
