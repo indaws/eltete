@@ -254,6 +254,10 @@ class SaleOrderLine(models.Model):
             und_pallet = record.und_pallet
             sierra = ""
             
+            und_exactas = ""
+            if record.oferta_id.und_exactas == True:
+                und_exactas = "SI"
+            
             if record.oferta_id.attribute_id.sierra == True:
                 num_cortes = int(2400 / longitud / 5) * 5
                 longitud = (longitud_final + 5) * num_cortes + 100
@@ -264,6 +268,7 @@ class SaleOrderLine(models.Model):
                 if record.und_pallet > und_pallet * num_cortes:
                     und_pallet = und_pallet + 1
                 sierra = "Cortar a " + str(longitud) + " mm"
+                und_exactas = "SI"
 
                 
             
@@ -292,11 +297,7 @@ class SaleOrderLine(models.Model):
                 paletizado = "Columnas" 
             und_paquete = str(record.oferta_id.attribute_id.und_paquete) + " unidades / paquete"
             paquetes_fila = str(record.oferta_id.attribute_id.paquetes_fila) + " paquetes / fila"
-            
-            und_exactas = ""
-            if record.oferta_id.und_exactas == True:
-                und_exactas = "SI"
-            
+
             metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
             peso_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram / 1000
             peso_interior = peso_interior * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior / 1000
