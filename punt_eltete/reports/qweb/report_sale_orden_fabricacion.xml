@@ -106,10 +106,7 @@
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <strong>Comentario: </strong><br/>
                               <span t-field="doc.op_comentario"/><br/>
-                          </div>
-			      
-			  <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-                              <strong>Sierra: </strong><br/>
+			      <strong>Sierra: </strong><br/>
                               <span t-field="doc.op_sierra"/><br/>
                           </div>
                           
