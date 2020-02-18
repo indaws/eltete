@@ -152,7 +152,7 @@ class sale_referencia_cliente(models.Model):
                     pesoUnidad = record.referencia_id.peso_metro * record.referencia_id.metros_unidad
                     mediaAlas = (record.referencia_id.ala_1 + record.referencia_id.ala_2) / 2
                     
-                    if record.referencia_id.longitud < 250:
+                    if record.referencia_id.longitud < 200:
                         if int(record.ancho_pallet_cliente) > 0:
                             ancho_pallet = int(record.ancho_pallet_cliente)
                         und_paquete = 4000
@@ -212,7 +212,9 @@ class sale_referencia_cliente(models.Model):
                             
                         #Dobles, Triples
                         repetido = 1
-                        if record.referencia_id.longitud == 250:
+                        if record.referencia_id.longitud == 200:
+                            repetido = 5
+                        elif record.referencia_id.longitud <= 250:
                             repetido = 4
                         elif record.referencia_id.longitud > 250 and record.referencia_id.longitud <= 350:
                             repetido = 3
