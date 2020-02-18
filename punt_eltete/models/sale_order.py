@@ -255,7 +255,7 @@ class SaleOrderLine(models.Model):
             sierra = ""
             
             if record.oferta_id.attribute_id.sierra == True:
-                num_cortes = int(2400 / longitud)
+                num_cortes = int(2400 / longitud / 5) * 5
                 longitud = (longitud_final + 5) * num_cortes + 100
                 while longitud > 2400:
                     num_cortes = num_cortes - 1
