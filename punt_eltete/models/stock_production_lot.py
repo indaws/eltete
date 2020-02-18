@@ -149,7 +149,7 @@ class StockProductionLot(models.Model):
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
     
-    @api.onchange('sale_order_line_id')
+    @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
     def _onchange_linea_pedido(self):
         if self.sale_order_line_id:
             self.descripcion = sale_order_line_id.descripcion
