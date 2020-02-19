@@ -29,6 +29,7 @@
         "views/pricelist_oferta.xml",
         "views/account_invoice.xml",
         "views/stock_picking.xml",
+        "views/purchase_order.xml",
         "reports/qweb/report_sale_cotizacion.xml",
         "reports/qweb/report_sale_orden_fabricacion.xml",
         "reports/qweb/report_sale_order_export.xml",
