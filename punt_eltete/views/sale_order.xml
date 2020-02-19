@@ -262,11 +262,12 @@
 					<field name="lot_ids" widget="many2many" domain="[('disponible','=',True)]">
 						<tree string="Lotes" >
 							<field name='name' />
-							<field name='product_qty' />
-							<field name='fecha_entrada' />
-							<field name='fecha_salida' />
+							<field name='descripcion' />
 							<field name='unidades' />
 							<field name='peso_neto' />
+							<field name='fecha_entrada' />
+							<field name='picking_id' />
+							<field name='fecha_salida' />
 						</tree>
 					</field>   
 					
