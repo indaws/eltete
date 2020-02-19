@@ -138,8 +138,10 @@
 				<field name="descuento_porcentaje"/>
 				<field name="fecha_cliente"/>
 				<field name="fecha_entrega_cliente"/>
-                <field name="peso_neto"/>
-                <field name="peso_bruto"/>
+				
+                		<field name="peso_neto"/>
+                		<field name="peso_bruto"/>
+				 <field name="precinto_contenedor"/>
 			</field>
                 
 
