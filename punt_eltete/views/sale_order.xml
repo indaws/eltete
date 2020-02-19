@@ -213,6 +213,15 @@
         <field name="view_mode">tree,form</field>
         <field name="domain">[('product_id.categ_id.is_flatboard', '=', True)]</field>
     </record>
+	
+	
+	<record model="ir.actions.act_window" id="action_sale_order_line_varios">
+        <field name="name">Varios</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_varios', '=', True)]</field>
+    </record>
     
     
     
@@ -227,6 +236,7 @@
     <menuitem name="Bobinas" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_bobina" action="action_sale_order_line_bobina" sequence="6"/>
     <menuitem name="Pie de Pallet" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_pieballet" action="action_sale_order_line_pieballet" sequence="7"/>
     <menuitem name="Flat Board" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_flatboard" action="action_sale_order_line_flatboard" sequence="8"/>
+	<menuitem name="Varios" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_varios" action="action_sale_order_line_varios" sequence="9"/>
 	
 	
 	
@@ -247,6 +257,19 @@
 				</group>
 				<group>
 					<field name="lot_ids" widget="many2many" domain="[('disponible','=',True)]"/>
+					
+					<field name="lot_ids" widget="many2many" domain="[('disponible','=',True)]">
+						<tree string="Lotes" >
+							<field name='name' />
+							<field name='product_qty' />
+							<field name='fecha_entrada' />
+							<field name='fecha_salida' />
+							<field name='unidades' />
+							<field name='peso_neto' />
+						</tree>
+					</field>   
+					
+					
 				</group>
 				
 
