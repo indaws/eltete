@@ -187,7 +187,9 @@
                     
                     
                     <div class="float-left company_address" style="padding:12px; font-size:12pt; width:60%; border: 3px solid #0c9c45; border-radius: 15px;" >
-                        <strong>Modo de pago: </strong><span t-field="o.payment_mode_id.name"/><br/>
+                        <strong>Peso Neto: </strong><span t-field="o.peso_neto"/> kg<br/>
+			<strong>Peso Bruto: </strong><span t-field="o.peso_bruto"/> kg<br/>
+			<strong>Modo de pago: </strong><span t-field="o.payment_mode_id.name"/><br/>
                         <strong>Plazo de pago: </strong><span t-field="o.payment_term_id.note"/><br/>
                         <strong>Fecha de vencimiento: </strong><span t-field="o.multi_date_due"/><br/>
                         <strong>Número de pallets: </strong><span t-field="o.num_pallets"/><br/>
