@@ -27,8 +27,11 @@ class AccountInvoice(models.Model):
     def _onchange_actualizar(self):
         for record in self:            
             for line in record.invoice_line_ids:
+                precio_unidad = 0
                 if line.num_pallets > 0:
                     precio_unidad = line.importe / line.num_pallets
+                elif line.sale_line_id.oferta_id.attribute_id.referencia_cliente_id.precio_cliente == '5':
+                    precio_unidad = line.importe
                 line.price_unit = precio_unidad
                 line.quantity = line.num_pallets
     
