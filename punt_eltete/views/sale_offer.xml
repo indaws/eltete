@@ -213,6 +213,49 @@
                 </form>
             </field>
         </record>
+		
+		<record model="ir.ui.view" id="view_sale_product_attribute_tree">
+            <field name="name">sale.product.attribute.tree</field>
+            <field name="model">sale.product.attribute</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name="referencia_cliente_id"/>
+                    <field name="partner_id"/>
+                    <field name="type_id"/>
+                    <field name="name"/>
+                    <field name="estado"/>
+                    <field name="titulo"/>            
+                </tree>
+            </field>
+        </record>
+		
+		
+		<record model="ir.ui.view" id="view_sale_product_attribute_search">
+            <field name="name">sale.product.attribute.search</field>
+            <field name="model">sale.product.attribute</field>
+            <field name="arch" type="xml">
+                <search string="Atributos">
+                    <field name="referencia_cliente_id"/>
+                    <field name="partner_id"/>
+                    <field name="type_id"/>
+                    <field name="name"/>
+                    <field name="estado"/>
+                    <field name="titulo"/>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_sale_product_attribute">
+            <field name="name">Atributos</field>
+            <field name="res_model">sale.product.attribute</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Atributos" parent="sale.sale_order_menu" id="menu_sale_product_attribute" action="action_sale_product_attribute" sequence="29"/>
         
         
         <!--- OFERTAS -->

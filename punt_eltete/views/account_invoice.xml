@@ -14,9 +14,16 @@
 				<field name="importe_descuento"/>
 			</field>
 
-            		<field name="team_id" position="after">
+			<field name="team_id" position="after">
 				<field name="actualizar"/>
 			</field>
+			
+			<xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="before">
+				<field name="peso_neto" />
+            </xpath>
+			
+			
+			
         </field>
     </record>
     

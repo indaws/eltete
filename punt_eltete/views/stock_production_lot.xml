@@ -228,15 +228,16 @@
                     <sheet>
                         <group>
                             <field name='lot_id' />
-			    <field name='trabajador' />
-			    <field name='maquina' />
+							<field name='trabajador' />
+							<field name='maquina' />
                             <field name='tarea' />
                             <field name='fecha_inicio' />
                             <field name='und_inicio' />
                             <field name='fecha_fin' />
+							<field name='minutos' />
                             <field name='und_fin' />
-			    <field name='metros' />
-		            <field name='kilos' />
+							<field name='metros' />
+							<field name='kilos' />
                         </group>
                         
                     </sheet>
