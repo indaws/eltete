@@ -7,12 +7,6 @@ class SaleOrderLine(models.Model):
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes", )
     
-    @api.onchange('lot_ids',)
-    def _onchange_lot_ids(self):
-        for lot in self.lot_ids:
-            if lot.sale_order_line_id:
-                lot.descripcion = self.descripcion
-    
 
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
