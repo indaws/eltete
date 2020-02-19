@@ -209,7 +209,7 @@ class StockProductionLot(models.Model):
     
     
     
-    @api.depends('sale_order_line_id')
+    @api.depends('sale_order_line_id', 'sale_order_line_id.move_ids', 'sale_order_line_id.move_ids.move_line_ids.lot_id')
     def _get_datos_albaran(self):
         for record in self:
             picking_id = None
