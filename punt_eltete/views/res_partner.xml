@@ -11,7 +11,7 @@
             key2="client_action_multi"/>-->
             
             
-    <record model="ir.ui.view" id="wizard_form_view">
+    <!--<record model="ir.ui.view" id="wizard_form_view">
         <field name="name">wizard.partner.sale.order.form</field>
         <field name="model">wizard.partner.sale.order</field>
         <field name="arch" type="xml">
@@ -50,7 +50,7 @@
                 </footer>
             </form>
         </field>
-    </record>
+    </record>-->
 
 
 
