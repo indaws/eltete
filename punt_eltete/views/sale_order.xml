@@ -141,7 +141,6 @@
 				
                 		<field name="peso_neto"/>
                 		<field name="peso_bruto"/>
-				 <field name="precinto_contenedor"/>
 			</field>
                 
 
