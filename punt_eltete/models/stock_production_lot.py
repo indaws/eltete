@@ -3,6 +3,10 @@ from odoo import fields, models, api
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons import decimal_precision as dp
 
+from datetime import datetime
+import time
+
+
 
 
 class StockProductionLotOperario(models.Model):
@@ -34,8 +38,29 @@ class StockProductionLotOperario(models.Model):
     metros = fields.Float('Metros', digits = (10, 2), readonly = True, compute = "_get_produccion")
     kilos = fields.Float('Kilos', digits = (10, 2), readonly = True, compute = "_get_produccion")
     
+    minutos = fields.Integer(string="Minutos", compute = "_get_minutos")
+    
     #hora_inicio = fields.Float(string = "Hora inicio")
     #<field name='hora_inicio' widget="float_time"/>
+    
+    @api.depends('fecha_inicio', 'fecha_fin')
+    def _get_minutos(self):
+        for record in self:
+            if record.fecha_inicio and record.fecha_fin:
+                fmt = '%Y-%m-%d %H:%M:%S'
+                #d1 = datetime.strptime(record.fecha_inicio, fmt)
+                #d2 = datetime.strptime(record.fecha_fin, fmt)
+                
+                d1 = record.fecha_inicio
+                d2 = record.fecha_fin
+
+                d1_ts = time.mktime(d1.timetuple())
+                d2_ts = time.mktime(d2.timetuple())
+
+
+                record.minutos = int(d2_ts-d1_ts) / 60
+
+
    
     
     @api.depends('und_inicio', 'und_fin', 'lot_id.referencia_id')

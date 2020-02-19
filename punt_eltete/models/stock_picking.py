@@ -27,6 +27,16 @@ class StockMove(models.Model):
     unidades = fields.Integer('Unidades', compute = "_get_pesos")
     hay_lotes = fields.Boolean('Hay Lotes', compute = "_get_pesos")
     
+    orden_fabricacion = fields.Char('Orden Fabricación', compute = "_get_produccion")
+    
+    @api.depends('sale_line_id')
+    def _get_produccion(self):
+        for record in self:
+            orden_fabricacion = ''
+            if record.sale_line_id:
+                orden_fabricacion = record.sale_line_id.orden_fabricacion
+            record.orden_fabricacion = orden_fabricacion
+    
     
     @api.depends('move_line_ids')
     def _get_pesos(self):
