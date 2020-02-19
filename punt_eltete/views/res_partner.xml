@@ -2,16 +2,16 @@
 <odoo>
 
 
-    <!--<act_window id="launch_wizard_partner_sale_order"
+    <act_window id="launch_wizard_partner_sale_order"
             name="Crear pedido"
             src_model="res.partner"
             res_model="wizard.partner.sale.order"
             view_mode="form"
             target="new"
-            key2="client_action_multi"/>-->
+            key2="client_action_multi"/>
             
             
-    <!--<record model="ir.ui.view" id="wizard_form_view">
+    <record model="ir.ui.view" id="wizard_form_view">
         <field name="name">wizard.partner.sale.order.form</field>
         <field name="model">wizard.partner.sale.order</field>
         <field name="arch" type="xml">
@@ -50,7 +50,7 @@
                 </footer>
             </form>
         </field>
-    </record>-->
+    </record>
 
 
 

@@ -237,10 +237,11 @@
             <field name="arch" type="xml">
                 <search string="Atributos">
                     <field name="referencia_cliente_id"/>
-		    <field name="name"/>
                     <field name="partner_id"/>
-                    <field name="titulo"/>
+                    <field name="type_id"/>
+                    <field name="name"/>
                     <field name="estado"/>
+                    <field name="titulo"/>
                 </search>
             </field>
         </record>

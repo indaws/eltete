@@ -213,7 +213,6 @@
                     <field name='und_inicio' />
                     <field name='fecha_fin' />
                     <field name='und_fin' />
-		    <field name='minutos' />
 		    <field name='metros' />
 		    <field name='kilos' />
                 </tree>
@@ -229,16 +228,16 @@
                     <sheet>
                         <group>
                             <field name='lot_id' />
-			    <field name='trabajador' />
-			    <field name='maquina' />
+							<field name='trabajador' />
+							<field name='maquina' />
                             <field name='tarea' />
                             <field name='fecha_inicio' />
                             <field name='und_inicio' />
                             <field name='fecha_fin' />
+							<field name='minutos' />
                             <field name='und_fin' />
-			    <field name='minutos' />
-			    <field name='metros' />
-			    <field name='kilos' />
+							<field name='metros' />
+							<field name='kilos' />
                         </group>
                         
                     </sheet>
@@ -259,13 +258,12 @@
                     <field name='und_inicio' />
                     <field name='fecha_fin' />
                     <field name='und_fin' />
-		    <field name='minutos' />
 		    <field name='metros' />
 		    <field name='kilos' />
                     
                     <group expand="0" string="Agrupar por">
                         <filter name="group_by_lot_id" string="Lote" domain="[]" context="{'group_by':'lot_id'}"/>
-                        <filter name="group_by_operario_id" string="Trabajador" domain="[]" context="{'group_by':'trabajador'}"/>
+                        <filter name="group_by_operario_id" string="Operario" domain="[]" context="{'group_by':'operario_id'}"/>
                     </group>
                 </search>
             </field>
