@@ -31,7 +31,7 @@ class AccountInvoice(models.Model):
                 num_pallets = 0
                 if line.num_pallets > 0:
                     precio_unidad = line.importe / line.num_pallets
-                    num_pallet = line.num_pallets
+                    num_pallets = line.num_pallets
                 elif line.facturar == '5':
                     precio_unidad = line.importe
                     num_pallets = 1
