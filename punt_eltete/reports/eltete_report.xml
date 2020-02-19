@@ -18,6 +18,16 @@
             file="punt_eltete.report_orden_fabricacion" 
             name="punt_eltete.report_orden_fabricacion" 
         />
+		
+		
+		<report 
+            id="rep_sale_order_export"
+            string="Pedido Export"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_sale_order_export" 
+            name="punt_eltete.report_sale_order_export" 
+        />
         
 		<report 
             id="rep_sale_order_etiquetas"
