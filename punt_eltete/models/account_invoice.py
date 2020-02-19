@@ -73,6 +73,7 @@ class AccountInvoice(models.Model):
             record.peso_slipsheet = peso_slipsheet
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
+            record.peso_bruto = peso_bruto
 
             
     
@@ -209,6 +210,7 @@ class AccountInvoiceLine(models.Model):
             record.num_pallets = num_pallets
             record.unidades = unidades
             record.peso_neto = peso_neto
+            record.peso_bruto = peso_bruto
             
             
     @api.depends('sale_line_ids')
