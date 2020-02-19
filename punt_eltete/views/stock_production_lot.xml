@@ -12,25 +12,30 @@
                 
                 <field name="sale_order_id"/>
                 <field name="sale_order_line_id"/>
+				
+				<field name="purchase_order_id"/>
+                <field name="purchase_order_line_id"/>
+				
                 <field name="cliente_id"/>
                 <field name="cliente_ref"/>
                 <field name="picking_id"/>
-		
-		<field name="peso_neto"/>
-		<field name="fecha_salida"/>
+				
+				<field name="peso_neto"/>
+				<field name="fecha_salida"/>
                 <field name="disponible"/>
-		<field name="almacen"/>
-                
-		<field name="pallet_sage"/>
+				<field name="almacen"/>
+						
+				<field name="pallet_sage"/>
                 <field name="unidades"/>
-		<field name="user_peso_neto"/>
-		<field name="user_peso_bruto"/>
+				<field name="user_peso_neto"/>
+				<field name="user_peso_bruto"/>
                 <field name="fecha_entrada"/>
-		<field name="comentario"/>
-		<field name="descripcion"/>
-		<field name="cambiar_etiqueta"/>
-                
-		<field name="peso_metro"/>
+				<field name="comentario"/>
+				<field name="descripcion"/>
+				<field name="cambiar_etiqueta"/>
+						
+				<field name="peso_metro"/>
+				<field name="comprado"/>
 
             </xpath>
             
@@ -145,6 +150,7 @@
                         <field name="is_varios" invisible="1"/>
                         
                         <field name="product_id" />
+						<field name="comprado" />
                     </group>
                     
                     <h3>Referencia</h3>

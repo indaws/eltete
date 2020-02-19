@@ -55,7 +55,66 @@
 						type="object" 
 						class="oe_highlight"/>  
             </xpath>
+			
+			
+			
+			<xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                <field name="partner_id" invisible="1" />
+				<field name="cliente_id" />
+				<field name="attribute_id" domain="[('partner_id', '=', cliente_id),('activa', '=', True)]" />
+				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" />
+				<field name="precio_kilo" />
+				<field name="precio_und" />
+				<field name="lot_ids" invisible="1" />
+            </xpath>
+			
+
             
+        </field>
+    </record>
+	
+	
+	
+	<record id="view_purchase_order_line_eltete_form" model="ir.ui.view">
+        <field name="name">purchase.order.line.eltete.form</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
+        <field name="arch" type="xml">
+		
+		
+			<field name="date_planned" position="after">
+				<field name="cliente_id" />
+				<field name="attribute_id" domain="[('partner_id', '=', cliente_id),('activa', '=', True)]" />
+				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" />
+			</field>
+			
+			<field name="price_unit" position="after">
+				<field name="precio_kilo" />
+				<field name="precio_und" />
+				<field name="peso_neto" />
+				<field name="unidades" />
+				<field name="num_pallets" />
+			</field>
+        
+			<field name="name" position="after">
+            
+				<group>
+
+					<field name="lot_ids" widget="many2many" domain="[('comprado','=',True)]">
+						<tree string="Lotes" >
+							<field name='name' />
+							<field name='product_qty' />
+							<field name='fecha_entrada' />
+							<field name='fecha_salida' />
+							<field name='unidades' />
+							<field name='peso_neto' />
+						</tree>
+					</field>   
+					
+				</group>
+
+            </field>
+			
         </field>
     </record>
     
