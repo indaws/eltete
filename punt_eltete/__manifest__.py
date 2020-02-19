@@ -31,6 +31,7 @@
         "reports/qweb/report_sale_cotizacion.xml",
         "reports/qweb/report_sale_orden_fabricacion.xml",
         "reports/qweb/report_sale_order_export.xml",
+        "reports/qweb/report_account_invoice_export.xml",
         "reports/qweb/report_etiquetas_pedido.xml",
         "reports/qweb/report_stock_picking_orden_carga.xml",
         "reports/eltete_report.xml",
