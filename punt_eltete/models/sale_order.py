@@ -276,7 +276,8 @@ class SaleOrderLine(models.Model):
                 while longitud > 2400:
                     num_cortes = num_cortes - 1
                     longitud = (longitud_final + 5) * num_cortes + 100
-                und_pallet = int(record.und_pallet / num_cortes)
+                if num_cortes > 0:
+                    und_pallet = int(record.und_pallet / num_cortes)
                 if record.und_pallet > und_pallet * num_cortes:
                     und_pallet = und_pallet + record.oferta_id.attribute_id.und_paquete
                 p2 = longitud_final * num_cortes + 300
