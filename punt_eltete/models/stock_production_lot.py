@@ -93,6 +93,9 @@ class StockProductionLot(models.Model):
     sale_order_id = fields.Many2one('sale.order', string='Pedido Venta', store=True, related='sale_order_line_id.order_id', readonly=True)
     operario_ids = fields.One2many('stock.production.lot.operario', 'lot_id', string="Operarios")
     
+    purchase_order_line_id = fields.Many2one('purchase.order.line', string = "Línea Pedido Compra")
+    purchase_order_id = fields.Many2one('purchase.order', string='Pedido Compra', store=True, related='purchase_order_line_id.order_id', readonly=True)
+    
     metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
     fecha_entrada = fields.Date('Fecha Entrada')
     pallet_sage = fields.Char('Pallet Sage')

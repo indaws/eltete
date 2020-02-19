@@ -363,7 +363,28 @@ class WizardSaleCreateLine(models.TransientModel):
     
     
     
+class WizardPurchaseCreateLine(models.TransientModel):
+    _name = 'wizard.purchase.create.line'
     
+
+        
+    def _default_purchase(self):
+        return self.env['purchase.order'].browse(self._context.get('active_id'))
+
+
+    purchase_id = fields.Many2one('purchase.order', string='Pedido', default=_default_purchase, readonly=True)
+    partner_id = fields.Many2one('res.partner', string='Cliente', )
+    referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente')
+    attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto")
+    num_pallets = fields.Integer(string="Num pallets", default=1)
+    oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
+    
+    
+    @api.multi
+    def add_lines_purchase_order(self): 
+        for record in self:
+            record.purchase_id.create_purchase_order_line_referencia(record.referencia_cliente_id, record.attribute_id, record.oferta_id, record.num_pallets)
+
     
     
     
