@@ -36,7 +36,7 @@ class AccountInvoice(models.Model):
                     precio_unidad = line.importe
                     num_pallets = 1
                 line.price_unit = precio_unidad
-                line.quantity = line.num_pallets
+                line.quantity = num_pallets
     
     
     @api.depends('partner_id')
