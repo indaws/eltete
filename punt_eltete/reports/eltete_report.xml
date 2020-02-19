@@ -28,6 +28,16 @@
             file="punt_eltete.report_sale_order_export" 
             name="punt_eltete.report_sale_order_export" 
         />
+		
+		
+		<report 
+            id="rep_account_invoice_export"
+            string="Factura Export"
+            model="account.invoice" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_account_invoice_export" 
+            name="punt_eltete.report_account_invoice_export" 
+        />
         
 		<report 
             id="rep_sale_order_etiquetas"
