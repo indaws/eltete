@@ -9,6 +9,7 @@ class AccountInvoice(models.Model):
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
+    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantoneras', readonly = True, compute = "_get_num_pallets")
     peso_slipsheet = fields.Integer('Peso Slip Sheets', readonly = True, compute = "_get_num_pallets")
     
@@ -51,6 +52,7 @@ class AccountInvoice(models.Model):
         for record in self:
             num_pallets = 0
             peso_neto = 0
+            peso_bruto = 0
             peso_cantonera = 0
             peso_slipsheet = 0
             
@@ -65,6 +67,7 @@ class AccountInvoice(models.Model):
                     peso_slipsheet = peso_slipsheet + line.peso_neto
 
                 peso_neto = peso_neto + line.peso_neto
+                peso_bruto = peso_bruto + line.peso_bruto
               
             record.peso_cantonera = peso_cantonera
             record.peso_slipsheet = peso_slipsheet
@@ -127,6 +130,7 @@ class AccountInvoiceLine(models.Model):
     num_pallets = fields.Integer('Num Pallets', readonly = True, compute = "_get_datos_albaran")
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_datos_albaran")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_datos_albaran")
+    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
 
@@ -178,6 +182,7 @@ class AccountInvoiceLine(models.Model):
             num_pallets = 0
             unidades = 0
             peso_neto = 0
+            peso_bruto = 0
         
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
@@ -190,6 +195,7 @@ class AccountInvoiceLine(models.Model):
                 num_pallets = move.num_pallets
                 unidades = move.unidades
                 peso_neto = move.peso_neto
+                peso_bruto = move.peso_bruto
                 
             if record.facturar == '5':
                 unidades = record.cantidad_5_num
