@@ -48,7 +48,8 @@ class StockMove(models.Model):
                 cantidad_2 = cantidad_2 + line.lot_id.cantidad_2_num
                 cantidad_3 = cantidad_3 + line.lot_id.cantidad_3_num
                 cantidad_4 = cantidad_4 + line.lot_id.cantidad_4_num
-                num_pallets = num_pallets + 1
+                if line.lot_id:
+                    num_pallets = num_pallets + 1
                 unidades = unidades + line.lot_id.unidades
               
             if num_pallets > 0:
@@ -96,10 +97,11 @@ class StockPicking(models.Model):
             peso_neto_total = 0
             peso_bruto_total = 0
             for line in record.move_lines:
-                if line.sale_line_id.bultos == '1':
-                    num_pallets = num_pallets + line.num_pallets
-                peso_neto_total = peso_neto_total + line.peso_neto
-                peso_bruto_total = peso_bruto_total + line.peso_bruto
+                if line.product_uom_qty > 0.0:
+                    if line.sale_line_id.bultos == '1':
+                        num_pallets = num_pallets + line.num_pallets
+                    peso_neto_total = peso_neto_total + line.peso_neto
+                    peso_bruto_total = peso_bruto_total + line.peso_bruto
             record.num_pallets = num_pallets
             record.peso_neto_total = peso_neto_total
             record.peso_bruto_total = peso_bruto_total
