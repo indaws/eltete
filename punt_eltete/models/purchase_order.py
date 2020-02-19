@@ -8,6 +8,50 @@ class PurchaseOrderLine(models.Model):
     lot_ids = fields.One2many('stock.production.lot', 'purchase_order_line_id', string="Lotes", )
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
+    cliente_id = fields.Many2one('res.partner', string="Cliente")
+    
+    precio_kilo = fields.Float('Precio kg', digits = (12,4))
+    precio_und = fields.Float('Precio Ud', digits = (12,4))
+    
+    peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
+    unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
+    num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_valores")
+    
+    
+    
+    @api.onchange('precio_kilo', 'precio_und', 'num_pallets', 'lot_ids.peso_neto', 'lot_ids.unidades')
+    def _onchange_cantidades(self):
+        if self.product_id.categ_id:
+            if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
+                
+                self.product_qty = self.peso_neto
+                self.product_uom_qty = self.peso_neto
+                self.price_unit = self.precio_kilo
+                
+            else:
+            
+                self.product_qty = self.num_pallets
+                self.product_uom_qty = self.num_pallets
+                if self.num_pallets > 0:
+                    self.price_unit = self.precio_und * (self.unidades / self.num_pallets)
+            
+                
+    
+    
+    @api.depends('lot_ids')
+    def _get_valores(self):
+        for record in self:
+        
+            record.num_pallets = len(record.lot_ids)
+            unidades = 0
+            peso_neto = 0
+            for lot in record.lot_ids:
+                unidades = unidades + lot.unidades
+                peso_neto = peso_neto + lot.peso_neto
+                
+            record.peso_neto = peso_neto
+            record.unidades = unidades
+                 
     
     
     @api.multi
@@ -31,7 +75,7 @@ class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     @api.multi
-    def create_purchase_order_line_referencia(self, referencia_cliente_id, attribute_id, oferta_id, num_pallets):
+    def create_purchase_order_line_referencia(self, cliente_id, referencia_cliente_id, attribute_id, oferta_id, num_pallets):
         for record in self:
         
 
@@ -131,6 +175,7 @@ class PurchaseOrder(models.Model):
                                                 'price_unit': 0.0,
                                                 'date_planned': fields.Date.today(),
                                                 'product_uom': 1,
+                                                'cliente_id': cliente_id.id,
                                                 'attribute_id': attribute_id.id,
                                                 'oferta_id': oferta_id.id,
                                                 'product_id': product_id.product_variant_id.id,

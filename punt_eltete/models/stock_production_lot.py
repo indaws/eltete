@@ -128,6 +128,7 @@ class StockProductionLot(models.Model):
     ancho_pallet = fields.Integer('Ancho Pallet')
     und_paquete = fields.Integer('Und paquete')
     fabricado = fields.Boolean('Fabricado')
+    comprado = fields.Boolean('Comprado')
     
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
@@ -176,6 +177,12 @@ class StockProductionLot(models.Model):
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
+
+
+    @api.onchange('type_id',)
+    def _onchange_type_id(self):
+        if self.type_id.is_perfilu == True:
+            self.comprado = True
     
     @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
     def _onchange_linea_pedido(self):

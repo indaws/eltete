@@ -23,6 +23,7 @@ class ProductCategory(models.Model):
     is_varios = fields.Boolean('¿Es Varios?')
     is_flatboard = fields.Boolean('¿Es FlatBoard?')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?')
+    is_mprima_cola = fields.Boolean('¿Es mPrima Cola?')
     
     
     
