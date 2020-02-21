@@ -13,7 +13,7 @@ class PurchaseOrderLine(models.Model):
     precio_kilo = fields.Float('Precio kg', digits = (12,4))
     precio_und = fields.Float('Precio Ud', digits = (12,4))
     num_pallets = fields.Integer('Num Pallets', default = 1)
-    importe = fields.Float('Importe', digits = (10, 2), readonly = True, compute = "_get_importe")
+    #importe = fields.Float('Importe', digits = (10, 2), readonly = True, compute = "_get_importe")
     
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
@@ -21,7 +21,7 @@ class PurchaseOrderLine(models.Model):
     
     
     
-    @api.onchange('precio_kilo', 'precio_und', 'num_pallets', 'lot_ids.peso_neto', 'lot_ids.unidades')
+    @api.onchange('precio_kilo', 'precio_und', 'num_lotes', 'lot_ids.peso_neto', 'lot_ids.unidades')
     def _onchange_cantidades(self):
         if self.product_id.categ_id:
             
@@ -34,13 +34,14 @@ class PurchaseOrderLine(models.Model):
                 self.product_qty = self.num_pallets
                 self.product_uom_qty = self.num_pallets
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio_kilo * self.peso_neto / self.num_pallets
+                    self.price_unit = self.precio_kilo * self.peso_neto / self.num_lotes
             else:
                 self.product_qty = self.num_pallets
                 self.product_uom_qty = self.num_pallets
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio_und * self.unidades / self.num_pallets
-            
+                    self.price_unit = self.precio_und * self.unidades / self.num_lotes
+      
+    
    @api.depends('product_id', 'oferta_id', 'num_pallets', 'precio_kilo', 'precio_und')
     def _get_importe(self):
         for record in self:
@@ -54,11 +55,11 @@ class PurchaseOrderLine(models.Model):
                     precio = record.precio_kilo
                     cantidad = record.num_pallets * record.oferta_id.peso_neto
                 else:
-                    precio = record.precio_unidad
+                    precio = record.precio_und
                     cantidad = record.num_pallets * record.oferta_id.und_pallet
                     
                 importe = precio * cantidad
-            record.importe = importe          
+            #record.importe = importe          
     
     
     
