@@ -101,7 +101,7 @@ class StockProductionLot(models.Model):
     pallet_sage = fields.Char('Pallet Sage')
     fecha_salida = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_disponible")
     almacen = fields.Boolean('Almacen', readonly = True, compute = "_get_disponible")
-    disponible = fields.Boolean('Disponible', readonly = True, compute = "_get_disponible")
+    disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     unidades = fields.Integer('Unidades')
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
