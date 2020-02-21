@@ -12,7 +12,7 @@ class PurchaseOrderLine(models.Model):
     
     precio_kilo = fields.Float('Precio kg', digits = (12,4))
     precio_und = fields.Float('Precio Ud', digits = (12,4))
-    num_pallets = fields.Integer('Num Pallets', default = 1)
+    num_pallets = fields.Integer('Num Pallets')
     importe = fields.Float('Importe', digits = (10, 2), readonly = True, compute = "_get_importe")
     
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
@@ -21,7 +21,7 @@ class PurchaseOrderLine(models.Model):
     
     
     
-    @api.onchange('oferta_id')
+    @api.onchange('num_pallets')
     def _onchange_precio(self):
         if self.product_id.categ_id.is_formato == True:
             self.precio_kilo = 0.62
