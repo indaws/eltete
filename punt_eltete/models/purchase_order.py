@@ -47,7 +47,6 @@ class PurchaseOrderLine(models.Model):
             cantidad = 0
             precio = 0
             importe = 0
-            """
             if record.oferta_id:
                 if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
                     x = 0
@@ -59,7 +58,7 @@ class PurchaseOrderLine(models.Model):
                     cantidad = record.num_pallets * record.oferta_id.und_pallet
                     
                 importe = precio * cantidad
-             """   
+
             record.importe = importe          
     
     
