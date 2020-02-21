@@ -21,6 +21,15 @@ class PurchaseOrderLine(models.Model):
     
     
     
+    @api.onchange('oferta_id')
+    def _onchange_precio(self):
+        if self.product_id.categ_id.is_formato == True:
+            self.precio_kilo = 0.62
+        if self.product_id.categ_id.is_bobina == True:
+            self.precio_kilo = 0.56
+    
+    
+    
     @api.onchange('precio_kilo', 'precio_und', 'num_lotes', 'lot_ids.peso_neto', 'lot_ids.unidades')
     def _onchange_cantidades(self):
         if self.product_id.categ_id:
