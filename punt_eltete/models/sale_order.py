@@ -271,15 +271,16 @@ class SaleOrderLine(models.Model):
                 und_exactas = "SI"
             
             if record.oferta_id.attribute_id.sierra == True:
-                num_cortes = int(2400 / longitud / record.oferta_id.attribute_id.und_paquete) * record.oferta_id.attribute_id.und_paquete
+                num_cortes = int(2400 / longitud_final)
                 longitud = (longitud_final + 5) * num_cortes + 100
                 while longitud > 2400:
                     num_cortes = num_cortes - 1
                     longitud = (longitud_final + 5) * num_cortes + 100
                 if num_cortes > 0:
-                    und_pallet = int(record.und_pallet / num_cortes)
-                if record.und_pallet > und_pallet * num_cortes:
+                    und_pallet = int(record.und_pallet / num_cortes / record.oferta_id.attribute_id.und_paquete) * record.oferta_id.attribute_id.und_paquete
+                while record.und_pallet > und_pallet * num_cortes:
                     und_pallet = und_pallet + record.oferta_id.attribute_id.und_paquete
+                    
                 p2 = longitud_final * num_cortes + 300
                 p3 = 3300 + longitud_final
                 sierra = "Parámetro_1: " + str(longitud_final) + " , Parámetro_2: " + str(p2) + " , R_120: " + str(p3)
