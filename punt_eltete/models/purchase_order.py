@@ -12,16 +12,19 @@ class PurchaseOrderLine(models.Model):
     
     precio_kilo = fields.Float('Precio kg', digits = (12,4))
     precio_und = fields.Float('Precio Ud', digits = (12,4))
+    num_pallets = fields.Integer('Num Pallets', default = 1)
+    importe = fields.Float('Importe', digits = (10, 2), readonly = True, compute = "_get_importe")
     
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
-    num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_valores")
+    num_lotes = fields.Integer('Num Lotes', readonly = True, compute = "_get_valores")
     
     
     
     @api.onchange('precio_kilo', 'precio_und', 'num_pallets', 'lot_ids.peso_neto', 'lot_ids.unidades')
     def _onchange_cantidades(self):
         if self.product_id.categ_id:
+            
             if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
                 self.product_qty = self.peso_neto
                 self.product_uom_qty = self.peso_neto
@@ -30,22 +33,40 @@ class PurchaseOrderLine(models.Model):
             elif self.product_id.categ_id.is_formato == True or self.product_id.categ_id.is_bobina == True:
                 self.product_qty = self.num_pallets
                 self.product_uom_qty = self.num_pallets
-                if self.num_pallets > 0:
+                if self.num_lotes > 0:
                     self.price_unit = self.precio_kilo * self.peso_neto / self.num_pallets
             else:
                 self.product_qty = self.num_pallets
                 self.product_uom_qty = self.num_pallets
-                if self.num_pallets > 0:
+                if self.num_lotes > 0:
                     self.price_unit = self.precio_und * self.unidades / self.num_pallets
             
-                
+   @api.depends('product_id', 'oferta_id', 'num_pallets', 'precio_kilo', 'precio_und')
+    def _get_importe(self):
+        for record in self:
+            cantidad = 0
+            precio = 0
+            importe = 0
+            if record.oferta_id:
+                if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
+                    x = 0
+                elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
+                    precio = record.precio_kilo
+                    cantidad = record.num_pallets * oferta_id.peso_neto
+                else:
+                    precio = record.precio_unidad
+                    cantidad = record.num_pallets * oferta_id.und_pallet
+                    
+                importe = precio * cantidad
+            record.importe = importe          
+    
     
     
     @api.depends('lot_ids')
     def _get_valores(self):
         for record in self:
         
-            record.num_pallets = len(record.lot_ids)
+            record.num_lotes = len(record.lot_ids)
             unidades = 0
             peso_neto = 0
             for lot in record.lot_ids:
