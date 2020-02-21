@@ -66,6 +66,8 @@
 				<field name="num_pallets" />
 				<field name="precio_kilo" />
 				<field name="precio_und" />
+				<field name="importe" />
+				<field name="num_lotes" invisible="1" />
 				<field name="lot_ids" invisible="1" />
             </xpath>
 			
