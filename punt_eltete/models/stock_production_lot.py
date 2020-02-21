@@ -99,8 +99,8 @@ class StockProductionLot(models.Model):
     metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
     fecha_entrada = fields.Date('Fecha Entrada')
     pallet_sage = fields.Char('Pallet Sage')
-    fecha_salida = fields.Datetime('Fecha Salida', readonly = True, store = True, compute = "_get_fecha_salida")
-    almacen = fields.Boolean('Almacen', readonly = True, store = True, compute = "_get_fecha_salida")
+    fecha_salida = fields.Datetime('Fecha Salida', readonly = True, store = True, compute = "_get_disponible")
+    almacen = fields.Boolean('Almacen', readonly = True, store = True, compute = "_get_disponible")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     unidades = fields.Integer('Unidades')
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
@@ -183,11 +183,21 @@ class StockProductionLot(models.Model):
     def _onchange_type_id(self):
         if self.type_id.is_perfilu == True:
             self.comprado = True
+        if self.type_id.is_formato == True:
+            self.comprado = True
+        if self.type_id.is_bobina == True:
+            self.comprado = True
+        if self.type_id.is_pieballet == True:
+            self.comprado = True
+        if self.type_id.is_flatboard == True:
+            self.comprado = True
+            
     
     @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
     def _onchange_linea_pedido(self):
         if self.sale_order_line_id:
             self.descripcion = self.sale_order_line_id.descripcion
+            self.cambiar_etiqueta = True
     
     
     @api.depends('operario_ids')
@@ -201,22 +211,6 @@ class StockProductionLot(models.Model):
     
     
     
-    @api.depends('date_done', 'scheduled_date', 'fecha_entrada')
-    def _get_fecha_salida(self):
-        for record in self:
-            fecha_salida = None
-            almacen = False
-            if record.fecha_entrada:
-                almacen = True
-            if record.date_done and record.scheduled_date:
-                fecha_salida = record.scheduled_date
-                almacen = False
-            
-            record.fecha_salida = fecha_salida
-            record.almacen = almacen
-            
-            
-            
     @api.depends('cliente_id')
     def _get_cliente(self):
         for record in self:
@@ -226,21 +220,25 @@ class StockProductionLot(models.Model):
             
             record.cliente_ref = cliente_ref
     
-    
-    
-    @api.depends('sale_order_line_id', 'fecha_entrada', 'fecha_salida')
+
+    @api.depends('sale_order_line_id', 'fecha_entrada', 'date_done', 'scheduled_date')
     def _get_disponible(self):
         for record in self:
             disponible = False
+            almacen = False
+            fecha_salida = None
             if record.fecha_entrada:
-                if record.fecha_salida:
-                    x = 0
-                elif record.sale_order_line_id:
-                    x = 0
-                else:
-                    disponible = True
-                
+                disponible = True
+                almacen = True
+                if record.sale_order_line_id:
+                    disponible = False
+                    if record.date_done:
+                        almacen = False
+                        fecha_salida = record.scheduled_date
+                     
             record.disponible = disponible
+            record.almacen = almacen
+            record.fecha_salida = fecha_salida
     
     
     
