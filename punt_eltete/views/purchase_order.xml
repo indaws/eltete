@@ -63,6 +63,7 @@
 				<field name="cliente_id" />
 				<field name="attribute_id" domain="[('partner_id', '=', cliente_id),('activa', '=', True)]" />
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" />
+				<field name="num_pallets" />
 				<field name="precio_kilo" />
 				<field name="precio_und" />
 				<field name="lot_ids" invisible="1" />
