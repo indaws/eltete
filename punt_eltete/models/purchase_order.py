@@ -23,17 +23,20 @@ class PurchaseOrderLine(models.Model):
     def _onchange_cantidades(self):
         if self.product_id.categ_id:
             if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
-                
                 self.product_qty = self.peso_neto
                 self.product_uom_qty = self.peso_neto
                 self.price_unit = self.precio_kilo
                 
-            else:
-            
+            elif self.product_id.categ_id.is_formato == True or self.product_id.categ_id.is_bobina == True:
                 self.product_qty = self.num_pallets
                 self.product_uom_qty = self.num_pallets
                 if self.num_pallets > 0:
-                    self.price_unit = self.precio_und * (self.unidades / self.num_pallets)
+                    self.price_unit = self.precio_kilo * self.peso_neto / self.num_pallets
+            else:
+                self.product_qty = self.num_pallets
+                self.product_uom_qty = self.num_pallets
+                if self.num_pallets > 0:
+                    self.price_unit = self.precio_und * self.unidades / self.num_pallets
             
                 
     
