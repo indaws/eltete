@@ -13,7 +13,7 @@ class PurchaseOrderLine(models.Model):
     precio_kilo = fields.Float('Precio kg', digits = (12,4))
     precio_und = fields.Float('Precio Ud', digits = (12,4))
     num_pallets = fields.Integer('Num Pallets', default = 1)
-    #importe = fields.Float('Importe', digits = (10, 2), readonly = True, compute = "_get_importe")
+    importe = fields.Float('Importe', digits = (10, 2), readonly = True, compute = "_get_importe")
     
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
@@ -39,9 +39,30 @@ class PurchaseOrderLine(models.Model):
                 self.product_uom_qty = self.num_pallets
                 if self.num_lotes > 0:
                     self.price_unit = self.precio_und * self.unidades / self.num_lotes
-      
     
-
+    
+    @api.depends('product_id', 'oferta_id', 'num_pallets', 'precio_kilo', 'precio_und')
+    def _get_importe(self):
+        for record in self:
+            cantidad = 0
+            precio = 0
+            importe = 0
+            """
+            if record.oferta_id:
+                if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
+                    x = 0
+                elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
+                    precio = record.precio_kilo
+                    cantidad = record.num_pallets * record.oferta_id.peso_neto
+                else:
+                    precio = record.precio_und
+                    cantidad = record.num_pallets * record.oferta_id.und_pallet
+                    
+                importe = precio * cantidad
+             """   
+            record.importe = importe          
+    
+    
     
     @api.depends('lot_ids')
     def _get_valores(self):
