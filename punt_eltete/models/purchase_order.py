@@ -42,7 +42,8 @@ class PurchaseOrderLine(models.Model):
                     self.price_unit = self.precio_und * self.unidades / self.num_lotes
       
     
-   @api.depends('product_id', 'oferta_id', 'num_pallets', 'precio_kilo', 'precio_und')
+   #@api.depends('product_id', 'oferta_id', 'num_pallets', 'precio_kilo', 'precio_und')
+"""
     def _get_importe(self):
         for record in self:
             cantidad = 0
@@ -60,7 +61,7 @@ class PurchaseOrderLine(models.Model):
                     
                 importe = precio * cantidad
             #record.importe = importe          
-    
+   """ 
     
     
     @api.depends('lot_ids')
