@@ -21,6 +21,8 @@
                 <field name="picking_id"/>
 				
 				<field name="peso_neto"/>
+		    	<field name="scheduled_date"/>
+		    	<field name="date_done"/>
 				<field name="fecha_salida"/>
                 <field name="disponible"/>
 				<field name="almacen"/>
