@@ -52,10 +52,10 @@ class PurchaseOrderLine(models.Model):
                     x = 0
                 elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
                     precio = record.precio_kilo
-                    cantidad = record.num_pallets * oferta_id.peso_neto
+                    cantidad = record.num_pallets * record.oferta_id.peso_neto
                 else:
                     precio = record.precio_unidad
-                    cantidad = record.num_pallets * oferta_id.und_pallet
+                    cantidad = record.num_pallets * record.oferta_id.und_pallet
                     
                 importe = precio * cantidad
             record.importe = importe          
