@@ -232,7 +232,7 @@ class StockProductionLot(models.Model):
                 almacen = True
                 if record.sale_order_line_id:
                     disponible = False
-                    if record.date_done:
+                    if record.date_done != None:
                         almacen = False
                         fecha_salida = record.scheduled_date
                      
