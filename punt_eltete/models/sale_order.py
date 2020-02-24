@@ -400,7 +400,7 @@ class SaleOrderLine(models.Model):
 
             if record.und_user > 0:
                 und_pallet = record.und_user
-            elif record.fila_vinculada_id:
+            elif record.fila_vinculada_id and len(record.fila_vinculada_id.lot_ids) > 0:
                 und_pallet = record.fila_vinculada_id.und_lotes
             else:
                 und_pallet = record.oferta_id.unidades
