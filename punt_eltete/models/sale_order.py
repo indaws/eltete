@@ -14,7 +14,7 @@ class SaleOrderLine(models.Model):
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     und_user = fields.Integer('Und Pallet Fabricadas', default = -1)
     kilos_user = fields.Float('kg Pallet Fabricados', digits=(10, 2), default = -1)
-    num_pallets = fields.Integer('Num Pallets')
+    num_pallets = fields.Integer('Num Pallets', default = 1)
     BULTOS_SEL = [('1', 'SI'),     
                   ('2', 'NO'),
                   ]
