@@ -60,7 +60,7 @@ class sale_referencia_cliente(models.Model):
     ancho_interior = fields.Integer('Ancho Interior')
     ancho_superficie = fields.Integer('Ancho Superficie')
 
-    referencia_id = fields.Many2one('product.referencia', string="Referencia")
+    referencia_id = fields.Many2one('product.referencia', string="Referencia", readonly = True)
 
     #REFERENCIA CLIENTE
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
