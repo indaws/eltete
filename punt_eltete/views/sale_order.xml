@@ -249,7 +249,7 @@
 				<field name="orden_fabricacion"/>
 
 				<field name="no_editar" invisible="1" />
-				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),('referencia_cliente_id.referencia_id', '=', product_id.referencia_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
+				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 		</group>
 		<group>		
