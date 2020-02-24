@@ -242,16 +242,15 @@
         <field name="arch" type="xml">
         
             <xpath expr="//form/sheet/group" position="after">
-            
 		<group>
 
 				<field name="lotes_fabricar"/>
 				<field name="lotes_inicio"/>
 				<field name="orden_fabricacion"/>
 
+				<field name="no_editar" invisible="1" />
 				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
-
 		</group>
 		<group>		
 			<field name="lot_ids" widget="many2many" domain="[('disponible','=',True)]">
@@ -266,14 +265,9 @@
 					<field name='fecha_salida' />
 					<field name='disponible' invisible="1"/>
 				</tree>
-			</field>   
-			
+			</field>   	
 		</group>
-
             </xpath>
-            
-
-
         </field>
     </record>
 	
@@ -319,9 +313,6 @@
 			<field name="product_uom" position="attributes">
 				<attribute name="invisible">1</attribute>
 			</field>
-            
-
-
         </field>
     </record>
     
