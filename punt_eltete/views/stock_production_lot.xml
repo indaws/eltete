@@ -181,6 +181,7 @@
                     </group>
 			
 		    <group>
+			    <field name="cambiar_etiqueta"/>
 			    <field name="user_peso_neto"/>
 			    <field name="comentario"/>
 		    </group>
