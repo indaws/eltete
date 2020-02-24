@@ -41,9 +41,10 @@ class SaleOrderLine(models.Model):
     
     
     ESTADO_SEL = [('0', 'ESPERANDO'),    
-                  ('1', 'MANDAR A FABRICAR'),
-                  ('2', 'MANDAR A MANIPULAR'),
+                  ('1', 'A FABRICAR'),
+                  ('2', 'A MANIPULAR'),
                   ('3', 'FABRICADO'),
+                  ('4', 'ENTREGADO'),
                   ]
     estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado', default = '0')
     
