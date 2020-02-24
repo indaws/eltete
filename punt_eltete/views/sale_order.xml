@@ -276,6 +276,7 @@
 					<field name='fecha_entrada' />
 					<field name='picking_id' />
 					<field name='fecha_salida' />
+					<field name="cambiar_etiqueta"/>
 					<field name='disponible' invisible="1"/>
 				</tree>
 			</field>   	
