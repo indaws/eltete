@@ -7,7 +7,9 @@ class SaleOrderLine(models.Model):
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes", )
     
-
+    fila_vinculada_id = fields.Many2one('sale.order.line', string="Unidades Fila")
+    und_lotes = fields.Integer('Unidades Lotes', readonly = True, compute = _get_und_lotes)
+    
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     und_user = fields.Integer('Und Pallet Fabricadas', default = -1)
@@ -89,6 +91,16 @@ class SaleOrderLine(models.Model):
             'res_id': self.id,
             'context': self.env.context,
         }
+    
+    
+    @api.depends('aclaracion')
+    def _get_und_lotes(self):
+        for record in self:
+            unidades = 0
+            
+            record.und_lotes = unidadeses
+    
+    
     
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
