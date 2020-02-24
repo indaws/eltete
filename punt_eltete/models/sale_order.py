@@ -39,7 +39,7 @@ class SaleOrderLine(models.Model):
     lotes_fabricar = fields.Integer('Lotes Fabricar')
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     
-    actualizar = fields.Boolean('Actualizar', readonly = True, compute = "_get_valores")
+    actualizar = fields.Boolean('Actualizar')
     
     
     ESTADO_SEL = [('0', 'ESPERANDO'),    
