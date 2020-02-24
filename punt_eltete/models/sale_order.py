@@ -7,7 +7,7 @@ class SaleOrderLine(models.Model):
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes", )
     
-    fila_vinculada_id = fields.Many2one('sale.order.line', string="Unidades Fila")
+    #fila_vinculada_id = fields.Many2one('sale.order.line', string="Unidades Fila")
     und_lotes = fields.Integer('Unidades Lotes', readonly = True, compute = _get_und_lotes)
     
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", )
