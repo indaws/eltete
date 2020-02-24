@@ -98,7 +98,7 @@ class SaleOrderLine(models.Model):
         for record in self:
             unidades = 0
             
-            record.und_lotes = unidadeses
+            record.und_lotes = unidades
     
     
     
