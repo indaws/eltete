@@ -11,7 +11,7 @@ class PurchaseOrderLine(models.Model):
     cliente_id = fields.Many2one('res.partner', string="Cliente")
     
     descripcion_bemeco = fields.Char('Descricion Bemeco', readonly = True, compute = "_get_descripcion")
-    descripcion_proveedor = fields.Char('Descricion Proveedor', readonly = True, compute = "_get_descripcion")
+    descripcion_proveedor = fields.Html('Descricion Proveedor', readonly = True, compute = "_get_descripcion")
     comentario_proveedor = fields.Char('Comentario_proveedor', readonly = True, compute = "_get_descripcion")
     
     precio_kilo = fields.Float('Precio kg', digits = (12,4))
