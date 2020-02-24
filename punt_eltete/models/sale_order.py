@@ -521,9 +521,9 @@ class SaleOrderLine(models.Model):
             importe = precio_num * cantidad_num
             
             actualizar = True
-            if record.actualizar == True:
+            if self.actualizar == True:
                 actualizar = False
-            record.actualizar == actualizar
+            self.actualizar == actualizar
 
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
