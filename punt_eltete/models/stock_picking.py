@@ -95,7 +95,7 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
     
     num_pallets = fields.Integer('Num pallets', compute="_get_num_pallets")
-    
+    precinto_contenedor = fields.Char('Precinto Contenedor')
     peso_neto_total = fields.Integer('Peso neto total', compute="_get_num_pallets")
     peso_bruto_total = fields.Integer('Peso neto total', compute="_get_num_pallets")
     
