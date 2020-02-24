@@ -94,15 +94,15 @@
                 <field name="order_partner_id" invisible="1" />
 		    		<field name="descripcion" />
 		    		<field name="aclaracion" />
+		    		<field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 		    		<field name="bultos" />
 		    		<field name="fila_vinculada_id"/>
+		    		<field name="estado" />	
 				<field name="und_user" />
 				<field name="und_pallet" />
-				<field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="cantidad" />
 				<field name="precio" />
 				<field name="importe" />
-				<field name="estado" />	
 		    		<field name="name" invisible="1"/>
 		    		<field name="qty_delivered" invisible="1"/>
 		    		<field name="qty_invoiced" invisible="1"/>
