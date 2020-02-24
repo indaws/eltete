@@ -111,7 +111,9 @@
 				<field name="cantidad" />
 				<field name="precio" />
 				<field name="importe" />
-				<field name="estado" />		
+				<field name="estado" />	
+		    		<field name="product_uom_qty" invisible="1" />
+		    		<field name="price_unit" invisible="1" />
 				<field name="no_editar" invisible="1" />
 				<field name="lotes_fabricar" invisible="1" />
 				<field name="lot_ids" invisible="1" />
