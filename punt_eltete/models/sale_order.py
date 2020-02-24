@@ -386,7 +386,7 @@ class SaleOrderLine(models.Model):
     
     
     
-    @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'actualizar')
+    @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
     def _get_valores(self):
         for record in self:
             codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
