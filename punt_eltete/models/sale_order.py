@@ -14,7 +14,7 @@ class SaleOrderLine(models.Model):
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     und_user = fields.Integer('Und Pallet Fabricadas', default = -1)
     kilos_user = fields.Float('kg Pallet Fabricados', digits=(10, 2), default = -1)
-    num_pallets = fields.Integer('Num Pallets', default = 1)
+    num_pallets = fields.Integer('Num Pallets')
     BULTOS_SEL = [('1', 'SI'),     
                   ('2', 'NO'),
                   ]
@@ -96,6 +96,8 @@ class SaleOrderLine(models.Model):
     def _get_und_lotes(self):
         for record in self:
             unidades = 0
+            for lot in record.lot_ids:
+                unidades = unidades + lot.unidades
             
             record.und_lotes = unidades
     
@@ -398,6 +400,8 @@ class SaleOrderLine(models.Model):
 
             if record.und_user > 0:
                 und_pallet = record.und_user
+            elif record.fila_vinculada_id:
+                und_pallet = record.fila_vinculada_id.und_lotes
             else:
                 und_pallet = record.oferta_id.unidades
             
