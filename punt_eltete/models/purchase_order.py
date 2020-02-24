@@ -35,7 +35,7 @@ class PurchaseOrderLine(models.Model):
                 if record.oferta_id.attribute_id.titulo:
                     descripcion_proveedor = record.oferta_id.attribute_id.descripcion_proveedor
                 if record.oferta_id.attribute_id.comentario_proveedor:
-                    descripcion_bemeco = record.oferta_id.attribute_id.comentario_proveedor
+                    comentario_proveedor = record.oferta_id.attribute_id.comentario_proveedor
             
             record.descripcion_bemeco = descripcion_bemeco
             record.descripcion_proveedor = descripcion_proveedor
