@@ -88,15 +88,6 @@
 
                 </page>
             </xpath>
-            
-
-		<field name="qty_delivered" position="attributes">
-			<attribute name="invisible">1</attribute>
-		</field>
-		
-		<field name="qty_invoiced" position="attributes">
-			<attribute name="invisible">1</attribute>
-		</field>
 		
 
             <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="before">
@@ -112,6 +103,9 @@
 				<field name="precio" />
 				<field name="importe" />
 				<field name="estado" />	
+		    		<field name="name" invisible="1"/>
+		    		<field name="qty_delivered" invisible="1"/>
+		    		<field name="qty_invoiced" invisible="1"/>
 		    		<field name="product_uom_qty" invisible="1" />
 		    		<field name="price_unit" invisible="1" />
 				<field name="no_editar" invisible="1" />
@@ -230,7 +224,6 @@
     
     
     <menuitem name="Líneas de pedido" parent="sale.sale_menu_root" id="menu_sale_order_line_ordenes" sequence="3"/>
-	<menuitem name="Pedidos" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_pedidos" action="sale.action_orders" sequence="9"/>
     <menuitem name="Cantoneras" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_cantonera" action="action_sale_order_line_cantonera" sequence="1"/>
     <menuitem name="Perfiles U" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_perfilu" action="action_sale_order_line_perfilu" sequence="2"/>
     <menuitem name="Slip sheets" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_slipsheet" action="action_sale_order_line_slipsheet" sequence="3"/>
@@ -239,8 +232,8 @@
     <menuitem name="Bobinas" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_bobina" action="action_sale_order_line_bobina" sequence="6"/>
     <menuitem name="Pie de Pallet" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_pieballet" action="action_sale_order_line_pieballet" sequence="7"/>
     <menuitem name="Flat Board" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_flatboard" action="action_sale_order_line_flatboard" sequence="8"/>
-	<menuitem name="Varios" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_varios" action="action_sale_order_line_varios" sequence="9"/>
-	
+    <menuitem name="Varios" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_varios" action="action_sale_order_line_varios" sequence="9"/>
+    <menuitem name="Pedidos" parent="menu_sale_order_line_ordenes" id="menu_sale_order_line_pedidos" action="sale.action_orders" sequence="10"/>
 	
 	
 	<!-- FORMULARIO DE LINEAS DE PEDIDO -->
