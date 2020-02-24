@@ -535,6 +535,10 @@ class SaleOrderLine(models.Model):
             record.eton = eton
             record.facturar = facturar
             
+            if self.num_pallets > 0:
+                self.price_unit = self.importe / self.num_pallets
+            self.product_uom_qty = self.num_pallets
+            
             
     
     @api.depends('attribute_ids',)
