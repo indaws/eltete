@@ -107,7 +107,7 @@
 		    		<field name="descripcion" />
 		    		<field name="aclaracion" />
 		    		<field name="bultos" />
-		    		<field name="fila_vinculada_id" domain="[('order_id', '=', order_id),]"/>
+		    		<field name="fila_vinculada_id"/>
 				<field name="und_user" />
 				<field name="und_pallet" />
 				<field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
@@ -258,6 +258,7 @@
 				<field name="lotes_fabricar"/>
 				<field name="lotes_inicio"/>
 				<field name="und_lotes"/>
+				<field name="fila_vinculada_id"/>
 				<field name="orden_fabricacion"/>
 
 				<field name="no_editar" invisible="1" />
