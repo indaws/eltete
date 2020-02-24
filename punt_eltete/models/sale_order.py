@@ -380,7 +380,7 @@ class SaleOrderLine(models.Model):
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe')
     def _onchange_oferta_cantidad(self):
-        importe = self.precio_num * self.cantidad_num_1 * self.num_pallets
+        #importe = self.precio_num * self.cantidad_num_1 * self.num_pallets
         if self.num_pallets > 0:
             #self.price_unit = importe / self.num_pallets
             self.price_unit = self.importe / self.num_pallets
@@ -509,13 +509,13 @@ class SaleOrderLine(models.Model):
             
             importe = precio_num * cantidad_num
             
-            """
+
             price_unit = 0
             if record.num_pallets > 0:
                 price_unit = importe / record.num_pallets
             record.price_unit = price_unit
             record.product_uom_qty = record.num_pallets
-            """
+
             
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
