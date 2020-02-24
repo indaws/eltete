@@ -244,15 +244,14 @@
             <xpath expr="//form/sheet/group" position="after">
             
 		<group>
-			<group>
+
 				<field name="lotes_fabricar"/>
 				<field name="lotes_inicio"/>
 				<field name="orden_fabricacion"/>
-			</group>
-			<group>
+
 				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
-			</group>
+
 		</group>
 		<group>		
 			<field name="lot_ids" widget="many2many" domain="[('disponible','=',True)]">
