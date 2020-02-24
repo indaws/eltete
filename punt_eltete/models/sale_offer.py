@@ -760,6 +760,8 @@ class sale_product_attribute(models.Model):
     titulo = fields.Html('Descripción para el Cliente', readonly = True, compute = "_get_titulo")
     producto_texto = fields.Char('Producto Texto', readonly = True, compute = "_get_titulo")
     atributo_texto = fields.Char('Producto Texto', readonly = True, compute = "_get_titulo")
+    comentario_proveedor = fields.Char('Comentario Proveedor')
+    descripcion_proveedor = fields.Html('Descripcion Proveedor', readonly = True, compute = "_get_titulo")
     
     #CANTONERA COLOR
     cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
@@ -835,6 +837,7 @@ class sale_product_attribute(models.Model):
             estado = ''
             descripcion = ''
             titulo = ''
+            proveedor = ''
             
             producto_texto = ""
             atributo_texto = ""
@@ -1062,10 +1065,13 @@ class sale_product_attribute(models.Model):
             if len(estado) > 2:
                 estado = estado[:-2]
 
+            proveedor = titulo
+            
             if nombre == '':
                 nombre = 'Nuevo'
             record.name = nombre
             record.titulo = titulo
+            record.descripcion_proveedor = proveedor
             record.estado = estado
             record.producto_texto = producto_texto
             record.atributo_texto = atributo_texto
