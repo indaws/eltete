@@ -104,9 +104,6 @@
 
             <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="before">
                 <field name="order_partner_id" invisible="1" />
-				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)] invisible="1"}"/>
-				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}" invisible="1"/>
-				
 		    		<field name="descripcion" />
 		    		<field name="aclaracion" />
 		    		<field name="bultos" />
