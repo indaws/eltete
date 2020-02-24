@@ -519,11 +519,6 @@ class SaleOrderLine(models.Model):
                 peso_bruto = 0
             
             importe = precio_num * cantidad_num
-            
-            actualizar = True
-            if self.actualizar == True:
-                actualizar = False
-            self.actualizar == actualizar
 
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
