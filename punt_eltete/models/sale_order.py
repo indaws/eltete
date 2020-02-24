@@ -39,6 +39,8 @@ class SaleOrderLine(models.Model):
     lotes_fabricar = fields.Integer('Lotes Fabricar')
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     
+    actualizar = fields.Boolean('Actualizar', readonly = True, compute = "_get_valores")
+    
     
     ESTADO_SEL = [('0', 'ESPERANDO'),    
                   ('1', 'A FABRICAR'),
@@ -376,7 +378,7 @@ class SaleOrderLine(models.Model):
 
 
     
-    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe', 'cantidad', 'precio')
+    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe', 'cantidad', 'precio', 'actualizar')
     def _onchange_oferta_cantidad(self):
         if self.num_pallets > 0:
             self.price_unit = self.importe / self.num_pallets
@@ -384,7 +386,7 @@ class SaleOrderLine(models.Model):
     
     
     
-    @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user')
+    @api.depends('oferta_id', 'num_pallets', 'und_user', 'kilos_user', 'actualizar')
     def _get_valores(self):
         for record in self:
             codigo_cliente = record.oferta_id.attribute_id.codigo_cliente
@@ -518,12 +520,11 @@ class SaleOrderLine(models.Model):
             
             importe = precio_num * cantidad_num
             
-            price_unit = 0
-            if record.num_pallets > 0:
-                price_unit = importe / record.num_pallets
-            record.price_unit = price_unit
-            record.product_uom_qty = record.num_pallets
-            
+            actualizar = True
+            if record.actualizar == True:
+                actualizar = False
+            record.actualizar == actualizar
+
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
             record.und_pallet = und_pallet
@@ -534,11 +535,7 @@ class SaleOrderLine(models.Model):
             record.peso_bruto = peso_bruto
             record.eton = eton
             record.facturar = facturar
-            
-            if self.num_pallets > 0:
-                self.price_unit = self.importe / self.num_pallets
-            self.product_uom_qty = self.num_pallets
-            
+    
             
     
     @api.depends('attribute_ids',)
