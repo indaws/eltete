@@ -378,7 +378,7 @@ class SaleOrderLine(models.Model):
 
 
     
-    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'precio_num', 'cantidad_num_1')
+    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe')
     def _onchange_oferta_cantidad(self):
         importe = self.precio_num * self.cantidad_num_1 * self.num_pallets
         if self.num_pallets > 0:
