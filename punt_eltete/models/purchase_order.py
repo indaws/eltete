@@ -10,6 +10,10 @@ class PurchaseOrderLine(models.Model):
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     cliente_id = fields.Many2one('res.partner', string="Cliente")
     
+    descripcion_bemeco = fields.Char('Descricion Bemeco', readonly = True, compute = "_get_descripcion")
+    descripcion_proveedor = fields.Char('Descricion Proveedor', readonly = True, compute = "_get_descripcion")
+    comentario_proveedor = fields.Char('Comentario_proveedor', readonly = True, compute = "_get_descripcion")
+    
     precio_kilo = fields.Float('Precio kg', digits = (12,4))
     precio_und = fields.Float('Precio Ud', digits = (12,4))
     num_pallets = fields.Integer('Num Pallets')
@@ -19,7 +23,24 @@ class PurchaseOrderLine(models.Model):
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
     num_lotes = fields.Integer('Num Lotes', readonly = True, compute = "_get_valores")
     
-    
+    @api.depends('oferta_id')
+    def _get_descripcion(self):
+        for record in self:
+            descripcion_bemeco = ""
+            descripcion_proveedor = ""
+            comentario_proveedor = ""
+            if record.oferta_id:
+                if record.oferta_id.attribute_id.titulo:
+                    descripcion_bemeco = record.oferta_id.attribute_id.titulo
+                if record.oferta_id.attribute_id.titulo:
+                    descripcion_proveedor = record.oferta_id.attribute_id.descripcion_proveedor
+                if record.oferta_id.attribute_id.comentario_proveedor:
+                    descripcion_bemeco = record.oferta_id.attribute_id.comentario_proveedor
+            
+            record.descripcion_bemeco = descripcion_bemeco
+            record.descripcion_proveedor = descripcion_proveedor
+            record.comentario_proveedor = comentario_proveedor
+                
     
     @api.onchange('num_pallets')
     def _onchange_precio(self):
