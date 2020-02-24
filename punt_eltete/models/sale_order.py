@@ -38,7 +38,7 @@ class SaleOrderLine(models.Model):
     facturar = fields.Char('Facturar Por', readonly = True, compute = "_get_valores")
     
     orden_fabricacion = fields.Char('Orden Fabricación', compute = "_get_produccion")
-    lotes_fabricar = fields.Integer('Lotes Fabricar')
+    lotes_fabricar = fields.Integer('Lotes Fabricar', default = 1)
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     
     
