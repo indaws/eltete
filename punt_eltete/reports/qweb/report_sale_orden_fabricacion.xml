@@ -96,7 +96,7 @@
                                   <strong>Unidades Exactas: </strong><span t-field="doc.op_und_exactas"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                                  <strong>Número Pallets: </strong><span t-field="doc.lotes_fabricar"/><br/>
+                                  <strong>Número Pallets: </strong><span t-field="doc.op_num_pallets"/><br/>
                               </div> 
                               
                           </div>
