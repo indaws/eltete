@@ -502,13 +502,13 @@ class SaleOrderLine(models.Model):
             
             importe = precio_num * cantidad_num
             
-
+            """
             price_unit = 0
             if record.num_pallets > 0:
                 price_unit = importe / record.num_pallets
             record.price_unit = price_unit
             record.product_uom_qty = record.num_pallets
-
+            """
             
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
