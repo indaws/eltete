@@ -295,18 +295,20 @@ class SaleOrderLine(models.Model):
                 
                 peso_unidad = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * longitud / 1000
                 num_pallets = 1
-                peso_pallet = und_pallet * peso_unidad / num_pallets
-                while num_pallets > 1000:
-                    num_pallets = num_pallets + 1
+                if num_pallets:
                     peso_pallet = und_pallet * peso_unidad / num_pallets
+                while peso_pallet > 1000:
+                    num_pallets = num_pallets + 1
+                    if num_pallets > 0:
+                        peso_pallet = und_pallet * peso_unidad / num_pallets
                     
                 if num_pallets > 0:
                     und_pallet = und_pallet / num_pallets + record.oferta_id.attribute_id.und_paquete
                 
                 p2 = longitud_final * num_cortes + 300
                 p3 = 3300 + longitud_final
-                sierra = "Parámetro_1: " + str(longitud_final) + ", Parámetro_2: " + str(p2) + ", R_120: " + str(p3) + "<br/>"
-                sierra = sierra + paquetes_fila + ", " + str(record.und_pallet) + " unidades / pallet" + ", " + str(record.num_pallets) + " pallets"
+                sierra = "Parámetro_1: " + str(longitud_final) + "   -   Parámetro_2: " + str(p2) + "   -   R_120: " + str(p3) + "<br/>"
+                sierra = sierra + paquetes_fila + "   -   " + str(record.und_pallet) + " unidades / pallet" + "   -   " + str(record.num_pallets) + " pallets"
                 paquetes_fila = "SIERRA"
                 und_exactas = "SI"
                 
