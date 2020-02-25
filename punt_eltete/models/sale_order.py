@@ -263,7 +263,7 @@ class SaleOrderLine(models.Model):
             longitud_final = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
             longitud = longitud_final
             und_pallet = record.und_pallet
-            num_pallets = record.num_pallets
+            num_pallets = record.lotes_fabricar
             sierra = ""
             
             ancho_pallet = record.oferta_id.attribute_id.ancho_pallet
