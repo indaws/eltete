@@ -92,11 +92,12 @@
 
             <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="before">
                 <field name="order_partner_id" invisible="1" />
-		    		<field name="descripcion" />
+		    		<field name="order_id" invisible="1"/>
+                    <field name="descripcion" />
 		    		<field name="aclaracion" />
 		    		<field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 		    		<field name="bultos" />
-		    		<field name="fila_vinculada_id"/>
+		    		<field name="fila_vinculada_id" domain="[('order_id', '=', order_id)]"/>
 		    		<field name="estado" />	
 				<field name="und_user" />
 				<field name="und_pallet" />
@@ -245,11 +246,11 @@
         
             <xpath expr="//form/sheet/group" position="after">
 		<group>
-
+                <field name="order_id" invisible="1"/>
 				<field name="lotes_fabricar"/>
 				<field name="lotes_inicio"/>
 				<field name="und_lotes"/>
-				<field name="fila_vinculada_id"/>
+				<field name="fila_vinculada_id"  domain="[('order_id', '=', order_id)]"/>
 				<field name="orden_fabricacion"/>
 
 				<field name="no_editar" invisible="1" />
@@ -257,7 +258,7 @@
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 		</group>
 		<group>		
-			<field name="lot_ids" widget="many2many" domain="[('disponible','=',True)]">
+			<field name="lot_ids" widget="many2many" domain="[('disponible','=',True), ('product_id','=',product_id)]">
 				<tree string="Lotes" >
 					<field name='product_id' invisible="1"/>
 					<field name='name' />
