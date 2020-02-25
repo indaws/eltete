@@ -63,6 +63,7 @@ class SaleOrderLine(models.Model):
     op_grosor = fields.Char('Grosor', compute = "_get_produccion")
     op_longitud = fields.Char('Longitud', compute = "_get_produccion")
     op_und_pallet = fields.Integer('Und Orden', compute = "_get_produccion")
+    op_num_pallets = fields.Integer('Num Pallets', compute = "_get_produccion")
     op_sierra = fields.Html('Sierra', compute = "_get_produccion")
     op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion")
     op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion")
@@ -286,15 +287,22 @@ class SaleOrderLine(models.Model):
                 while longitud > 2400:
                     num_cortes = num_cortes - 1
                     longitud = (longitud_final + 5) * num_cortes + 100
-                if num_cortes > 0:
-                    und_pallet = int(record.und_pallet / num_cortes / record.oferta_id.attribute_id.und_paquete) * record.oferta_id.attribute_id.und_paquete
+                if num_cortes > 0 and record.oferta_id.attribute_id.und_paquete > 0:
+                    und_pallet = int(record.und_pallet * record.num_pallets / num_cortes / record.oferta_id.attribute_id.und_paquete) * record.oferta_id.attribute_id.und_paquete
                 while record.und_pallet > und_pallet * num_cortes:
                     und_pallet = und_pallet + record.oferta_id.attribute_id.und_paquete
-                    
+                
+                peso_unidad = record.oferta_id.attribute_id.referencia_id.peso_metro * longitud / 1000
+                num_pallets = 1
+                peso_pallet = und_pallet * peso_unidad / num_pallets
+                while num_pallets > 1000:
+                    num_pallets = num_pallets + 1
+                    peso_pallet = und_pallet * peso_unidad / num_pallets
+                
                 p2 = longitud_final * num_cortes + 300
                 p3 = 3300 + longitud_final
-                sierra = "Parámetro_1: " + str(longitud_final) + " , Parámetro_2: " + str(p2) + " , R_120: " + str(p3)
-                sierra = sierra + " , " + paquetes_fila
+                sierra = "Parámetro_1: " + str(longitud_final) + ", Parámetro_2: " + str(p2) + ", R_120: " + str(p3) + "<br/>"
+                sierra = sierra + paquetes_fila + ", " + str(record.und_pallet) + " unidades / pallet" + ", " + str(record.num_pallets) + " pallets"
                 paquetes_fila = "SIERRA"
                 und_exactas = "SI"
                 
@@ -351,7 +359,6 @@ class SaleOrderLine(models.Model):
             record.op_alas = alas
             record.op_grosor = str(grosor)
             record.op_longitud = str(longitud)
-            record.op_und_pallet = und_pallet
             record.op_sierra = sierra
             record.op_tolerancia_alas = tolerancia_alas
             record.op_tolerancia_grosor = tolerancia_grosor
@@ -360,6 +367,8 @@ class SaleOrderLine(models.Model):
             record.op_tipo_pallet = tipo_pallet
             record.op_paletizado = paletizado
             record.op_und_paquete = und_paquete
+            record.op_und_pallet = und_pallet
+            record.op_num_pallets = num_pallets
             record.op_paquetes_fila = paquetes_fila
             record.op_und_exactas = und_exactas
             record.op_metros = metros
