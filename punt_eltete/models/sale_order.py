@@ -113,18 +113,12 @@ class SaleOrderLine(models.Model):
             self.oferta_id.write({'no_editar': True})
     
     
-    @api.onchange('partner_shipping_id',)
-    def _onchange_provincia(self):
-        if self.partner_shipping_id.state_id:
-            self.provincia_id = self.partner_shipping_id.state_id.id
-    
 
     @api.onchange('lot_ids', 'num_pallets')
     def _onchange_lotes_fabricar(self):
         self.lotes_fabricar = self.num_pallets - len(self.lot_ids)
     
-    
-
+   
     
     @api.multi
     def procesar_fabricacion_linea(self):
@@ -380,11 +374,10 @@ class SaleOrderLine(models.Model):
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe')
     def _onchange_oferta_cantidad(self):
-        #importe = self.precio_num * self.cantidad_num_1 * self.num_pallets
-        if self.num_pallets > 0:
-            #self.price_unit = importe / self.num_pallets
-            self.price_unit = self.importe / self.num_pallets
-        self.product_uom_qty = self.num_pallets
+        if self.sale_order_id.actualizar == True:
+            self.sale_order_id = False
+        else:
+            self.sale_order_id = True
     
     
     
@@ -562,7 +555,8 @@ class SaleOrder(models.Model):
     descuento_porcentaje = fields.Float('Descuento', digits = (10, 2), readonly = True, compute="_get_descuento")
     comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_descuento")
     no_editar = fields.Boolean('No Editar')
-    pedido_stock = fields.Boolean('Pedido de Stock', default = False)
+    #pedido_stock = fields.Boolean('Pedido de Stock', default = False)
+    actualizar = fields.Boolean('Actualizar')
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
                   ('1', 'CONFIRMADO'),
@@ -593,11 +587,23 @@ class SaleOrder(models.Model):
             record.pendiente_facturar = pendiente_facturar
             record.pendiente_cobrar = pendiente_cobrar
     
-    @api.onchange('partner_id')
+    
+    
+    @api.onchange('actualizar', 'lot_ids', 'order_line')
+    def _onchange_actualizar(self):
+        for linea in self.order_line:
+            linea.product_uom_qty = linea.num_pallets
+            if linea.num_pallets > 0:
+                linea.price_unit = linea.importe / linea.num_pallets
+    
+    
+    
+    @api.onchange('partner_shipping_id')
     def _onchange_provincia(self):
         if self.partner_id:
-            self.provincia_id = self.partner_id.state_id
+            self.provincia_id = self.partner_shipping_id.state_id
 
+            
     
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
