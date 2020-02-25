@@ -295,15 +295,15 @@ class SaleOrderLine(models.Model):
                 
                 peso_unidad = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * longitud / 1000
                 num_pallets = 1
-                if num_pallets:
-                    peso_pallet = und_pallet * peso_unidad / num_pallets
-                while peso_pallet > 1000:
+                peso_pallet = und_pallet * peso_unidad
+                while peso_pallet > 1500:
                     num_pallets = num_pallets + 1
                     if num_pallets > 0:
                         peso_pallet = und_pallet * peso_unidad / num_pallets
                     
-                if num_pallets > 0:
-                    und_pallet = und_pallet / num_pallets + record.oferta_id.attribute_id.und_paquete
+                if num_pallets > 0 and record.oferta_id.attribute_id.und_paquete > 0:
+                    und_pallet = int(und_pallet / num_pallets / record.oferta_id.attribute_id.und_paquete) * record.oferta_id.attribute_id.und_paquete
+                und_pallet = und_pallet + record.oferta_id.attribute_id.und_paquete
                 
                 p2 = longitud_final * num_cortes + 300
                 p3 = 3300 + longitud_final
