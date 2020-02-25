@@ -135,6 +135,7 @@
 				
                 		<field name="peso_neto"/>
                 		<field name="peso_bruto"/>
+				<field name="actualizar"/>
 			</field>
                 
 
