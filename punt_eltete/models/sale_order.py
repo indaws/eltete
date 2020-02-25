@@ -326,7 +326,7 @@ class SaleOrderLine(models.Model):
             aux2 = longitud + 5
             tolerancia_longitud = str(aux1) + " - " + str(aux2)
 
-            metros = record.und_pallet * record.num_pallets * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
+            metros = und_pallet * num_pallets * longitud / 1000
             peso_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram / 1000
             peso_interior = peso_interior * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior / 1000
             peso_interior = peso_interior * metros * 1.05
