@@ -299,6 +299,9 @@ class SaleOrderLine(models.Model):
                 while num_pallets > 1000:
                     num_pallets = num_pallets + 1
                     peso_pallet = und_pallet * peso_unidad / num_pallets
+                    
+                if num_pallets > 0:
+                    und_pallet = und_pallet / num_pallets + record.oferta_id.attribute_id.und_paquete
                 
                 p2 = longitud_final * num_cortes + 300
                 p3 = 3300 + longitud_final
