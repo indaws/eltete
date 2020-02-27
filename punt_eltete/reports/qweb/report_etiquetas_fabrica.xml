@@ -18,9 +18,9 @@
 		              <td><span t-field="doc.und_pallet"/><br/>unidades</td>
 		          </div> 
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
-			      <td>
-			          <img src="http://bemecopack.es/jseb/qr_lote.php?pallet=<span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/>" />
-			      </td>
+			      <t t-set="value" t-value="doc.order_id.id" + "-" + "doc.id" + "-" />
+			      <span t-esc="value" />
+			      
 		          </div>
 		      </div>
 		      <div class="float-left company_address" style="width:100%;">
