@@ -641,6 +641,7 @@ class SaleOrder(models.Model):
                 line.no_editar = True
                 line.attribute_id.no_editar = True
                 line.oferta_id.no_editar = True
+                line.price_unit = line.importe / line.num_pallets
         return res
         
         
