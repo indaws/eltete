@@ -47,6 +47,7 @@
             file="punt_eltete.report_etiquetas_fabricar" 
             name="punt_eltete.report_etiquetas_fabricar" 
         />
+	  
 	    
 	<report 
             id="rep_sale_order_etiquetas"
