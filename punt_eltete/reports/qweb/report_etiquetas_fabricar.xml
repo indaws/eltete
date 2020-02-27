@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_etiquetas_pedido">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-foreach="range(doc.lotes_fabricar)" t-as="lot">
+              <t t-call="web.external_layout">
+                  <div class="page">
+		      <div class="float-left company_address" style="padding:5px; margin-bottom:60px; text-align:center; font-size:64pt; width:100%;">
+		          <td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
+		      </div> 
+		      <div class="float-left company_address" style="padding:5px; margin-bottom:60px; text-align:center; font-size:32pt; width:100%;">
+		          <td><span t-field="doc.descripcion"/></td>
+		      </div>
+		      <div class="float-left company_address" style="margin-bottom:60px; width:100%;">
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
+		              <td><span t-field="doc.und_pallet"/><br/>unidades</td>
+		          </div> 
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
+		              
+		          </div>
+		      </div>
+		      <div class="float-left company_address" style="width:100%;">
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
+			      <td>
+			          <span t-field="doc.order_id.partner_id.ref"/><br/>
+				  <td><span t-field="doc.order_id.name"/></td>
+			      </td>
+		          </div>
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:50%;">
+		              <td>
+			          <span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
+			          <span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
+			          <span t-field="doc.order_id.partner_shipping_id.country_id"/>
+		              </td>
+		          </div>
+	              </div>
+                  </div>
+              </t>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>
