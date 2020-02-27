@@ -19,7 +19,7 @@
             name="punt_eltete.report_orden_fabricacion" 
         />
 		
-		
+	    
 		<report 
             id="rep_sale_order_export"
             string="Pedido Export"
@@ -40,12 +40,12 @@
         />
         
 		<report 
-            id="rep_sale_order_etiquetas_fabricar"
+            id="rep_sale_order_etiquetas_fabrica"
             string="Etiquetas Fabricar"
             model="sale.order.line" 
             report_type="qweb-pdf"
-            file="punt_eltete.report_etiquetas_fabricar" 
-            name="punt_eltete.report_etiquetas_fabricar" 
+            file="punt_eltete.report_etiquetas_fabrica" 
+            name="punt_eltete.report_etiquetas_fabrica" 
         />
 	  
 	    
