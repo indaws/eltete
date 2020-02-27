@@ -18,7 +18,7 @@
 		              <td><span t-field="doc.und_pallet"/><br/>unidades</td>
 		          </div> 
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
-			      <t t-set="direccion" t-value="'Hola' + 'doc.order_id.id' + '-' + 'doc.id+' + '-' + 'lot_index+doc.lotes_inicio+'" />
+			      <t t-set="direccion" t-value="'Hola' + <t t-esc='doc.order_id.id'/> + '-' + <t t-esc='doc.id'/> + '-' + <t t-esc='lot_index+doc.lotes_inicio'/>" />
 			      <t t-esc="direccion" />
 			      
 		          </div>
