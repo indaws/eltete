@@ -40,8 +40,17 @@
         />
         
 		<report 
+            id="rep_sale_order_etiquetas_fabricar"
+            string="Etiquetas Fabricar"
+            model="sale.order.line" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_etiquetas_fabricar" 
+            name="punt_eltete.report_etiquetas_fabricar" 
+        />
+	    
+	<report 
             id="rep_sale_order_etiquetas"
-            string="Etiquetas pedido"
+            string="Etiquetas Linea Pedido"
             model="sale.order.line" 
             report_type="qweb-pdf"
             file="punt_eltete.report_etiquetas_pedido" 
