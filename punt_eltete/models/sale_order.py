@@ -387,7 +387,7 @@ class SaleOrderLine(models.Model):
 
 
     
-    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe')
+    @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe', 'lot_ids')
     def _onchange_oferta_cantidad(self):
         if self.order_id.actualizar == True:
             self.order_id.actualizar = False
