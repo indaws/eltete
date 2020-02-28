@@ -290,7 +290,297 @@
         
         
         <menuitem name="Operarios lotes" parent="stock.menu_stock_inventory_control" id="menu_stock_production_lot_operario" action="action_stock_production_lot_operario" sequence="999"/>
+        
+        
+        <!-- #######################################################
+                 stock.production.lot.consumo
+        ######################################################## -->
     
     
+        <record model="ir.ui.view" id="view_stock_production_lot_consumo_tree">
+            <field name="name">stock.production.lot.consumo.tree</field>
+            <field name="model">stock.production.lot.consumo</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name='name' />
+                    <field name='lot_id' />
+                    <field name='superorden_id' />
+                    <field name='fecha_entrada' />
+                    <field name='peso_bruto_entrada' />
+                    <field name='fecha_salida' />
+                    <field name='peso_bruto_salida' />
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_lot_consumo_form">
+            <field name="name">stock.production.lot.consumo.form</field>
+            <field name="model">stock.production.lot.consumo</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name='name' />
+                            <field name='lot_id' />
+                            <field name='superorden_id' />
+                            <field name='fecha_entrada' />
+                            <field name='peso_bruto_entrada' />
+                            <field name='fecha_salida' />
+                            <field name='peso_bruto_salida' />
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_lot_consumo_search">
+            <field name="name">stock.production.lot.consumo.search</field>
+            <field name="model">stock.production.lot.consumo</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name='name' />
+                    <field name='lot_id' />
+                    <field name='superorden_id' />
+                    <field name='fecha_entrada' />
+                    <field name='peso_bruto_entrada' />
+                    <field name='fecha_salida' />
+                    <field name='peso_bruto_salida' />
+                    
+                    <group expand="0" string="Agrupar por">
+                        <filter name="group_by_lot_id" string="Lote" domain="[]" context="{'group_by':'lot_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_stock_production_lot_consumo">
+            <field name="name">Consumos lotes</field>
+            <field name="res_model">stock.production.lot.consumo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Consumos lotes" parent="stock.menu_stock_inventory_control" id="menu_stock_production_lot_consumo" action="action_stock_production_lot_consumo" sequence="998"/>
+        
+        
+        <!-- #######################################################
+                 stock.production.lot.calidad
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_stock_production_lot_calidad_tree">
+            <field name="name">stock.production.lot.calidad.tree</field>
+            <field name="model">stock.production.lot.calidad</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name='lot_id' />
+                    <field name='fecha' />
+                    <field name='trabajador_id' />
+                    <field name='ala_1' />
+                    <field name='ala_2' />
+                    <field name='grosor_1' />
+                    <field name='grosor_2' />
+                    <field name='longitud' />
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_lot_calidad_form">
+            <field name="name">stock.production.lot.calidad.form</field>
+            <field name="model">stock.production.lot.calidad</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name='lot_id' />
+                            <field name='fecha' />
+                            <field name='trabajador_id' />
+                            <field name='ala_1' />
+                            <field name='ala_2' />
+                            <field name='grosor_1' />
+                            <field name='grosor_2' />
+                            <field name='longitud' />
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_lot_calidad_search">
+            <field name="name">stock.production.lot.calidad.search</field>
+            <field name="model">stock.production.lot.calidad</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name='lot_id' />
+                    <field name='fecha' />
+                    <field name='trabajador_id' />
+                    <field name='ala_1' />
+                    <field name='ala_2' />
+                    <field name='grosor_1' />
+                    <field name='grosor_2' />
+                    <field name='longitud' />
+                    
+                    <group expand="0" string="Agrupar por">
+                        <filter name="group_by_lot_id" string="Lote" domain="[]" context="{'group_by':'lot_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_stock_production_lot_calidad">
+            <field name="name">Calidad lotes</field>
+            <field name="res_model">stock.production.lot.calidad</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Calidad lotes" parent="stock.menu_stock_inventory_control" id="menu_stock_production_lot_calidad" action="action_stock_production_lot_calidad" sequence="997"/>
+        
+        
+        
+        <!-- #######################################################
+                 stock.production.superorden
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_stock_production_superorden_tree">
+            <field name="name">stock.production.superorden.tree</field>
+            <field name="model">stock.production.superorden</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name='name' />
+
+                    
+
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_superorden_form">
+            <field name="name">stock.production.superorden.form</field>
+            <field name="model">stock.production.superorden</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name='name' />
+                            <field name='sale_line_ids' widget="many2many"/>
+                            <field name='lot_ids' widget="many2many"/>
+                            
+
+                            <field name="consumo_ids" context="{'default_superorden_id': active_id,  }" >
+                                <tree string="Operarios" editable="top">
+                                    <field name='superorden_id' invisible="1" />
+                                    <field name='name' />
+                                    <field name='lot_id' />
+                                    <field name='fecha_entrada' />
+                                    <field name='peso_bruto_entrada' />
+                                    <field name='fecha_salida' />
+                                    <field name='peso_bruto_salida' />
+                                </tree>
+                            </field>   
+
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_superorden_search">
+            <field name="name">stock.production.superorden.search</field>
+            <field name="model">stock.production.superorden</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name='name' />
+
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_stock_production_superorden">
+            <field name="name">Superórdenes</field>
+            <field name="res_model">stock.production.superorden</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Superórdenes" parent="stock.menu_stock_inventory_control" id="menu_stock_production_superorden" action="action_stock_production_superorden" sequence="990"/>
+    
+        <!-- #######################################################
+                 stock.production.trabajador
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_stock_production_trabajador_tree">
+            <field name="name">stock.production.trabajador.tree</field>
+            <field name="model">stock.production.trabajador</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name='name' />
+                    <field name='numero' />
+                    
+
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_trabajador_form">
+            <field name="name">stock.production.trabajador.form</field>
+            <field name="model">stock.production.trabajador</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name='name' />
+                            <field name='numero' />
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_trabajador_search">
+            <field name="name">stock.production.trabajador.search</field>
+            <field name="model">stock.production.trabajador</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name='name' />
+                    <field name='numero' />
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_stock_production_trabajador">
+            <field name="name">Trabajadores</field>
+            <field name="res_model">stock.production.trabajador</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Trabajadores" parent="stock.menu_stock_inventory_control" id="menu_stock_production_trabajador" action="action_stock_production_trabajador" sequence="995"/>
     
 </odoo>
