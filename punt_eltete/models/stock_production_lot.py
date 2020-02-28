@@ -109,7 +109,7 @@ class StockProductionLot(models.Model):
     user_peso_neto = fields.Float('User Peso Neto', digits=(10, 2))
     peso_metro = fields.Float('Peso Metro', readonly = True, digits=(12, 4), compute = "_get_peso" )
     
-    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
+    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', compute = "_get_etiqueta")
     descripcion = fields.Html('Descripcion')
     dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
     
@@ -192,13 +192,20 @@ class StockProductionLot(models.Model):
             self.comprado = True
         if self.type_id.is_flatboard == True:
             self.comprado = True
+        
+        
+    @api.depends('name')
+    def _get_etiqueta(self):
+        for record in self:
+            cambiar = False
+            if record.comprado == True:
+                cambiar = True
+            if record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.und_pallet != record.unidades:
+                    cambiar = True
             
+            record.cambiar_etiqueta = cambiar
     
-    @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
-    def _onchange_linea_pedido(self):
-        if self.sale_order_line_id:
-            self.descripcion = self.sale_order_line_id.descripcion
-            self.cambiar_etiqueta = True
     
     
     @api.depends('name')
