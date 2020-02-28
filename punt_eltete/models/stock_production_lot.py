@@ -8,6 +8,56 @@ import time
 
 
 
+class StockProductionSuperorden(models.Model):
+    _name = 'stock.production.superorden'
+    
+    name = fields.Char(string="Nombre")
+    sale_line_ids = fields.One2many('sale.order.line', 'superorden_id', string="Líneas de Pedidos")
+    consumo_ids = fields.One2many('stock.production.lot.consumo', 'superorden_id', string="Consumos")
+    lot_ids = fields.One2many('stock.production.lot', 'superorden_id', string="Lotes Salida")
+
+
+
+class StockProductionLotConsumo(models.Model):
+    _name = 'stock.production.lot.consumo'
+    
+    name = fields.Char(string="Nombre")
+    lot_id = fields.Many2one('stock.production.lot', string = "Lote")
+    superorden_id = fields.Many2one('stock.production.superorden', string="Superorden")
+    fecha_entrada = fields.Datetime('Fecha Entrada')
+    peso_bruto_entrada = fields.Float('Peso Bruto Entrada', digits = (10, 2))
+    fecha_salida = fields.Datetime('Fecha Salida')
+    peso_bruto_salida = fields.Float('Peso Bruto Salida', digits = (10, 2))
+    
+    
+    
+class StockProductionTrabajador(models.Model):
+    _name = 'stock.production.trabajador'
+    
+    name = fields.Char(string="Nombre")
+    numero = fields.Integer('Número')
+    
+    
+    
+    
+class StockProductionLotCalidad(models.Model):
+    _name = 'stock.production.lot.calidad'
+    
+    lot_id = fields.Many2one('stock.production.lot', string = "Lote")
+    fecha = fields.Datetime('Fecha')
+    trabajador_id = fields.Many2one('stock.production.trabajador', string = "Trabajador")
+    ala_1 = fields.Float('Ala 1', digits=(10,2))
+    ala_2 = fields.Float('Ala 2', digits=(10,2))
+    grosor_1 = fields.Float('Grosor 1', digits=(10,2))
+    grosor_2 = fields.Float('Grosor 2', digits=(10,2))
+    longitud = fields.Integer('Longitud')
+       
+    
+    
+
+
+
+
 
 class StockProductionLotOperario(models.Model):
     _name = 'stock.production.lot.operario'
@@ -111,7 +161,6 @@ class StockProductionLot(models.Model):
     
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', compute = "_get_etiqueta")
     descripcion = fields.Html('Descripcion')
-    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
     
     comentario = fields.Char('Comentario')
 
@@ -133,6 +182,10 @@ class StockProductionLot(models.Model):
     
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
+    
+    superorden_id = fields.Many2one('stock.production.superorden', string="Superorden")
+    consumo_ids = fields.One2many('stock.production.lot.consumo', 'lot_id', string="Consumos")
+    calidad_ids  = fields.One2many('stock.production.lot.calidad', 'lot_id', string="Calidad")
     
     
     @api.multi
@@ -178,6 +231,18 @@ class StockProductionLot(models.Model):
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
+    
+    @api.depends('name')
+    def _get_etiqueta(self):
+        for record in self:
+            cambiar = False
+            if record.comprado == True:
+                cambiar = True
+            if record.sale_order_line_id:
+                if record.sale_order_line_id.oferta_id.und_pallet != record.unidades:
+                    cambiar = True
+
+            record.cambiar_etiqueta = cambiar
 
 
     @api.onchange('type_id',)
@@ -192,28 +257,13 @@ class StockProductionLot(models.Model):
             self.comprado = True
         if self.type_id.is_flatboard == True:
             self.comprado = True
-        
-        
-    @api.depends('name')
-    def _get_etiqueta(self):
-        for record in self:
-            cambiar = False
-            if record.comprado == True:
-                cambiar = True
-            if record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.und_pallet != record.unidades:
-                    cambiar = True
             
-            record.cambiar_etiqueta = cambiar
     
-    
-    
-    @api.depends('name')
-    def _get_dir_qr(self):
-        for record in self:
-            dir_qr = "http://bemecopack.es/jseb/qr_lote.php?pallet=" + record.name            
-            record.dir_qr = dir_qr
-    
+    @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
+    def _onchange_linea_pedido(self):
+        if self.sale_order_line_id:
+            self.descripcion = self.sale_order_line_id.descripcion
+            self.cambiar_etiqueta = True
     
     
     @api.depends('operario_ids')

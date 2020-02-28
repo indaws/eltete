@@ -23,6 +23,8 @@ class SaleOrderLine(models.Model):
     hayaclaracion = fields.Boolean('Hay Aclaración', compute = "_hay_aclaracion")
     no_editar = fields.Boolean('No Editar')
     
+    superorden_id = fields.Many2one('stock.production.superorden', string="Superorden")
+    
     #Campos calculados
     codigo_cliente = fields.Char('Código cliente', readonly = True, compute = "_get_valores")
     descripcion = fields.Html('Descripción', readonly = True, compute = "_get_valores")
