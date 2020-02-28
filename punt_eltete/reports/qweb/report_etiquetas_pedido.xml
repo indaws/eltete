@@ -19,6 +19,7 @@
 		          </div> 
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 		              <td><img t-att-src="'http://bemecopack.es/jseb/qr_lote.php?pallet='+'lot.name'"/></td>
+			      <br/><td>'http://bemecopack.es/jseb/qr_lote.php?pallet='+'lot.name'</td>
 		          </div>
 		      </div>
 		      <div class="float-left company_address" style="width:100%;">
