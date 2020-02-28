@@ -111,6 +111,7 @@ class StockProductionLot(models.Model):
     
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta')
     descripcion = fields.Html('Descripcion')
+    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
     
     comentario = fields.Char('Comentario')
 
@@ -198,6 +199,14 @@ class StockProductionLot(models.Model):
         if self.sale_order_line_id:
             self.descripcion = self.sale_order_line_id.descripcion
             self.cambiar_etiqueta = True
+    
+    
+    @api.depends('name')
+    def _get_dir_qr(self):
+        for record in self:
+            dir_qr = "http://bemecopack.es/jseb/qr_lote.php?pallet=" + record.name            
+            record.dir_qr = dir_qr
+    
     
     
     @api.depends('operario_ids')
