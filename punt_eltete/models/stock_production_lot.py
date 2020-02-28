@@ -34,9 +34,23 @@ class StockProductionLotConsumo(models.Model):
 class StockProductionTrabajador(models.Model):
     _name = 'stock.production.trabajador'
     
-    name = fields.Char(string="Nombre")
+    name = fields.Char(string="Nombre", readonly = True, compute = "_get_nombre")
+    nombre = fields.Char(string="Nombre", required = True)
+    apellidos = fields.Char(string="Apellidos", required = True)
     numero = fields.Integer('Número')
     
+    
+    @api.depends('name')
+    def _get_nombre(self):
+        for record in self:
+            nombre = ""
+            if record.numero > 0:
+                nombre = str(record.numero) + " "
+                if record.numero < 10:
+                    nombre = "0" + nombre
+            
+            nombre = nombre + record.nombre + " " + record.apellidos
+            record.name = nombre
     
     
     
@@ -52,13 +66,8 @@ class StockProductionLotCalidad(models.Model):
     grosor_2 = fields.Float('Grosor 2', digits=(10,2))
     longitud = fields.Integer('Longitud')
        
-    
-    
 
-
-
-
-
+        
 class StockProductionLotOperario(models.Model):
     _name = 'stock.production.lot.operario'
     
@@ -97,21 +106,14 @@ class StockProductionLotOperario(models.Model):
     def _get_minutos(self):
         for record in self:
             if record.fecha_inicio and record.fecha_fin:
-                fmt = '%Y-%m-%d %H:%M:%S'
-                #d1 = datetime.strptime(record.fecha_inicio, fmt)
-                #d2 = datetime.strptime(record.fecha_fin, fmt)
-                
+                fmt = '%Y-%m-%d %H:%M:%S'       
                 d1 = record.fecha_inicio
                 d2 = record.fecha_fin
-
                 d1_ts = time.mktime(d1.timetuple())
                 d2_ts = time.mktime(d2.timetuple())
-
-
                 record.minutos = int(d2_ts-d1_ts) / 60
 
 
-   
     
     @api.depends('und_inicio', 'und_fin', 'lot_id.referencia_id')
     def _get_produccion(self):
@@ -159,7 +161,7 @@ class StockProductionLot(models.Model):
     user_peso_neto = fields.Float('User Peso Neto', digits=(10, 2))
     peso_metro = fields.Float('Peso Metro', readonly = True, digits=(12, 4), compute = "_get_peso" )
     
-    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', compute = "_get_etiqueta")
+    imprimir_etiqueta = fields.Boolean('Imprimir Etiqueta', compute = "_get_etiqueta")
     descripcion = fields.Html('Descripcion')
     
     comentario = fields.Char('Comentario')
@@ -242,7 +244,7 @@ class StockProductionLot(models.Model):
                 if record.sale_order_line_id.oferta_id.und_pallet != record.unidades:
                     cambiar = True
 
-            record.cambiar_etiqueta = cambiar
+            record.imprimir_etiqueta = cambiar
 
 
     @api.onchange('type_id',)
@@ -258,14 +260,7 @@ class StockProductionLot(models.Model):
         if self.type_id.is_flatboard == True:
             self.comprado = True
             
-    
-    @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
-    def _onchange_linea_pedido(self):
-        if self.sale_order_line_id:
-            self.descripcion = self.sale_order_line_id.descripcion
-            self.cambiar_etiqueta = True
-    
-    
+            
     @api.depends('operario_ids')
     def _get_metido(self):
         for record in self:
