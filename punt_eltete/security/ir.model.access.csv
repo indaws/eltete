@@ -23,3 +23,7 @@
 "access_sale_cotizacion_line","sale_cotizacion_line group","model_sale_cotizacion_line","sales_team.group_sale_salesman",1,1,1,1
 "access_product_pricelist_oferta","product_pricelist_oferta group","model_product_pricelist_oferta","sales_team.group_sale_salesman",1,1,1,1
 "access_stock_production_lot_operario","stock_production_lot_operario group","model_stock_production_lot_operario","sales_team.group_sale_salesman",1,1,1,1
+"access_stock_production_lot_consumo","stock_production_lot_consumo group","model_stock_production_lot_consumo","sales_team.group_sale_salesman",1,1,1,1
+"access_stock_production_lot_calidad","stock_production_lot_calidad group","model_stock_production_lot_calidad","sales_team.group_sale_salesman",1,1,1,1
+"access_stock_production_trabajador","stock_production_trabajador group","model_stock_production_trabajador","sales_team.group_sale_salesman",1,1,1,1
+"access_stock_production_superorden","stock_production_superorden group","model_stock_production_superorden","sales_team.group_sale_salesman",1,1,1,1
