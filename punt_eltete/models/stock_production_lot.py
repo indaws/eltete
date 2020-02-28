@@ -72,7 +72,7 @@ class StockProductionLotOperario(models.Model):
     _name = 'stock.production.lot.operario'
     
     trabajador = fields.Integer('Trabajador', required = True)
-    operario_id = fields.Many2one('hr.employee', string = "Empleado")
+    trabajador_id = fields.Many2one('stock.production.trabajador', string = "Trabajador")
     lot_id = fields.Many2one('stock.production.lot', string = "Lote")
     MAQUINA_SEL = [ ('CA1', 'CANTONERA 1'), 
                ('CA2', 'CANTONERA 2'), 
@@ -96,7 +96,6 @@ class StockProductionLotOperario(models.Model):
     und_fin = fields.Integer(string="Und Fin")
     metros = fields.Float('Metros', digits = (10, 2), readonly = True, compute = "_get_produccion")
     kilos = fields.Float('Kilos', digits = (10, 2), readonly = True, compute = "_get_produccion")
-    
     minutos = fields.Integer(string="Minutos", compute = "_get_minutos")
     
     #hora_inicio = fields.Float(string = "Hora inicio")
@@ -114,7 +113,6 @@ class StockProductionLotOperario(models.Model):
                 record.minutos = int(d2_ts-d1_ts) / 60
 
 
-    
     @api.depends('und_inicio', 'und_fin', 'lot_id.referencia_id')
     def _get_produccion(self):
         for record in self:
@@ -181,6 +179,7 @@ class StockProductionLot(models.Model):
     und_paquete = fields.Integer('Und paquete')
     fabricado = fields.Boolean('Fabricado')
     comprado = fields.Boolean('Comprado')
+    defectuoso = fields.Boolean('Defectuoso')
     
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
@@ -291,7 +290,9 @@ class StockProductionLot(models.Model):
             if record.fecha_entrada:
                 disponible = True
                 almacen = True
-                if record.sale_order_line_id:
+                if record.defectuoso == True:
+                    disponible = False
+                elif record.sale_order_line_id:
                     disponible = False
                     if record.date_done and record.scheduled_date:
                         almacen = False
@@ -346,65 +347,7 @@ class StockProductionLot(models.Model):
             record.cantidad_3 = str(cantidad_3)
             record.cantidad_4 = str(cantidad_4)
 
-
-    """
-    #CANTONERA
-    cantonera_color_id = fields.Char('Cantonera Color', readonly = True, compute = "_get_valores")
-    cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma", readonly = True, compute = "_get_valores")
-    cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial", readonly = True, compute = "_get_valores")
-    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión", readonly = True, compute = "_get_valores")
-    cantonera_cliche_id = fields.Many2one('product.caracteristica.cliche', string="Cliché", readonly = True, compute = "_get_valores")
-    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC", readonly = True, compute = "_get_valores")
-    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable", readonly = True, compute = "_get_valores")
-    paletizado = fields.Integer('Paletizado', compute="_get_valores")
-    
-    user_cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cambiar Cantonera Color")
-    user_cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Cambiar Forma")
-    user_cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Cambiar Especial")
-    user_cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Cambiar Impresión")
-    user_cantonera_cliche_id = fields.Many2one('product.caracteristica.cliche', string="Cambiar Cliché")
-    user_fsc_id = fields.Many2one('product.caracteristica.fsc', string = "Cambiar FSC")
-    user_reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Cambiar Reciclable")
-    PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
-                      ('2', 'Columnas'),
-                      ]
-    user_paletizado = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado')
-    
-    
-    #PERFILU
-    perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color", readonly = True, compute = "_get_valores")
-    
-    user_perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Cambiar Perfil U Color")
-    
-    #CANTONERA Y PERFILU
-    inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete", readonly = True, compute = "_get_valores")
-    inglete_num = fields.Integer('Numero de Ingletes', readonly = True, compute = "_get_valores")
-    inglete_texto = fields.Char('Inglete Descripcion', readonly = True, compute = "_get_valores")
-    
-    user_inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Cambiar Tipo Inglete")
-    user_inglete_num = fields.Integer('Cambiar Numero de Ingletes')
-    user_inglete_texto = fields.Char('Cambiar Inglete Descripcion')
-    
-    
-    #SOLID BOARD
-    plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Plancha Color", readonly = True, compute = "_get_valores")
-    
-    user_plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Cambiar Plancha Color")
-    
-    
-    #FORMATO Y BOBINA
-    papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad", readonly = True, compute = "_get_valores")
-    
-    user_papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Cambiar Papel Calidad")
-    
-    
-    #SLIPSHEET, SOLIDBOARD Y FORMATO
-    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado", readonly = True, compute = "_get_valores")
-    
-    user_troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Cambiar Troquelado")
-    
-    """
-
+            
 
     @api.depends('referencia_id', 'unidades', 'user_peso_neto', 'user_peso_bruto')
     def _get_peso(self):
@@ -427,180 +370,8 @@ class StockProductionLot(models.Model):
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.peso_metro = peso_metro
-    
-    """
-    
-    @api.multi
-    def _get_valores(self):
-        for record in self:
-            cambios_fabricacion = False
-        
-            if record.user_cantonera_color_id:
-                record.cantonera_color_id = record.user_cantonera_color_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            if record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id:
-                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_color_id.id
-            
-            if record.user_cantonera_forma_id:
-                record.cantonera_forma_id = record.user_cantonera_forma_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_forma_id:
-                    record.cantonera_color_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_forma_id.id
-            
-            if record.user_cantonera_especial_id:
-                record.cantonera_especial_id = record.user_cantonera_especial_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_especial_id:
-                    record.cantonera_especial_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_especial_id.id
-            
-            if record.user_cantonera_impresion_id:
-                record.cantonera_impresion_id = record.user_cantonera_impresion_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_impresion_id:
-                    record.cantonera_impresion_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_impresion_id.id
-            
-            if record.user_cantonera_cliche_id:
-                record.cantonera_cliche_id = record.user_cantonera_cliche_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.cantonera_cliche_id:
-                    record.cantonera_cliche_id = record.sale_order_line_id.oferta_id.attribute_id.cantonera_cliche_id.id
-            
-            if record.user_fsc_id:
-                record.fsc_id = record.user_fsc_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.fsc_id:
-                    record.fsc_id = record.sale_order_line_id.oferta_id.attribute_id.fsc_id.id
-            
-            if record.user_reciclable_id:
-                record.reciclable_id = record.user_reciclable_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.reciclable_id:
-                    record.reciclable_id = record.sale_order_line_id.oferta_id.attribute_id.reciclable_id.id
-            
-            if record.user_perfilu_color_id:
-                record.perfilu_color_id = record.user_perfilu_color_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.perfilu_color_id:
-                    record.perfilu_color_id = record.sale_order_line_id.oferta_id.attribute_id.perfilu_color_id.id
-            
-            if record.user_inglete_id:
-                record.inglete_id = record.user_inglete_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.inglete_id:
-                    record.inglete_id = record.sale_order_line_id.oferta_id.attribute_id.inglete_id.id
-            
-            if record.user_inglete_num > 0:
-                record.inglete_num = record.user_inglete_num
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.inglete_num > 0:
-                    record.inglete_num = record.sale_order_line_id.oferta_id.attribute_id.inglete_num
-            
-            if record.user_inglete_texto:
-                record.inglete_texto = record.user_inglete_texto
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.inglete_texto:
-                    record.inglete_texto = record.sale_order_line_id.oferta_id.attribute_id.inglete_texto
-                    
-            if record.user_plancha_color_id:
-                record.plancha_color_id = record.user_plancha_color_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.plancha_color_id:
-                    record.plancha_color_id = record.sale_order_line_id.oferta_id.attribute_id.plancha_color_id.id
-            
-            if record.user_papel_calidad_id:
-                record.papel_calidad_id = record.user_papel_calidad_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.papel_calidad_id:
-                    record.papel_calidad_id = record.sale_order_line_id.oferta_id.attribute_id.papel_calidad_id.id
-            
-            if record.user_troquelado_id:
-                record.troquelado_id = record.user_troquelado_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.troquelado_id:
-                    record.troquelado_id = record.sale_order_line_id.oferta_id.attribute_id.troquelado_id.id
-                    
-            if record.user_paletizado:
-                if record.user_paletizado == '1':
-                    record.paletizado = 1
-                elif record.user_paletizado == '2':
-                    record.paletizado = 2
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.paletizado > 0:
-                    record.paletizado = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.paletizado
-                    
-            if record.user_pallet_especial_id:
-                record.pallet_especial_id = record.user_pallet_especial_id.id
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id:
-                    record.pallet_especial_id = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.pallet_especial_id.id
 
-            if record.user_ancho_pallet:
-                if record.user_ancho_pallet == '1200':
-                    record.ancho_pallet = 1200
-                elif record.user_ancho_pallet == '1150':
-                    record.ancho_pallet = 1150
-                elif record.user_ancho_pallet == '1000':
-                    record.ancho_pallet = 1000
-                elif record.user_ancho_pallet == '800':
-                    record.ancho_pallet = 800
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet > 0:
-                    record.ancho_pallet = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.ancho_pallet
-                    
-            if record.user_und_paquete > 0:
-                record.und_paquete = record.user_und_paquete
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_paquete > 0:
-                    record.und_paquete = record.sale_order_line_id.oferta_id.attribute_id.referencia_cliente_id.und_paquete
-                    
-            if record.user_unidades > 0:
-                record.unidades = record.user_unidades
-                if record.sale_order_line_id:
-                    cambios_fabricacion = True
-            elif record.sale_order_line_id:
-                if record.sale_order_line_id.und_pallet > 0:
-                    record.unidades = record.sale_order_line_id.und_pallet
             
-            
-            record.cambios_fabricacion = cambios_fabricacion
-
-    """
 
     @api.multi
     def crear_sin_pedido(self):
