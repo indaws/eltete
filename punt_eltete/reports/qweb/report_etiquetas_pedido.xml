@@ -18,7 +18,7 @@
 		              <td><span t-field="lot.unidades"/><br/>unidades</td>
 		          </div> 
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
-		              <img src="<t t-field='doc.order_id.id'/>" />
+		              
 		          </div>
 		      </div>
 		      <div class="float-left company_address" style="width:100%;">
