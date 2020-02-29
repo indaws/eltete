@@ -16,6 +16,11 @@
 		      <div class="float-left company_address" style="margin-bottom:60px; width:100%;">
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 		              <td><span t-field="doc.und_pallet"/><br/>unidades</td>
+			      <br/><br/>
+			      <td>
+			          <span t-field="doc.order_id.partner_id.ref"/><br/>
+				  <td><span t-field="doc.order_id.name"/></td>
+			      </td>
 		          </div> 
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 
@@ -23,15 +28,13 @@
 		      </div>
 		      <div class="float-left company_address" style="width:100%;">
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
-			      <td>
-			          <span t-field="doc.order_id.partner_id.ref"/><br/>
-				  <td><span t-field="doc.order_id.name"/></td>
-			      </td>
+				<td>
+			          <span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
+			          <span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
+		              </td>
 		          </div>
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:50%;">
 		              <td>
-			          <span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
-			          <span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
 			          <span t-field="doc.order_id.partner_shipping_id.country_id"/>
 		              </td>
 		          </div>
