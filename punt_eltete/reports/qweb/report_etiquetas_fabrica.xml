@@ -8,7 +8,7 @@
               <t t-call="web.external_layout">
                   <div class="page">
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:64pt; width:100%;">					  
-			  <td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
+			  <span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/>
 		      </div> 
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:32pt; width:100%;">
 		          <td><span t-field="doc.descripcion"/></td>
