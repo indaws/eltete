@@ -105,9 +105,9 @@
 		    <field name="precio" />
 		    <field name="importe" />
 		    		<field name="actualizar"/>
-		    		<field name="name" invisible="1"/>
+		    		<field name="name"/>
 		    		<field name="product_uom_qty" invisible="1" />
-		    		<field name="price_unit" invisible="1" />
+		    		<field name="price_unit"/>
 				<field name="no_editar" invisible="1" />
 				<field name="lotes_fabricar" invisible="1" />
 				<field name="lot_ids" invisible="1" />
