@@ -173,7 +173,7 @@ class StockProductionLot(models.Model):
     user_peso_neto = fields.Float('User Peso Neto', digits=(10, 2))
     peso_metro = fields.Float('Peso Metro', readonly = True, digits=(12, 4), compute = "_get_peso" )
     
-    cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', compute = "_get_etiqueta")
+    imprimir_etiqueta = fields.Boolean('Imprimir Etiqueta', compute = "_get_etiqueta")
     descripcion = fields.Html('Descripcion')
     dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
     defectuoso = fields.Boolean('Defectuoso')
@@ -255,10 +255,10 @@ class StockProductionLot(models.Model):
             if record.comprado == True:
                 cambiar = True
             if record.sale_order_line_id:
-                if record.sale_order_line_id.oferta_id.und_pallet != record.unidades:
+                if record.sale_order_line_id.oferta_id.unidades != record.unidades:
                     cambiar = True
 
-            record.cambiar_etiqueta = cambiar
+            record.imprimir_etiqueta = cambiar
           
         
     @api.depends('name')
