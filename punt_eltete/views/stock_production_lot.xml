@@ -61,7 +61,7 @@
                         <tree string="Operarios" editable="top">
                             <field name='lot_id' invisible="1" />
 			    <field name='maquina' />
-			    <field name='trabajador_id' domain="[('active', '=', True)]" />
+			    <field name='trabajador_id'/>
 			    <field name='tarea' />
                             <field name='fecha_inicio'/>
                             <field name='und_inicio' />
@@ -76,7 +76,7 @@
                         <tree string="Calidad" editable="top">
                             <field name='lot_id' invisible="1" />
 			    <field name='fecha' />
-			    <field name='trabajador_id' domain="[('active', '=', True)]" />
+			    <field name='trabajador_id'/>
 			    <field name='ala_1' />
                             <field name='ala_2'/>
                             <field name='grosor_1' />
