@@ -38,7 +38,7 @@ class StockProductionTrabajador(models.Model):
     numero = fields.Integer('Número')
     nombre = fields.Char(string="Nombre")
     apellidos = fields.Char(string="Apellidos")
-    active = fields.Boolean("Activo")
+    active = fields.Boolean("Activo", default = True)
     
     @api.depends('numero', 'nombre', 'apellidos')
     def _get_nombre(self):
