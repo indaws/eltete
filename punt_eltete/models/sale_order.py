@@ -206,7 +206,7 @@ class SaleOrderLine(models.Model):
             
             orden_fabricacion = str(record.order_id.id) + "-" + str(record.id)
             dir_qr = "http://bemecopack.es/jseb/info.php?orden="
-            dir_qr = dir_qr + record.orden_fabricacion
+            dir_qr = dir_qr + orden_fabricacion
             record.dir_qr = dir_qr
             record.orden_fabricacion = orden_fabricacion
             
