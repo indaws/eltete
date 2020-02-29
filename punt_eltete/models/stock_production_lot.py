@@ -253,8 +253,7 @@ class StockProductionLot(models.Model):
     def _get_dir_qr(self):
         for record in self:
             dir_qr = "http://bemecopack.es/jseb/info.php?pallet="
-            if record.name:
-                dir_qr = dir_qr + record.name
+            dir_qr = dir_qr + record.name
                 
             record.dir_qr = dir_qr
 
