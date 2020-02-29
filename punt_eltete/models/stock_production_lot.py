@@ -47,7 +47,7 @@ class StockProductionTrabajador(models.Model):
             if record.numero > 0:
                 if record.numero < 10:
                     nombre = "0"
-                nombre = nombre + record.numero + " "
+                nombre = nombre + str(record.numero) + " "
             
             nombre = nombre + record.nombre + " " + record.apellidos
             record.name = nombre
