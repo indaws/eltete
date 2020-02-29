@@ -34,7 +34,7 @@ class StockProductionLotConsumo(models.Model):
 class StockProductionTrabajador(models.Model):
     _name = 'stock.production.trabajador'
     
-    name = fields.Char(string="Nombre")
+    name = fields.Char(string="Name", readonly = True, compute = "_get_nombre")
     numero = fields.Integer('Número')
     nombre = fields.Char(string="Nombre")
     apellidos = fields.Char(string="Apellidos")
