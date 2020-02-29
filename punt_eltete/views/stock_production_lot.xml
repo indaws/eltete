@@ -122,29 +122,26 @@
 			<field name="fecha_entrada"/>
 			<field name="fecha_salida"/>
 			<field name="picking_id"/>
-			<field name="sale_order_id"/>
 			<field name="sale_order_line_id"/>
 			<field name="cliente_id"/>
 			<field name="disponible"/>
 			<field name="almacen"/>
+			<field name="imprimir_etiqueta"/>
                 </xpath>
                 
 				
-				<field name="ref" position="attributes">
+		<field name="ref" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
 				
-				<field name="product_id" position="attributes">
+		<field name="product_id" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
 				
-				<field name="create_date" position="attributes">
+		<field name="create_date" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
 				 
-
-		
-
         </field>
     </record>
     
