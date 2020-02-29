@@ -24,6 +24,7 @@
 		    	<field name="imprimir_etiqueta"/>
 		    </group>
 		</group>
+		<group>
 		    <group>
 		    	<field name="fecha_entrada"/>
 			<field name="defectuoso"/>
@@ -33,6 +34,8 @@
 		        <field name="fecha_salida"/>
 		        <field name="almacen"/>
 		    </group>
+		</group>
+		<group>
 		    <group>
 		    	<field name="user_peso_neto"/>
 		        <field name="user_peso_bruto"/>
@@ -41,6 +44,8 @@
 		        <field name="unidades"/>
 			<field name="peso_neto"/>
 		    </group>
+		</group>
+		<group>
 		    <group>
 		    	<field name="pallet_sage"/>
 			<field name="comentario"/>
@@ -48,12 +53,10 @@
 		    <group>
 		        <field name="descripcion"/>
 		    </group>
+		</group>
 		<field name="peso_metro"/>
-            </xpath>
-            
-            
-            <xpath expr="//group[@name='main_group']" position="after">
-                <group name="lot_operarios">
+		    
+		<group name="lot_operarios">
                     <field name="operario_ids" context="{'default_lot_id': active_id,  }" >
                         <tree string="Operarios" editable="top">
                             <field name='lot_id' invisible="1" />
@@ -67,10 +70,8 @@
                         </tree>
                     </field>   
                 </group>
-            </xpath>
-            
-	    <xpath expr="//group[@name='main_group']" position="after">
-                <group name="lot_calidad">
+		    
+		<group name="lot_calidad">
                     <field name="calidad_ids" context="{'default_lot_id': active_id,  }" >
                         <tree string="Calidad" editable="top">
                             <field name='lot_id' invisible="1" />
@@ -84,8 +85,9 @@
                         </tree>
                     </field>   
                 </group>
+		    
             </xpath>
-            
+
         </field>
     </record>
     
@@ -100,10 +102,7 @@
 		    <field name="unidades"/>
                     <field name="sale_order_line_id"/>
                 </xpath>
-            
-                
 
-            
         </field>
     </record>
     
