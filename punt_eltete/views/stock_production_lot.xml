@@ -258,7 +258,7 @@
                         <group>
                             <field name='lot_id' />
 			    <field name='trabajador' />
-			    <field name='trabajador_id' domain="[('active', '=', True)]" />
+			    <field name='trabajador_id'/>
 			    <field name='maquina' />
                             <field name='tarea' />
                             <field name='fecha_inicio' />
@@ -423,7 +423,7 @@
                         <group>
                             <field name='lot_id' />
                             <field name='fecha' />
-                            <field name='trabajador_id' domain="[('active', '=', True)]"/>
+                            <field name='trabajador_id'/>
                             <field name='ala_1' />
                             <field name='ala_2' />
                             <field name='grosor_1' />
