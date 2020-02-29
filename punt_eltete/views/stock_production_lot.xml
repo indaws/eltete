@@ -49,12 +49,12 @@
 		    <group>
 		    	<field name="pallet_sage"/>
 			<field name="comentario"/>
+			<field name="peso_metro"/>
 		    </group>	
 		    <group>
 		        <field name="descripcion"/>
 		    </group>
 		</group>
-		<field name="peso_metro"/>
 		    
 		<group name="lot_operarios">
                     <field name="operario_ids" context="{'default_lot_id': active_id,  }" >
