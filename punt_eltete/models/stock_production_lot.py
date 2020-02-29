@@ -38,6 +38,7 @@ class StockProductionTrabajador(models.Model):
     nombre = fields.Char(string="Nombre", required = True)
     apellidos = fields.Char(string="Apellidos", required = True)
     numero = fields.Integer('Número')
+    active = fields.Boolean('Activo')
     
     
     @api.depends('name')
@@ -60,10 +61,10 @@ class StockProductionLotCalidad(models.Model):
     lot_id = fields.Many2one('stock.production.lot', string = "Lote")
     fecha = fields.Datetime('Fecha')
     trabajador_id = fields.Many2one('stock.production.trabajador', string = "Trabajador")
-    ala_1 = fields.Float('Ala 1', digits=(10,2))
-    ala_2 = fields.Float('Ala 2', digits=(10,2))
-    grosor_1 = fields.Float('Grosor 1', digits=(10,2))
-    grosor_2 = fields.Float('Grosor 2', digits=(10,2))
+    ala_1 = fields.Float('Longitud Ala 1', digits=(10,2))
+    ala_2 = fields.Float('Longitud Ala 2', digits=(10,2))
+    grosor_1 = fields.Float('Grosor Ala 1', digits=(10,2))
+    grosor_2 = fields.Float('Grosor Ala 2', digits=(10,2))
     longitud = fields.Integer('Longitud')
        
 
