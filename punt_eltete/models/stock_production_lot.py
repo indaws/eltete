@@ -35,11 +35,11 @@ class StockProductionTrabajador(models.Model):
     _name = 'stock.production.trabajador'
     _order = numero
     
-    name = fields.Char(string="Nombre", readonly = True)
+    name = fields.Char(string="Nombre")
     numero = fields.Integer('Número')
-    nombre = fields.Char(string="Nombre", required = True)
-    apellidos = fields.Char(string="Apellidos", required = True)
-    active = fields.Boolean('Activo')
+    nombre = fields.Char(string="Nombre")
+    apellidos = fields.Char(string="Apellidos")
+    active = fields.Boolean("Activo")
     
  
     
