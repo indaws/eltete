@@ -234,7 +234,7 @@
                 <tree string="Producto">
                     <field name='lot_id' />
 		    <field name='trabajador' />
-		    <field name='trabajador_id' domain="[('active', '=', True)]" />
+		    <field name='trabajador_id' />
 		    <field name='maquina' />
                     <field name='tarea' />
                     <field name='fecha_inicio' />
@@ -283,7 +283,7 @@
                 <search string="Color">
                     <field name='lot_id' />
 		    <field name='trabajador' />
-	            <field name='trabajador_id' />
+	            <field name='trabajador_id'/>
                     <field name='tarea' />
                     <field name='fecha_inicio' />
                     <field name='und_inicio' />
@@ -403,7 +403,7 @@
                 <tree string="Producto">
                     <field name='lot_id' />
                     <field name='fecha' />
-                    <field name='trabajador_id' />
+                    <field name='trabajador_id'/>
                     <field name='ala_1' />
                     <field name='ala_2' />
                     <field name='grosor_1' />
@@ -423,7 +423,7 @@
                         <group>
                             <field name='lot_id' />
                             <field name='fecha' />
-                            <field name='trabajador_id' />
+                            <field name='trabajador_id' domain="[('active', '=', True)]"/>
                             <field name='ala_1' />
                             <field name='ala_2' />
                             <field name='grosor_1' />
@@ -558,8 +558,9 @@
                 <tree string="Producto">
                     <field name='name' />
                     <field name='numero' />
-                    
-
+		    <field name='nombre' />
+		    <field name='apellidos' />
+		    <field name='active' />
                 </tree>
             </field>
         </record>
@@ -575,7 +576,8 @@
                             <field name='name' />
                             <field name='numero' />
 			    <field name='nombre' />
-			    <field name='apellidos' />
+		    	    <field name='apellidos' />
+		    	    <field name='active' />
                         </group>
                         
                     </sheet>
@@ -593,6 +595,7 @@
                     <field name='numero' />
 		    <field name='nombre' />
 		    <field name='apellidos' />
+		    <field name='active' />
                 </search>
             </field>
         </record>
