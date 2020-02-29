@@ -242,7 +242,7 @@ class StockProductionLot(models.Model):
                 cambiar = True
             elif record.sale_order_line_id:
                 cambiar = True
-                if record.sale_order_line_id.oferta_id.und_pallet == record.unidades:
+                if record.sale_order_line_id.oferta_id.unidades == record.unidades:
                     cambiar = False
 
             record.imprimir_etiqueta = cambiar
