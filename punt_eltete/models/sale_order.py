@@ -42,6 +42,8 @@ class SaleOrderLine(models.Model):
     orden_fabricacion = fields.Char('Orden Fabricación', compute = "_get_produccion")
     lotes_fabricar = fields.Integer('Lotes Fabricar', default = 1)
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
+    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
+    actualizar = fields.Boolean('Actualizar')
     
     
     ESTADO_SEL = [('0', 'ESPERANDO'),    
@@ -108,7 +110,14 @@ class SaleOrderLine(models.Model):
             record.und_lotes = unidades
     
     
-    
+    @api.depends('orden_produccion')
+    def _get_dir_qr(self):
+        for record in self:
+            dir_qr = "http://bemecopack.es/jseb/info.php?orden="
+            dir_qr = dir_qr + record.orden_produccion 
+            record.dir_qr = dir_qr
+  
+
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
         if self.no_editar == True:
@@ -120,8 +129,7 @@ class SaleOrderLine(models.Model):
     @api.onchange('lot_ids', 'num_pallets')
     def _onchange_lotes_fabricar(self):
         self.lotes_fabricar = self.num_pallets - len(self.lot_ids)
-    
-   
+
     
     @api.multi
     def procesar_fabricacion_linea(self):
@@ -391,6 +399,11 @@ class SaleOrderLine(models.Model):
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe', 'lot_ids')
     def _onchange_oferta_cantidad(self):
+        if self.actualizar == True:
+            self.actualizar = False
+        else:
+            self.actualizar = True
+            
         if self.order_id.actualizar == True:
             self.order_id.actualizar = False
         else:
@@ -518,21 +531,12 @@ class SaleOrderLine(models.Model):
                 peso_bruto = 0
             
             importe = precio_num * cantidad_num
-            
-            """
-            price_unit = 0
-            if record.num_pallets > 0:
-                price_unit = importe / record.num_pallets
-            record.price_unit = price_unit
-            record.product_uom_qty = record.num_pallets
-            """
-            
+            record.importe = importe
             record.codigo_cliente = codigo_cliente
             record.descripcion = descripcion
             record.und_pallet = und_pallet
             record.cantidad = cantidad
             record.precio = precio
-            record.importe = importe
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.eton = eton
@@ -572,7 +576,6 @@ class SaleOrder(models.Model):
     descuento_porcentaje = fields.Float('Descuento', digits = (10, 2), readonly = True, compute="_get_descuento")
     comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_descuento")
     no_editar = fields.Boolean('No Editar')
-    #pedido_stock = fields.Boolean('Pedido de Stock', default = False)
     actualizar = fields.Boolean('Actualizar')
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
