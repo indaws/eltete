@@ -33,7 +33,6 @@ class StockProductionLotConsumo(models.Model):
     
 class StockProductionTrabajador(models.Model):
     _name = 'stock.production.trabajador'
-    _order = numero
     
     name = fields.Char(string="Nombre")
     numero = fields.Integer('Número')
@@ -41,7 +40,17 @@ class StockProductionTrabajador(models.Model):
     apellidos = fields.Char(string="Apellidos")
     active = fields.Boolean("Activo")
     
- 
+    @api.depends('numero', 'nombre', 'apellidos')
+    def _get_nombre(self):
+        for record in self:
+            nombre = ""
+            if record.numero > 0:
+                if record.numero < 10:
+                    nombre = "0"
+                nombre = nombre + record.numero + " "
+            
+            nombre = nombre + record.nombre + " " + record.apellidos
+            record.name = nombre
     
     
 class StockProductionLotCalidad(models.Model):
