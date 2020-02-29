@@ -43,7 +43,7 @@ class SaleOrderLine(models.Model):
     lotes_fabricar = fields.Integer('Lotes Fabricar', default = 1)
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     actualizar = fields.Boolean('Actualizar')
-    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
+    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_produccion")
     
     
     ESTADO_SEL = [('0', 'ESPERANDO'),    
@@ -198,21 +198,16 @@ class SaleOrderLine(models.Model):
                 hayaclaracion = True
             record.hayaclaracion = hayaclaracion
             
-            
-    @api.depends('orden_produccion')
-    def _get_dir_qr(self):
-        for record in self:
-            dir_qr = "http://bemecopack.es/jseb/info.php?orden="
-            dir_qr = dir_qr + record.orden_produccion
-            record.dir_qr = dir_qr
-    
-    
+           
     
     @api.depends('oferta_id', 'und_pallet', 'num_pallets')
     def _get_produccion(self):
         for record in self:
             
             orden_fabricacion = str(record.order_id.id) + "-" + str(record.id)
+            dir_qr = "http://bemecopack.es/jseb/info.php?orden="
+            dir_qr = dir_qr + record.orden_fabricacion
+            record.dir_qr = dir_qr
             record.orden_fabricacion = orden_fabricacion
             
             maquina = ""
