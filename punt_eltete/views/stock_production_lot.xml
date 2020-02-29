@@ -560,6 +560,8 @@
                     <field name='numero' />
 		    <field name='nombre' />
 		    <field name='apellidos' />
+		    <field name='dni' />
+		    <field name='telefono' />
 		    <field name='active' />
                 </tree>
             </field>
@@ -577,6 +579,8 @@
                             <field name='numero' />
 			    <field name='nombre' />
 		    	    <field name='apellidos' />
+			    <field name='dni' />
+		    	    <field name='telefono' />
 		    	    <field name='active' />
                         </group>
                         
@@ -595,6 +599,8 @@
                     <field name='numero' />
 		    <field name='nombre' />
 		    <field name='apellidos' />
+		    <field name='dni' />
+		    <field name='telefono' />
 		    <field name='active' />
                 </search>
             </field>
