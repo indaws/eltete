@@ -25,7 +25,6 @@
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:16pt; width:50%;">
 			      <td>
 			          <td><img t-att-src="doc.dir_qr"/></td>    
-				  <td><span t-field="doc.dir_qr"/></td>
 			      </td>
 		          </div>
 		      </div>
