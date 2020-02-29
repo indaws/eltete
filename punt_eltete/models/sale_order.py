@@ -42,7 +42,7 @@ class SaleOrderLine(models.Model):
     orden_fabricacion = fields.Char('Orden Fabricación', compute = "_get_produccion")
     lotes_fabricar = fields.Integer('Lotes Fabricar', default = 1)
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
-    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
+    #dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
     actualizar = fields.Boolean('Actualizar')
     
     
@@ -110,12 +110,7 @@ class SaleOrderLine(models.Model):
             record.und_lotes = unidades
     
     
-    @api.depends('orden_produccion')
-    def _get_dir_qr(self):
-        for record in self:
-            dir_qr = "http://bemecopack.es/jseb/info.php?orden="
-            dir_qr = dir_qr + record.orden_produccion 
-            record.dir_qr = dir_qr
+
   
 
     @api.onchange('no_editar',)
@@ -399,10 +394,7 @@ class SaleOrderLine(models.Model):
     
     @api.onchange('oferta_id', 'num_pallets', 'und_user', 'importe', 'lot_ids')
     def _onchange_oferta_cantidad(self):
-        if self.actualizar == True:
-            self.actualizar = False
-        else:
-            self.actualizar = True
+
             
         if self.order_id.actualizar == True:
             self.order_id.actualizar = False
