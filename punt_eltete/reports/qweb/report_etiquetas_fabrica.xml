@@ -8,7 +8,8 @@
               <t t-call="web.external_layout">
                   <div class="page">
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:64pt; width:100%;">
-			  <td><t t-set="nombre" t-value="<span t-esc="doc.order_id.id"/>" /></td>
+			  <t t-set="nombre" t-value="<span t-esc='doc.order_id.id'/>" />
+			  <t t-esc="nombre"/>						  
 			  <td><span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
 		      </div> 
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:32pt; width:100%;">
