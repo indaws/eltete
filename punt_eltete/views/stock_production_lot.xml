@@ -27,7 +27,6 @@
 		<group>
 		    <group>
 		    	<field name="fecha_entrada"/>
-			<field name="defectuoso"/>
 		    	<field name="disponible"/>
 		    </group>	
 		    <group>
@@ -49,6 +48,7 @@
 		    <group>
 		    	<field name="pallet_sage"/>
 			<field name="comentario"/>
+			<field name="defectuoso"/>
 			<field name="peso_metro"/>
 		    </group>	
 		    <group>
