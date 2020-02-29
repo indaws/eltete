@@ -33,11 +33,25 @@ class StockProductionLotConsumo(models.Model):
     
 class StockProductionTrabajador(models.Model):
     _name = 'stock.production.trabajador'
+    _order = numero
     
-    name = fields.Char(string="Nombre")
+    name = fields.Char(string="Nombre", readonly = True, compute = "_get_nombre")
     numero = fields.Integer('Número')
+    nombre = fields.Char(string="Nombre", required = True)
+    apellidos = fields.Char(string="Apellidos", required = True)
+    active = fields.Boolean('Activo')
     
-    
+    @api.depends('numero', 'nomnbre', 'apellidos')
+    def _get_nombre(self):
+        for record in self:
+            nombre = ""
+            if record.numero > 0:
+                if record.numero < 10:
+                    nombre = "0"
+                nombre = nombre + record.numero + " "
+            
+            nombre = nombre + record.nombre + " " + record.apellidos
+            record.name = nombre
     
     
 class StockProductionLotCalidad(models.Model):
@@ -63,6 +77,7 @@ class StockProductionLotOperario(models.Model):
     _name = 'stock.production.lot.operario'
     
     trabajador = fields.Integer('Trabajador', required = True)
+    trabajador_id = fields.Many2one('stock.production.trabajador', string = "Trabajador")
     operario_id = fields.Many2one('hr.employee', string = "Empleado")
     lot_id = fields.Many2one('stock.production.lot', string = "Lote")
     MAQUINA_SEL = [ ('CA1', 'CANTONERA 1'), 
