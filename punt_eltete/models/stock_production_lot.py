@@ -162,7 +162,7 @@ class StockProductionLot(models.Model):
     
     imprimir_etiqueta = fields.Boolean('Imprimir Etiqueta', compute = "_get_etiqueta")
     descripcion = fields.Html('Descripcion')
-    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
+    #dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
     
     comentario = fields.Char('Comentario')
 
@@ -249,13 +249,7 @@ class StockProductionLot(models.Model):
             record.imprimir_etiqueta = cambiar
             
             
-    @api.depends('name')
-    def _get_dir_qr(self):
-        for record in self:
-            dir_qr = "http://bemecopack.es/jseb/info.php?pallet="
-            dir_qr = dir_qr + record.name
-                
-            record.dir_qr = dir_qr
+    
 
             
     @api.onchange('type_id',)
