@@ -161,6 +161,8 @@ class StockProductionLot(models.Model):
     
     cambiar_etiqueta = fields.Boolean('Cambiar Etiqueta', compute = "_get_etiqueta")
     descripcion = fields.Html('Descripcion')
+    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
+    defectuoso = fields.Boolean('Defectuoso')
     
     comentario = fields.Char('Comentario')
 
@@ -232,7 +234,7 @@ class StockProductionLot(models.Model):
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
 
     
-    @api.depends('name')
+    @api.depends('comprado', 'sale_order_line_id')
     def _get_etiqueta(self):
         for record in self:
             cambiar = False
@@ -243,6 +245,16 @@ class StockProductionLot(models.Model):
                     cambiar = True
 
             record.cambiar_etiqueta = cambiar
+          
+        
+    @api.depends('name')
+    def _get_dir_qr(self):
+        for record in self:
+            if record.name:
+                dir_qr = "http://bemecopack.es/jseb/info.php?pallet="
+                dir_qr = dir_qr + record.name           
+
+            record.dir_qr = dir_qr
 
 
     @api.onchange('type_id',)
@@ -287,7 +299,7 @@ class StockProductionLot(models.Model):
             record.cliente_ref = cliente_ref
     
 
-    @api.depends('sale_order_line_id', 'fecha_entrada', 'date_done', 'scheduled_date')
+    @api.depends('sale_order_line_id', 'fecha_entrada', 'date_done', 'scheduled_date', 'defectuoso')
     def _get_disponible(self):
         for record in self:
             disponible = False
@@ -296,7 +308,9 @@ class StockProductionLot(models.Model):
             if record.fecha_entrada:
                 disponible = True
                 almacen = True
-                if record.sale_order_line_id:
+                if record.defectuoso == True:
+                    disponible = False
+                elif record.sale_order_line_id:
                     disponible = False
                     if record.date_done and record.scheduled_date:
                         almacen = False
