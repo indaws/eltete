@@ -24,7 +24,7 @@
 		          </div> 
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
 			      <td>
-			          <span t-field="doc.orden_fabricacion"+ t-field-options="{"widget": "image"}"/>      
+			          <td><img t-att-src="doc.dir_qr"/></td>     
 			      </td>
 		          </div>
 		      </div>
