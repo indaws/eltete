@@ -38,6 +38,8 @@ class StockProductionTrabajador(models.Model):
     numero = fields.Integer('Número')
     nombre = fields.Char(string="Nombre")
     apellidos = fields.Char(string="Apellidos")
+    dni = fields.Char(string="DNI")
+    telefono = fields.Char(string="Teléfono")
     active = fields.Boolean("Activo", default = True)
     
     @api.depends('numero', 'nombre', 'apellidos')
