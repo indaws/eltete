@@ -8,7 +8,7 @@
               <t t-call="web.external_layout">
                   <div class="page">
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:64pt; width:100%;">					  
-			  <span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/>
+			  <td><span t-esc="doc.orden_fabricacion"/>-<span t-esc="lot_index+doc.lotes_inicio"/></td>
 		      </div> 
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:32pt; width:100%;">
 		          <td><span t-field="doc.descripcion"/></td>
@@ -23,7 +23,9 @@
 			      </td>
 		          </div> 
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
-			      <img src="'<span t-esc="doc.order_id.id"/>-<span t-esc="doc.id"/>-<span t-esc="lot_index+doc.lotes_inicio"/>'" />
+			      <td>
+			          <span t-field="doc.orden_fabricacion"+ t-field-options="{"widget": "image"}"/>      
+			      </td>
 		          </div>
 		      </div>
 		      <div class="float-left company_address" style="width:100%;">
