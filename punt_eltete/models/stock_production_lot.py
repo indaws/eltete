@@ -41,7 +41,7 @@ class StockProductionTrabajador(models.Model):
     apellidos = fields.Char(string="Apellidos", required = True)
     active = fields.Boolean('Activo')
     
-    @api.depends('numero', 'nomnbre', 'apellidos')
+    @api.depends('numero', 'nombre', 'apellidos')
     def _get_nombre(self):
         for record in self:
             nombre = ""
