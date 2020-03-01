@@ -53,25 +53,6 @@ class PurchaseOrderLine(models.Model):
     
     @api.onchange('precio_kilo', 'precio_und', 'num_lotes', 'lot_ids', 'peso_neto', 'unidades')
     def _onchange_cantidades(self):
-        for record in self:
-            if self.product_id.categ_id:
-                if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
-                    record.product_qty = self.peso_neto
-                    record.product_uom_qty = self.peso_neto
-                    self.price_unit = self.precio_kilo
-                
-                elif self.product_id.categ_id.is_formato == True or self.product_id.categ_id.is_bobina == True:
-                    record.product_qty = self.num_lotes
-                    record.product_uom_qty = self.num_lotes
-                    if self.num_lotes > 0:
-                        self.price_unit = self.precio_kilo * self.peso_neto / self.num_lotes
-                    
-                else:
-                    record.product_qty = self.num_lotes
-                    record.product_uom_qty = self.num_lotes
-                if self.num_lotes > 0:
-                    self.price_unit = self.precio_und * self.unidades / self.num_lotes
-            """
         if self.product_id.categ_id:
             if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
                 self.product_qty = self.peso_neto
@@ -89,8 +70,7 @@ class PurchaseOrderLine(models.Model):
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
                     self.price_unit = self.precio_und * self.unidades / self.num_lotes
-     """
-            
+
     
     @api.depends('product_id', 'oferta_id', 'num_pallets', 'precio_kilo', 'precio_und')
     def _get_importe(self):
