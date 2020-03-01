@@ -106,6 +106,7 @@
 		    <field name="importe" />
 		    		<field name="actualizar" invisible="1" />
 		    		<field name="name" invisible="1" />
+		    		<field name="product_qty" invisible="1" />
 		    		<field name="product_uom_qty" invisible="1" />
 		    		<field name="price_unit" invisible="1" />
 				<field name="no_editar" invisible="1" />
@@ -248,6 +249,7 @@
             <xpath expr="//form/sheet/group" position="after">
 		<group>
                 <field name="order_id" invisible="1"/>
+				<field name="product_qty" invisible="1" />
 				<field name="lotes_fabricar"/>
 				<field name="lotes_inicio"/>
 				<field name="und_lotes"/>
