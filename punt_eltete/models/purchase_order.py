@@ -133,7 +133,7 @@ class PurchaseOrder(models.Model):
     def create_purchase_order_line_referencia(self, cliente_id, referencia_cliente_id, attribute_id, oferta_id, num_pallets):
         for record in self:
         
-
+            medida = -1
 
             product_id = None
             for prod in self.env['product.template'].search([('referencia_id', '=', referencia_cliente_id.referencia_id.id),
@@ -146,7 +146,6 @@ class PurchaseOrder(models.Model):
                 tipo_producto = ''
                 cuenta_ingresos_code = -1
                 cuenta_gastos_code = -1
-                medida = -1
                 
                 if referencia_cliente_id.is_cantonera == True:
                     es_vendido = True
@@ -231,7 +230,8 @@ class PurchaseOrder(models.Model):
                                                                   #'property_account_expense_id': 
                                                                  })
                 
-                
+            else:
+                medida = product_id.uom_id
                 
                 
             purchase_line = self.env['purchase.order.line'].create({'order_id': record.id, 
