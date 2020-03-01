@@ -99,6 +99,7 @@
 			</field>
 			
 			<field name="price_unit" position="after">
+				<field name="product_uom_qty" />
 				<field name="precio_kilo" />
 				<field name="precio_und" />
 				<field name="peso_neto" />
