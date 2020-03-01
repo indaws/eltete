@@ -60,14 +60,14 @@ class PurchaseOrderLine(models.Model):
                 self.price_unit = self.precio_kilo
                 
             elif self.product_id.categ_id.is_formato == True or self.product_id.categ_id.is_bobina == True:
+                self.product_qty = self.num_lotes
+                self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
-                    self.product_qty = self.num_lotes
-                    self.product_uom_qty = self.num_lotes
                     self.price_unit = self.precio_kilo * self.peso_neto / self.num_lotes
                     
             else:
-                self.product_qty = self.num_pallets
-                self.product_uom_qty = self.num_pallets
+                self.product_qty = self.num_lotes
+                self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
                     self.price_unit = self.precio_und * self.unidades / self.num_lotes
     
