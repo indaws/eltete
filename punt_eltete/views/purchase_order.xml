@@ -60,8 +60,8 @@
 			
 			<xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
                 <field name="partner_id" invisible="1" />
-				<field name="product_id" invisible = "1" />
-				<field name="name" invisible = "1" />
+				<field name="product_id" invisible="1" />
+				<field name="name" invisible="1" />
 				<field name="cliente_id" />
 				<field name="attribute_id" domain="[('partner_id', '=', cliente_id),('activa', '=', True)]" />
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" />
@@ -71,7 +71,7 @@
 				<field name="precio_kilo" />
 				<field name="precio_und" />
 				<field name="importe" />
-				<field name="date_planned" invisible = "1" />
+				<field name="date_planned" invisible="1" />
 				<field name="num_lotes" invisible="1" />
 				<field name="lot_ids" invisible="1" />
             </xpath>
