@@ -229,7 +229,7 @@ class PurchaseOrder(models.Model):
                                                 'product_qty': 0.0,
                                                 'price_unit': 0.0,
                                                 'date_planned': fields.Date.today(),
-                                                'product_uom': 0,
+                                                'product_uom': 1,
                                                 'cliente_id': cliente_id.id,
                                                 'attribute_id': attribute_id.id,
                                                 'oferta_id': oferta_id.id,
