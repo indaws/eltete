@@ -70,7 +70,8 @@ class PurchaseOrderLine(models.Model):
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
                     self.price_unit = self.precio_und * self.unidades / self.num_lotes
-    
+     
+            
     
     @api.depends('product_id', 'oferta_id', 'num_pallets', 'precio_kilo', 'precio_und')
     def _get_importe(self):
