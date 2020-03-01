@@ -225,8 +225,8 @@ class PurchaseOrder(models.Model):
                 
             purchase_line = self.env['purchase.order.line'].create({'order_id': record.id, 
                                                 'name':product_id.name, 
-                                                'product_uom_qty': num_pallets,
-                                                'product_qty': num_pallets,
+                                                'product_uom_qty': 0.0,
+                                                'product_qty': 0.0,
                                                 'price_unit': 0.0,
                                                 'date_planned': fields.Date.today(),
                                                 'product_uom': 1,
