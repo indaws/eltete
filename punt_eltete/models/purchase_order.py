@@ -51,7 +51,7 @@ class PurchaseOrderLine(models.Model):
     
     
     
-    @api.onchange('precio_kilo', 'precio_und', 'num_lotes', 'lot_ids', 'lot_ids.peso_neto', 'lot_ids.unidades')
+    @api.onchange('precio_kilo', 'precio_und', 'num_lotes', 'lot_ids', 'peso_neto', 'unidades')
     def _onchange_cantidades(self):
         if self.product_id.categ_id:
             if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
