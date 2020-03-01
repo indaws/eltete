@@ -56,7 +56,7 @@ class PurchaseOrderLine(models.Model):
         for record in self:
             if self.product_id.categ_id:
                 if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
-                    record..product_qty = self.peso_neto
+                    record.product_qty = self.peso_neto
                     record.product_uom_qty = self.peso_neto
                     self.price_unit = self.precio_kilo
                 
