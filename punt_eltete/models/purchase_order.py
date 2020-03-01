@@ -231,7 +231,7 @@ class PurchaseOrder(models.Model):
                                                                  })
                 
             else:
-                medida = product_id.uom_id
+                medida = product_id.uom_id.id
                 
                 
             purchase_line = self.env['purchase.order.line'].create({'order_id': record.id, 
