@@ -44,6 +44,7 @@ class SaleOrderLine(models.Model):
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     actualizar = fields.Boolean('Actualizar')
     dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_produccion")
+    incompleta = fields.Boolean('Incompleta', readonly = True, compute = "_get_und_lotes")
     
     
     ESTADO_SEL = [('0', 'ESPERANDO'),    
@@ -107,7 +108,12 @@ class SaleOrderLine(models.Model):
             for lot in record.lot_ids:
                 unidades = unidades + lot.unidades
             
+            incompleta = False
+            if len(lot_ids) < record.num_pallets:
+                incompleta = True
+                
             record.und_lotes = unidades
+            record.incompleta = incompleta
     
     
     
