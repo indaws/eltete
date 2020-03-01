@@ -351,7 +351,7 @@ class WizardSaleCreateLine(models.TransientModel):
     lot_ids = fields.Many2many('stock.production.lot', string="Lotes")
     referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente')
     attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto")
-    num_pallets = fields.Integer(string="Num pallets", default=1)
+    num_pallets = fields.Integer(string="Num pallets")
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     
     
