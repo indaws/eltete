@@ -109,7 +109,7 @@ class SaleOrderLine(models.Model):
                 unidades = unidades + lot.unidades
             
             incompleta = False
-            if len(lot_ids) < record.num_pallets:
+            if len(record.lot_ids) < record.num_pallets:
                 incompleta = True
                 
             record.und_lotes = unidades
