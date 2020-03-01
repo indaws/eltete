@@ -146,58 +146,68 @@ class PurchaseOrder(models.Model):
                 tipo_producto = ''
                 cuenta_ingresos_code = -1
                 cuenta_gastos_code = -1
+                medida = -1
                 
                 if referencia_cliente_id.is_cantonera == True:
                     es_vendido = True
                     es_comprado = False
                     tipo_producto = 'product'
+                    medida = 1
                     cuenta_ingresos_code = 70100001
                     cuenta_gastos_code = -1
                 if referencia_cliente_id.is_perfilu == True:
                     es_vendido = True
                     es_comprado = True
+                    medida = 1
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000008
                     cuenta_gastos_code = 60000003
                 if referencia_cliente_id.is_slipsheet == True:
                     es_vendido = True
                     es_comprado = False
+                    medida = 1
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70100009
                     cuenta_gastos_code = -1
                 if referencia_cliente_id.is_solidboard == True:
                     es_vendido = True
                     es_comprado = False
+                    medida = 1
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000011
                     cuenta_gastos_code = -1
                 if referencia_cliente_id.is_formato == True:
                     es_vendido = True
                     es_comprado = True
+                    medida = 1
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000004
                     cuenta_gastos_code = 60000004
                 if referencia_cliente_id.is_bobina == True:
                     es_vendido = True
                     es_comprado = True
+                    medida = 1
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000004
                     cuenta_gastos_code = 60000004
                 if referencia_cliente_id.is_pieballet == True:
                     es_vendido = True
                     es_comprado = True
+                    medida = 1
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000002
                     cuenta_gastos_code = 60000005
                 if referencia_cliente_id.is_flatboard == True:
                     es_vendido = True
                     es_comprado = True
+                    medida = 1
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000005
                     cuenta_gastos_code = 60000007
                 if referencia_cliente_id.is_varios == True:
                     es_vendido = True
                     es_comprado = True
+                    medida = 1
                     tipo_producto = 'consu'
                     cuenta_gastos_code = -1
                     if referencia_cliente_id.tipo_varios_id:
@@ -205,6 +215,7 @@ class PurchaseOrder(models.Model):
                 if referencia_cliente_id.is_mprima_papel == True:
                     es_vendido = True
                     es_comprado = False
+                    medida = 3 // kg
                     tipo_producto = 'product'
                     cuenta_ingresos_code = 70000004
                     cuenta_gastos_code = 60100001
@@ -229,7 +240,7 @@ class PurchaseOrder(models.Model):
                                                 'product_qty': 0.0,
                                                 'price_unit': 0.0,
                                                 'date_planned': fields.Date.today(),
-                                                'product_uom': 3,
+                                                'product_uom': medida,
                                                 'cliente_id': cliente_id.id,
                                                 'attribute_id': attribute_id.id,
                                                 'oferta_id': oferta_id.id,
