@@ -1252,6 +1252,7 @@ class sale_offer_oferta(models.Model):
     kilos = fields.Integer('Kilos Pallet')
     precio_kilo = fields.Float('Precio kilo', digits = (12,4))
     precio_varios = fields.Float('Precio Varios Unidad', digits = (12,4))
+    cliente_final = fields.Char('Cliente Final')
     
     #DERECHA
     peso_metro = fields.Float('Peso Metro', digits = (12,4), readonly = True, related='referencia_cliente_id.referencia_id.peso_metro')
