@@ -192,6 +192,7 @@
 			<strong>Modo de pago: </strong><span t-field="o.payment_mode_id.name"/><br/>
                         <strong>Plazo de pago: </strong><span t-field="o.payment_term_id.note"/><br/>
                         <strong>Fecha de vencimiento: </strong><span t-field="o.multi_date_due"/><br/>
+			<strong>Condiciones de entrega: </strong><span t-field="o.carrier_id"/><br/>
                         <strong>Número de pallets: </strong><span t-field="o.num_pallets"/><br/>
                         <t t-if="o.payment_mode_id and o.payment_mode_id.show_bank_account != 'no'">
                           <p t-foreach="o.partner_banks_to_show()" t-as="partner_bank">
