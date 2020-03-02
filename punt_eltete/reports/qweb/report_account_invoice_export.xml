@@ -45,7 +45,7 @@
                     
                     <div class="float-right company_address" style="padding:12px; font-size:10pt; width:300px; border: 3px solid #0c9c45; border-radius: 15px;" >
                 
-                          <strong>Dirección de entrega:</strong><br/>
+                          <strong>Delivery address:</strong><br/>
                           <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                     
                     </div>
@@ -91,13 +91,13 @@
                                 <!-- TODO: remove in master -->
                                 <t t-set="colspan" t-value="6"/>
                                 
-                                <th style="color:#000; text-align:center;">Código</th>
-                                <th style="color:#000; text-align:center;">Descripción</th>
-                                <th style="color:#000; text-align:center;">Num pallets</th>
-                                <th style="color:#000; text-align:center;">Unidades</th>
-                                <th style="color:#000; text-align:center;">Cantidad</th>
-                                <th style="color:#000; text-align:center;">Precio</th>
-                                <th style="color:#000; text-align:center;">Importe</th>
+                                <th style="color:#000; text-align:center;">Code</th>
+                                <th style="color:#000; text-align:center;">Description</th>
+                                <th style="color:#000; text-align:center;">Number pallets</th>
+                                <th style="color:#000; text-align:center;">Unities</th>
+                                <th style="color:#000; text-align:center;">Quantity</th>
+                                <th style="color:#000; text-align:center;">Price</th>
+                                <th style="color:#000; text-align:center;">Amount</th>
                                 
                                 <th t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}"  style="display:none">
                                     <span>Disc.(%)</span>
@@ -185,12 +185,12 @@
                     
                     
                     <div class="float-left company_address" style="padding:12px; font-size:12pt; width:60%; border: 3px solid #0c9c45; border-radius: 15px;" >
-			<strong>Modo de pago: </strong><span t-field="o.payment_mode_id.name"/><br/>
-                        <strong>Plazo de pago: </strong><span t-field="o.payment_term_id.note"/><br/>
-                        <strong>Fecha de vencimiento: </strong><span t-field="o.multi_date_due"/><br/>
+			<strong>Payment method: </strong><span t-field="o.payment_mode_id.name"/><br/>
+                        <strong>Payment terms: </strong><span t-field="o.payment_term_id.note"/><br/>
+                        <strong>Due date: </strong><span t-field="o.multi_date_due"/><br/>
                         <t t-if="o.payment_mode_id and o.payment_mode_id.show_bank_account != 'no'">
                           <p t-foreach="o.partner_banks_to_show()" t-as="partner_bank">
-                              <strong>Cuenta bancaria:</strong>
+                              <strong>Bank account:</strong>
                               <t t-if="partner_bank.bank_id">
                                   <t t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"/>
                               </t>
@@ -205,10 +205,10 @@
                               </t>
                           </p>
                         </t>
-			<strong>Condiciones de entrega: </strong><span t-field="o.carrier_id"/><br/>
-			<strong>Número de pallets: </strong><span t-field="o.num_pallets"/><br/>
-			<strong>Peso Neto: </strong><span t-field="o.peso_neto"/> kg<br/>
-			<strong>Peso Bruto: </strong><span t-field="o.peso_bruto"/> kg<br/>
+			<strong>Delivery terms: </strong><span t-field="o.carrier_id"/><br/>
+			<strong>Number of pallets: </strong><span t-field="o.num_pallets"/><br/>
+			<strong>Net weight: </strong><span t-field="o.peso_neto"/> kg<br/>
+			<strong>Total weight: </strong><span t-field="o.peso_bruto"/> kg<br/>
                         <t t-if="o.fiscal_position_id.name == 'Régimen Intracomunitario'">
                           <strong>GOODS FOR UE, VAT EXEMPT</strong>
                         </t>
@@ -234,7 +234,7 @@
                                       </tr>
                                       
                                       <tr class="border-black o_subtotal" style="">
-                                          <td style="color:#000;"><strong>Desc. PP <span t-field="o.descuento_porcentaje"/> %</strong></td>
+                                          <td style="color:#000;"><strong>Disc. PP <span t-field="o.descuento_porcentaje"/> %</strong></td>
                                           <td class="text-right" style="color:#000;">
                                               <span t-field="o.importe_descuento"/> €
                                           </td>
@@ -244,7 +244,7 @@
                                   
                                   
                                     <tr class="border-black o_subtotal" style="">
-                                        <td style="color:#000;"><strong>Base Imponible</strong></td>
+                                        <td style="color:#000;"><strong>Base</strong></td>
                                         <td class="text-right" style="color:#000;">
                                             <span t-field="o.amount_untaxed"/>
                                         </td>
@@ -280,7 +280,7 @@
                             </div>
                         </div>
                     </div>
-
+		
                     <p t-if="o.payment_term_id" name="payment_term" style="display:none">
                         <span t-field="o.payment_term_id.note"/>
                     </p>
@@ -289,6 +289,7 @@
                     </p>
                     
                 </div>
+		
 		<div class="float-left company_address">
                     <p style="font-size:8pt; margin-top:20px">
                         En cumplimiento de lo provisto en la Ley Orgánica 15/1999 de 13 de Diciembre de Protección de Datos de Carácter Personal, 
