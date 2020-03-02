@@ -206,6 +206,8 @@
                           </p>
                         </t>
 			<strong>Delivery terms: </strong><span t-field="o.carrier_id"/><br/>
+			<strong>Container number: </strong><span t-field="o.numero_contenedor"/><br/>
+			<strong>Container seal: </strong><span t-field="o.precinto_contenedor"/><br/>
 			<strong>Number of pallets: </strong><span t-field="o.num_pallets"/><br/>
 			<strong>Net weight: </strong><span t-field="o.peso_neto"/> kg<br/>
 			<strong>Total weight: </strong><span t-field="o.peso_bruto"/> kg<br/>
