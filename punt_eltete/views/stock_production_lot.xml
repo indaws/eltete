@@ -32,7 +32,7 @@
 		    <group>
 			<field name="date_done"/>  
 			<field name="scheduled_date"/>  
-			<field name="fecha_salida"/>
+			<field name="fecha_salir"/>
 		        <field name="almacen"/>
 		    </group>
 		</group>
@@ -122,7 +122,7 @@
 			<field name="unidades"/>
 			<field name="peso_neto"  sum="Peso"/>
 			<field name="fecha_entrada"/>
-			<field name="fecha_salida"/>
+			<field name="fecha_salir"/>
 			<field name="picking_id"/>
 			<field name="sale_order_line_id"/>
 			<field name="cliente_id"/>
