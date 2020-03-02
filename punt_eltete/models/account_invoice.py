@@ -124,6 +124,7 @@ class AccountInvoiceLine(models.Model):
     
     num_albaran = fields.Char('Num albarán', compute = "_get_datos_albaran")
     fecha_albaran = fields.Date('Fecha albarán', compute = "_get_datos_albaran")
+    carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", compute = "_get_datos_albaran")
     cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
     cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
@@ -188,6 +189,7 @@ class AccountInvoiceLine(models.Model):
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
                 fecha_albaran = move.picking_id.scheduled_date.date()
+                record.carrier_id = move.carrier_id.id
                 
                 cantidad_1_num = move.cantidad_1_num
                 cantidad_2_num = move.cantidad_2_num
