@@ -16,12 +16,13 @@
 
 			<field name="team_id" position="after">
 				<field name="carrier_id" />
+				<field name="numero_contenedor" />
+				<field name="precinto_contenedor" />
 				<field name="actualizar"/>
 			</field>
 			
 			<xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="before">
 				<field name="peso_neto" />
-				<field name="carrier_id" />
             </xpath>
 			
 			
