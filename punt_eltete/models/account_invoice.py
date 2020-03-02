@@ -219,7 +219,7 @@ class AccountInvoiceLine(models.Model):
             pedido_cliente = ''
             for sale in record.sale_line_ids:
                 pedido_cliente = sale.order_id.pedido_cliente
-                record.carrier_id = sale.carrier_id.id
+                record.carrier_id = sale.order_id.carrier_id.id
             record.pedido_cliente = pedido_cliente
                 
     
