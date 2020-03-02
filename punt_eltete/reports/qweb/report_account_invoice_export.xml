@@ -209,13 +209,6 @@
 			<strong>Number of pallets: </strong><span t-field="o.num_pallets"/><br/>
 			<strong>Net weight: </strong><span t-field="o.peso_neto"/> kg<br/>
 			<strong>Total weight: </strong><span t-field="o.peso_bruto"/> kg<br/>
-                        <t t-if="o.fiscal_position_id.name == 'Régimen Intracomunitario'">
-                          <strong>GOODS FOR UE, VAT EXEMPT</strong>
-                        </t>
-                        <t t-if="'Extracomunitario' in o.fiscal_position_id.name">
-                          <strong>GOODS FOR EXPORT, VAT EXEMPT<br/>
-                          We verify that goods are from Spanish origin</strong>
-                        </t>
                     </div>
                     
                     
@@ -280,14 +273,22 @@
                             </div>
                         </div>
                     </div>
-		
+		    <div class="float-right company_address"  style="padding:20px; font-size:12pt; width:35%; border: 3px solid #0c9c45; border-radius: 15px; margin-top:20px;" >
+			<t t-if="o.fiscal_position_id.name == 'Régimen Intracomunitario'">
+                          <strong>GOODS FOR UE, VAT EXEMPT</strong>
+                        </t>
+                        <t t-if="'Extracomunitario' in o.fiscal_position_id.name">
+                          <strong>GOODS FOR EXPORT, VAT EXEMPT<br/>
+                          We verify that goods are from Spanish origin</strong>
+                        </t>
+		    </div>
+
                     <p t-if="o.payment_term_id" name="payment_term" style="display:none">
                         <span t-field="o.payment_term_id.note"/>
                     </p>
                     <p t-if="o.fiscal_position_id.note" name="note" style="display:none">
                         <span t-field="o.fiscal_position_id.note"/>
                     </p>
-                    
                 </div>
 		
 		<div class="float-left company_address">
