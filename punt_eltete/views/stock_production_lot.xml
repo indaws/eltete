@@ -30,7 +30,9 @@
 		    	<field name="disponible"/>
 		    </group>	
 		    <group>
-		        <field name="fecha_salida"/>
+			<field name="date_done"/>  
+			<field name="scheduled_date"/>  
+			<field name="fecha_salida"/>
 		        <field name="almacen"/>
 		    </group>
 		</group>
