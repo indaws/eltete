@@ -847,7 +847,7 @@ class SaleOrder(models.Model):
                             lot.sale_order_line_id = sale_line.id
                                                        
                     quantity2 = num_pallets - quantity
-                    if quantity2 > 0:
+                    if quantity2 >= 0:
                         sale_line = self.env['sale.order.line'].create({'order_id': record.id, 
                                                             'name':product_id.name, 
                                                             'product_uom_qty': quantity2,
