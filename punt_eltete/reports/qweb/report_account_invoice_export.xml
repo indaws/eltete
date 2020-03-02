@@ -134,9 +134,7 @@
                                           <t t-else="">
                                               <span t-field="line.name"/>
                                           </t>
-                                          
-                                          
-                                          
+
                                         </td>
                                         
                                         <td style="text-align:center; width=10%;"><span t-esc="'%.0f'%(line.quantity)" /></td>
@@ -209,7 +207,7 @@
                               </t>
                           </p>
                         </t>
-			<strong>Condiciones de entrega: </strong><span t-field="o.invoice_line_ids.0.line.carrier_id"/><br/>
+			<strong>Condiciones de entrega: </strong><span t-field="o.invoice_line_ids.0.carrier_id"/><br/>
 			<strong>Número de pallets: </strong><span t-field="o.num_pallets"/><br/>
                         <t t-if="o.fiscal_position_id.name == 'Régimen Intracomunitario'">
                           <strong>GOODS FOR UE, VAT EXEMPT</strong>
