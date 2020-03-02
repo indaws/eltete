@@ -15,6 +15,7 @@
 			</field>
 
 			<field name="team_id" position="after">
+				<field name="carrier_id" />
 				<field name="actualizar"/>
 			</field>
 			
