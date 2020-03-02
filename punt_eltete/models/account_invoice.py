@@ -19,6 +19,7 @@ class AccountInvoice(models.Model):
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
     fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
+    carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", readonly = True, compute = "_get_datos_lineas")
     comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_comercial")
     
     actualizar = fields.Boolean('Comprobada')
@@ -82,12 +83,15 @@ class AccountInvoice(models.Model):
         for record in self:
             num_pallets = 0
             pedido_cliente = ""
+            carrier_id = None
             fecha_entrega_albaran = None
             for line in record.invoice_line_ids:
                 pedido_cliente = line.pedido_cliente
                 fecha_entrega_albaran = line.fecha_albaran
+                carrier_id = line.carrier_id.id
             record.pedido_cliente = pedido_cliente
             record.fecha_entrega_albaran = fecha_entrega_albaran
+            record.carrier_id = carrier_id
 
             
             
@@ -134,7 +138,7 @@ class AccountInvoiceLine(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
-    carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", compute = "_get_datos_pedido")
+    carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", readonly = True, compute = "_get_datos_pedido")
 
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
