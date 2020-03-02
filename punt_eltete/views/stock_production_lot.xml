@@ -28,12 +28,12 @@
 		    <group>
 		    	<field name="fecha_entrada"/>
 		    	<field name="disponible"/>
+			<field name="almacen"/>
 		    </group>	
 		    <group>
 			<field name="date_done"/>  
 			<field name="scheduled_date"/>  
 			<field name="fecha_salir"/>
-		        <field name="almacen"/>
 		    </group>
 		</group>
 		<group>
