@@ -124,7 +124,6 @@ class AccountInvoiceLine(models.Model):
     
     num_albaran = fields.Char('Num albarán', compute = "_get_datos_albaran")
     fecha_albaran = fields.Date('Fecha albarán', compute = "_get_datos_albaran")
-    carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", compute = "_get_datos_albaran")
     cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
     cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_datos_albaran")
@@ -135,6 +134,7 @@ class AccountInvoiceLine(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
+    carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", compute = "_get_datos_pedido")
 
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
@@ -188,9 +188,7 @@ class AccountInvoiceLine(models.Model):
         
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
-                fecha_albaran = move.picking_id.scheduled_date.date()
-                record.carrier_id = move.carrier_id.id
-                
+                fecha_albaran = move.picking_id.scheduled_date.date()                
                 cantidad_1_num = move.cantidad_1_num
                 cantidad_2_num = move.cantidad_2_num
                 cantidad_3_num = move.cantidad_3_num
@@ -221,6 +219,7 @@ class AccountInvoiceLine(models.Model):
             pedido_cliente = ''
             for sale in record.sale_line_ids:
                 pedido_cliente = sale.order_id.pedido_cliente
+                record.carrier_id = move.carrier_id.id
             record.pedido_cliente = pedido_cliente
                 
     
