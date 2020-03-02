@@ -35,9 +35,9 @@
                       
                       
                       
-                          <strong>Fecha factura: </strong><span t-field="o.date_invoice" t-options='{"format": "dd/MM/yyyy"}'/><br/>
-                          <strong>Cliente: </strong><span t-field="o.partner_id.ref"/><br/>
-                          <strong>Origen: </strong><span t-field="o.origin"/><br/>
+                          <strong>Invoice Date: </strong><span t-field="o.date_invoice" t-options='{"format": "dd/MM/yyyy"}'/><br/>
+                          <strong>Customer Number: </strong><span t-field="o.partner_id.ref"/><br/>
+                          <strong>Order Number: </strong><span t-field="o.origin"/><br/>
                           <!--<strong>Pedido cliente: </strong><span t-field="o.pedido_cliente"/><br/>-->
                     </div>
                     
