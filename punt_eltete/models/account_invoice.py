@@ -19,6 +19,8 @@ class AccountInvoice(models.Model):
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_lineas")
     fecha_entrega_albaran = fields.Date('Fecha albarán', compute = "_get_datos_lineas")
+    numero_contenedor = fields.Char('Numero Contenedor', compute = "_get_datos_lineas")
+    precinto_contenedor = fields.Char('Precinto Contenedor', compute = "_get_datos_lineas")
     carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", readonly = True, compute = "_get_datos_lineas")
     comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_comercial")
     
@@ -84,14 +86,20 @@ class AccountInvoice(models.Model):
             num_pallets = 0
             pedido_cliente = ""
             carrier_id = None
+            numero_contenedor = ""
+            precinto_contenedor = ""
             fecha_entrega_albaran = None
             for line in record.invoice_line_ids:
                 pedido_cliente = line.pedido_cliente
                 fecha_entrega_albaran = line.fecha_albaran
                 carrier_id = line.carrier_id.id
+                numero_contenedor = line.numero_contenedor
+                precinto_contenedor = line.precinto_contenedor
             record.pedido_cliente = pedido_cliente
             record.fecha_entrega_albaran = fecha_entrega_albaran
             record.carrier_id = carrier_id
+            record.numero_contenedor = numero_contenedor
+            record.precinto_contenedor = precinto_contenedor
 
             
             
@@ -136,6 +144,8 @@ class AccountInvoiceLine(models.Model):
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_datos_albaran")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_datos_albaran")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_datos_albaran")
+    numero_contenedor = fields.Char('Numero Contenedor', compute = "_get_datos_albaran")
+    precinto_contenedor = fields.Char('Precinto Contenedor', compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", readonly = True, compute = "_get_datos_pedido")
@@ -189,6 +199,8 @@ class AccountInvoiceLine(models.Model):
             unidades = 0
             peso_neto = 0
             peso_bruto = 0
+            numero_contenedor = ""
+            precinto_contenedor = ""
         
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
@@ -201,6 +213,8 @@ class AccountInvoiceLine(models.Model):
                 unidades = move.unidades
                 peso_neto = move.peso_neto
                 peso_bruto = move.peso_bruto
+                numero_contenedor = numero_contenedor
+                precinto_contenedor = precinto_contenedor
                 
             if record.facturar == '5':
                 unidades = record.cantidad_5_num
@@ -215,6 +229,8 @@ class AccountInvoiceLine(models.Model):
             record.unidades = unidades
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            record.numero_contenedor = numero_contenedor
+            record.precinto_contenedor = precinto_contenedor
             
             
     @api.depends('sale_line_ids')
