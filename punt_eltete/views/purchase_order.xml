@@ -116,7 +116,7 @@
 							<field name='name' />
 							<field name='product_qty' />
 							<field name='fecha_entrada' />
-							<field name='fecha_salida' />
+							<field name='fecha_salir' />
 							<field name='unidades' />
 							<field name='peso_neto' />
 						</tree>
