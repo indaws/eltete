@@ -167,7 +167,7 @@ class StockProductionLot(models.Model):
     metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
     fecha_entrada = fields.Date('Fecha Entrada')
     pallet_sage = fields.Char('Pallet Sage')
-    fecha_salida = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_disponible", store = True)
+    fecha_salir = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_disponible", store = True)
     almacen = fields.Boolean('Almacen', readonly = True, compute = "_get_disponible")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     unidades = fields.Integer('Unidades')
@@ -339,7 +339,7 @@ class StockProductionLot(models.Model):
                      
             record.disponible = disponible
             record.almacen = almacen
-            record.fecha_salida = fecha_salida
+            record.fecha_salir = fecha_salida
     
     
     
