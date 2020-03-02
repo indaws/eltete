@@ -114,7 +114,7 @@
                                 <field name='attribute_id' domain="[('referencia_cliente_id','=', referencia_cliente_id)]" />
 				<field name='name' />
                                 <field name='state_id' />
-                                <field name='country_id' />
+				<field name='cliente_final' />
 				<field name='activa' />
                             </tree>
                         </field>   
@@ -276,7 +276,7 @@
                     <field name='num_pallets' />
                     <field name='name' />
                     <field name='state_id' />
-                    <field name='country_id' />
+                    <field name='cliente_final' />
 		    <field name='activa' />		
                 </tree>
             </field>
@@ -311,6 +311,7 @@
                                 <field name='kilos' attrs="{'invisible': [('precio_cliente', '!=', '4')], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='precio_kilo' attrs="{'invisible': [('precio_cliente', '!=', '4')], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='precio_varios' attrs="{'invisible': [('precio_cliente', '!=', '5')], 'readonly': [('no_editar', '=', True)]}"/>
+				<field name='cliente_final' />
 			</group>
                             <group>
 				<field name='no_editar'/>
@@ -347,7 +348,7 @@
                     <field name="user_id"/>                    
                     <field name="date"/>                    
                     <field name="state_id"/>
-                    <field name="country_id"/>
+                    <field name='cliente_final' />
                 </search>
             </field>
         </record>
