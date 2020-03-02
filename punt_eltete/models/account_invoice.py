@@ -213,8 +213,8 @@ class AccountInvoiceLine(models.Model):
                 unidades = move.unidades
                 peso_neto = move.peso_neto
                 peso_bruto = move.peso_bruto
-                numero_contenedor = numero_contenedor
-                precinto_contenedor = precinto_contenedor
+                numero_contenedor = move.picking_id.numero_contenedor
+                precinto_contenedor = move.picking_id.precinto_contenedor
                 
             if record.facturar == '5':
                 unidades = record.cantidad_5_num
