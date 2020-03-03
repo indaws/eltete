@@ -224,11 +224,11 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
                     <field name="referencia_cliente_id"/>
+		    <field name="name"/>
                     <field name="partner_id"/>
-                    <field name="type_id"/>
-                    <field name="name"/>
-                    <field name="estado"/>
-                    <field name="titulo"/>            
+		    <field name="ancho_pallet"/>
+		    <field name="und_paquete"/>
+		    <field name="paquetes_fila"/>         
                 </tree>
             </field>
         </record>
