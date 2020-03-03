@@ -99,7 +99,7 @@
 		    <field name="bultos" />
 		    <field name="fila_vinculada_id" domain="[('order_id', '=', order_id)]"/>
 		    <field name="estado" />	
-		    <field name="und_user" />
+		    <field name="und_user" invisible="1" />
 		    <field name="und_pallet" />
 		    <field name="cantidad" />
 		    <field name="precio" />
