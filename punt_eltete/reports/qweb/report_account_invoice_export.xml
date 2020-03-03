@@ -283,6 +283,9 @@
                           <strong>GOODS FOR EXPORT, VAT EXEMPT<br/>
                           We verify that goods are from Spanish origin</strong>
                         </t>
+			<t t-if="'Canarias' in o.fiscal_position_id.name">
+                          <strong>I.V.A. EXENTO</strong>
+                        </t>
 		    </div>
 
                     <p t-if="o.payment_term_id" name="payment_term" style="display:none">
