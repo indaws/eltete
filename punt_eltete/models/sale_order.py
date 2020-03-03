@@ -672,6 +672,41 @@ class SaleOrder(models.Model):
             record.descuento_procentaje = porcentaje
             record.descuento_euros = euros
             record.comercial_bueno_id = record.partner_id.user_id.id
+            
+    
+    @api.depends('order_line.num_pallets', 'order_line.peso_neto', 'order_line.peso_bruto', 'order_line.product_uom_qty', 'order_line.price_unit', 'order_line')
+    def _get_num_pallets(self):
+    
+        for record in self:
+            num_pallets = 0
+            peso_neto = 0
+            peso_bruto = 0
+            importe_sin_descuento = 0
+            importe_con_descuento = 0
+            haycodigo = False
+            eton = 0
+            
+            for line in record.order_line:
+                if line.descripcion and len(line.descripcion) > 0 and line.bultos == '1':
+                    num_pallets = num_pallets + line.num_pallets
+                peso_neto = peso_neto + (line.peso_neto * line.num_pallets)
+                if line.peso_neto > 0:
+                    eton = eton + line.peso_neto * line.num_pallets * line.eton
+                peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
+                importe_sin_descuento = importe_sin_descuento + line.importe
+                importe_con_descuento = importe_con_descuento + line.price_subtotal
+                if line.codigo_cliente and len(line.codigo_cliente) > 0:
+                    haycodigo = True
+            
+            if peso_neto > 0:
+                eton = eton / peso_neto
+            record.num_pallets = num_pallets
+            record.peso_neto = peso_neto
+            record.peso_bruto = peso_bruto
+            record.importe_sin_descuento = importe_sin_descuento
+            record.importe_con_descuento = importe_con_descuento
+            record.haycodigo = haycodigo
+            record.eton = eton
 
 
     
@@ -862,52 +897,12 @@ class SaleOrder(models.Model):
                                                            })
                         sale_line._compute_tax_id()
             
-            
-            
-            
-            
+     
             
     @api.depends('order_line',)
     def _get_lots_sale(self):
         for record in self:
             record.lot_ids = self.env['stock.production.lot'].search([('sale_order_id', '=', record.id)])
-
-            
-            
-    @api.depends('order_line.num_pallets', 'order_line.peso_neto', 'order_line.peso_bruto', 'order_line.product_uom_qty', 'order_line.price_unit', 'order_line')
-    def _get_num_pallets(self):
-    
-        for record in self:
-            num_pallets = 0
-            peso_neto = 0
-            peso_bruto = 0
-            importe_sin_descuento = 0
-            importe_con_descuento = 0
-            haycodigo = False
-            eton = 0
-            
-            for line in record.order_line:
-                if line.descripcion and len(line.descripcion) > 0 and line.bultos == '1':
-                    num_pallets = num_pallets + line.num_pallets
-                    peso_neto = peso_neto + (line.peso_neto * line.num_pallets)
-                    if line.peso_neto > 0:
-                        eton = eton + line.peso_neto * line.num_pallets * line.eton
-                    peso_bruto = peso_bruto + (line.peso_bruto * line.num_pallets)
-                    importe_sin_descuento = importe_sin_descuento + line.importe
-                    importe_con_descuento = importe_con_descuento + line.price_subtotal
-                    if line.codigo_cliente and len(line.codigo_cliente) > 0:
-                        haycodigo = True
-            
-            if peso_neto > 0:
-                eton = eton / peso_neto
-            record.num_pallets = num_pallets
-            record.peso_neto = peso_neto
-            record.peso_bruto = peso_bruto
-            record.importe_sin_descuento = importe_sin_descuento
-            record.importe_con_descuento = importe_con_descuento
-            record.haycodigo = haycodigo
-            record.eton = eton
-
 
     
     @api.multi
