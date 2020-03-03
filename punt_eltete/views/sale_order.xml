@@ -136,7 +136,7 @@
 				<field name="descuento_porcentaje"/>
 				<field name="fecha_cliente"/>
 				<field name="fecha_entrega_cliente"/>
-				
+				<field name="fiscal_position_id"/>
                 		<field name="peso_neto"/>
                 		<field name="peso_bruto"/>
 				<field name="actualizar"/>
