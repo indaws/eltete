@@ -199,7 +199,7 @@
                             	<field name='comentario_proveedor' />
 			    </group>
 			    <group>
-					<field name='no_editar' invisible="1"/>
+					<field name='no_editar'/>
 				        <field name='activa' />
 					<field name='referencia_cliente_nombre' attrs="{'readonly': [('no_editar', '=', True)]}"/>
 					<field name='paletizado' attrs="{'readonly': [('no_editar', '=', True)]}" />
@@ -228,7 +228,8 @@
                     <field name="partner_id"/>
 		    <field name="ancho_pallet"/>
 		    <field name="und_paquete"/>
-		    <field name="paquetes_fila"/>         
+		    <field name="paquetes_fila"/> 
+		    <field name="activa"/> 
                 </tree>
             </field>
         </record>
