@@ -195,10 +195,11 @@ class StockProductionLot(models.Model):
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
     #PARA TODOS
-    ancho_pallet = fields.Integer('Ancho Pallet')
+    #ancho_pallet = fields.Integer('Ancho Pallet')
     und_paquete = fields.Integer('Und paquete')
-    fabricado = fields.Boolean('Fabricado')
+    #fabricado = fields.Boolean('Fabricado')
     comprado = fields.Boolean('Comprado')
+    fabricat = fields.Boolean('Fabricado', default = True)
     
     #YA EXISTEN     ref = fields.Char('Referencia Interna')
     #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
@@ -282,21 +283,25 @@ class StockProductionLot(models.Model):
     def _onchange_type_id(self):
         if self.type_id.is_perfilu == True:
             self.comprado = True
+            self.fabricat = False
         if self.type_id.is_formato == True:
             self.comprado = True
+            self.fabricat = False
         if self.type_id.is_bobina == True:
             self.comprado = True
+            self.fabricat = False
         if self.type_id.is_pieballet == True:
             self.comprado = True
+            self.fabricat = False
         if self.type_id.is_flatboard == True:
             self.comprado = True
+            self.fabricat = False
             
     
     @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
     def _onchange_linea_pedido(self):
         if self.sale_order_line_id:
             self.descripcion = self.sale_order_line_id.descripcion
-            self.cambiar_etiqueta = True
     
     
     @api.depends('operario_ids')
