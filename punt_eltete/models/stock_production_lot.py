@@ -281,9 +281,15 @@ class StockProductionLot(models.Model):
 
     @api.onchange('type_id',)
     def _onchange_type_id(self):
+        if self.type_id.is_cantonera == True:
+            self.comprado = False
+            self.fabricat = True
         if self.type_id.is_perfilu == True:
             self.comprado = True
             self.fabricat = False
+        if self.type_id.is_slipsheet == True:
+            self.comprado = False
+            self.fabricat = True
         if self.type_id.is_formato == True:
             self.comprado = True
             self.fabricat = False
@@ -294,6 +300,12 @@ class StockProductionLot(models.Model):
             self.comprado = True
             self.fabricat = False
         if self.type_id.is_flatboard == True:
+            self.comprado = True
+            self.fabricat = False
+        if self.type_id.is_varios == True:
+            self.comprado = False
+            self.fabricat = False
+        if self.type_id.is_mprima_papel == True:
             self.comprado = True
             self.fabricat = False
             
