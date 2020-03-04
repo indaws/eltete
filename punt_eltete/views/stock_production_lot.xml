@@ -14,6 +14,7 @@
 		    	<field name="purchase_order_id"/>
                     	<field name="purchase_order_line_id"/>
 		    	<field name="comprado"/>
+			<field name="fabricat"/>
 		    </group>
 			<group>
 		    	<field name="cliente_id"/>
@@ -128,7 +129,7 @@
 			<field name="cliente_id"/>
 			<field name="disponible"/>
 			<field name="almacen"/>
-			<field name="imprimir_etiqueta"/>
+			<field name="fabricat"/>
                 </xpath>
                 
 				
@@ -195,6 +196,7 @@
 		    <group>
 			    <field name="unidades"/>
 			    <field name="fecha_entrada"/>
+			    <field name="fabricat"/>
 		    </group>
 			
 		    <group>
