@@ -8,6 +8,36 @@ import time
 
 
 
+class StockProductionInventario(models.Model):
+    _name = 'stock.production.inventario'
+    
+    name = fields.Char(string="Nombre")
+    
+    @api.multi
+    def actualizar_inventario(self):
+        for record in self:
+        
+            for lote in self.env['stock.production.lot'].search([('inventariado', '=', True),]):
+                lote.inventariado = False
+                if lote.fecha_salir == None or lote.fecha_salir == False:
+                    lote.almacenado = True
+                    
+                    
+    lot_ids = fields.Many2many('stock.production.lot', string='Lotes a revisar', compute='_compute_lots')
+    
+    @api.depends('name')
+    def _compute_lots(self):
+
+        for record in self:
+        
+            l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('almacenado', '=', False),])
+            l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('almacenado', '=', True),])
+            record.lot_ids = l1 + l2
+        
+
+
+
+
 class StockProductionSuperorden(models.Model):
     _name = 'stock.production.superorden'
     
@@ -15,6 +45,7 @@ class StockProductionSuperorden(models.Model):
     sale_line_ids = fields.One2many('sale.order.line', 'superorden_id', string="Líneas de Pedidos")
     consumo_ids = fields.One2many('stock.production.lot.consumo', 'superorden_id', string="Consumos")
     lot_ids = fields.One2many('stock.production.lot', 'superorden_id', string="Lotes Salida")
+
 
 
 
@@ -193,6 +224,9 @@ class StockProductionLot(models.Model):
     cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
+    
+    almacenado = fields.Boolean('Almacenado')
+    inventariado = fields.Boolean('Inventariado')
     
     #PARA TODOS
     #ancho_pallet = fields.Integer('Ancho Pallet')
