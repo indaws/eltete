@@ -182,10 +182,9 @@
 				<field name="referencia_id"/>
 				<field name="descripcion"/>
 				<field name="unidades"/>
-				<field name="peso_neto"/>
+				<field name="comentario"/>
+				<field name="peso_neto"  sum="Peso"/>
 				<field name="fecha_entrada"/>
-				<field name="fecha_salir"/>
-				<field name="picking_id"/>
 				<field name="inventariado"/>
 				<field name="almacenado"/>
 			</group>
