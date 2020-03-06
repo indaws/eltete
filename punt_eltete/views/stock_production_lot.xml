@@ -50,7 +50,6 @@
 		</group>
 		<group>
 		    <group>
-		    	<field name="pallet_sage"/>
 			<field name="comentario"/>
 			<field name="defectuoso"/>
 			<field name="peso_metro"/>
