@@ -117,6 +117,13 @@ class SaleOrderLine(models.Model):
     
     
     
+    @api.onchange('lot_ids',)
+    def _onchange_lot_ids(self):
+        for lot in self.lot_ids:
+            lot.descripcion = self.display_name
+        
+    
+    
     @api.onchange('no_editar',)
     def _onchange_no_editar(self):
         if self.no_editar == True:
@@ -738,16 +745,12 @@ class SaleOrder(models.Model):
                         
                         if len(record.lot_ids) == record.num_pallets:
                             fabricado = True
-                            estado = '2'
-                            """
                             for lot in record.lot_ids:
                                 if lot.fabricado == False:
                                     fabricado = False
                                     break
                             if fabricado == True:
-                            estado = '2'
-                            """
-                                
+                                estado = '2'
             record.estado = estado
                         
     
