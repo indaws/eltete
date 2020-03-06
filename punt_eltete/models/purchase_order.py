@@ -17,13 +17,15 @@ class PurchaseOrderLine(models.Model):
     precio_kilo = fields.Float('Precio kg', digits = (12,4))
     precio_und = fields.Float('Precio Ud', digits = (12,4))
     num_pallets = fields.Integer('Num Pallets')
-    importe = fields.Float('Importe', digits = (10, 2), readonly = True, compute = "_get_importe")
+    importe_pedido = fields.Float('Importe Pedido', digits = (10, 2), readonly = True, compute = "_get_importe")
     
+    importe_llegada = fields.Float('Importe LLegada', digits = (10, 2), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
     num_lotes = fields.Integer('Num Lotes', readonly = True, compute = "_get_valores")
     
     sale_line_id = fields.Many2one('sale.order.line', string="Línea pedido de venta")
+    
     
     @api.depends('oferta_id')
     def _get_descripcion(self):
@@ -85,30 +87,37 @@ class PurchaseOrderLine(models.Model):
                     x = 0
                 elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
                     precio = record.precio_kilo
-                    cantidad = record.num_pallets * record.oferta_id.peso_neto
+                    cantidad = record.num_pallets * record.sale_line_id.oferta_id.peso_neto
                 else:
                     precio = record.precio_und
-                    cantidad = record.num_pallets * record.oferta_id.und_pallet
+                    cantidad = record.num_pallets * record.sale_line_id.oferta_id.und_pallet
                     
                 importe = precio * cantidad
 
-            record.importe = importe          
+            record.importe_pedido = importe          
     
     
     
     @api.depends('lot_ids')
     def _get_valores(self):
         for record in self:
-        
             record.num_lotes = len(record.lot_ids)
             unidades = 0
             peso_neto = 0
+            importe_llegada = 0
             for lot in record.lot_ids:
                 unidades = unidades + lot.unidades
                 peso_neto = peso_neto + lot.peso_neto
+            if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
+                    x = 0
+            elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
+                importe_llegada = record.precio_kilo * peso_neto
+            else:
+                importe_llegada = record.precio_und * unidades
                 
             record.peso_neto = peso_neto
             record.unidades = unidades
+            record.importe_llegada = importe_llegada
                  
     
     
