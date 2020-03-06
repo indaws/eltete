@@ -197,7 +197,6 @@ class StockProductionLot(models.Model):
     
     metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
     fecha_entrada = fields.Date('Fecha Entrada')
-    pallet_sage = fields.Char('Pallet Sage')
     fecha_salir = fields.Date('Fecha Salida', readonly = True, compute = "_get_disponible", store = True)
     almacen = fields.Boolean('Almacen', readonly = True, compute = "_get_disponible")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
@@ -212,7 +211,6 @@ class StockProductionLot(models.Model):
     descripcion = fields.Html('Descripcion')
     dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_dir_qr")
     defectuoso = fields.Boolean('Defectuoso')
-    
     comentario = fields.Char('Comentario')
 
     cantidad_1 = fields.Char('Cantidad 1', readonly = True, compute = "_get_cantidad")
@@ -227,17 +225,10 @@ class StockProductionLot(models.Model):
     
     almacenado = fields.Boolean('Almacenado')
     inventariado = fields.Boolean('Inventariado')
-    
-    #PARA TODOS
-    #ancho_pallet = fields.Integer('Ancho Pallet')
     und_paquete = fields.Integer('Und paquete')
-    #fabricado = fields.Boolean('Fabricado')
     comprado = fields.Boolean('Comprado')
     fabricat = fields.Boolean('Fabricado', default = True)
-    
-    #YA EXISTEN     ref = fields.Char('Referencia Interna')
-    #YA EXISTEN     name = fields.Char('Lote/Nº Serie')
-    
+
     superorden_id = fields.Many2one('stock.production.superorden', string="Superorden")
     consumo_ids = fields.One2many('stock.production.lot.consumo', 'lot_id', string="Consumos")
     calidad_ids  = fields.One2many('stock.production.lot.calidad', 'lot_id', string="Calidad")
