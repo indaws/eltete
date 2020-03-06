@@ -23,6 +23,8 @@ class PurchaseOrderLine(models.Model):
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
     num_lotes = fields.Integer('Num Lotes', readonly = True, compute = "_get_valores")
     
+    sale_line_id = fields.Many2one('sale.order.line', string="Línea pedido de venta")
+    
     @api.depends('oferta_id')
     def _get_descripcion(self):
         for record in self:
@@ -131,8 +133,13 @@ class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     @api.multi
-    def create_purchase_order_line_referencia(self, cliente_id, referencia_cliente_id, attribute_id, oferta_id, num_pallets):
+    def create_purchase_order_line_referencia(self, cliente_id, sale_line_id, num_pallets):
         for record in self:
+        
+        
+            referencia_cliente_id = sale_line_id.attribute_id.referencia_cliente_id
+            attribute_id = sale_line_id.attribute_id
+            oferta_id = sale_line_id.oferta_id
         
             medida = -1
 
@@ -246,6 +253,7 @@ class PurchaseOrder(models.Model):
                                                 'attribute_id': attribute_id.id,
                                                 'oferta_id': oferta_id.id,
                                                 'product_id': product_id.product_variant_id.id,
+                                                'sale_line_id': sale_line_id.id,
                                                })
             purchase_line._compute_tax_id()
     
