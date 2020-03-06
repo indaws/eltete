@@ -270,10 +270,10 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
                     <field name='partner_id' invisible="1"/>
-					<field name='date' />
+		    <field name='fecha_enviada' />
                     <field name='referencia_cliente_id' />
                     <field name='attribute_id' />
-                    <field name='und_pallet' />
+                    <field name='unidades' />
                     <field name='num_pallets' />
                     <field name='name' />
                     <field name='state_id' />
