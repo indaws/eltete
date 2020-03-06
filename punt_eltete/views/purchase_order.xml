@@ -19,7 +19,7 @@
                 <group>
 					<group>
 						<h3>Añadir líneas de pedido</h3>
-						<field name='partner_id' domain="[('customer', '=', True),]" options="{'no_create': True, 'no_create_edit':True}" />
+						<field name='partner_id' domain="[('customer', '=', True),('is_company', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" />
 						<!--<field name='referencia_cliente_id' domain="[('partner_id', '=', partner_id),]" options="{'no_create': True, 'no_create_edit':True}" />
 						<field name='attribute_id' domain="[('referencia_cliente_id', '=', referencia_cliente_id),('activa', '=', True)]" options="{'no_create': True, 'no_create_edit':True}"/>
 						<field name='oferta_id' domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" options="{'no_create': True, 'no_create_edit':True}"/>-->
@@ -94,7 +94,7 @@
 		
 		
 			<field name="date_planned" position="after">
-				<field name="cliente_id" />
+				<field name="cliente_id" domain="[('is_company', '=', True)]" />
 				<field name="attribute_id" domain="[('partner_id', '=', cliente_id),('activa', '=', True)]" />
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" />
 			</field>
@@ -112,7 +112,7 @@
             
 				<group>
 
-					<field name="lot_ids" widget="many2many" domain="[('comprado','=',True)]">
+					<field name="lot_ids" widget="many2many" domain="[('comprado','=',True), ('product_id','=',product_id), ('purchase_order_line_id', '=', False)]">
 						<tree string="Lotes" >
 							<field name='name' />
 							<field name='product_qty' />
