@@ -28,15 +28,14 @@
 		<group>
 		    <group>
 		    	<field name="fecha_entrada"/>
-		    	<field name="disponible"/>
-				<field name="almacen"/>
-				<field name="almacenado"/>
-				<field name="inventariado"/>
+			<field name="almacenado"/>
+			<field name="inventariado"/>
 		    </group>	
 		    <group>
 			<field name="date_done"/>  
 			<field name="scheduled_date"/>  
 			<field name="fecha_salir"/>
+			<field name="disponible"/>
 		    </group>
 		</group>
 		<group>
@@ -128,10 +127,9 @@
 			<field name="fecha_salir"/>
 			<field name="picking_id"/>
 			<field name="sale_order_line_id"/>
-			<field name="cliente_id"/>
-			<field name="disponible"/>
-			<field name="almacen"/>
+			<field name="cliente_ref"/>
 			<field name="fabricat"/>
+			<field name="almacenado"/>
                 </xpath>
                 
 				
@@ -162,10 +160,9 @@
 				<field name="referencia_id"/>
 				<field name="descripcion"/>
 				<field name="unidades"/>
+				<field name="comentario"/>
 				<field name="peso_neto"  sum="Peso"/>
 				<field name="fecha_entrada"/>
-				<field name="fecha_salir"/>
-				<field name="picking_id"/>
 				<field name="inventariado"/>
 				<field name="almacenado"/>
 			</tree>
@@ -180,18 +177,18 @@
 		<field name="arch" type="xml">
 			<form string="Ofertas">
                 <sheet>
-                    <group>
-						<field name="name"/>
-						<field name="referencia_id"/>
-						<field name="descripcion"/>
-						<field name="unidades"/>
-						<field name="peso_neto"/>
-						<field name="fecha_entrada"/>
-						<field name="fecha_salir"/>
-						<field name="picking_id"/>
-						<field name="inventariado"/>
-						<field name="almacenado"/>
-					</group>
+                	<group>
+				<field name="name"/>
+				<field name="referencia_id"/>
+				<field name="descripcion"/>
+				<field name="unidades"/>
+				<field name="peso_neto"/>
+				<field name="fecha_entrada"/>
+				<field name="fecha_salir"/>
+				<field name="picking_id"/>
+				<field name="inventariado"/>
+				<field name="almacenado"/>
+			</group>
                 </sheet>
             </form>
 		</field>
