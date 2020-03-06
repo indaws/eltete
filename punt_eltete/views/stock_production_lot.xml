@@ -120,6 +120,8 @@
 			<field name="metido"/>
 			<field name="referencia_id"/>
 			<field name="descripcion"/>
+			<field name="comentario"/>
+			<field name="pallet_sage"/>
 			<field name="unidades"/>
 			<field name="peso_neto"  sum="Peso"/>
 			<field name="fecha_entrada"/>
