@@ -149,6 +149,53 @@
 				 
         </field>
     </record>
+	
+	
+	<!-- VISTAS LOTES STOCK -->
+	<record model="ir.ui.view" id="view_stock_production_lot_stock_tree">
+		<field name="name">stock.production.lot.stock.tree</field>
+		<field name="model">stock.production.lot</field>
+		<field name="priority" eval="16"/>
+		<field name="arch" type="xml">
+			<tree string="Producto">
+				<field name="name"/>
+				<field name="referencia_id"/>
+				<field name="descripcion"/>
+				<field name="unidades"/>
+				<field name="peso_neto"  sum="Peso"/>
+				<field name="fecha_entrada"/>
+				<field name="fecha_salir"/>
+				<field name="picking_id"/>
+				<field name="inventariado"/>
+				<field name="almacenado"/>
+			</tree>
+		</field>
+	</record>
+	
+	
+	<record model="ir.ui.view" id="view_stock_production_lot_stock_form">
+		<field name="name">stock.production.lot.stock.form</field>
+		<field name="model">stock.production.lot</field>
+		<field name="priority" eval="16"/>
+		<field name="arch" type="xml">
+			<form string="Ofertas">
+                <sheet>
+                    <group>
+						<field name="name"/>
+						<field name="referencia_id"/>
+						<field name="descripcion"/>
+						<field name="unidades"/>
+						<field name="peso_neto"/>
+						<field name="fecha_entrada"/>
+						<field name="fecha_salir"/>
+						<field name="picking_id"/>
+						<field name="inventariado"/>
+						<field name="almacenado"/>
+					</group>
+                </sheet>
+            </form>
+		</field>
+	</record>
     
     
 	
