@@ -37,6 +37,7 @@
         "reports/qweb/report_etiquetas_pedido.xml",
         "reports/qweb/report_etiquetas_fabrica.xml",
         "reports/qweb/report_stock_picking_orden_carga.xml",
+        "reports/qweb/report_stock_production_lot_etiqueta.xml",
         "reports/eltete_report.xml",
         
     ],
