@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_purchase_order_ingles">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+		
+		
+
+			<t t-call="web.external_layout">
+				<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+				<t t-set="address">
+				  <div style="margin-left:50px; padding:10px 10px 10px 30px; font-size:10pt; width:300px; border: 3px solid #0c9c45; border-radius: 15px;">
+					<div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+					<p t-if="doc.partner_id.vat">NIF: <span t-field="doc.partner_id.vat"/></p>
+				  </div>
+				</t>
+				
+				<style>
+				  o_report_layout_background thead tr th {
+					color: #000000;
+					}
+				  
+				</style>
+				
+				<div class="page">
+					<div class="oe_structure"/>
+
+					<div class="float-left company_address" style="padding:12px; font-size:12pt; width:350px; border: 3px solid #0c9c45; border-radius: 15px;" >
+						  <strong>Pedido: </strong><span t-field="doc.name"/><br/>
+						  <strong>Fecha pedido: </strong><span t-field="doc.date_order" t-options='{"format": "dd/MM/yyyy"}'/><br/>
+						  <strong>Proveedor: </strong><span t-field="doc.partner_id.ref"/><br/>
+						  
+						  
+					</div>
+					
+					<div class="float-right company_address" style="padding:12px; font-size:10pt; width:300px; border: 3px solid #0c9c45; border-radius: 15px;" >
+						
+						  <strong>Dirección de entrega:</strong><br/>
+						  <div t-field="doc.company_id.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
+					
+					</div>
+
+					<br/><br/><br/><br/><br/><br/><br/>
+					<div style="padding:20px; font-size:11pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+						<table class="table table-sm">
+						  <thead style="color:#000;">
+							  <tr style="color:#000;">
+								  <!-- TODO: remove in master -->
+								  <t t-set="colspan" t-value="5"/>
+
+								  <th style="color:#000; text-align:center;">Description</th>
+								  <!--<th style="color:#000; text-align:center;">Und pallet</th>
+								  <th style="color:#000; text-align:center;">Num pallets</th>
+								  <th style="color:#000; text-align:center;">Cantidad</th>
+								  <th style="color:#000; text-align:center;">Precio</th>-->
+								  <th style="color:#000; text-align:center;">Importe</th>
+							  </tr>
+						  </thead>
+						  <tbody class="sale_tbody">
+		  
+
+		  
+							  <t t-foreach="doc.order_line" t-as="line">
+		  
+								  
+								  <tr t-att-class="'bg-200 font-weight-bold o_line_section'">
+
+
+										  <td style="text-align:center; font-size:12pt; width=30%;">
+											  <span t-field="line.name"/>
+										  </td>
+
+										  <!--<td style="text-align:center; width=10%;"><span t-field="line.und_pallet"/></td>
+										  <td style="text-align:center; width=10%;"><span t-field="line.num_pallets"/></td>
+										  <td style="text-align:center; width=10%;"><span t-field="line.cantidad"/></td>
+										  <td style="text-align:center; width=10%;"><span t-field="line.precio"/></td>-->
+
+										  <td class="text-right" style="width=14%;"><span t-field="line.importe"/> €</td>
+
+										  
+
+								  </tr>
+							  </t>
+						  </tbody>
+						</table>
+					</div>
+					<br/>
+					
+					
+					<div class="float-left company_address" style="padding:12px; font-size:12pt; width:60%; border: 3px solid #0c9c45; border-radius: 15px;" >
+						<!--<strong>Modo de pago: </strong><span t-field="doc.payment_mode_id.name"/><br/>
+						<strong>Plazo de pago: </strong><span t-field="doc.payment_term_id.note"/><br/>
+						<strong>Condiciones de entrega: </strong><span t-field="doc.carrier_id"/><br/>
+						<strong>Número de pallets: </strong><span t-field="doc.num_pallets"/><br/>
+						<strong>Peso Neto: </strong><span t-field="doc.peso_neto"/> kg<br/>
+						<strong>Peso Bruto: </strong><span t-field="doc.peso_bruto"/> kg<br/>-->
+					</div>
+
+					
+					<div class="float-right company_address"  style="padding:20px; font-size:12pt; width:35%; border: 3px solid #0c9c45; border-radius: 15px;" >
+						<div id="total" class="row" name="total" style="width:100%">
+							<div >
+								<table class="table table-sm" style="width:270px !important">
+
+									<tr class="border-black o_subtotal" style="">
+										<td style="color:#000;"><strong>Base Imponible</strong></td>
+										<td class="text-right" style="color:#000;">
+											<span t-field="doc.amount_untaxed"/>
+										</td>
+									</tr>
+									<tr class="border-black o_subtotal" style="">
+										<td style="color:#000;"><strong>Impuesto</strong></td>
+										<td class="text-right" style="color:#000;">
+											<span t-field="doc.amount_tax"/>
+										</td>
+									</tr>
+									
+									<tr class="border-black o_total">
+										<td style="color:#000;"><strong>Total</strong></td>
+										<td class="text-right" style="color:#000;">
+											<span t-field="doc.amount_total"/>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<!--<div name="payment_term" t-if="doc.payment_term_id" style="visibility:hidden" >
+							<strong>Payment Terms:</strong>
+							<p class="m-0" t-field="doc.payment_term_id"/>
+						</div>-->
+
+					<p t-field="doc.notes"/>
+					
+					
+					<!--<p t-if="doc.payment_term_id.note"  style="visibility:hidden">
+						<span t-field="doc.payment_term_id.note"/>
+					</p>
+					<p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.sudo().note" style="visibility:hidden">
+						<strong>Fiscal Position Remark:</strong>
+						<span t-field="doc.fiscal_position_id.sudo().note"/>
+					</p>-->
+
+
+					<div class="oe_structure"/>
+				</div>
+		<div class="float-left company_address">
+                    <p style="font-size:8pt; margin-top:20px">
+                        En cumplimiento de lo provisto en la Ley Orgánica 15/1999 de 13 de Diciembre de Protección de Datos de Carácter Personal, 
+                        le informamos que los datos personales que pudiera contener este pedido, van a ser incorporados para su tratamiento a un fichero, 
+                        titularidad de Bemeco Pack S.L., de acuerdo con lo dispuesto en la citada Ley Organica, y conforme al procedimiento 
+                        reglamentariamente establecido, puede ejercitarse los derechos de acceso, oposición y cancelación de datos en la dirección 
+                        Bemeco Pack S.L. Apdo. 29 (Ctra. Godelleta km 1.2, 46360 Buñol (Valencia)
+                    </p>
+                </div>
+			</t>
+
+        </t>
+    </t>
+</template>
+</data>
+</openerp>
