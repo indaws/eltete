@@ -29,7 +29,9 @@
 		    <group>
 		    	<field name="fecha_entrada"/>
 		    	<field name="disponible"/>
-			<field name="almacen"/>
+				<field name="almacen"/>
+				<field name="almacenado"/>
+				<field name="inventariado"/>
 		    </group>	
 		    <group>
 			<field name="date_done"/>  
@@ -148,6 +150,18 @@
         </field>
     </record>
     
+    
+	
+	<record model="ir.actions.act_window" id="action_stock_production_lot_stock">
+		<field name="name">Lotes stock</field>
+		<field name="res_model">stock.production.lot</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[('disponible', '=', True)]</field>
+	</record>
+	
+	
+	<menuitem name="Lotes stock" parent="sale.product_menu_catalog" id="menu_stock_production_lot_stock" action="action_stock_production_lot_stock" sequence="106"/>
     
     
     
@@ -621,4 +635,89 @@
         
         <menuitem name="Trabajadores" parent="stock.menu_stock_inventory_control" id="menu_stock_production_trabajador" action="action_stock_production_trabajador" sequence="995"/>
     
+	
+		<!-- #######################################################
+                 stock.production.inventario
+        ######################################################## -->
+    
+    
+        <record model="ir.ui.view" id="view_stock_production_inventario_tree">
+            <field name="name">stock.production.inventario.tree</field>
+            <field name="model">stock.production.inventario</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Producto">
+                    <field name='name' />
+                    <field name='lot_ids' />
+                </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_inventario_form">
+            <field name="name">stock.production.inventario.form</field>
+            <field name="model">stock.production.inventario</field>
+            <field name="arch" type="xml">
+                <form string="Color">
+                    <sheet>
+                        <group>
+                            <field name='name' />
+						</group>
+						
+						<group>
+							<button name="actualizar_inventario" type="object" string="Procesar inventario" />
+						</group>
+							
+						<group>
+							
+							<field name="lot_ids"  >
+                                <tree string="Lotes" >
+									<field name="name"/>
+                                    <field name="referencia_id"/>
+									<field name="descripcion"/>
+									<field name="unidades"/>
+									<field name="peso_neto"  sum="Peso"/>
+									<field name="fecha_entrada"/>
+									<field name="fecha_salir"/>
+									<field name="picking_id"/>
+									<field name="inventariado"/>
+									<field name="almacenado"/>
+                                </tree>
+                            </field>   
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_stock_production_inventario_search">
+            <field name="name">stock.production.inventario.search</field>
+            <field name="model">stock.production.inventario</field>
+            <field name="arch" type="xml">
+                <search string="Color">
+                    <field name='name' />
+                    <field name='lot_ids' />
+                </search>
+            </field>
+        </record>
+
+				
+        <record model="ir.actions.act_window" id="action_stock_production_inventario">
+            <field name="name">Realizar inventario</field>
+            <field name="res_model">stock.production.inventario</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        
+        <menuitem name="Realizar inventario" parent="stock.menu_stock_inventory_control" id="menu_stock_production_inventario" action="action_stock_production_inventario" sequence="999"/>
+
+
+
+
+			
+	
+	
 </odoo>
