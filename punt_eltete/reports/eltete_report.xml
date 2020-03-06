@@ -77,6 +77,35 @@
             name="punt_eltete.report_stock_production_lot_etiqueta"
         />
         
+		
+		<report 
+            id="rep_purchase_order_normal"
+            string="Pedido"
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_purchase_order_normal"
+            name="punt_eltete.report_purchase_order_normal"
+        />
+		
+		<report 
+            id="rep_purchase_order_ingles"
+            string="Pedido inglés"
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_purchase_order_ingles"
+            name="punt_eltete.report_purchase_order_ingles"
+        />
+		
+		<report 
+            id="rep_purchase_order_llegada"
+            string="Llegada"
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_purchase_order_llegada"
+            name="punt_eltete.report_purchase_order_llegada"
+        />
+		
+		
 
     </data>
 </openerp>
