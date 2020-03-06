@@ -738,12 +738,16 @@ class SaleOrder(models.Model):
                         
                         if len(record.lot_ids) == record.num_pallets:
                             fabricado = True
+                            estado = '2'
+                            """
                             for lot in record.lot_ids:
                                 if lot.fabricado == False:
                                     fabricado = False
                                     break
                             if fabricado == True:
-                                estado = '2'
+                            estado = '2'
+                            """
+                                
             record.estado = estado
                         
     
