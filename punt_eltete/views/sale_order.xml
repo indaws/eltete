@@ -268,10 +268,10 @@
 					<field name='name' />
 					<field name='descripcion' />
 					<field name='unidades' />
+					<field name="comentario"/>
 					<field name='peso_neto' />
 					<field name='fecha_entrada' />
 					<field name='picking_id' />
-					<field name='fecha_salir' />
 					<field name="imprimir_etiqueta"/>
 					<field name='disponible' invisible="1"/>
 				</tree>
