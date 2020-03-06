@@ -183,7 +183,7 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     picking_id = fields.Many2one('stock.picking', string = "Albarán", compute = "_get_datos_albaran")
-    scheduled_date = fields.Datetime(string = "Fecha prevista", compute = "_get_datos_albaran", readonly=True)
+    scheduled_date = fields.Date(string = "Fecha prevista", compute = "_get_datos_albaran", readonly=True)
     date_done = fields.Datetime(string = "Fecha efectiva", compute = "_get_datos_albaran", readonly=True)
     sale_order_line_id = fields.Many2one('sale.order.line', string = "Línea Pedido Venta")
     referencia_id = fields.Many2one('product.referencia', string="Referencia")
@@ -198,7 +198,7 @@ class StockProductionLot(models.Model):
     metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
     fecha_entrada = fields.Date('Fecha Entrada')
     pallet_sage = fields.Char('Pallet Sage')
-    fecha_salir = fields.Datetime('Fecha Salida', readonly = True, compute = "_get_disponible", store = True)
+    fecha_salir = fields.Date('Fecha Salida', readonly = True, compute = "_get_disponible", store = True)
     almacen = fields.Boolean('Almacen', readonly = True, compute = "_get_disponible")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     unidades = fields.Integer('Unidades')
@@ -406,7 +406,7 @@ class StockProductionLot(models.Model):
                         if line.lot_id.id == record.id:
                             picking_id = move.picking_id.id
                             date_done = move.picking_id.date_done
-                            scheduled_date  = move.picking_id.scheduled_date
+                            scheduled_date  = move.picking_id.scheduled_date.date()
                             
             record.picking_id = picking_id
             record.scheduled_date = scheduled_date

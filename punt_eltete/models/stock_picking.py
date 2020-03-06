@@ -99,6 +99,7 @@ class StockPicking(models.Model):
     numero_contenedor = fields.Char('Número Contenedor')
     peso_neto_total = fields.Integer('Peso neto total', compute="_get_num_pallets")
     peso_bruto_total = fields.Integer('Peso neto total', compute="_get_num_pallets")
+
     
     @api.depends('move_lines')
     def _get_num_pallets(self):
