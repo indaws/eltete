@@ -164,6 +164,7 @@
 				<field name="comentario"/>
 				<field name="peso_neto"  sum="Peso"/>
 				<field name="fecha_entrada"/>
+				<field name="defectuoso"/>
 				<field name="inventariado"/>
 				<field name="almacenado"/>
 			</tree>
@@ -185,6 +186,7 @@
 				<field name="comentario"/>
 				<field name="peso_neto"  sum="Peso"/>
 				<field name="fecha_entrada"/>
+				<field name="defectuoso"/>
 				<field name="inventariado"/>
 				<field name="almacenado"/>
 			</group>
