@@ -71,7 +71,8 @@
 				<field name="num_pallets" />
 				<field name="precio_kilo" />
 				<field name="precio_und" />
-				<field name="importe" />
+				<field name="importe_pedido" />
+				<field name="importe_llegada" />
 				<field name="date_planned" invisible="1" />
 				<field name="num_lotes" invisible="1" />
 				<field name="lot_ids" invisible="1" />
