@@ -67,6 +67,7 @@ class PurchaseOrderLine(models.Model):
             descripcion_proveedor = ""
             comentario_proveedor = ""
             tipo_unidad = ""
+            peso_neto_pallet = 0
             if record.sale_line_id:
                 if record.sale_line_id.oferta_id:
                     und_pallet = record.sale_line_id.oferta_id.unidades
@@ -75,7 +76,11 @@ class PurchaseOrderLine(models.Model):
                     if record.sale_line_id.oferta_id.attribute_id.descripcion_proveedor:
                         descripcion_proveedor = record.sale_line_id.oferta_id.attribute_id.descripcion_proveedor
                     if record.sale_line_id.oferta_id.attribute_id.comentario_proveedor:
-                        descripcion_proveedor = record.sale_line_id.oferta_id.attribute_id.comentario_proveedor        
+                        descripcion_proveedor = record.sale_line_id.oferta_id.attribute_id.comentario_proveedor    
+                    
+                    peso_neto_pallet = record.sale_line_id.oferta_id.attribute_id.referencia_id.peso_metro
+                    peso_neto_pallet = peso_neto_pallet * record.sale_line_id.oferta_id.attribute_id.referencia_id.metros_unidad
+                    peso_neto_pallet = peso_neto_pallet * und_pallet
              
             if record.product_id.categ_id.is_mprima_papel == True or record.product_id.categ_id.is_mprima_cola == True:
                 tipo_unidad = "Kilo"
@@ -89,6 +94,7 @@ class PurchaseOrderLine(models.Model):
             record.descripcion_proveedor = descripcion_proveedor
             record.comentario_proveedor = comentario_proveedor
             record.tipo_unidad = tipo_unidad
+            record.peso_neto_pallet = peso_neto_pallet
 
     
     @api.depends('product_id', 'num_pallets', 'kg_pedidos', 'precio', 'und_pallet', 'peso_neto_pallet')
