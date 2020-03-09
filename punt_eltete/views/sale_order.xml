@@ -256,7 +256,7 @@
 				<field name="und_lotes"/>
 				<field name="fila_vinculada_id"  domain="[('order_id', '=', order_id)]"/>
 				<field name="orden_fabricacion"/>
-
+				<field name="descripcion" />
 				<field name="no_editar" invisible="1" />
 				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
