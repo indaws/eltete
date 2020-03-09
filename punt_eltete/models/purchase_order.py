@@ -12,7 +12,7 @@ class PurchaseOrderLine(models.Model):
     cliente_id = fields.Many2one('res.partner', string="Cliente")
     sale_line_id = fields.Many2one('sale.order.line', string="Línea Venta")
     
-    und_pallet = fields.Char('Und Pallet', readonly = True, compute = "_get_descripcion")
+    und_pallet = fields.Integer('Und Pallet', readonly = True, compute = "_get_descripcion")
     peso_neto_pallet = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_descripcion")
     descripcion_bemeco = fields.Html('Descricion Bemeco', readonly = True, compute = "_get_descripcion")
     descripcion_proveedor = fields.Html('Descricion Proveedor', readonly = True, compute = "_get_descripcion")
