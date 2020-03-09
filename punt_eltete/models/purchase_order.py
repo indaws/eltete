@@ -19,11 +19,12 @@ class PurchaseOrderLine(models.Model):
     comentario_proveedor = fields.Char('Comentario', readonly = True, compute = "_get_descripcion")
     tipo_unidad = fields.Char('Tipo', readonly = True, compute = "_get_descripcion")
     
-    precio = fields.Float('Precio', digits = (12,4))
+    precio_num = fields.Float('Precio', digits = (12,4))
     num_pallets = fields.Integer('Num Pallets')
     kg_pedidos = fields.Float('Cantidad kg', digits = (12,4))
     importe_pedido = fields.Float('Importe Pedido', digits = (10, 2), readonly = True, compute = "_get_importe_pedido")
     cantidad_pedida = fields.Html('Cantidad Pedida', readonly = True, compute = "_get_importe_pedido")
+    precio = fields.Html('Precio', readonly = True, compute = "_get_importe_pedido")
     
     importe_llegado = fields.Float('Importe LLegado', digits = (10, 2), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
@@ -34,31 +35,31 @@ class PurchaseOrderLine(models.Model):
     @api.onchange('num_pallets')
     def _onchange_precio(self):
         if self.product_id.categ_id.is_formato == True:
-            self.precio = 0.62
+            self.precio_num = 0.62
         if self.product_id.categ_id.is_bobina == True:
-            self.precio = 0.56
+            self.precio_num = 0.56
     
     
     
-    @api.onchange('precio_kilo', 'precio_und', 'num_lotes', 'lot_ids', 'peso_neto', 'unidades')
+    @api.onchange('precio_num', 'num_lotes', 'lot_ids', 'peso_neto', 'unidades')
     def _onchange_cantidades(self):
         if self.product_id.categ_id:
             if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
                 self.product_qty = self.peso_neto
                 self.product_uom_qty = self.peso_neto
-                self.price_unit = self.precio
+                self.price_unit = self.precio_num
                 
             elif self.product_id.categ_id.is_formato == True or self.product_id.categ_id.is_bobina == True:
                 self.product_qty = self.num_lotes
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio * self.peso_neto / self.num_lotes
+                    self.price_unit = self.precio_num * self.peso_neto / self.num_lotes
                     
             else:
                 self.product_qty = self.num_lotes
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio * self.unidades / self.num_lotes
+                    self.price_unit = self.precio_num * self.unidades / self.num_lotes
 
     
     @api.depends('sale_line_id', 'product_id')
@@ -98,26 +99,31 @@ class PurchaseOrderLine(models.Model):
             record.peso_neto_pallet = peso_neto_pallet
 
     
-    @api.depends('product_id', 'num_pallets', 'kg_pedidos', 'precio', 'und_pallet', 'peso_neto_pallet')
+    @api.depends('product_id', 'num_pallets', 'kg_pedidos', 'precio_num', 'und_pallet', 'peso_neto_pallet')
     def _get_importe_pedido(self):
         for record in self:
             importe = 0
             cantidad = ""
             cantidad_num = 0
+            precio = ""
             if record.product_id:
                 if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
                     cantidad_num = record.kg_pedidos
                     cantidad = str(cantidad_num) + "<br/>" + "Kilos"
+                    precio = str(record.precio_num) + <br/> + "€ / kg"
                 elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
                     cantidad_num = record.peso_neto_pallet * record.num_pallets
                     cantidad = str(cantidad_num) + "<br/>" + "Kilos"
+                    precio = str(record.precio_num) + <br/> + "€ / kg"
                 else:
                     cantidad_num = record.und_pallet * record.num_pallets
                     cantidad = str(cantidad_num) + "<br/>" + "Unidades"
+                    precio = str(record.precio_num) + <br/> + "€ / unidad"
                     
             importe = cantidad_num * record.precio
             record.importe_pedido = importe
             record.cantidad_pedida = cantidad
+            record.precio = precio
     
     
     
