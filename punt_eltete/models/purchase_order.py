@@ -53,13 +53,13 @@ class PurchaseOrderLine(models.Model):
                 self.product_qty = self.num_lotes
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio_num * self.peso_neto / self.num_lotes
+                    self.price_unit = self.importe_llegado / self.num_lotes
                     
             else:
                 self.product_qty = self.num_lotes
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio_num * self.unidades / self.num_lotes
+                    self.price_unit = self.importe_llegado / self.num_lotes
 
     
     @api.depends('sale_line_id', 'product_id')
