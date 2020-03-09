@@ -120,7 +120,7 @@ class PurchaseOrderLine(models.Model):
                     precio = str(record.precio_num) + "<br/>" + "€/kg"
                 else:
                     cantidad_num = record.und_pallet * record.num_pallets
-                    importe = record.num_pallets * record.precio_num
+                    importe = record.und_pallet * record.num_pallets * record.precio_num
                     cantidad = str(cantidad_num) + "<br/>" + "Unidades"
                     precio = str(record.precio_num) + "<br/>" + "€/unidad"
                     
