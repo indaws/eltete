@@ -335,7 +335,7 @@ class StockProductionLot(models.Model):
             self.fabricat = False
             
     
-    @api.onchange('sale_order_line_id', 'cambiar_etiqueta')
+    @api.onchange('sale_order_line_id')
     def _onchange_linea_pedido(self):
         if self.sale_order_line_id:
             self.descripcion = self.sale_order_line_id.descripcion
