@@ -68,7 +68,7 @@
 				<field name='descripcion_bemeco' />
 				<field name="und_pallet" />
 				<field name="tipo_unidad" />
-				<field name="precio" />
+				<field name="precio_num" />
 				<field name="num_pallets" />
 				<field name="kg_pedidos" />
 				<field name="importe_pedido" />
