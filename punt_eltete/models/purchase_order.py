@@ -14,7 +14,7 @@ class PurchaseOrderLine(models.Model):
     
     und_pallet = fields.Char('Und Pallet', readonly = True, compute = "_get_descripcion")
     peso_neto_pallet = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_descripcion")
-    descripcion_bemeco = fields.Char('Descricion Bemeco', readonly = True, compute = "_get_descripcion")
+    descripcion_bemeco = fields.Html('Descricion Bemeco', readonly = True, compute = "_get_descripcion")
     descripcion_proveedor = fields.Html('Descricion Proveedor', readonly = True, compute = "_get_descripcion")
     comentario_proveedor = fields.Char('Comentario', readonly = True, compute = "_get_descripcion")
     tipo_unidad = fields.Char('Tipo', readonly = True, compute = "_get_descripcion")
