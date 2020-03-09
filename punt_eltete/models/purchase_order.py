@@ -45,19 +45,19 @@ class PurchaseOrderLine(models.Model):
             if self.product_id.categ_id.is_mprima_cola == True or self.product_id.categ_id.is_mprima_papel == True:
                 self.product_qty = self.peso_neto
                 self.product_uom_qty = self.peso_neto
-                self.price_unit = self.precio_kilo
+                self.price_unit = self.precio
                 
             elif self.product_id.categ_id.is_formato == True or self.product_id.categ_id.is_bobina == True:
                 self.product_qty = self.num_lotes
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio_kilo * self.peso_neto / self.num_lotes
+                    self.price_unit = self.precio * self.peso_neto / self.num_lotes
                     
             else:
                 self.product_qty = self.num_lotes
                 self.product_uom_qty = self.num_lotes
                 if self.num_lotes > 0:
-                    self.price_unit = self.precio_und * self.unidades / self.num_lotes
+                    self.price_unit = self.precio * self.unidades / self.num_lotes
 
     
     @api.depends('sale_line_id', 'product_id')
