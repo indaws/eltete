@@ -10,7 +10,7 @@ class PurchaseOrderLine(models.Model):
 
     lot_ids = fields.One2many('stock.production.lot', 'purchase_order_line_id', string="Lotes", )
     cliente_id = fields.Many2one('res.partner', string="Cliente")
-    sale_line_id = fields.Many2one('sale.order.line', string="Línea pedido de venta")
+    sale_line_id = fields.Many2one('sale.order.line', string="Línea Venta")
     
     und_pallet = fields.Char('Und Pallet', readonly = True, compute = "_get_descripcion")
     peso_neto_pallet = fields.Integer('Peso Neto Pallet', readonly = True, compute = "_get_descripcion")
@@ -76,7 +76,7 @@ class PurchaseOrderLine(models.Model):
                     if record.sale_line_id.oferta_id.attribute_id.descripcion_proveedor:
                         descripcion_proveedor = record.sale_line_id.oferta_id.attribute_id.descripcion_proveedor
                     if record.sale_line_id.oferta_id.attribute_id.comentario_proveedor:
-                        descripcion_proveedor = record.sale_line_id.oferta_id.attribute_id.comentario_proveedor    
+                        comentario_proveedor = record.sale_line_id.oferta_id.attribute_id.comentario_proveedor    
                     
                     peso_neto_pallet = record.sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
                     peso_neto_pallet = peso_neto_pallet * record.sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
