@@ -33,9 +33,9 @@ class PurchaseOrderLine(models.Model):
     @api.onchange('num_pallets')
     def _onchange_precio(self):
         if self.product_id.categ_id.is_formato == True:
-            self.precio_kilo = 0.62
+            self.precio = 0.62
         if self.product_id.categ_id.is_bobina == True:
-            self.precio_kilo = 0.56
+            self.precio = 0.56
     
     
     
