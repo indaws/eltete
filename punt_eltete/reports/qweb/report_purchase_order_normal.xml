@@ -39,6 +39,7 @@
 								<th style="color:#000; text-align:center;">Und pallet</th>
 								<th style="color:#000; text-align:center;">Num pallets</th>
 								<th style="color:#000; text-align:center;">Precio</th>
+								<th style="color:#000; text-align:center;">Cantidad</th>
 								<th style="color:#000; text-align:center;">Importe</th>
 							  </tr>
 						  </thead>
@@ -55,10 +56,13 @@
 									 <span t-field="line.num_pallets"/>
 								</td>
 								<td style="text-align:center; font-size:12pt; width=30%;">
-								 	<span t-field="line.precio"/> €
+								 	<span t-field="line.precio"/>
 								</td>
 								<td style="text-align:center; font-size:12pt; width=30%;">
-								 	<span t-field="line.importe_pedido"/>
+								 	<span t-field="line.cantidad_pedida"/>
+								</td>
+								<td style="text-align:center; font-size:12pt; width=30%;">
+								 	<span t-field="line.importe_pedido"/> €
 								</td>
 							 </tr>
 						</t>
