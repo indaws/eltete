@@ -23,6 +23,7 @@ class PurchaseOrderLine(models.Model):
     num_pallets = fields.Integer('Num Pallets')
     kg_pedidos = fields.Float('Cantidad kg', digits = (12,4))
     importe_pedido = fields.Float('Importe Pedido', digits = (10, 2), readonly = True, compute = "_get_importe_pedido")
+    cantidad_pedida = fields.Html('Cantidad Pedida', readonly = True, compute = "_get_importe_pedido")
     
     importe_llegado = fields.Float('Importe LLegado', digits = (10, 2), readonly = True, compute = "_get_valores")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_valores")
@@ -101,16 +102,22 @@ class PurchaseOrderLine(models.Model):
     def _get_importe_pedido(self):
         for record in self:
             importe = 0
+            cantidad = ""
+            cantidad_num = 0
             if record.product_id:
                 if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
-                    importe = record.kg_pedidos * record.precio
-                    
+                    cantidad_num = record.kg_pedidos
+                    cantidad = str(cantidad_num) + "<br/>" + "Kilos"
                 elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
-                    importe = record.peso_neto_pallet * record.num_pallets * record.precio
+                    cantidad_num = record.peso_neto_pallet * record.num_pallets
+                    cantidad = str(cantidad_num) + "<br/>" + "Kilos"
                 else:
-                    importe = record.und_pallet * record.num_pallets * record.precio
-
-            record.importe_pedido = importe          
+                    cantidad_num = record.und_pallet * record.num_pallets
+                    cantidad = str(cantidad_num) + "<br/>" + "Unidades"
+                    
+            importe = cantidad_num * record.precio
+            record.importe_pedido = importe
+            record.cantidad_pedida = cantidad
     
     
     
