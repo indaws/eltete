@@ -121,7 +121,7 @@ class PurchaseOrderLine(models.Model):
                     cantidad = str(cantidad_num) + "<br/>" + "Unidades"
                     precio = str(record.precio_num) + "<br/>" + "€/unidad"
                     
-            importe = cantidad_num * record.precio_num
+            importe = float(cantidad_num) * record.precio_num
             record.importe_pedido = importe
             record.cantidad_pedida = cantidad
             record.precio = precio
