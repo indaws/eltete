@@ -70,6 +70,7 @@ class PurchaseOrderLine(models.Model):
             comentario_proveedor = ""
             tipo_unidad = ""
             peso_neto_pallet = 0
+            und_pallet = 0
             if record.sale_line_id:
                 if record.sale_line_id.oferta_id:
                     und_pallet = record.sale_line_id.oferta_id.unidades
