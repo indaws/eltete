@@ -138,11 +138,11 @@ class PurchaseOrderLine(models.Model):
                 peso_neto = peso_neto + lot.peso_neto
                 
             if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
-                importe = record.precio * peso_neto
+                importe = record.precio_num * peso_neto
             elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
-                importe = record.precio * peso_neto
+                importe = record.precio_num * peso_neto
             else:
-                importe = record.precio * unidades
+                importe = record.precio_num * unidades
              
             record.num_lotes = len(record.lot_ids)
             record.peso_neto = peso_neto
