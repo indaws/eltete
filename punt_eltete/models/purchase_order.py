@@ -110,15 +110,15 @@ class PurchaseOrderLine(models.Model):
                 if record.product_id.categ_id.is_mprima_cola == True or record.product_id.categ_id.is_mprima_papel == True:
                     cantidad_num = record.kg_pedidos
                     cantidad = str(cantidad_num) + "<br/>" + "Kilos"
-                    precio = str(record.precio_num) + <br/> + "€ / kg"
+                    precio = str(record.precio_num) + "<br/>" + "€ / kg"
                 elif record.product_id.categ_id.is_formato == True or record.product_id.categ_id.is_bobina == True:
                     cantidad_num = record.peso_neto_pallet * record.num_pallets
                     cantidad = str(cantidad_num) + "<br/>" + "Kilos"
-                    precio = str(record.precio_num) + <br/> + "€ / kg"
+                    precio = str(record.precio_num) + "<br/>" + "€ / kg"
                 else:
                     cantidad_num = record.und_pallet * record.num_pallets
                     cantidad = str(cantidad_num) + "<br/>" + "Unidades"
-                    precio = str(record.precio_num) + <br/> + "€ / unidad"
+                    precio = str(record.precio_num) + "<br/>" + "€ / unidad"
                     
             importe = cantidad_num * record.precio
             record.importe_pedido = importe
