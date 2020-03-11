@@ -125,7 +125,6 @@
 		
 			<field name="partner_shipping_id" position="after">
 				<field name="provincia_id"/>
-		    		<field name="transportista"/>
 				<field name="pedido_cliente"/>
 				<field name="fecha_entrega"/>
 				<field name="estado"/>
