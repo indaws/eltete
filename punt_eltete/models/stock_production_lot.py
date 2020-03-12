@@ -504,7 +504,16 @@ class StockProductionLot(models.Model):
                 peso_metro = record.referencia_id.peso_metro
                 peso_und = peso_metro * record.referencia_id.metros_unidad
                 peso_neto = peso_und * record.unidades
-                peso_bruto = peso_neto + 15
+                
+                pesoMadera = 0
+                if record.referencia_id.longitud < 1500:
+                    pesoMadera = 15
+                elif record.referencia_id.longitud < 2000:
+                    pesoMadera = 20
+                else:
+                    pesoMadera = int(record.referencia_id.longitud / 1000) * 15  
+                peso_bruto = int((peso_neto + pesoMadera) / 5) * 5   
+
                 
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
