@@ -113,8 +113,8 @@
 						<strong>Plazo de pago: </strong><span t-field="doc.payment_term_id.note"/><br/>
 						<strong>Condiciones de entrega: </strong><span t-field="doc.carrier_id"/><br/>
 						<strong>Número de pallets: </strong><span t-field="doc.num_pallets"/><br/>
-						<strong>Peso Neto: </strong><span t-field="doc.peso_neto"/> kg<br/>
-						<strong>Peso Bruto: </strong><span t-field="doc.peso_bruto"/> kg<br/>
+						<strong>Peso Neto: </strong><span t-field="doc.peso_neto_mojado"/> kg<br/>
+						<strong>Peso Bruto: </strong><span t-field="doc.peso_bruto_mojado"/> kg<br/>
 					</div>
 
 					
