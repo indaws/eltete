@@ -116,7 +116,9 @@ class StockPicking(models.Model):
                     peso_bruto_total = peso_bruto_total + line.peso_bruto
                     
             peso_neto_mojado = (1 + (peso_neto / 200000)) * peso_neto
+            peso_neto_mojado = int(peso_neto_mojado / 5) * 5
             peso_bruto_mojado = (1 + (peso_bruto / 200000)) * peso_bruto
+            peso_bruto_mojado = int(peso_bruto_mojado / 5) * 5
             
             record.num_pallets = num_pallets
             record.peso_neto_total = peso_neto_total
