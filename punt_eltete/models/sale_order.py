@@ -579,13 +579,14 @@ class SaleOrder(models.Model):
     fecha_cliente = fields.Date('Fecha del Pedido Cliente')
     fecha_entrega_cliente = fields.Date('Fecha Entrega del Pedido Cliente')
     provincia_id = fields.Many2one('res.country.state', string="Provincia")
-    #transportista = fields.Char('Transportista')
     
     lot_ids = fields.Many2many('stock.production.lot', compute="_get_lots_sale", string="Lotes")
 
     num_pallets = fields.Integer('Pallets Pedido', compute="_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', compute="_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', compute="_get_num_pallets")
+    peso_neto_mojado = fields.Integer('Peso Neto Mojado', compute="_get_num_pallets")
+    peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', compute="_get_num_pallets")
     eton = fields.Float('Eton', digits=(8, 1), compute="_get_num_pallets")
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_num_pallets")
     importe_con_descuento = fields.Float('Importe Total', digits = (10, 2), compute="_get_num_pallets")
@@ -705,11 +706,18 @@ class SaleOrder(models.Model):
                 if line.codigo_cliente and len(line.codigo_cliente) > 0:
                     haycodigo = True
             
+            peso_neto_mojado = (1 + (peso_neto / 200000)) * peso_neto
+            peso_neto_mojado = int(peso_neto_mojado / 5) * 5
+            peso_bruto_mojado = (1 + (peso_bruto / 200000)) * peso_bruto
+            peso_bruto_mojado = int(peso_bruto_mojado / 5) * 5
+            
             if peso_neto > 0:
                 eton = eton / peso_neto
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            record.peso_neto_mojado = peso_neto_mojado
+            record.peso_bruto_mojado = peso_bruto_mojado
             record.importe_sin_descuento = importe_sin_descuento
             record.importe_con_descuento = importe_con_descuento
             record.haycodigo = haycodigo
