@@ -13,8 +13,8 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
     
     
-    peso_neto = fields.Integer('Peso neto total', compute="_get_pesos")
-    peso_bruto = fields.Integer('Peso neto total', compute="_get_pesos")
+    peso_neto = fields.Integer('Peso neto', compute="_get_pesos")
+    peso_bruto = fields.Integer('Peso bruto', compute="_get_pesos")
     cantidad_1_num = fields.Float('Cantidad 1', digits = (12, 4), compute="_get_pesos")
     cantidad_2_num = fields.Float('Cantidad 2', digits = (12, 4), compute="_get_pesos")
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), compute="_get_pesos")
@@ -86,8 +86,6 @@ class StockMove(models.Model):
             record.unidades = unidades
             record.hay_lotes = hay_lotes
 
-            #record.peso_neto = record.sale_line_id.peso_neto * record.product_uom_qty
-            #record.peso_bruto = record.sale_line_id.peso_bruto * record.product_uom_qty
 
 
             
@@ -98,9 +96,10 @@ class StockPicking(models.Model):
     precinto_contenedor = fields.Char('Precinto Contenedor')
     numero_contenedor = fields.Char('Número Contenedor')
     transporte = fields.Char('Transporte')
-    peso_neto_total = fields.Integer('Peso neto total', compute="_get_num_pallets")
-    peso_bruto_total = fields.Integer('Peso neto total', compute="_get_num_pallets")
-
+    peso_neto_total = fields.Integer('Peso neto', compute="_get_num_pallets")
+    peso_bruto_total = fields.Integer('Peso bruto', compute="_get_num_pallets")
+    peso_neto_mojado = fields.Integer('Peso neto Mojado', compute="_get_num_pallets")
+    peso_bruto_mojado = fields.Integer('Peso bruto Mojado', compute="_get_num_pallets")
     
     @api.depends('move_lines')
     def _get_num_pallets(self):
@@ -115,7 +114,13 @@ class StockPicking(models.Model):
                         num_pallets = num_pallets + line.num_pallets
                     peso_neto_total = peso_neto_total + line.peso_neto
                     peso_bruto_total = peso_bruto_total + line.peso_bruto
+                    
+            peso_neto_mojado = (1 + (peso_neto / 200000)) * peso_neto
+            peso_bruto_mojado = (1 + (peso_bruto / 200000)) * peso_bruto
+            
             record.num_pallets = num_pallets
             record.peso_neto_total = peso_neto_total
             record.peso_bruto_total = peso_bruto_total
+            record.peso_neto_mojado = peso_neto_mojado
+            record.peso_bruto_mojado = peso_bruto_mojado
     
