@@ -93,10 +93,27 @@ class AccountInvoice(models.Model):
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
             
-            peso_neto_mojado = (1 + (peso_neto / 200000)) * peso_neto
+            divisor = 150000
+            peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
             peso_neto_mojado = int(peso_neto_mojado / 5) * 5
-            peso_bruto_mojado = (1 + (peso_bruto / 200000)) * peso_bruto
+            peso_bruto_mojado = (1 + (peso_bruto / divisor)) * peso_bruto
             peso_bruto_mojado = int(peso_bruto_mojado / 5) * 5
+            
+            if peso_bruto < 24000:
+                while peso_bruto_mojado > 24000:
+                    divisor = divisor + 10000
+                    peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
+                    peso_neto_mojado = int(peso_neto_mojado / 5) * 5
+                    peso_bruto_mojado = (1 + (peso_bruto / divisor)) * peso_bruto
+                    peso_bruto_mojado = int(peso_bruto_mojado / 5) * 5
+                    
+                if peso_neto_mojado < peso_neto:
+                    peso_neto_mojado = peso_neto
+                if peso_bruto_mojado < peso_bruto:
+                    peso_bruto_mojado = peso_bruto 
+            else:
+                peso_neto_mojado = peso_neto
+                peso_bruto_mojado = peso_bruto
               
             record.peso_cantonera = peso_cantonera
             record.peso_slipsheet = peso_slipsheet
