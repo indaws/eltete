@@ -203,8 +203,6 @@ class StockProductionLot(models.Model):
     unidades = fields.Integer('Unidades')
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_peso")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
-    peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_peso")
-    peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_peso")
     user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
     user_peso_neto = fields.Float('User Peso Neto', digits=(10, 2))
     peso_metro = fields.Float('Peso Metro', readonly = True, digits=(12, 4), compute = "_get_peso" )
@@ -495,8 +493,6 @@ class StockProductionLot(models.Model):
         for record in self:
             peso_neto = 0
             peso_bruto = 0
-            peso_neto_mojado = 0
-            peso_bruto_mojado = 0
             peso_metro = 0
             if record.user_peso_neto > 0:
                 peso_neto = record.user_peso_neto
@@ -517,14 +513,9 @@ class StockProductionLot(models.Model):
                 else:
                     pesoMadera = int(record.referencia_id.longitud / 1000) * 15  
                 peso_bruto = int((peso_neto + pesoMadera) / 5) * 5   
-
-            peso_neto_mojado = int(peso_neto * 1.1 / 5) * 5
-            peso_bruto_mojado = int(peso_bruto * 1.1 / 5) * 5
             
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
-            record.peso_neto_mojado = peso_neto_mojado
-            record.peso_bruto_mojado = peso_bruto_mojado
             record.peso_metro = peso_metro
     
     """
