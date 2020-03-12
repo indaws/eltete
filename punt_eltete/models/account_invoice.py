@@ -10,6 +10,8 @@ class AccountInvoice(models.Model):
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_num_pallets")
+    peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
+    peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantoneras', readonly = True, compute = "_get_num_pallets")
     peso_slipsheet = fields.Integer('Peso Slip Sheets', readonly = True, compute = "_get_num_pallets")
     
@@ -90,12 +92,19 @@ class AccountInvoice(models.Model):
 
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
+            
+            peso_neto_mojado = (1 + (peso_neto / 200000)) * peso_neto
+            peso_neto_mojado = int(peso_neto_mojado / 5) * 5
+            peso_bruto_mojado = (1 + (peso_bruto / 200000)) * peso_bruto
+            peso_bruto_mojado = int(peso_bruto_mojado / 5) * 5
               
             record.peso_cantonera = peso_cantonera
             record.peso_slipsheet = peso_slipsheet
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
+            record.peso_neto_mojado = peso_neto_mojado
+            record.peso_bruto_mojado = peso_bruto_mojado
 
             
     
