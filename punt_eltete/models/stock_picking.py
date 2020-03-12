@@ -106,23 +106,39 @@ class StockPicking(models.Model):
     
         for record in self:
             num_pallets = 0
-            peso_neto_total = 0
-            peso_bruto_total = 0
+            peso_neto = 0
+            peso_bruto = 0
             for line in record.move_lines:
                 if line.product_uom_qty > 0.0:
                     if line.sale_line_id.bultos == '1':
                         num_pallets = num_pallets + line.num_pallets
-                    peso_neto_total = peso_neto_total + line.peso_neto
-                    peso_bruto_total = peso_bruto_total + line.peso_bruto
+                    peso_neto = peso_neto + line.peso_neto
+                    peso_bruto = peso_bruto + line.peso_bruto
                     
-            peso_neto_mojado = (1 + (peso_neto_total / 200000)) * peso_neto_total
+            peso_neto_mojado = (1 + (peso_neto / 200000)) * peso_neto
             peso_neto_mojado = int(peso_neto_mojado / 5) * 5
-            peso_bruto_mojado = (1 + (peso_bruto_total / 200000)) * peso_bruto_total
+            peso_bruto_mojado = (1 + (peso_bruto / 200000)) * peso_bruto
             peso_bruto_mojado = int(peso_bruto_mojado / 5) * 5
             
+            if peso_bruto < 24000:
+                while peso_bruto_mojado > 24000:
+                    divisor = divisor + 10000
+                    peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
+                    peso_neto_mojado = int(peso_neto_mojado / 5) * 5
+                    peso_bruto_mojado = (1 + (peso_bruto / divisor)) * peso_bruto
+                    peso_bruto_mojado = int(peso_bruto_mojado / 5) * 5
+                    
+                if peso_neto_mojado < peso_neto:
+                    peso_neto_mojado = peso_neto
+                if peso_bruto_mojado < peso_bruto:
+                    peso_bruto_mojado = peso_bruto 
+            else:
+                peso_neto_mojado = peso_neto
+                peso_bruto_mojado = peso_bruto
+            
             record.num_pallets = num_pallets
-            record.peso_neto_total = peso_neto_total
-            record.peso_bruto_total = peso_bruto_total
+            record.peso_neto_total = peso_neto
+            record.peso_bruto_total = peso_bruto
             record.peso_neto_mojado = peso_neto_mojado
             record.peso_bruto_mojado = peso_bruto_mojado
     
