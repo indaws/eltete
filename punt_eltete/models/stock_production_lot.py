@@ -827,9 +827,6 @@ class StockProductionLot(models.Model):
             if not referencia_id:
                 raise ValidationError(error)
                 
-            if self.check_duplicado_referencia(referencia_id):
-                raise ValidationError("Error: Este cliente ya tiene esta referencia creada")
-                
             self.referencia_id = referencia_id    
             
             
