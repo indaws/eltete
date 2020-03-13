@@ -481,6 +481,7 @@ class ProductReferencia(models.Model):
     ancho_interior = fields.Char('Ancho Interior')
     ancho_superficie = fields.Char('Ancho Superficie')
     comentario = fields.Text('Comentario Referencia')
+    precio = fields.Float('Precio', digits = (12, 4))
 
     #calculados
     peso_metro = fields.Float('Peso Metro', digits = (10,4), compute = "_get_peso_metro")
