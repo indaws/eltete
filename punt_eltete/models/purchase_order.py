@@ -19,7 +19,7 @@ class PurchaseOrderLine(models.Model):
     comentario_proveedor = fields.Char('Comentario', readonly = True, compute = "_get_descripcion")
     tipo_unidad = fields.Char('Tipo', readonly = True, compute = "_get_descripcion")
     
-    precio_num = fields.Float('Precio', digits = (12,4))
+    precio_num = fields.Float('Precio', digits = (12,4), related='sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio', readonly = False)
     num_pallets = fields.Integer('Num Pallets')
     kg_pedidos = fields.Float('Cantidad kg', digits = (12,4))
     importe_pedido = fields.Float('Importe Pedido', digits = (10, 2), readonly = True, compute = "_get_importe_pedido")
@@ -31,7 +31,7 @@ class PurchaseOrderLine(models.Model):
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
     num_lotes = fields.Integer('Num Lotes', readonly = True, compute = "_get_valores")
     
-    precio_ref = fields.Float('Precio Ref', related='sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio', readonly = False)
+    #precio_ref = fields.Float('Precio Ref', related='sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio', readonly = False)
    
             
     @api.onchange('num_pallets')
