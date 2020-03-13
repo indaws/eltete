@@ -31,7 +31,9 @@ class PurchaseOrderLine(models.Model):
     unidades = fields.Integer('Unidades', readonly = True, compute = "_get_valores")
     num_lotes = fields.Integer('Num Lotes', readonly = True, compute = "_get_valores")
     
-    
+    precio_ref = fields.Float('Precio Ref', related='sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio')
+   
+            
     @api.onchange('num_pallets')
     def _onchange_precio(self):
         if self.product_id.categ_id.is_formato == True:
