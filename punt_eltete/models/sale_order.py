@@ -44,7 +44,7 @@ class SaleOrderLine(models.Model):
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     actualizar = fields.Boolean('Actualizar')
     dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_produccion")
-    incompleta = fields.Boolean('Incompleta', readonly = True, compute = "_get_und_lotes")
+    incompleta = fields.Boolean('Incompleta', readonly = True, store = True, compute = "_get_und_lotes")
     
     
     ESTADO_SEL = [('0', 'ESPERANDO'),    
@@ -87,6 +87,16 @@ class SaleOrderLine(models.Model):
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
     
+    ESTADO_PRODUC_CANTONERA = [('0', '0'),    
+                               ('1', '1'),
+                               ('2', '2'),
+                               ('3', '3'),
+                               ('4', '4'),
+                               ]
+    estado_cantonera = fields.Selection(selection = ESTADO_PRODUC_CANTONERA, string = 'Estado Cantonera', default = '0')
+    
+    
+    
     @api.multi
     def action_view_form_sale_order(self):
         view = self.env.ref('sale.sale_order_line_view_form_readonly')
@@ -102,9 +112,11 @@ class SaleOrderLine(models.Model):
         }
     
     
+    @api.depends('lot_ids', 'num_pallets')
     def _get_und_lotes(self):
         for record in self:
             unidades = 0
+            incompleta = False
             for lot in record.lot_ids:
                 unidades = unidades + lot.unidades
             
