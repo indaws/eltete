@@ -91,12 +91,13 @@
         <field name="arch" type="xml">
             <tree string="Producto">
                 <field name="name"/>
+		<field name="precio"/>
                 <field name="ancho_interior"/>
 		<field name="ancho_superficie"/>
-		<field name="comentario"/>
 		<field name="j_interior"/>
 		<field name="j_superficie"/>
 		<field name="j_superficie_max"/>
+		<field name="comentario"/>
             </tree>
         </field>
     </record>
