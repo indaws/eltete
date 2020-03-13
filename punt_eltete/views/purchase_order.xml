@@ -105,6 +105,7 @@
 				<field name="peso_neto" />
 				<field name="unidades" />
 				<field name="num_lotes" />
+                <field name="precio_num" />
 			</field>
         
 			<field name="name" position="after">
