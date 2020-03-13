@@ -120,7 +120,7 @@ class SaleOrderLine(models.Model):
     @api.onchange('lot_ids',)
     def _onchange_lot_ids(self):
         for lot in self.lot_ids:
-            lot.descripcion = self.display_name
+            lot.descripcion = self.descripcion
         
     
     
