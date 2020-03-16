@@ -409,7 +409,7 @@
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
                                         Peso neto: <field name="peso_neto"/><br/>
-                                        Minutos: <field name="minutos"/>
+                                        Minutos: <field name="horas"/>
                                     </div>
                                 </div>
                                 <div class="oe_clear"/>
