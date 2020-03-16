@@ -121,17 +121,17 @@ class SaleOrderLine(models.Model):
                 if record.estado_cantonera == '0':
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
-                elif record.estado_cantonera == '1' and if record.oferta_id.attribute_id.cantonera_1 == True:
+                elif record.estado_cantonera == '1' and record.oferta_id.attribute_id.cantonera_1 == True:
                     velocidad = velocidad / 2
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
-                elif record.estado_cantonera == '2' and if record.oferta_id.attribute_id.cantonera_2 == True:
+                elif record.estado_cantonera == '2' and record.oferta_id.attribute_id.cantonera_2 == True:
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
-                elif record.estado_cantonera == '3' and if record.oferta_id.attribute_id.cantonera_3 == True:
+                elif record.estado_cantonera == '3' and record.oferta_id.attribute_id.cantonera_3 == True:
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
-                elif record.estado_cantonera == '4' and if record.oferta_id.attribute_id.cantonera_4 == True:
+                elif record.estado_cantonera == '4' and record.oferta_id.attribute_id.cantonera_4 == True:
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
                 
