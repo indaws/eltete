@@ -124,7 +124,7 @@ class SaleOrderLine(models.Model):
                     minutos = 4
                 elif record.estado_cantonera == '4':
                     minutos = 5
-            elif record.product_id.categ_id.is_cantonera == True:
+            elif record.product_id.categ_id.is_slipsheet == True:
                 if record.estado_cantonera == '10':
                     minutos = 6
                 elif record.estado_cantonera == '11':
