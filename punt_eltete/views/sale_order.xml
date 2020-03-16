@@ -354,7 +354,7 @@
                     <field name="estado_cantonera" options="{&quot;group_by_tooltip&quot;: {&quot;requirements&quot;: &quot;Description&quot;, &quot;legend_priority&quot;: &quot;Use of stars&quot;}}"/>
            	    <field name="horas"/>
                      
-                    <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}' sum_field="minutos"/>
+                    <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}' sum_field="horas"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div>
@@ -398,7 +398,7 @@
                     <field name="estado_slipsheet" options="{&quot;group_by_tooltip&quot;: {&quot;requirements&quot;: &quot;Description&quot;, &quot;legend_priority&quot;: &quot;Use of stars&quot;}}"/>
                     <field name="horas"/>
                      
-                    <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}' sum_field="minutos"/>
+                    <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}' sum_field="horas"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div>
