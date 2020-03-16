@@ -392,10 +392,10 @@
             <field name="arch" type="xml">
                 <kanban default_group_by="estado_slipsheet" class="o_kanban_small_column o_kanban_project_tasks">
                 
-                    <field name="name"/>
+                    <field name="descripcion"/>
                     <field name="peso_neto"/>
                     <field name="estado_slipsheet" options="{&quot;group_by_tooltip&quot;: {&quot;requirements&quot;: &quot;Description&quot;, &quot;legend_priority&quot;: &quot;Use of stars&quot;}}"/>
-                    <field name="minutos"/>
+                    <field name="horas"/>
                      
                     <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}' sum_field="minutos"/>
                     <templates>
