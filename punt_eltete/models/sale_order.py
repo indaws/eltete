@@ -102,6 +102,7 @@ class SaleOrderLine(models.Model):
     estado_slipsheet = fields.Selection(selection = ESTADO_PRODUC_SLIPSHEET, string = 'Estado Slipsheet', default = '10', group_expand='_read_estado_slipsheet')
     
     horas = fields.Float('Horas', digits = (8, 1), compute = "_get_horas", store=True)
+    op_duracion = fields.Char('Duración', compute = "_get_horas")
     
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
@@ -109,27 +110,38 @@ class SaleOrderLine(models.Model):
         ('blocked', 'Red')], string='Kanban State',
         copy=False, default='normal')
     
-    @api.depends('estado_cantonera', 'estado_slipsheet', 'op_velocidad')
+    @api.depends('estado_cantonera', 'estado_slipsheet', 'op_velocidad', 'oferta_id')
     def _get_horas(self):
         for record in self:
             velocidad = record.op_velocidad
+            minutos = 0
             horas = 0
+            duracion = ""
             if record.product_id.categ_id.is_cantonera == True:
                 if record.estado_cantonera == '0':
-                    horas = 0
-                elif record.estado_cantonera == '1':
+                    minutos = record.op_metros / velocidad
+                    horas = minutos / 60
+                elif record.estado_cantonera == '1' and if record.oferta_id.attribute_id.cantonera_1 == True:
                     velocidad = velocidad / 2
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
-                elif record.estado_cantonera == '2':
+                elif record.estado_cantonera == '2' and if record.oferta_id.attribute_id.cantonera_2 == True:
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
-                elif record.estado_cantonera == '3':
+                elif record.estado_cantonera == '3' and if record.oferta_id.attribute_id.cantonera_3 == True:
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
-                elif record.estado_cantonera == '4':
+                elif record.estado_cantonera == '4' and if record.oferta_id.attribute_id.cantonera_4 == True:
                     minutos = record.op_metros / velocidad
                     horas = minutos / 60
+                
+                if minutos > 0:
+                    horas_dur = int(horas)
+                    minutos = minutos - horas_dur * 60
+                    duracion = str(horas_dur) + " horas y " + str(minutos) + " minutos"
+                else:
+                    duracion = "LÍNEA INCORRECTA"
+                
             elif record.product_id.categ_id.is_slipsheet == True:
                 if record.estado_slipsheet == '10':
                     minutos = 6
@@ -137,7 +149,9 @@ class SaleOrderLine(models.Model):
                     minutos = 7
                 elif record.estado_slipsheet == '12':
                     minutos = 8
+                    
             record.horas = horas
+            record.op_duracion = duracion
     
     
     @api.model
@@ -287,24 +301,16 @@ class SaleOrderLine(models.Model):
             dir_qr = dir_qr + orden_fabricacion
             record.dir_qr = dir_qr
             record.orden_fabricacion = orden_fabricacion
-            minutos_1 = -1
-            minutos_2 = -1
-            minutos_3 = -1
-            minutos_4 = -1
             
             maquina = ""
             if record.oferta_id.attribute_id.cantonera_1 == True:
                 maquina = maquina + "Línea 1, "
-                minutos_1 = 0
             if record.oferta_id.attribute_id.cantonera_2 == True:
                 maquina = maquina + "Línea 2, "
-                minutos_2 = 0
             if record.oferta_id.attribute_id.cantonera_3 == True:
                 maquina = maquina + "Línea 3, "
-                minutos_3 = 0
             if record.oferta_id.attribute_id.cantonera_4 == True:
                 maquina = maquina + "Línea 4, "
-                minutos_4 = 0
             
             superficie_color = ""
             if record.oferta_id.attribute_id.cantonera_color_id:
@@ -445,7 +451,7 @@ class SaleOrderLine(models.Model):
             especial = ""
             if record.oferta_id.attribute_id.cantonera_especial_id:
                 especial = record.oferta_id.attribute_id.cantonera_especial_id.name
-                velocidad = velocidad - 10
+                velocidad = velocidad - 20
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
