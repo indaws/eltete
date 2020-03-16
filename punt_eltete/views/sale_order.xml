@@ -342,8 +342,8 @@
     </record>
     
     
-    <record model="ir.ui.view" id="view_task_kanban">
-            <field name="name">sale.order.line.kanban</field>
+    <record model="ir.ui.view" id="view_sale_order_line_cantoneras_kanban">
+            <field name="name">sale.order.line.cantoneras.kanban</field>
             <field name="model">sale.order.line</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="estado_cantonera" class="o_kanban_small_column o_kanban_project_tasks">
@@ -351,8 +351,9 @@
                     <field name="name"/>
                     <field name="peso_neto"/>
                     <field name="estado_cantonera" options="{&quot;group_by_tooltip&quot;: {&quot;requirements&quot;: &quot;Description&quot;, &quot;legend_priority&quot;: &quot;Use of stars&quot;}}"/>
-                                        
-                    <!--<progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}'/>-->
+                    <field name="minutos"/>
+                     
+                    <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}' sum_field="minutos"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div>
@@ -363,7 +364,51 @@
                                     </div>
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
-                                        Peso neto: <field name="peso_neto"/>
+                                        Peso neto: <field name="peso_neto"/><br/>
+                                        Minutos: <field name="minutos"/>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+         
+         
+    <record model="ir.actions.act_window" id="action_sale_order_line_produccion_slipsheet">
+        <field name="name">Slip sheets</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('product_id.categ_id.is_slipsheet', '=', True), ('incompleta', '=', True)]</field>
+    </record>
+         
+    <record model="ir.ui.view" id="view_sale_order_line_cantoneras_slipsheet">
+            <field name="name">sale.order.line.slipsheet.kanban</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="estado_slipsheet" class="o_kanban_small_column o_kanban_project_tasks">
+                
+                    <field name="name"/>
+                    <field name="peso_neto"/>
+                    <field name="estado_slipsheet" options="{&quot;group_by_tooltip&quot;: {&quot;requirements&quot;: &quot;Description&quot;, &quot;legend_priority&quot;: &quot;Use of stars&quot;}}"/>
+                    <field name="minutos"/>
+                     
+                    <progressbar field="kanban_state" colors='{"done": "success", "blocked": "danger"}' sum_field="minutos"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong class="o_kanban_record_title"><field name="order_id"/>: <field name="name"/></strong>
+                                    </div>
+                                    
+                                    <div class="text-muted o_kanban_record_subtitle">
+                                        Peso neto: <field name="peso_neto"/><br/>
+                                        Minutos: <field name="minutos"/>
                                     </div>
                                 </div>
                                 <div class="oe_clear"/>
@@ -377,6 +422,7 @@
 	
 	<menuitem name="Producción" parent="sale.sale_menu_root" id="menu_sale_order_line_produccion" sequence="4"/>
     <menuitem name="Cantoneras" parent="menu_sale_order_line_produccion" id="menu_sale_order_line_produccion_cantonera" action="action_sale_order_line_produccion_cantonera" sequence="1"/>
+    <menuitem name="Slip sheets" parent="menu_sale_order_line_produccion" id="menu_sale_order_line_produccion_slipsheet" action="action_sale_order_line_produccion_slipsheet" sequence="2"/>
 	
     
     
