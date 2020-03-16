@@ -82,16 +82,16 @@ class SaleOrderLine(models.Model):
     op_metros = fields.Char('Metros', compute = "_get_produccion")
     op_peso_interior = fields.Char('Peso Interior', compute = "_get_produccion")
     op_peso_superficie = fields.Char('Peso Superficie', compute = "_get_produccion")
-    op_duracion = fields.Char('Duración', compute = "_get_produccion")
+    op_velocidad = fields.Integer('Velocidad', compute = "_get_produccion")
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
     
-    ESTADO_PRODUC_CANTONERA = [('0', '0'),    
-                               ('1', '1'),
-                               ('2', '2'),
-                               ('3', '3'),
-                               ('4', '4'),
+    ESTADO_PRODUC_CANTONERA = [('0', 'SIN ASIGNAR'),    
+                               ('1', 'LÍNEA 1'),
+                               ('2', 'LÍNEA 2'),
+                               ('3', 'LÍNEA 3'),
+                               ('4', 'LÍNEA 4'),
                                ]
     estado_cantonera = fields.Selection(selection = ESTADO_PRODUC_CANTONERA, string = 'Estado Cantonera', default = '0', group_expand='_read_estado_cantonera')
     
@@ -101,7 +101,7 @@ class SaleOrderLine(models.Model):
                                ]
     estado_slipsheet = fields.Selection(selection = ESTADO_PRODUC_SLIPSHEET, string = 'Estado Slipsheet', default = '10', group_expand='_read_estado_slipsheet')
     
-    minutos = fields.Integer('Minutos', compute = "_get_minutos", store=True)
+    horas = fields.Float('Horas', digits = (8, 1), compute = "_get_horas", store=True)
     
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
@@ -109,21 +109,27 @@ class SaleOrderLine(models.Model):
         ('blocked', 'Red')], string='Kanban State',
         copy=False, default='normal')
     
-    @api.depends('estado_cantonera', 'estado_slipsheet')
-    def _get_minutos(self):
+    @api.depends('estado_cantonera', 'estado_slipsheet', 'op_velocidad')
+    def _get_horas(self):
         for record in self:
-            minutos = 0
+            velocidad = record.op_velocidad
+            horas = 0
             if record.product_id.categ_id.is_cantonera == True:
                 if record.estado_cantonera == '0':
-                    minutos = 1
+                    horas = 0
                 elif record.estado_cantonera == '1':
-                    minutos = 2
+                    velocidad = velocidad / 2
+                    minutos = record.op_metros / velocidad
+                    horas = minutos / 60
                 elif record.estado_cantonera == '2':
-                    minutos = 3
+                    minutos = record.op_metros / velocidad
+                    horas = minutos / 60
                 elif record.estado_cantonera == '3':
-                    minutos = 4
+                    minutos = record.op_metros / velocidad
+                    horas = minutos / 60
                 elif record.estado_cantonera == '4':
-                    minutos = 5
+                    minutos = record.op_metros / velocidad
+                    horas = minutos / 60
             elif record.product_id.categ_id.is_slipsheet == True:
                 if record.estado_slipsheet == '10':
                     minutos = 6
@@ -131,7 +137,7 @@ class SaleOrderLine(models.Model):
                     minutos = 7
                 elif record.estado_slipsheet == '12':
                     minutos = 8
-            record.minutos = minutos
+            record.horas = horas
     
     
     @api.model
@@ -281,16 +287,24 @@ class SaleOrderLine(models.Model):
             dir_qr = dir_qr + orden_fabricacion
             record.dir_qr = dir_qr
             record.orden_fabricacion = orden_fabricacion
+            minutos_1 = -1
+            minutos_2 = -1
+            minutos_3 = -1
+            minutos_4 = -1
             
             maquina = ""
             if record.oferta_id.attribute_id.cantonera_1 == True:
                 maquina = maquina + "Línea 1, "
+                minutos_1 = 0
             if record.oferta_id.attribute_id.cantonera_2 == True:
                 maquina = maquina + "Línea 2, "
+                minutos_2 = 0
             if record.oferta_id.attribute_id.cantonera_3 == True:
                 maquina = maquina + "Línea 3, "
+                minutos_3 = 0
             if record.oferta_id.attribute_id.cantonera_4 == True:
                 maquina = maquina + "Línea 4, "
+                minutos_4 = 0
             
             superficie_color = ""
             if record.oferta_id.attribute_id.cantonera_color_id:
@@ -305,6 +319,17 @@ class SaleOrderLine(models.Model):
             aux2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram + 100
             interior_gramaje = str(aux1) + " - " + str(aux2)
             
+            ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
+            ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
+            grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_2
+            longitud_final = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+            longitud = longitud_final
+            und_pallet = record.und_pallet
+            num_pallets = record.lotes_fabricar
+            sierra = ""
+            
+            velocidad = 60
+            
             tintero1 = False
             tintero2 = False
             tinta_1 = ""
@@ -315,17 +340,20 @@ class SaleOrderLine(models.Model):
                 if record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id:
                     tinta_1 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id.name
                     tintero1 = True
+                    velocidad = velocidad - 10
                     if record.oferta_id.attribute_id.cantonera_cliche_id.texto_1:
                         texto_1 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_1
                 if record.oferta_id.attribute_id.cantonera_cliche_id.tinta_2_id:
                     if tintero1 == False:
                         tinta_1 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_2_id.name
                         tintero1 = True
+                        velocidad = velocidad - 10
                         if record.oferta_id.attribute_id.cantonera_cliche_id.texto_2:
                             texto_1 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_2
                     elif tintero2 == False:
                         tinta_2 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_2_id.name
                         tintero2 = True
+                        velocidad = velocidad - 10
                         if record.oferta_id.attribute_id.cantonera_cliche_id.texto_2:
                             texto_2 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_2
             
@@ -334,16 +362,6 @@ class SaleOrderLine(models.Model):
                     texto_1 = record.oferta_id.attribute_id.reciclable_id.name
                 elif tintero2 == False:
                     texto_2 = record.oferta_id.attribute_id.reciclable_id.name
-            
-            
-            ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
-            ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
-            grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_2
-            longitud_final = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
-            longitud = longitud_final
-            und_pallet = record.und_pallet
-            num_pallets = record.lotes_fabricar
-            sierra = ""
             
             ancho_pallet = record.oferta_id.attribute_id.ancho_pallet
             tipo_pallet = ""
@@ -413,10 +431,6 @@ class SaleOrderLine(models.Model):
             peso_superficie = 0.180 * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie / 1000
             peso_superficie = peso_superficie * metros * 1.05
             peso_superficie = (int(peso_superficie / 50) + 1) * 50
-            minutos = int(metros / 60)
-            horas = int(minutos / 60)
-            minutos = minutos - 60 * horas
-            duracion = str(horas) + " horas " + str(minutos) + " minutos"
             metros = str(int(metros)) + " metros"
             peso_interior = str(peso_interior) + " kg"
             peso_superficie = str(peso_superficie) + " kg"
@@ -431,6 +445,7 @@ class SaleOrderLine(models.Model):
             especial = ""
             if record.oferta_id.attribute_id.cantonera_especial_id:
                 especial = record.oferta_id.attribute_id.cantonera_especial_id.name
+                velocidad = velocidad - 10
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
@@ -459,7 +474,7 @@ class SaleOrderLine(models.Model):
             record.op_metros = metros
             record.op_peso_interior = peso_interior
             record.op_peso_superficie = peso_superficie
-            record.op_duracion = duracion
+            record.op_velocidad = velocidad
             record.op_comentario = comentario
             record.op_forma = forma
             record.op_especial = especial
