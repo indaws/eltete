@@ -93,7 +93,54 @@ class SaleOrderLine(models.Model):
                                ('3', '3'),
                                ('4', '4'),
                                ]
-    estado_cantonera = fields.Selection(selection = ESTADO_PRODUC_CANTONERA, string = 'Estado Cantonera', default = '0')
+    estado_cantonera = fields.Selection(selection = ESTADO_PRODUC_CANTONERA, string = 'Estado Cantonera', default = '0', group_expand='_read_estado_cantonera')
+    
+    ESTADO_PRODUC_SLIPSHEET = [('10', '10'),    
+                               ('11', '11'),
+                               ('12', '12'),
+                               ]
+    estado_slipsheet = fields.Selection(selection = ESTADO_PRODUC_SLIPSHEET, string = 'Estado Slipsheet', default = '10', group_expand='_read_estado_slipsheet')
+    
+    minutos = fields.Integer('Minutos', compute = "_get_minutos", store=True)
+    
+    kanban_state = fields.Selection([
+        ('normal', 'Grey'),
+        ('done', 'Green'),
+        ('blocked', 'Red')], string='Kanban State',
+        copy=False, default='normal')
+    
+    @api.depends('estado_cantonera', 'estado_slipsheet')
+    def _get_minutos(self):
+        for record in self:
+            minutos = 0
+            if record.product_id.categ_id.is_cantonera == True:
+                if record.estado_cantonera == '0':
+                    minutos = 1
+                elif record.estado_cantonera == '1':
+                    minutos = 2
+                elif record.estado_cantonera == '2':
+                    minutos = 3
+                elif record.estado_cantonera == '3':
+                    minutos = 4
+                elif record.estado_cantonera == '4':
+                    minutos = 5
+            elif record.product_id.categ_id.is_cantonera == True:
+                if record.estado_cantonera == '10':
+                    minutos = 6
+                elif record.estado_cantonera == '11':
+                    minutos = 7
+                elif record.estado_cantonera == '12':
+                    minutos = 8
+            record.minutos = minutos
+    
+    
+    @api.model
+    def _read_estado_cantonera(self, stages, domain, order):
+        return ['0','1','2','3','4',]
+        
+    @api.model
+    def _read_estado_slipsheet(self, stages, domain, order):
+        return ['10','11','12',]
     
     
     
