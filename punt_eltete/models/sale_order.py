@@ -80,6 +80,7 @@ class SaleOrderLine(models.Model):
     op_paquetes_fila= fields.Char('Paquetes Fila', compute = "_get_produccion")
     op_und_exactas = fields.Char('Unidades Exactas', compute = "_get_produccion")
     op_metros = fields.Char('Metros', compute = "_get_produccion")
+    op_metros_num = fields.Integer('Metros', compute = "_get_produccion")
     op_peso_interior = fields.Char('Peso Interior', compute = "_get_produccion")
     op_peso_superficie = fields.Char('Peso Superficie', compute = "_get_produccion")
     op_velocidad = fields.Integer('Velocidad', compute = "_get_produccion")
@@ -119,20 +120,20 @@ class SaleOrderLine(models.Model):
             duracion = ""
             if record.product_id.categ_id.is_cantonera == True:
                 if record.estado_cantonera == '0':
-                    minutos = record.op_metros / velocidad
+                    minutos = record.op_metros_num / velocidad
                     horas = minutos / 60
                 elif record.estado_cantonera == '1' and record.oferta_id.attribute_id.cantonera_1 == True:
                     velocidad = velocidad / 2
-                    minutos = record.op_metros / velocidad
+                    minutos = record.op_metros_num / velocidad
                     horas = minutos / 60
                 elif record.estado_cantonera == '2' and record.oferta_id.attribute_id.cantonera_2 == True:
-                    minutos = record.op_metros / velocidad
+                    minutos = record.op_metros_num / velocidad
                     horas = minutos / 60
                 elif record.estado_cantonera == '3' and record.oferta_id.attribute_id.cantonera_3 == True:
-                    minutos = record.op_metros / velocidad
+                    minutos = record.op_metros_num / velocidad
                     horas = minutos / 60
                 elif record.estado_cantonera == '4' and record.oferta_id.attribute_id.cantonera_4 == True:
-                    minutos = record.op_metros / velocidad
+                    minutos = record.op_metros_num / velocidad
                     horas = minutos / 60
                 
                 if minutos > 0:
@@ -437,6 +438,7 @@ class SaleOrderLine(models.Model):
             peso_superficie = 0.180 * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_superficie / 1000
             peso_superficie = peso_superficie * metros * 1.05
             peso_superficie = (int(peso_superficie / 50) + 1) * 50
+            metros_num = metros
             metros = str(int(metros)) + " metros"
             peso_interior = str(peso_interior) + " kg"
             peso_superficie = str(peso_superficie) + " kg"
@@ -478,6 +480,7 @@ class SaleOrderLine(models.Model):
             record.op_paquetes_fila = paquetes_fila
             record.op_und_exactas = und_exactas
             record.op_metros = metros
+            record.op_metros_num = metros_num
             record.op_peso_interior = peso_interior
             record.op_peso_superficie = peso_superficie
             record.op_velocidad = velocidad
