@@ -297,7 +297,7 @@
 				<field name="cantidad"/>
 				<field name="precio"/>
 				<field name="importe"/>
-				<field name="estado"/>
+				<field name="estado_linea"/>
 			</field>
 			
 			<field name="salesman_id" position="attributes">
