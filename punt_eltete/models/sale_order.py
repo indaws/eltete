@@ -104,6 +104,8 @@ class SaleOrderLine(models.Model):
     
     horas = fields.Float('Horas', digits = (8, 1), compute = "_get_horas", store=True)
     op_duracion = fields.Char('Duración', compute = "_get_horas")
+    cliente_nombre = fields.Char('Cliente', compute = "_get_horas")
+    fecha_entrega = fields.Char('Fecha entrega', compute = "_get_horas")
     
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
@@ -120,20 +122,20 @@ class SaleOrderLine(models.Model):
             duracion = ""
             if record.product_id.categ_id.is_cantonera == True:
                 if record.estado_cantonera == '0':
-                    minutos = record.op_metros_num / velocidad
+                    minutos = int(record.op_metros_num / velocidad)
                     horas = minutos / 60
                 elif record.estado_cantonera == '1' and record.oferta_id.attribute_id.cantonera_1 == True:
                     velocidad = velocidad / 2
-                    minutos = record.op_metros_num / velocidad
+                    minutos = int(record.op_metros_num / velocidad)
                     horas = minutos / 60
                 elif record.estado_cantonera == '2' and record.oferta_id.attribute_id.cantonera_2 == True:
-                    minutos = record.op_metros_num / velocidad
+                    minutos = int(record.op_metros_num / velocidad)
                     horas = minutos / 60
                 elif record.estado_cantonera == '3' and record.oferta_id.attribute_id.cantonera_3 == True:
-                    minutos = record.op_metros_num / velocidad
+                    minutos = int(record.op_metros_num / velocidad)
                     horas = minutos / 60
                 elif record.estado_cantonera == '4' and record.oferta_id.attribute_id.cantonera_4 == True:
-                    minutos = record.op_metros_num / velocidad
+                    minutos = int(record.op_metros_num / velocidad)
                     horas = minutos / 60
                 
                 if minutos > 0:
@@ -150,7 +152,17 @@ class SaleOrderLine(models.Model):
                     minutos = 7
                 elif record.estado_slipsheet == '12':
                     minutos = 8
-                    
+            
+            cliente_nombre = ""
+            fecha_entrega = None
+            if record.order_id:
+                if record.order_id.partner_id:
+                    cliente_nombre = record.order_id.partner_id.name
+                if record.order_id.fecha_entrega:
+                    fecha_entrega = record.order_id.fecha_entrega
+                
+            record.cliente_nombre = cliente_nombre
+            record.fecha_entrega = fecha_entrega
             record.horas = horas
             record.op_duracion = duracion
     
@@ -679,7 +691,6 @@ class SaleOrder(models.Model):
     descuento_porcentaje = fields.Float('Descuento', digits = (10, 2), readonly = True, compute="_get_descuento")
     comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_descuento")
     no_editar = fields.Boolean('No Editar')
-    #pedido_stock = fields.Boolean('Pedido de Stock', default = False)
     actualizar = fields.Boolean('Actualizar')
     
     ESTADOS_SEL = [('0', 'NO CONFIRMADO'),     
