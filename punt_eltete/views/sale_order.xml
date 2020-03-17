@@ -372,7 +372,7 @@
 					<button string="Ir" 
 						name="action_view_form_sale_order" 
 						type="object" 
-						class="oe_highlight"/>
+						class="oe_highlight">IR</button>
 					<field name="horas" invisible="1"/>
                                     </div>
                                 </div>
@@ -422,7 +422,7 @@
 					<button string="Ir" 
 						name="action_view_form_sale_order" 
 						type="object" 
-						class="oe_highlight"/>
+						class="oe_highlight">IR</button>
 					<field name="horas" invisible="1"/>
                                     </div>
                                 </div>
