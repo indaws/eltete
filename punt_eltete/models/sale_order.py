@@ -47,13 +47,11 @@ class SaleOrderLine(models.Model):
     incompleta = fields.Boolean('Incompleta', readonly = True, store = True, compute = "_get_und_lotes")
     
     
-    ESTADO_SEL = [('0', 'ESPERANDO'),    
-                  ('1', 'A FABRICAR'),
-                  ('2', 'A MANIPULAR'),
-                  ('3', 'FABRICADO'),
-                  ('4', 'ENTREGADO'),
+    ESTADO_SEL = [('0', 'NO FABRICAR'),    
+                  ('1', 'FABRICAR'),
+                  ('3', 'FABRICADO STOCK'),
                   ]
-    estado = fields.Selection(selection = ESTADO_SEL, string = 'Estado', default = '0')
+    estado_linea = fields.Selection(selection = ESTADO_SEL, string = 'Estado', default = '1')
     
     op_cantonera_maquina = fields.Char('Máquina', compute = "_get_produccion")
     op_superficie_color = fields.Char('Superficie Color', compute = "_get_produccion")
@@ -192,17 +190,22 @@ class SaleOrderLine(models.Model):
         }
     
     
-    @api.depends('lot_ids', 'num_pallets')
+    @api.depends('lot_ids', 'num_pallets', 'estado_linea')
     def _get_und_lotes(self):
         for record in self:
             unidades = 0
-            incompleta = False
             for lot in record.lot_ids:
                 unidades = unidades + lot.unidades
             
             incompleta = False
             if len(record.lot_ids) < record.num_pallets:
                 incompleta = True
+                #No fabricar
+                if record.estado_linea == '0':
+                    incompleta = False
+                #Fabricado Stock
+                if record.estado_linea == '3':
+                    incompleta = False
                 
             record.und_lotes = unidades
             record.incompleta = incompleta
