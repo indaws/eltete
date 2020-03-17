@@ -366,7 +366,8 @@
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
 					<field name="op_cantonera_maquina"/><br/>
-                                        Peso neto: <field name="peso_neto"/><br/>
+                                        Cliente: <field name="cliente_nombre"/><br/>
+					Fecha Entrega: <field name="fecha_entrega"/><br/>
                                         Duración: <field name="op_duracion"/><br/>
 					<field name="horas" invisible="1"/>
                                     </div>
@@ -411,7 +412,8 @@
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
 					<field name="op_cantonera_maquina"/><br/>
-                                        Peso neto: <field name="peso_neto"/><br/>
+                                        Cliente: <field name="cliente_nombre"/><br/>
+					Fecha Entrega: <field name="fecha_entrega"/><br/>
                                         Duración: <field name="op_duracion"/><br/>
 					<field name="horas" invisible="1"/>
                                     </div>
