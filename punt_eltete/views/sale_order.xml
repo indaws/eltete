@@ -369,6 +369,10 @@
                                         Cliente: <field name="cliente_nombre"/><br/>
 					Fecha Entrega: <field name="fecha_entrega"/><br/>
                                         Duración: <field name="op_duracion"/><br/>
+					<button string="Ir" 
+						name="action_view_form_sale_order" 
+						type="object" 
+						class="oe_highlight"/>
 					<field name="horas" invisible="1"/>
                                     </div>
                                 </div>
@@ -415,6 +419,10 @@
                                         Cliente: <field name="cliente_nombre"/><br/>
 					Fecha Entrega: <field name="fecha_entrega"/><br/>
                                         Duración: <field name="op_duracion"/><br/>
+					<button string="Ir" 
+						name="action_view_form_sale_order" 
+						type="object" 
+						class="oe_highlight"/>
 					<field name="horas" invisible="1"/>
                                     </div>
                                 </div>
