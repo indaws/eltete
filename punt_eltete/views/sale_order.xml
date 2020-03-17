@@ -367,7 +367,7 @@
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
 					<field name="op_cantonera_maquina"/><br/>
-                                        Cliente: <field name="cliente_nombre"/><br/>
+                                        <field name="cliente_nombre"/><br/>
 					Fecha Entrega: <field name="fecha_entrega"/><br/>
                                         Duración: <field name="op_duracion"/><br/>
 					<button string="Ir" 
@@ -417,7 +417,7 @@
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
 					<field name="op_cantonera_maquina"/><br/>
-                                        Cliente: <field name="cliente_nombre"/><br/>
+                                        <field name="cliente_nombre"/><br/>
 					Fecha Entrega: <field name="fecha_entrega"/><br/>
                                         Duración: <field name="op_duracion"/><br/>
 					<button string="Ir" 
