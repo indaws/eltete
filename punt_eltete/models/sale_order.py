@@ -185,7 +185,26 @@ class SaleOrderLine(models.Model):
     @api.model
     def _read_estado_sierra(self, stages, domain, order):
         return ['0','1','2',]
+        
     
+    
+    @api.multi
+    def action_decrease_sequence(self):
+        for record in self:
+            record.sequence_cantonera = record.sequence_cantonera - 1
+            return {
+                  'type': 'ir.actions.client',
+                  'tag': 'reload',
+            }
+            
+    @api.multi
+    def action_increase_sequence(self):
+        for record in self:
+            record.sequence_cantonera = record.sequence_cantonera + 1
+            return {
+                  'type': 'ir.actions.client',
+                  'tag': 'reload',
+            }
     
     
     
