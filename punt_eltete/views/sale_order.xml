@@ -385,6 +385,17 @@
 						name="action_view_form_sale_order" 
 						type="object" 
 						class="oe_highlight">IR</button>
+                        
+                    <button string="+" 
+						name="action_increase_sequence" 
+						type="object" 
+						class="oe_highlight">+</button>
+                        
+                    <button string="-" 
+						name="action_decrease_sequence" 
+						type="object" 
+						class="oe_highlight">-</button>
+                        
 					<field name="horas" invisible="1"/>
                                     </div>
                                 </div>
