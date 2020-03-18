@@ -67,7 +67,7 @@ class SaleOrderLine(models.Model):
     op_longitud = fields.Char('Longitud', compute = "_get_produccion")
     op_und_pallet = fields.Integer('Und Orden', compute = "_get_produccion")
     op_num_pallets = fields.Integer('Num Pallets', compute = "_get_produccion")
-    op_sierra = fields.Html('Sierra', compute = "_get_produccion")
+    op_sierra = fields.Html('Sierra', compute = "_get_produccion", store=True)
     op_tolerancia_alas = fields.Char('Tolerancia Alas', compute = "_get_produccion")
     op_tolerancia_grosor = fields.Char('Tolerancia Grosor', compute = "_get_produccion")
     op_tolerancia_longitud = fields.Char('Tolerancia Longitud', compute = "_get_produccion")
@@ -99,6 +99,15 @@ class SaleOrderLine(models.Model):
                                ('12', '12'),
                                ]
     estado_slipsheet = fields.Selection(selection = ESTADO_PRODUC_SLIPSHEET, string = 'Estado Slipsheet', default = '10', group_expand='_read_estado_slipsheet')
+    
+    ESTADO_SIERRA = [('0', '0'),    
+                       ('1', '1'),
+                       ('2', '2'),
+                       ]
+    estado_sierra = fields.Selection(selection = ESTADO_SIERRA, string = 'Estado Sierra', default = '0', group_expand='_read_estado_sierra')
+    
+    sequence_cantonera = fields.Integer('Secuencia kanban', default=50)
+    color = fields.Integer('Color')
     
     horas = fields.Float('Horas', digits = (8, 1), compute = "_get_horas", store=True)
     op_duracion = fields.Char('Duración', compute = "_get_horas")
@@ -172,6 +181,11 @@ class SaleOrderLine(models.Model):
     @api.model
     def _read_estado_slipsheet(self, stages, domain, order):
         return ['10','11','12',]
+        
+    @api.model
+    def _read_estado_sierra(self, stages, domain, order):
+        return ['0','1','2',]
+    
     
     
     
