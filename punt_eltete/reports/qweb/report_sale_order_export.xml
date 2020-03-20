@@ -47,7 +47,6 @@
 						  <thead style="color:#000;">
 							  <tr style="color:#000;">
 								  <!-- TODO: remove in master -->
-								  <t t-set="colspan" t-value="5"/>
 								  <t t-if="doc.haycodigo == True">
 									  <th style="color:#000; text-align:center;">Code</th>
 								  </t>
@@ -140,7 +139,7 @@
 										</tr>
 									</t>
 									<tr class="border-black o_subtotal" style="">
-										<td style="color:#000;"><strong>Base Imponible</strong></td>
+										<td style="color:#000;"><strong>Base</strong></td>
 										<td class="text-right" style="color:#000;">
 											<span t-field="doc.amount_untaxed"/>
 										</td>
