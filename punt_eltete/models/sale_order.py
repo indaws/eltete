@@ -119,6 +119,30 @@ class SaleOrderLine(models.Model):
         ('done', 'Green'),
         ('blocked', 'Red')], string='Kanban State',
         copy=False, default='normal')
+        
+        
+    
+    @api.onchange('estado_cantonera',)
+    def _onchange_estado_produccion(self):
+        self.sequence_cantonera = 999
+        i = self.ordenar_secuencia_cantonera(self.estado_cantonera)
+        self.sequence_cantonera = i
+        
+
+            
+    def ordenar_secuencia_cantonera(self, estado_cantonera):
+        i=1
+        for line in self.env['sale.order.line'].search([('product_id.categ_id.is_cantonera', '=', True), 
+                                                        ('incompleta', '=', True), 
+                                                        ('estado_cantonera', '=', estado_cantonera)], 
+                                                        order='sequence_cantonera'):
+            line.write({'sequence_cantonera': i})
+            i = i+1
+        return i
+    
+        
+        
+        
     
     @api.depends('estado_cantonera', 'estado_slipsheet', 'op_velocidad', 'oferta_id')
     def _get_horas(self):
@@ -191,7 +215,15 @@ class SaleOrderLine(models.Model):
     @api.multi
     def action_decrease_sequence(self):
         for record in self:
-            record.sequence_cantonera = record.sequence_cantonera - 1
+            if record.sequence_cantonera > 1:
+                new_sequence = record.sequence_cantonera - 1
+                for line in self.env['sale.order.line'].search([('product_id.categ_id.is_cantonera', '=', True), 
+                                                        ('incompleta', '=', True), 
+                                                        ('estado_cantonera', '=', self.estado_cantonera),
+                                                        ('sequence_cantonera', '=', new_sequence)]):
+                    line.sequence_cantonera = new_sequence + 1
+                record.sequence_cantonera = new_sequence
+                
             return {
                   'type': 'ir.actions.client',
                   'tag': 'reload',
@@ -200,7 +232,23 @@ class SaleOrderLine(models.Model):
     @api.multi
     def action_increase_sequence(self):
         for record in self:
-            record.sequence_cantonera = record.sequence_cantonera + 1
+        
+            if len(self.env['sale.order.line'].search([('product_id.categ_id.is_cantonera', '=', True), 
+                                                        ('incompleta', '=', True), 
+                                                        ('estado_cantonera', '=', self.estado_cantonera),
+                                                        ('sequence_cantonera', '>', record.sequence_cantonera)])) > 0:
+                
+                
+                new_sequence = record.sequence_cantonera + 1
+                for line in self.env['sale.order.line'].search([('product_id.categ_id.is_cantonera', '=', True), 
+                                                        ('incompleta', '=', True), 
+                                                        ('estado_cantonera', '=', self.estado_cantonera),
+                                                        ('sequence_cantonera', '=', new_sequence)]):
+                    line.sequence_cantonera = new_sequence + -1
+                record.sequence_cantonera = new_sequence
+        
+        
+
             return {
                   'type': 'ir.actions.client',
                   'tag': 'reload',
