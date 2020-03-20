@@ -27,11 +27,11 @@
 					<div class="oe_structure"/>
 
 					<div class="float-left company_address" style="padding:12px; font-size:12pt; width:350px; border: 3px solid #0c9c45; border-radius: 15px;" >
-						  <strong>Pedido: </strong><span t-field="doc.name"/><br/>
-						  <strong>Fecha pedido: </strong><span t-field="doc.date_order" t-options='{"format": "dd/MM/yyyy"}'/><br/>
-						  <strong>Cliente: </strong><span t-field="doc.partner_id.ref"/><br/>
-						  <strong>Pedido cliente: </strong><span t-field="doc.pedido_cliente"/><br/>
-						  <strong>Fecha entrega: </strong><span t-field="doc.fecha_entrega"/><br/>
+						  <strong>Order: </strong><span t-field="doc.name"/><br/>
+						  <strong>Order Date: </strong><span t-field="doc.date_order" t-options='{"format": "dd/MM/yyyy"}'/><br/>
+						  <strong>Customer Number: </strong><span t-field="doc.partner_id.ref"/><br/>
+						  <strong>Customer Order: </strong><span t-field="doc.pedido_cliente"/><br/>
+						  <strong>Delivery Date: </strong><span t-field="doc.fecha_entrega"/><br/>
 					</div>
 					
 					<div class="float-right company_address" style="padding:12px; font-size:10pt; width:300px; border: 3px solid #0c9c45; border-radius: 15px;" >
@@ -49,14 +49,14 @@
 								  <!-- TODO: remove in master -->
 								  <t t-set="colspan" t-value="5"/>
 								  <t t-if="doc.haycodigo == True">
-									  <th style="color:#000; text-align:center;">Código</th>
+									  <th style="color:#000; text-align:center;">Code</th>
 								  </t>
 								  <th style="color:#000; text-align:center;">Description</th>
-								  <th style="color:#000; text-align:center;">Und pallet</th>
-								  <th style="color:#000; text-align:center;">Num pallets</th>
-								  <th style="color:#000; text-align:center;">Cantidad</th>
-								  <th style="color:#000; text-align:center;">Precio</th>
-								  <th style="color:#000; text-align:center;">Importe</th>
+								  <th style="color:#000; text-align:center;"Unities Pallet</th>
+								  <th style="color:#000; text-align:center;">Number Pallets</th>
+								  <th style="color:#000; text-align:center;">Quantity</th>
+								  <th style="color:#000; text-align:center;">Price</th>
+								  <th style="color:#000; text-align:center;">Amount</th>
 							  </tr>
 						  </thead>
 						  <tbody class="sale_tbody">
@@ -109,12 +109,12 @@
 					
 					
 					<div class="float-left company_address" style="padding:12px; font-size:12pt; width:60%; border: 3px solid #0c9c45; border-radius: 15px;" >
-						<strong>Modo de pago: </strong><span t-field="doc.payment_mode_id.name"/><br/>
-						<strong>Plazo de pago: </strong><span t-field="doc.payment_term_id.note"/><br/>
-						<strong>Condiciones de entrega: </strong><span t-field="doc.carrier_id"/><br/>
-						<strong>Número de pallets: </strong><span t-field="doc.num_pallets"/><br/>
-						<strong>Peso Neto: </strong><span t-field="doc.peso_neto_mojado"/> kg<br/>
-						<strong>Peso Bruto: </strong><span t-field="doc.peso_bruto_mojado"/> kg<br/>
+						<strong>Payment method: </strong><span t-field="doc.payment_mode_id.name"/><br/>
+						<strong>Payment terms: </strong><span t-field="doc.payment_term_id.note"/><br/>
+						<strong>Delivery terms: </strong><span t-field="doc.carrier_id"/><br/>
+						<strong>Number of pallets: </strong><span t-field="doc.num_pallets"/><br/>
+						<strong>Net weight: </strong><span t-field="doc.peso_neto_mojado"/> kg<br/>
+						<strong>Total weight: </strong><span t-field="doc.peso_bruto_mojado"/> kg<br/>
 					</div>
 
 					
@@ -207,8 +207,8 @@
 
 					<div class="oe_structure"/>
 				</div>
-		<div class="float-left company_address">
-                    <p style="font-size:8pt; margin-top:20px">
+		<div class="float-left company_address" style="width:100%; margin-top:10px;">
+                    <p style="font-size:8pt;">
                         En cumplimiento de lo provisto en la Ley Orgánica 15/1999 de 13 de Diciembre de Protección de Datos de Carácter Personal, 
                         le informamos que los datos personales que pudiera contener este pedido, van a ser incorporados para su tratamiento a un fichero, 
                         titularidad de Bemeco Pack S.L., de acuerdo con lo dispuesto en la citada Ley Organica, y conforme al procedimiento 
