@@ -372,7 +372,7 @@
                                 </div>
                                 <div class="oe_kanban_content">
                                     <div>
-                                        <strong class="o_kanban_record_title"><field name="descripcion"/></strong>
+                                        <strong class="o_kanban_record_title"><t t-raw="record.descripcion.raw_value"/></strong>
                                     </div>
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
@@ -445,7 +445,7 @@
                                 
                                 <div class="oe_kanban_content">
                                     <div>
-                                        <strong class="o_kanban_record_title"><field name="descripcion"/></strong>
+                                        <strong class="o_kanban_record_title"><t t-raw="record.descripcion.raw_value"/></strong>
                                     </div>
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
@@ -519,7 +519,7 @@
                                 </div>
                                 <div class="oe_kanban_content">
                                     <div>
-                                        <strong class="o_kanban_record_title"><field name="descripcion"/></strong>
+                                        <strong class="o_kanban_record_title"><t t-raw="record.descripcion.raw_value"/></strong>
                                     </div>
                                     
                                     <div class="text-muted o_kanban_record_subtitle">
