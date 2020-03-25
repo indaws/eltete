@@ -1,6 +1,7 @@
 from odoo import fields, models, api
 import logging
 _logger = logging.getLogger(__name__)
+from odoo import exceptions
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -838,14 +839,19 @@ class SaleOrder(models.Model):
     
     @api.multi
     def action_confirm(self):
+        if not self.fecha_entrega or self.fecha_entrega == None:
+            raise exceptions.ValidationError('Error: es necesario introducir una fecha de entrega') 
         res = super(SaleOrder, self).action_confirm()
         for so in self:
             so.no_editar = True
             for line in so.order_line:
                 line.no_editar = True
-                line.attribute_id.no_editar = True
-                line.oferta_id.no_editar = True
-                line.price_unit = line.importe / line.num_pallets
+                if line.attribute_id:
+                    line.attribute_id.no_editar = True
+                if line.oferta_id:
+                    line.oferta_id.no_editar = True
+                if line.num_pallets > 0:
+                    line.price_unit = line.importe / line.num_pallets
         return res
         
         
