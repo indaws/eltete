@@ -68,7 +68,7 @@
 			<field name="eton_pie"/>
 			<field name="peso_flatboard" sum="Peso"/>
 			<field name="eton_flatboard"/>
-			<field name="importe_varios"/>
+			<field name="importe_varios" sum="Peso"/>
 		</field>
 		
 		<field name="user_id" position="attributes">
