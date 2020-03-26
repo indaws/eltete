@@ -12,8 +12,25 @@ class AccountInvoice(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_num_pallets")
     peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
+    
     peso_cantonera = fields.Integer('Peso Cantoneras', readonly = True, compute = "_get_num_pallets")
+    eton_cantonera = fields.Integer('Eton Cantoneras', readonly = True, compute = "_get_num_pallets")
+    peso_perfilu = fields.Integer('Peso Perfil U', readonly = True, compute = "_get_num_pallets")
+    eton_perfilu = fields.Integer('Eton Perfil U', readonly = True, compute = "_get_num_pallets")
     peso_slipsheet = fields.Integer('Peso Slip Sheets', readonly = True, compute = "_get_num_pallets")
+    eton_slipsheet = fields.Integer('Eton Slip Sheets', readonly = True, compute = "_get_num_pallets")
+    peso_formato = fields.Integer('Peso Formato', readonly = True, compute = "_get_num_pallets")
+    eton_formato = fields.Integer('Eton Formato', readonly = True, compute = "_get_num_pallets")
+    peso_bobina = fields.Integer('Peso Bobina', readonly = True, compute = "_get_num_pallets")
+    eton_bobina = fields.Integer('Eton Bobina', readonly = True, compute = "_get_num_pallets")
+    peso_solidboard = fields.Integer('Peso Solid Board', readonly = True, compute = "_get_num_pallets")
+    eton_solidboard = fields.Integer('Eton Solid Board', readonly = True, compute = "_get_num_pallets")
+    peso_pie = fields.Integer('Peso Pie Pallet', readonly = True, compute = "_get_num_pallets")
+    eton_pie = fields.Integer('Eton Pie Pallet', readonly = True, compute = "_get_num_pallets")
+    peso_flatboard = fields.Integer('Peso FlatBoard', readonly = True, compute = "_get_num_pallets")
+    eton_flatboard = fields.Integer('Eton FlatBoard', readonly = True, compute = "_get_num_pallets")
+    importe_varios = fields.Integer('Importe Varios', readonly = True, compute = "_get_num_pallets")
+    dir_data = fields.Char('Dir Data', readonly = True, compute = "_get_num_pallets")
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -183,7 +200,23 @@ class AccountInvoice(models.Model):
                 peso_bruto_mojado = peso_bruto
               
             record.peso_cantonera = peso_cantonera
+            record.eton_cantonera = eton_cantonera
+            record.peso_perfilu = peso_perfilu
+            record.eton_perfilu = eton_perfilu
             record.peso_slipsheet = peso_slipsheet
+            record.eton_slipsheet = eton_slipsheet
+            record.peso_formato = peso_formato
+            record.eton_formato = eton_formato
+            record.peso_bobina = peso_bobina
+            record.eton_bobina = eton_bobina
+            record.peso_solidboard = peso_solidboard
+            record.eton_solidboard = eton_solidboard
+            record.peso_pie = peso_pie
+            record.eton_pie = eton_pie
+            record.peso_flatboard = peso_flatboard
+            record.eton_flatboard = eton_flatboard
+            record.importe_varios = importe_varios
+            record.dir_data = dir_data
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
