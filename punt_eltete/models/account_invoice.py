@@ -27,8 +27,8 @@ class AccountInvoice(models.Model):
     eton_solidboard = fields.Integer('Eton Solid Board', readonly = True, compute = "_get_num_pallets")
     peso_pie = fields.Integer('Peso Pie Pallet', readonly = True, compute = "_get_num_pallets")
     eton_pie = fields.Integer('Eton Pie Pallet', readonly = True, compute = "_get_num_pallets")
-    peso_flatboard = fields.Integer('Peso FlatBoard', readonly = True, compute = "_get_num_pallets")
-    eton_flatboard = fields.Integer('Eton FlatBoard', readonly = True, compute = "_get_num_pallets")
+    peso_flatboard = fields.Integer('Peso Flat Board', readonly = True, compute = "_get_num_pallets")
+    eton_flatboard = fields.Integer('Eton Flat Board', readonly = True, compute = "_get_num_pallets")
     importe_varios = fields.Integer('Importe Varios', readonly = True, compute = "_get_num_pallets")
     dir_data = fields.Char('Dir Data', readonly = True, compute = "_get_num_pallets")
     
