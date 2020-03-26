@@ -77,6 +77,34 @@ class AccountInvoice(models.Model):
             num_pallets = 0
             peso_neto = 0
             peso_bruto = 0
+            
+            peso_cantonera = 0
+            importe_cantonera = 0
+            eton_cantonera = 0
+            peso_perfilu = 0
+            importe_perfilu = 0
+            eton_perfilu = 0
+            peso_slipsheet = 0
+            importe_slipsheet = 0
+            eton_slipsheet = 0
+            peso_formato = 0
+            importe_formato = 0
+            eton_formato = 0
+            peso_bobina = 0
+            importe_bobina = 0
+            eton_bobina = 0
+            peso_solidboard = 0
+            importe_solidboard = 0
+            eton_solidboard = 0
+            peso_pie = 0
+            importe_pie = 0
+            eton_pie = 0
+            peso_flatboard = 0
+            importe_flatboard = 0
+            eton_flatboard = 0
+            importe_varios = 0
+            dir_data = "http://bemecopack.es/jseb/factura_set.php?"
+
             peso_cantonera = 0
             peso_slipsheet = 0
             
