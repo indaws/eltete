@@ -142,6 +142,23 @@ class AccountInvoice(models.Model):
 
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
+                
+            if peso_cantonera > 0:
+                eton_cantonera = int(1000 * importe_cantonera / peso_cantonera)
+            if peso_perfilu > 0:
+                eton_perfilu = int(1000 * importe_perfilu / peso_perfilu)
+            if peso_slipsheet > 0:
+                eton_slipsheet = int(1000 * importe_slipsheet / peso_slipsheet)
+            if peso_formato > 0:
+                eton_formato = int(1000 * importe_formato / peso_formato)
+            if peso_bobina > 0:
+                eton_bobina = int(1000 * importe_bobina / peso_bobina)
+            if peso_solidboard > 0:
+                eton_solidboard = int(1000 * importe_solidboard / peso_solidboard)
+            if peso_pie > 0:
+                eton_pie = int(1000 * importe_pie / peso_pie)
+            if peso_flatboard > 0:
+                eton_flatboard = int(1000 * importe_flatboard / peso_flatboard)
             
             divisor = 150000
             peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
