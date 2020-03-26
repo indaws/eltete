@@ -114,9 +114,31 @@ class AccountInvoice(models.Model):
                         num_pallets = num_pallets + line.num_pallets
                     
                 if line.product_id.referencia_id.is_cantonera == True:
-                    peso_cantonera = peso_cantonera + line.peso_neto
+                    peso_cantonera = peso_cantonera + int(line.peso_neto)
+                    importe_cantonera = importe_cantonera + line.price_subtotal
+                if line.product_id.referencia_id.is_perfilu == True:
+                    peso_perfilu = peso_perfilu + int(line.peso_neto)
+                    importe_perfilu = importe_perfilu + line.price_subtotal
                 if line.product_id.referencia_id.is_slipsheet == True:
-                    peso_slipsheet = peso_slipsheet + line.peso_neto
+                    peso_slipsheet = peso_slipsheet + int(line.peso_neto)
+                    importe_slipsheet = importe_slipsheet + line.price_subtotal
+                if line.product_id.referencia_id.is_formato == True:
+                    peso_formato = peso_formato + int(line.peso_neto)
+                    importe_formato = importe_formato + line.price_subtotal
+                if line.product_id.referencia_id.is_bobina == True:
+                    peso_bobina = peso_bobina + int(line.peso_neto)
+                    importe_bobina = importe_bobina + line.price_subtotal
+                if line.product_id.referencia_id.is_solidboard == True:
+                    peso_solidboard = peso_solidboard + int(line.peso_neto)
+                    importe_solidboard = importe_solidboard + line.price_subtotal
+                if line.product_id.referencia_id.is_pieballet == True:
+                    peso_pie = peso_pie + int(line.peso_neto)
+                    importe_pie = importe_pie + line.price_subtotal
+                if line.product_id.referencia_id.is_flatboard == True:
+                    peso_flatboard = peso_flatboard + int(line.peso_neto)
+                    importe_flatboard = importe_flatboard + line.price_subtotal
+                if line.product_id.referencia_id.is_varios == True:
+                    importe_varios = importe_varios + line.price_subtotal
 
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
