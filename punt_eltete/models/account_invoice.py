@@ -14,6 +14,8 @@ class AccountInvoice(models.Model):
     peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantoneras', readonly = True, compute = "_get_num_pallets")
     peso_slipsheet = fields.Integer('Peso Slip Sheets', readonly = True, compute = "_get_num_pallets")
+    dir_data = fields.Char('Dir Data', readonly = True, compute = "_get_num_pallets")
+    
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -77,8 +79,10 @@ class AccountInvoice(models.Model):
             num_pallets = 0
             peso_neto = 0
             peso_bruto = 0
+            
             peso_cantonera = 0
             peso_slipsheet = 0
+            dir_data = ""
             
             for line in record.invoice_line_ids:
                 if line.product_id:
@@ -117,6 +121,7 @@ class AccountInvoice(models.Model):
               
             record.peso_cantonera = peso_cantonera
             record.peso_slipsheet = peso_slipsheet
+            record.dir_data = dir_data
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
