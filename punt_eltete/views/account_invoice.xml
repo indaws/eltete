@@ -49,9 +49,9 @@
 		
 		<field name="state" position="after">
 			<field name="dir_data"/>
-			<field name="id"/>
+			<field name="partner_id"/>
 			<field name="date_invoice"/>
-			<field name="amount_untaxed"/>
+			<field name="number"/>
 			<field name="peso_cantonera" sum="Peso"/>
 			<field name="eton_cantonera"/>
 			<field name="peso_perfilu" sum="Peso"/>
