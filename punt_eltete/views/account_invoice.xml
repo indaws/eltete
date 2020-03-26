@@ -57,7 +57,7 @@
 			<field name="peso_perfilu" sum="Peso"/>
 			<field name="eton_perfilu"/>
 			<field name="peso_slipsheet" sum="Peso"/>
-			<field name="eton_slipsheets"/>
+			<field name="eton_slipsheet"/>
 			<field name="peso_formato" sum="Peso"/>
 			<field name="eton_formato"/>
 			<field name="peso_bobina" sum="Peso"/>
