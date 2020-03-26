@@ -13,25 +13,7 @@ class AccountInvoice(models.Model):
     peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantoneras', readonly = True, compute = "_get_num_pallets")
-    #eton_cantonera = fields.Integer('Eton Cantoneras', readonly = True, compute = "_get_num_pallets")
-    #peso_perfilu = fields.Integer('Peso Perfil U', readonly = True, compute = "_get_num_pallets")
-    #eton_perfilu = fields.Integer('Eton Perfil U', readonly = True, compute = "_get_num_pallets")
     peso_slipsheet = fields.Integer('Peso Slip Sheets', readonly = True, compute = "_get_num_pallets")
-    """
-    eton_slipsheet = fields.Integer('Eton Slip Sheets', readonly = True, compute = "_get_num_pallets")
-    peso_formato = fields.Integer('Peso Formato', readonly = True, compute = "_get_num_pallets")
-    eton_formato = fields.Integer('Eton Formato', readonly = True, compute = "_get_num_pallets")
-    peso_bobina = fields.Integer('Peso Bobina', readonly = True, compute = "_get_num_pallets")
-    eton_bobina = fields.Integer('Eton Bobina', readonly = True, compute = "_get_num_pallets")
-    peso_solidboard = fields.Integer('Peso Solid Board', readonly = True, compute = "_get_num_pallets")
-    eton_solidboard = fields.Integer('Eton Solid Board', readonly = True, compute = "_get_num_pallets")
-    peso_pie = fields.Integer('Peso Pie Pallet', readonly = True, compute = "_get_num_pallets")
-    eton_pie = fields.Integer('Eton Pie Pallet', readonly = True, compute = "_get_num_pallets")
-    peso_flatboard = fields.Integer('Peso FlatBoard', readonly = True, compute = "_get_num_pallets")
-    eton_flatboard = fields.Integer('Eton FlatBoard', readonly = True, compute = "_get_num_pallets")
-    importe_varios = fields.Integer('Importe Varios', readonly = True, compute = "_get_num_pallets")
-    dir_data = fields.Char('Dir Data', readonly = True, compute = "_get_num_pallets")
-    """
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -89,105 +71,28 @@ class AccountInvoice(models.Model):
     
     
     
-    @api.depends('invoice_line_ids', 'invoice_line_ids.quantity', 'id', 'date_invoice', 'amount_untaxed')
+    @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
     def _get_num_pallets(self):
         for record in self:
             num_pallets = 0
             peso_neto = 0
             peso_bruto = 0
-            
             peso_cantonera = 0
-            #importe_cantonera = 0
-            #eton_cantonera = 0
-            #peso_perfilu = 0
-            #importe_perfilu = 0
-            #eton_perfilu = 0
             peso_slipsheet = 0
-            """
-            importe_slipsheet = 0
-            eton_slipsheet = 0
-            peso_formato = 0
-            importe_formato = 0
-            eton_formato = 0
-            peso_bobina = 0
-            importe_bobina = 0
-            eton_bobina = 0
-            peso_solidboard = 0
-            importe_solidboard = 0
-            eton_solidboard = 0
-            peso_pie = 0
-            importe_pie = 0
-            eton_pie = 0
-            peso_flatboard = 0
-            importe_flatboard = 0
-            eton_flatboard = 0
-            importe_varios = 0
-            dir_data = "http://bemecopack.es/jseb/factura_set.php?"
-            """
             
             for line in record.invoice_line_ids:
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
-                """    
+                    
                 if line.product_id.referencia_id.is_cantonera == True:
-                    peso_cantonera = peso_cantonera + int(line.peso_neto)
-                    importe_cantonera = importe_cantonera + line.price_subtotal
-                if line.product_id.referencia_id.is_perfilu == True:
-                    peso_perfilu = peso_perfilu + int(line.peso_neto)
-                    importe_perfilu = importe_perfilu + line.price_subtotal
+                    peso_cantonera = peso_cantonera + line.peso_neto
                 if line.product_id.referencia_id.is_slipsheet == True:
-                    peso_slipsheet = peso_slipsheet + int(line.peso_neto)
-                    importe_slipsheet = importe_slipsheet + line.price_subtotal
-                if line.product_id.referencia_id.is_formato == True:
-                    peso_formato = peso_formato + int(line.peso_neto)
-                    importe_formato = importe_formato + line.price_subtotal
-                if line.product_id.referencia_id.is_bobina == True:
-                    peso_bobina = peso_bobina + int(line.peso_neto)
-                    importe_bobina = importe_bobina + line.price_subtotal
-                if line.product_id.referencia_id.is_solidboard == True:
-                    peso_solidboard = peso_solidboard + int(line.peso_neto)
-                    importe_solidboard = importe_solidboard + line.price_subtotal
-                if line.product_id.referencia_id.is_pieballet == True:
-                    peso_pie = peso_pie + int(line.peso_neto)
-                    importe_pie = importe_pie + line.price_subtotal
-                if line.product_id.referencia_id.is_flatboard == True:
-                    peso_flatboard = peso_flatboard + int(line.peso_neto)
-                    importe_flatboard = importe_flatboard + line.price_subtotal
-                if line.product_id.referencia_id.is_varios == True:
-                    importe_varios = importe_varios + line.price_subtotal
-"""
+                    peso_slipsheet = peso_slipsheet + line.peso_neto
+
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
-   """         
-            if peso_cantonera > 0:
-                eton_cantonera = int(1000 * importe_cantonera / peso_cantonera)
-            if peso_perfilu > 0:
-                eton_perfilu = int(1000 * importe_perfilu / peso_perfilu)
-            if peso_slipsheet > 0:
-                eton_slipsheet = int(1000 * importe_slipsheet / peso_slipsheet)
-            if peso_formato > 0:
-                eton_formato = int(1000 * importe_formato / peso_formato)
-            if peso_bobina > 0:
-                eton_bobina = int(1000 * importe_bobina / peso_bobina)
-            if peso_solidboard > 0:
-                eton_solidboard = int(1000 * importe_solidboard / peso_solidboard)
-            if peso_pie > 0:
-                eton_pie = int(1000 * importe_pie / peso_pie)
-            if peso_flatboard > 0:
-                eton_flatboard = int(1000 * importe_flatboard / peso_flatboard)
             
-            dir_data = dir_data + "invid=" + str(record.id) + "&invdt=" + str(record.date_invoice) + "&invim=" + str(record.amount_untaxed)
-            dir_data = dir_data + "&cakg=" + str(peso_cantonera) + "&caet=" + str(eton_cantonera)
-            dir_data = dir_data + "&pukg=" + str(peso_perfilu) + "&puet=" + str(eton_perfilu)
-            dir_data = dir_data + "&sskg=" + str(peso_slipsheet) + "&sset=" + str(eton_slipsheet)
-            dir_data = dir_data + "&ftkg=" + str(peso_formato) + "&ftet=" + str(eton_formato)
-            dir_data = dir_data + "&bbkg=" + str(peso_bobina) + "&bbet=" + str(eton_bobina)
-            dir_data = dir_data + "&sbkg=" + str(peso_solidboard) + "&sbet=" + str(eton_solidboard)
-            dir_data = dir_data + "&prkg=" + str(peso_pie) + "&pret=" + str(eton_pie)
-            dir_data = dir_data + "&fbkg=" + str(peso_flatboard) + "&fbet=" + str(eton_flatboard)
-            dir_data = dir_data + "&vsim=" + str(importe_varios)
-  """          
             divisor = 150000
             peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
             peso_neto_mojado = int(peso_neto_mojado / 5) * 5
@@ -211,30 +116,13 @@ class AccountInvoice(models.Model):
                 peso_bruto_mojado = peso_bruto
               
             record.peso_cantonera = peso_cantonera
-            #record.eton_cantonera = eton_cantonera
-            #record.peso_perfilu = peso_perfilu
-            #record.eton_perfilu = eton_perfilu
             record.peso_slipsheet = peso_slipsheet
-            """
-            record.eton_slipsheet = eton_slipsheet
-            record.peso_formato = peso_formato
-            record.eton_formato = eton_formato
-            record.peso_bobina = peso_bobina
-            record.eton_bobina = eton_bobina
-            record.peso_solidboard = peso_solidboard
-            record.eton_solidboard = eton_solidboard
-            record.peso_pie = peso_pie
-            record.eton_pie = eton_pie
-            record.peso_flatboard = peso_flatboard
-            record.eton_flatboard = eton_flatboard
-            record.importe_varios = importe_varios
-            record.dir_data = dir_data
             record.num_pallets = num_pallets
             record.peso_neto = peso_neto
             record.peso_bruto = peso_bruto
             record.peso_neto_mojado = peso_neto_mojado
             record.peso_bruto_mojado = peso_bruto_mojado
-"""
+
             
     
     @api.depends('invoice_line_ids')
