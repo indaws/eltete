@@ -176,6 +176,17 @@ class AccountInvoice(models.Model):
                 eton_pie = int(1000 * importe_pie / peso_pie)
             if peso_flatboard > 0:
                 eton_flatboard = int(1000 * importe_flatboard / peso_flatboard)
+                
+            dir_data = dir_data + "invid=" + str(record.id) + "&invdt=" + str(record.date_invoice) + "&invim=" + str(record.amount_untaxed)
+            dir_data = dir_data + "&cakg=" + str(peso_cantonera) + "&caet=" + str(eton_cantonera)
+            dir_data = dir_data + "&pukg=" + str(peso_perfilu) + "&puet=" + str(eton_perfilu)
+            dir_data = dir_data + "&sskg=" + str(peso_slipsheet) + "&sset=" + str(eton_slipsheet)
+            dir_data = dir_data + "&ftkg=" + str(peso_formato) + "&ftet=" + str(eton_formato)
+            dir_data = dir_data + "&bbkg=" + str(peso_bobina) + "&bbet=" + str(eton_bobina)
+            dir_data = dir_data + "&sbkg=" + str(peso_solidboard) + "&sbet=" + str(eton_solidboard)
+            dir_data = dir_data + "&prkg=" + str(peso_pie) + "&pret=" + str(eton_pie)
+            dir_data = dir_data + "&fbkg=" + str(peso_flatboard) + "&fbet=" + str(eton_flatboard)
+            dir_data = dir_data + "&vsim=" + str(importe_varios)
             
             divisor = 150000
             peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
