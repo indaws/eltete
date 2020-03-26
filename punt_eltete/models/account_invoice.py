@@ -126,7 +126,7 @@ class AccountInvoice(models.Model):
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
-                    
+                """    
                 if line.product_id.referencia_id.is_cantonera == True:
                     peso_cantonera = peso_cantonera + int(line.peso_neto)
                     importe_cantonera = importe_cantonera + line.price_subtotal
@@ -153,10 +153,10 @@ class AccountInvoice(models.Model):
                     importe_flatboard = importe_flatboard + line.price_subtotal
                 if line.product_id.referencia_id.is_varios == True:
                     importe_varios = importe_varios + line.price_subtotal
-
+"""
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
-            
+   """         
             if peso_cantonera > 0:
                 eton_cantonera = int(1000 * importe_cantonera / peso_cantonera)
             if peso_perfilu > 0:
@@ -184,7 +184,7 @@ class AccountInvoice(models.Model):
             dir_data = dir_data + "&prkg=" + str(peso_pie) + "&pret=" + str(eton_pie)
             dir_data = dir_data + "&fbkg=" + str(peso_flatboard) + "&fbet=" + str(eton_flatboard)
             dir_data = dir_data + "&vsim=" + str(importe_varios)
-            
+  """          
             divisor = 150000
             peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
             peso_neto_mojado = int(peso_neto_mojado / 5) * 5
