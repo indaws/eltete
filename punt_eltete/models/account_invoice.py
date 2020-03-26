@@ -13,10 +13,11 @@ class AccountInvoice(models.Model):
     peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantoneras', readonly = True, compute = "_get_num_pallets")
-    eton_cantonera = fields.Integer('Eton Cantoneras', readonly = True, compute = "_get_num_pallets")
-    peso_perfilu = fields.Integer('Peso Perfil U', readonly = True, compute = "_get_num_pallets")
-    eton_perfilu = fields.Integer('Eton Perfil U', readonly = True, compute = "_get_num_pallets")
+    #eton_cantonera = fields.Integer('Eton Cantoneras', readonly = True, compute = "_get_num_pallets")
+    #peso_perfilu = fields.Integer('Peso Perfil U', readonly = True, compute = "_get_num_pallets")
+    #eton_perfilu = fields.Integer('Eton Perfil U', readonly = True, compute = "_get_num_pallets")
     peso_slipsheet = fields.Integer('Peso Slip Sheets', readonly = True, compute = "_get_num_pallets")
+    """
     eton_slipsheet = fields.Integer('Eton Slip Sheets', readonly = True, compute = "_get_num_pallets")
     peso_formato = fields.Integer('Peso Formato', readonly = True, compute = "_get_num_pallets")
     eton_formato = fields.Integer('Eton Formato', readonly = True, compute = "_get_num_pallets")
@@ -30,7 +31,7 @@ class AccountInvoice(models.Model):
     eton_flatboard = fields.Integer('Eton FlatBoard', readonly = True, compute = "_get_num_pallets")
     importe_varios = fields.Integer('Importe Varios', readonly = True, compute = "_get_num_pallets")
     dir_data = fields.Char('Dir Data', readonly = True, compute = "_get_num_pallets")
-    
+    """
     
     importe_sin_descuento = fields.Float('Importe Sin Descuento', digits = (10, 2), compute="_get_valores_descuento")
     importe_descuento = fields.Float('Importe Dto PP', digits = (10, 2), compute="_get_valores_descuento")
@@ -96,12 +97,13 @@ class AccountInvoice(models.Model):
             peso_bruto = 0
             
             peso_cantonera = 0
-            importe_cantonera = 0
-            eton_cantonera = 0
-            peso_perfilu = 0
-            importe_perfilu = 0
-            eton_perfilu = 0
+            #importe_cantonera = 0
+            #eton_cantonera = 0
+            #peso_perfilu = 0
+            #importe_perfilu = 0
+            #eton_perfilu = 0
             peso_slipsheet = 0
+            """
             importe_slipsheet = 0
             eton_slipsheet = 0
             peso_formato = 0
@@ -121,6 +123,7 @@ class AccountInvoice(models.Model):
             eton_flatboard = 0
             importe_varios = 0
             dir_data = "http://bemecopack.es/jseb/factura_set.php?"
+            """
             
             for line in record.invoice_line_ids:
                 if line.product_id:
@@ -208,10 +211,11 @@ class AccountInvoice(models.Model):
                 peso_bruto_mojado = peso_bruto
               
             record.peso_cantonera = peso_cantonera
-            record.eton_cantonera = eton_cantonera
-            record.peso_perfilu = peso_perfilu
-            record.eton_perfilu = eton_perfilu
+            #record.eton_cantonera = eton_cantonera
+            #record.peso_perfilu = peso_perfilu
+            #record.eton_perfilu = eton_perfilu
             record.peso_slipsheet = peso_slipsheet
+            """
             record.eton_slipsheet = eton_slipsheet
             record.peso_formato = peso_formato
             record.eton_formato = eton_formato
@@ -230,7 +234,7 @@ class AccountInvoice(models.Model):
             record.peso_bruto = peso_bruto
             record.peso_neto_mojado = peso_neto_mojado
             record.peso_bruto_mojado = peso_bruto_mojado
-
+"""
             
     
     @api.depends('invoice_line_ids')
