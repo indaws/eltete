@@ -205,6 +205,9 @@
                               </t>
                           </p>
                         </t>
+		    	<t t-if="o.mandate_id">
+                          <p><strong>Bank account:</strong> <span t-field="o.mandate_id.partner_bank_id.acc_number"/></p>
+                        </t>
 			<strong>Delivery terms: </strong><span t-field="o.carrier_id"/><br/>
 			<strong>Container number: </strong><span t-field="o.numero_contenedor"/><br/>
 			<strong>Container seal: </strong><span t-field="o.precinto_contenedor"/><br/>
