@@ -1007,7 +1007,7 @@ class sale_product_attribute(models.Model):
                     
                     if record.troquelado_id:
                         nombre = nombre + record.troquelado_id.name + ", "
-                        if record.troquelado_id.descripcion:
+                        if record.troquelado_id.description:
                             descripcion = descripcion + record.troquelado_id.description + ", "
                     
                     if descripcion != "":
