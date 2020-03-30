@@ -78,6 +78,83 @@
             
         </field>
     </record>
+	
+	
+	<!-- VISTA FACTURAS CLIENTES PESOS -->
+    <record model="ir.actions.act_window" id="action_invoice_cliente_pesos">
+        <field name="name">Facturas cliente pesos</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type','=','out_invoice')]</field>
+    </record>
+    
+    <record id="view_account_invoice_cliente_pesos_tree" model="ir.ui.view">
+        <field name="name">account.invoice.cliente.pesos.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="sequence">55</field>
+        <field name="arch" type="xml">
+            <tree string="Facturas">
+        
+                <field name="partner_id" />
+                <field name="date_invoice" />
+                <field name="number"/>
+                <field name="comercial_bueno_id"/>
+                <field name="reference"/>
+                <field name="date_due"/>
+                <field name="origin"/>
+                <field name="amount_untaxed" sum="Total"/>
+                <field name="amount_tax" sum="Total"/>
+                <field name="residual_signed" sum="To pay"/>
+                <field name="state"/>
+                <field name="peso_neto" sum="Peso Neto"/>
+                <field name="peso_cantonera" sum="Peso Cantonera"/>
+                <field name="peso_slipsheet" sum="Peso SlipSheet"/>
+                <field name="actualizar"/>
+            </tree>
+            
+        </field>
+    </record>
+    
+    <menuitem name="Facturas pesos" parent="account.menu_finance_receivables" id="menu_invoice_cliente_pesos" action="action_invoice_cliente_pesos" sequence="2"/>
+    
+    
+    <!-- VISTA FACTURAS PROVEEDORES PESOS -->
+    <record model="ir.actions.act_window" id="action_invoice_proveedor_pesos">
+        <field name="name">Facturas proveedor pesos</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type','=','in_invoice')]</field>
+    </record>
+    
+    <record id="view_account_invoice_proveedor_pesosa_tree" model="ir.ui.view">
+        <field name="name">account.invoice.proveedor.pesos.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="sequence">55</field>
+        <field name="arch" type="xml">
+            <tree string="Facturas">
+                <field name="partner_id" />
+                <field name="date_invoice" />
+                <field name="number"/>
+                <field name="comercial_bueno_id"/>
+                <field name="reference"/>
+                <field name="date_due"/>
+                <field name="origin"/>
+                <field name="amount_untaxed" sum="Total"/>
+                <field name="amount_tax" sum="Total"/>
+                <field name="residual_signed" sum="To pay"/>
+                <field name="state"/>
+                <field name="peso_neto" sum="Peso Neto"/>
+                <field name="peso_cantonera" sum="Peso Cantonera"/>
+                <field name="peso_slipsheet" sum="Peso SlipSheet"/>
+                <field name="actualizar"/>
+            </tree>
+            
+        </field>
+    </record>
+    
+    <menuitem name="Facturas pesos" parent="account.menu_finance_payables" id="menu_invoice_proveedor_pesos" action="action_invoice_proveedor_pesos" sequence="2"/>
     
     
     
