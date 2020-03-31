@@ -79,11 +79,11 @@
 		<field name="importe_cantonera" sum="Importe Cantonera"/>
 		<field name="peso_cantonera" sum="Peso Cantonera"/>
 		<field name="eton_cantonera"/>
-		<field name="importe_perfilu" sum="Importe Cantonera"/>
+		<field name="importe_perfilu" sum="Importe Perfil U"/>
 		<field name="peso_perfilu" sum="Peso Perfil U"/>
 		<field name="eton_perfilu"/>
 		<field name="importe_slipsheet" sum="Importe SlipSheet"/>
-		<field name="peso_slipsheet" sum="Peso Slip sheet"/>
+		<field name="peso_slipsheet" sum="Peso SlipSheet"/>
 		<field name="eton_slipsheet"/>
 		<field name="importe_formato" sum="Importe Formato"/>
 		<field name="peso_formato" sum="Peso Formato"/>
@@ -92,13 +92,13 @@
 		<field name="peso_bobina" sum="Peso Bobina"/>
 		<field name="eton_bobina"/>
 		<field name="importe_cantonera" sum="Importe SolidBoard"/>
-		<field name="peso_solidboard" sum="Peso Solid Board"/>
+		<field name="peso_solidboard" sum="Peso SolidBoard"/>
 		<field name="eton_solidboard"/>
 		<field name="importe_cantonera" sum="Importe PiePallet"/>
-		<field name="peso_pie" sum="Peso Pie Pallet"/>
+		<field name="peso_pie" sum="Peso PiePallet"/>
 		<field name="eton_pie"/>
 		<field name="importe_cantonera" sum="Importe FlatBoard"/>
-		<field name="peso_flatboard" sum="Peso Flat Board"/>
+		<field name="peso_flatboard" sum="Peso FlatBoard"/>
 		<field name="eton_flatboard"/>
 		<field name="importe_varios" sum="Importe Varios"/>
 		<field name="state"/>
