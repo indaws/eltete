@@ -18,7 +18,7 @@ class StockProductionInventario(models.Model):
     
     peso_cantonera = fields.Integer(string="Peso Cantonera", readonly = True)
     peso_perfilu = fields.Integer(string="Peso Perfil U", readonly = True)
-    peso_slisheet = fields.Integer(string="Peso Slip Sheet", readonly = True)
+    peso_slipsheet = fields.Integer(string="Peso Slip Sheet", readonly = True)
     peso_formato = fields.Integer(string="Peso Formato", readonly = True)
     peso_bobina = fields.Integer(string="Peso Bobina", readonly = True)
     peso_solidboard = fields.Integer(string="Peso Solid Board", readonly = True)
