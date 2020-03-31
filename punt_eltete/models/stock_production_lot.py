@@ -362,7 +362,7 @@ class StockProductionLot(models.Model):
             record.cliente_ref = cliente_ref
     
 
-    @api.depends('sale_order_line_id', 'fecha_entrada', 'date_done', 'scheduled_date', 'defectuoso')
+    @api.depends('sale_order_line_id', 'fecha_entrada', 'date_done', 'scheduled_date', 'defectuoso', 'fecha_salir')
     def _get_disponible(self):
         for record in self:
             disponible = False
