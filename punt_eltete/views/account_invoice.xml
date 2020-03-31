@@ -91,13 +91,13 @@
 		<field name="importe_bobina" sum="Importe Bobina"/>
 		<field name="peso_bobina" sum="Peso Bobina"/>
 		<field name="eton_bobina"/>
-		<field name="importe_cantonera" sum="Importe SolidBoard"/>
+		<field name="importe_solidboard" sum="Importe SolidBoard"/>
 		<field name="peso_solidboard" sum="Peso SolidBoard"/>
 		<field name="eton_solidboard"/>
-		<field name="importe_cantonera" sum="Importe PiePallet"/>
+		<field name="importe_pie" sum="Importe PiePallet"/>
 		<field name="peso_pie" sum="Peso PiePallet"/>
 		<field name="eton_pie"/>
-		<field name="importe_cantonera" sum="Importe FlatBoard"/>
+		<field name="importe_flatboard" sum="Importe FlatBoard"/>
 		<field name="peso_flatboard" sum="Peso FlatBoard"/>
 		<field name="eton_flatboard"/>
 		<field name="importe_varios" sum="Importe Varios"/>
