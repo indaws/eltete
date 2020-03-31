@@ -28,7 +28,7 @@
 		<group>
 		    <group>
 		    	<field name="fecha_entrada"/>
-			<field name="almacenado"/>
+			<field name="almacen"/>
 			<field name="inventariado"/>
 		    </group>	
 		    <group>
@@ -129,7 +129,7 @@
 			<field name="sale_order_line_id"/>
 			<field name="cliente_ref"/>
 			<field name="fabricat"/>
-			<field name="almacenado"/>
+			<field name="almacen"/>
                 </xpath>
                 
 				
@@ -164,7 +164,7 @@
 				<field name="peso_neto"  sum="Peso"/>
 				<field name="fecha_entrada"/>
 				<field name="defectuoso"/>
-				<field name="almacenado"/>
+				<field name="almacen"/>
 			</tree>
 		</field>
 	</record>
@@ -185,7 +185,7 @@
 				<field name="peso_neto"  sum="Peso"/>
 				<field name="fecha_entrada"/>
 				<field name="defectuoso"/>
-				<field name="almacenado"/>
+				<field name="almacen"/>
 			</group>
 			<group>
 				<field name="descripcion"/>
@@ -717,18 +717,18 @@
 							
 							<field name="lot_ids"  >
                                 <tree string="Lotes" >
-									<field name="name"/>
-                                    <field name="referencia_id"/>
-									<field name="descripcion"/>
-									<field name="comentario"/>
-									<field name="unidades"/>
-									<field name="peso_neto"  sum="Peso"/>
-									<field name="fecha_entrada"/>
-									<field name="fecha_salir"/>
-									<field name="picking_id"/>
-									<field name="defectuoso"/>
-									<field name="inventariado"/>
-									<field name="almacenado"/>
+					<field name="name"/>
+                                    	<field name="referencia_id"/>
+					<field name="descripcion"/>
+					<field name="comentario"/>
+					<field name="unidades"/>
+					<field name="peso_neto"  sum="Peso"/>
+					<field name="fecha_entrada"/>
+					<field name="fecha_salir"/>
+					<field name="picking_id"/>
+					<field name="defectuoso"/>
+					<field name="inventariado"/>
+					<field name="almacen"/>
                                 </tree>
                             </field>   
                         </group>
