@@ -17,10 +17,10 @@ class StockProductionInventario(models.Model):
     def actualizar_inventario(self):
         for record in self:
         
-            for lote in self.env['stock.production.lot'].search([('inventariado', '=', True),]):
+            for lote in self.env['stock.production.lot'].search([('peso_neto', '>', 0),]):
                 lote.inventariado = False
-                if lote.fecha_salir == None or lote.fecha_salir == False:
-                    lote.almacenado = True
+                #if lote.fecha_salir == None or lote.fecha_salir == False:
+                    #lote.almacenado = True
                     
                     
     lot_ids = fields.Many2many('stock.production.lot', string='Lotes a revisar', compute='_compute_lots')
@@ -30,8 +30,8 @@ class StockProductionInventario(models.Model):
 
         for record in self:
         
-            l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('almacenado', '=', False),])
-            l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('almacenado', '=', True),])
+            l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('almacen', '=', False),])
+            l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('almacen', '=', True),])
             record.lot_ids = l1 + l2
         
 
@@ -223,9 +223,9 @@ class StockProductionLot(models.Model):
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
-    almacenado = fields.Boolean('Almacenado')
+    #almacenado = fields.Boolean('Almacenado')
     inventariado = fields.Boolean('Inventariado')
-    und_paquete = fields.Integer('Und paquete')
+    #und_paquete = fields.Integer('Und paquete')
     comprado = fields.Boolean('Comprado')
     fabricat = fields.Boolean('Fabricado', default = True)
 
