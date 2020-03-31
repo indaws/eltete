@@ -47,30 +47,6 @@
 			<field name="actualizar"/>
 		</field>
 		
-		<field name="state" position="after">
-			<field name="dir_data"/>
-			<field name="partner_id"/>
-			<field name="date_invoice"/>
-			<field name="number"/>
-			<field name="peso_cantonera" sum="Peso Cantonera"/>
-			<field name="eton_cantonera" sum="Eton Cantonera"/>
-			<field name="peso_perfilu" sum="Peso Perfil U"/>
-			<field name="eton_perfilu" sum="Eton Perfil U"/>
-			<field name="peso_slipsheet" sum="Peso Slip sheet"/>
-			<field name="eton_slipsheet" sum="Eton Slip sheet"/>
-			<field name="peso_formato" sum="Peso Formato"/>
-			<field name="eton_formato" sum="Eton Formato"/>
-			<field name="peso_bobina" sum="Peso Bobina"/>
-			<field name="eton_bobina" sum="Eton Bobina"/>
-			<field name="peso_solidboard" sum="Peso Solid Board"/>
-			<field name="eton_solidboard"  sum="Eton Solid Board"/>
-			<field name="peso_pie" sum="Peso Pie Pallet"/>
-			<field name="eton_pie" sum="Eton Formato"/>
-			<field name="peso_flatboard" sum="Peso Flat Board"/>
-			<field name="eton_flatboard" sum="Eton Flat Board"/>
-			<field name="importe_varios" sum="Importe Varios"/>
-		</field>
-		
 		<field name="user_id" position="attributes">
 			<attribute name="invisible">1</attribute>
 		</field>
@@ -95,22 +71,36 @@
         <field name="sequence">55</field>
         <field name="arch" type="xml">
             <tree string="Facturas">
-        
-                <field name="partner_id" />
-                <field name="date_invoice" />
-                <field name="number"/>
-                <field name="comercial_bueno_id"/>
-                <field name="reference"/>
-                <field name="date_due"/>
-                <field name="origin"/>
-                <field name="amount_untaxed" sum="Total"/>
-                <field name="amount_tax" sum="Total"/>
-                <field name="residual_signed" sum="To pay"/>
-                <field name="state"/>
-                <field name="peso_neto" sum="Peso Neto"/>
-                <field name="peso_cantonera" sum="Peso Cantonera"/>
-                <field name="peso_slipsheet" sum="Peso SlipSheet"/>
-                <field name="actualizar"/>
+		    
+		<field name="partner_id"/>
+		<field name="date_invoice"/>
+		<field name="comercial_bueno_id"/>
+		
+		<field name="importe_cantonera" sum="Importe Cantonera"/>
+		<field name="peso_cantonera" sum="Peso Cantonera"/>
+		<field name="eton_cantonera"/>
+		<field name="importe_perfilu" sum="Importe Cantonera"/>
+		<field name="peso_perfilu" sum="Peso Perfil U"/>
+		<field name="eton_perfilu"/>
+		<field name="importe_slipsheet" sum="Importe SlipSheet"/>
+		<field name="peso_slipsheet" sum="Peso Slip sheet"/>
+		<field name="eton_slipsheet"/>
+		<field name="importe_formato" sum="Importe Formato"/>
+		<field name="peso_formato" sum="Peso Formato"/>
+		<field name="eton_formato"/>
+		<field name="importe_bobina" sum="Importe Bobina"/>
+		<field name="peso_bobina" sum="Peso Bobina"/>
+		<field name="eton_bobina"/>
+		<field name="importe_cantonera" sum="Importe SolidBoard"/>
+		<field name="peso_solidboard" sum="Peso Solid Board"/>
+		<field name="eton_solidboard"/>
+		<field name="importe_cantonera" sum="Importe PiePallet"/>
+		<field name="peso_pie" sum="Peso Pie Pallet"/>
+		<field name="eton_pie"/>
+		<field name="importe_cantonera" sum="Importe FlatBoard"/>
+		<field name="peso_flatboard" sum="Peso Flat Board"/>
+		<field name="eton_flatboard"/>
+		<field name="importe_varios" sum="Importe Varios"/>
             </tree>
             
         </field>
@@ -138,17 +128,6 @@
                 <field name="date_invoice" />
                 <field name="number"/>
                 <field name="comercial_bueno_id"/>
-                <field name="reference"/>
-                <field name="date_due"/>
-                <field name="origin"/>
-                <field name="amount_untaxed" sum="Total"/>
-                <field name="amount_tax" sum="Total"/>
-                <field name="residual_signed" sum="To pay"/>
-                <field name="state"/>
-                <field name="peso_neto" sum="Peso Neto"/>
-                <field name="peso_cantonera" sum="Peso Cantonera"/>
-                <field name="peso_slipsheet" sum="Peso SlipSheet"/>
-                <field name="actualizar"/>
             </tree>
             
         </field>
