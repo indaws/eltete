@@ -19,7 +19,7 @@ class StockProductionInventario(models.Model):
         
             for lote in self.env['stock.production.lot'].search([('unidades', '>', 0),]):
                 lote.inventariado = False
-                if lote.date_donde == None or lote.date_done == False:
+                if lote.date_done == None or lote.date_done == False:
                     lote.fecha_salir = None
                     lote.almacenado = True
                 else:
