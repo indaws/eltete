@@ -101,6 +101,7 @@
 		<field name="peso_flatboard" sum="Peso Flat Board"/>
 		<field name="eton_flatboard"/>
 		<field name="importe_varios" sum="Importe Varios"/>
+		<field name="state"/>
             </tree>
             
         </field>
