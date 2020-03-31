@@ -693,7 +693,8 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
                     <field name='name' />
-                    <field name='lot_ids' />
+		    <field name='fecha' />
+                    <field name='total_terminado' />
                 </tree>
             </field>
         </record>
@@ -709,6 +710,7 @@
 				<group>
                             		<field name='name' />
 					<field name='fecha' />
+					<field name='comenzar' />
 					<field name='total_terminado' />
 				</group>
 				<group>
@@ -756,7 +758,6 @@
                 <search string="Color">
                     <field name='name' />
 		    <field name='fecha' />
-                    <field name='total_terminado' />
                 </search>
             </field>
         </record>
