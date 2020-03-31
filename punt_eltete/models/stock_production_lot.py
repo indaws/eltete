@@ -38,7 +38,7 @@ class StockProductionInventario(models.Model):
         
             #l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('almacenado', '=', False)])
             l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('almacenado', '=', True)])
-            record.lot_ids = l1 + l2
+            #record.lot_ids = l1 + l2
             record.lot_ids = l2
 
 
