@@ -17,8 +17,14 @@ class StockProductionInventario(models.Model):
     def actualizar_inventario(self):
         for record in self:
         
-            for lote in self.env['stock.production.lot'].search([('peso_neto', '>', 0),]):
+            for lote in self.env['stock.production.lot'].search([('fecha_entrada', '!=', None),]):
                 lote.inventariado = False
+                if lote.scheduled_date != None and lote.date_done != None:
+                    lote.fecha_salir = lote.scheduled_date
+                    lote.almacenado = False
+                else:
+                    lote.fecha_salir = None
+                    lote.almacenado = True
                 #if lote.fecha_salir == None or lote.fecha_salir == False:
                     #lote.almacenado = True
                     
@@ -30,10 +36,9 @@ class StockProductionInventario(models.Model):
 
         for record in self:
         
-            #l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('fecha_salir', '!=', None),('peso_neto', '>', 0)])
-            l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('fecha_salir', '=', None),('peso_neto', '>', 0)])
-            #record.lot_ids = l1 + l2
-            record.lot_ids = l2
+            l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('almacenado', '=', False)])
+            l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('almacenado', '=', True)])
+            record.lot_ids = l1 + l2
 
 
 
@@ -197,7 +202,7 @@ class StockProductionLot(models.Model):
     
     metido = fields.Boolean('Metido', readonly = True, compute = "_get_metido")
     fecha_entrada = fields.Date('Fecha Entrada')
-    fecha_salir = fields.Date('Fecha Salida', readonly = True, compute = "_get_disponible", store = True)
+    fecha_salir = fields.Date('Fecha Salida', readonly = True)
     almacen = fields.Boolean('Almacen', readonly = True, compute = "_get_disponible")
     disponible = fields.Boolean('Disponible', readonly = True, store = True, compute = "_get_disponible")
     unidades = fields.Integer('Unidades')
@@ -223,7 +228,7 @@ class StockProductionLot(models.Model):
     cantidad_3_num = fields.Float('Cantidad 3', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
-    #almacenado = fields.Boolean('Almacenado')
+    almacenado = fields.Boolean('Almacenado')
     inventariado = fields.Boolean('Inventariado')
     #und_paquete = fields.Integer('Und paquete')
     comprado = fields.Boolean('Comprado')
@@ -362,12 +367,12 @@ class StockProductionLot(models.Model):
             record.cliente_ref = cliente_ref
     
 
-    @api.depends('sale_order_line_id', 'fecha_entrada', 'date_done', 'scheduled_date', 'defectuoso', 'fecha_salir')
+    @api.depends('sale_order_line_id', 'fecha_entrada', 'date_done', 'scheduled_date', 'defectuoso')
     def _get_disponible(self):
         for record in self:
             disponible = False
             almacen = False
-            fecha_salida = None
+            #fecha_salida = None
             if record.fecha_entrada:
                 disponible = True
                 almacen = True
@@ -377,11 +382,11 @@ class StockProductionLot(models.Model):
                     disponible = False
                     if record.date_done and record.scheduled_date:
                         almacen = False
-                        fecha_salida = record.scheduled_date
+                        #fecha_salida = record.scheduled_date
                      
             record.disponible = disponible
             record.almacen = almacen
-            record.fecha_salir = fecha_salida
+            #record.fecha_salir = fecha_salida
     
     
     
