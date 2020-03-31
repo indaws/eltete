@@ -83,6 +83,7 @@ class StockProductionInventario(models.Model):
             record.peso_solidboard = peso_solidboard
             record.peso_pie = peso_pie
             record.peso_flatboard = peso_flatboard
+            record.total_terminado = total_terminado
                     
     
     
