@@ -719,16 +719,14 @@
                                 <tree string="Lotes" >
 					<field name="name"/>
                                     	<field name="referencia_id"/>
-					<field name="descripcion"/>
-					<field name="comentario"/>
 					<field name="unidades"/>
-					<field name="peso_neto"  sum="Peso"/>
+					<field name="peso_neto"  sum="Peso Neto"/>
 					<field name="fecha_entrada"/>
 					<field name="fecha_salir"/>
-					<field name="picking_id"/>
+					<field name="comentario"/>
 					<field name="defectuoso"/>
 					<field name="inventariado"/>
-					<field name="almacen"/>
+					<field name="almacenado"/>
                                 </tree>
                             </field>   
                         </group>
