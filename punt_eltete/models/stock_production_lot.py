@@ -35,12 +35,9 @@ class StockProductionInventario(models.Model):
     def _compute_lots(self):
 
         for record in self:
-        
-            #l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('almacenado', '=', False)])
-            #l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('almacenado', '=', True)])
-            l3 = self.env['stock.production.lot'].search([('almacenado', '=', True)])
-            #record.lot_ids = l1 + l2
-            record.lot_ids = l3
+            l1 = self.env['stock.production.lot'].search([('almacenado', '=', True),('inventariado', '=', False)])
+            l2 = self.env['stock.production.lot'].search([('almacenado', '=', False),('inventariado', '=', True)])
+            record.lot_ids = l1 + l2
 
 
 
