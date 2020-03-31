@@ -12,32 +12,89 @@ class StockProductionInventario(models.Model):
     _name = 'stock.production.inventario'
     
     name = fields.Char(string="Nombre")
+    fecha = fields.Date(string="Fecha")
+    comenzar = fields.Boolean(string="Comenzar Inventario")
+    total_terminado = fields.Integer(string="Peso Producto Terminado", readonly = True)
+    
+    peso_cantonera = fields.Integer(string="Peso Cantonera", readonly = True)
+    peso_perfilu = fields.Integer(string="Peso Perfil U", readonly = True)
+    peso_slisheet = fields.Integer(string="Peso Slip Sheet", readonly = True)
+    peso_formato = fields.Integer(string="Peso Formato", readonly = True)
+    peso_bobina = fields.Integer(string="Peso Bobina", readonly = True)
+    peso_solidboard = fields.Integer(string="Peso Solid Board", readonly = True)
+    peso_pie = fields.Integer(string="Peso Pie Pallet", readonly = True)
+    peso_flatboard = fields.Integer(string="Peso Flat Board", readonly = True)
+    
+    terminado_ids = fields.Many2many('stock.production.lot', string='Producto Terminado', compute='_compute_lots')
     
     @api.multi
     def actualizar_inventario(self):
         for record in self:
-        
+            peso_cantonera = 0
+            peso_perfilu = 0
+            peso_slipsheet = 0
+            peso_formato = 0
+            peso_bobina = 0
+            peso_solidboard = 0
+            peso_pie = 0
+            peso_flatboard = 0
+            total_terminado = 0
+            
             for lote in self.env['stock.production.lot'].search([('unidades', '>', 0),]):
-                lote.inventariado = False
+                if record.comenzar == True:
+                    lote.inventariado = False
                 if lote.date_done == None or lote.date_done == False:
                     lote.fecha_salir = None
                     lote.almacenado = True
+                    
+                    if lote.is_cantonera == True:
+                        peso_cantonera = peso_cantonera + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
+                    if lote.is_perfilu == True:
+                        peso_perfilu = peso_perfilu + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
+                    if lote.is_slipsheet == True:
+                        peso_slipsheet = peso_slipsheet + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
+                    if lote.is_formato == True:
+                        peso_formato = peso_formato + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
+                    if lote.is_bobina == True:
+                        peso_bobina = peso_bobina + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
+                    if lote.is_solidboard == True:
+                        peso_solidboard = peso_solidboard + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
+                    if lote.is_pieballet == True:
+                        peso_pie = peso_pie + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
+                    if lote.is_flatboard == True:
+                        peso_flatboard = peso_flatboard + lote.peso_neto
+                        total_terminado = total_terminado + lote.peso_neto
                 else:
                     lote.fecha_salir = lote.scheduled_date
                     lote.almacenado = False
-                #if lote.fecha_salir == None or lote.fecha_salir == False:
-                    #lote.almacenado = True
+                
+            record.peso_cantonera = peso_cantonera
+            record.peso_perfilu = peso_perfilu
+            record.peso_slipsheet = peso_slipsheet
+            record.peso_formato = peso_formato
+            record.peso_bobina = peso_bobina
+            record.peso_solidboard = peso_solidboard
+            record.peso_pie = peso_pie
+            record.peso_flatboard = peso_flatboard
                     
-                    
-    lot_ids = fields.Many2many('stock.production.lot', string='Lotes a revisar', compute='_compute_lots')
+    
     
     @api.depends('name')
     def _compute_lots(self):
 
         for record in self:
-            l1 = self.env['stock.production.lot'].search([('almacenado', '=', True),('inventariado', '=', False)])
-            l2 = self.env['stock.production.lot'].search([('almacenado', '=', False),('inventariado', '=', True)])
-            record.lot_ids = l1 + l2
+            terminado1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
+            terminado2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
+            terminado_ids = terminado1 + terminado2
+            
+            record.terminado_ids = terminado_ids
 
 
 
