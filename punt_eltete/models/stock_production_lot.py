@@ -30,10 +30,10 @@ class StockProductionInventario(models.Model):
 
         for record in self:
         
-            l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('fecha_salir', '!=', None),('peso_neto', '>', 0)])
+            #l1 = self.env['stock.production.lot'].search([('inventariado', '=', True),('fecha_salir', '!=', None),('peso_neto', '>', 0)])
             l2 = self.env['stock.production.lot'].search([('inventariado', '=', False),('fecha_salir', '=', None),('peso_neto', '>', 0)])
-            record.lot_ids = l1 + l2
-        
+            #record.lot_ids = l1 + l2
+            record.lot_ids = l2
 
 
 
