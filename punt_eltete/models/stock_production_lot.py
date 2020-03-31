@@ -17,14 +17,14 @@ class StockProductionInventario(models.Model):
     def actualizar_inventario(self):
         for record in self:
         
-            for lote in self.env['stock.production.lot'].search([('fecha_entrada', '!=', None),]):
+            for lote in self.env['stock.production.lot'].search([('unidades', '>', 0),]):
                 lote.inventariado = False
-                if lote.scheduled_date != None and lote.date_done != None:
-                    lote.fecha_salir = lote.scheduled_date
-                    lote.almacenado = False
-                else:
+                if lote.date_donde == None or lote.date_done == False:
                     lote.fecha_salir = None
                     lote.almacenado = True
+                else:
+                    lote.fecha_salir = lote.scheduled_date
+                    lote.almacenado = False
                 #if lote.fecha_salir == None or lote.fecha_salir == False:
                     #lote.almacenado = True
                     
