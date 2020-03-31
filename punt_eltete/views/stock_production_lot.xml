@@ -706,31 +706,43 @@
                 <form string="Color">
                     <sheet>
                         <group>
-                            <field name='name' />
-						</group>
+				<group>
+                            		<field name='name' />
+					<field name='fecha' />
+					<field name='total_terminado' />
+				</group>
+				<group>
+                            		<field name='peso_cantonera' />
+					<field name='peso_perfilu' />
+					<field name='peso_slipsheet' />
+					<field name='peso_formato' />
+					<field name='peso_bobina' />
+					<field name='peso_solidboard' />
+					<field name='peso_pie' />
+					<field name='peso_flatboard' />
+				</group>
+			</group>
 						
-						<group>
-							<button name="actualizar_inventario" type="object" string="Procesar inventario" />
-						</group>
+			<group>
+				<button name="actualizar_inventario" type="object" string="Procesar inventario" />
+			</group>
 							
-						<group>
-							
-							<field name="lot_ids"  >
-                                <tree string="Lotes" >
-					<field name="name"/>
-                                    	<field name="referencia_id"/>
-					<field name="unidades"/>
-					<field name="peso_neto"  sum="Peso Neto"/>
-					<field name="fecha_entrada"/>
-					<field name="fecha_salir"/>
-					<field name="comentario"/>
-					<field name="defectuoso"/>
-					<field name="inventariado"/>
-					<field name="almacenado"/>
-                                </tree>
-                            </field>   
-                        </group>
-                        
+			<group>			
+				<field name="terminado_ids"  >
+                                	<tree string="Lotes" >
+						<field name="name"/>
+                                    		<field name="referencia_id"/>
+						<field name="unidades"/>
+						<field name="peso_neto"  sum="Peso Neto"/>
+						<field name="fecha_entrada"/>
+						<field name="fecha_salir"/>
+						<field name="comentario"/>
+						<field name="defectuoso"/>
+						<field name="inventariado"/>
+						<field name="almacenado"/>
+                                	</tree>
+                            	</field>   
+                        </group>                        
                     </sheet>
                 </form>
             </field>
@@ -743,7 +755,8 @@
             <field name="arch" type="xml">
                 <search string="Color">
                     <field name='name' />
-                    <field name='lot_ids' />
+		    <field name='fecha' />
+                    <field name='total_terminado' />
                 </search>
             </field>
         </record>
