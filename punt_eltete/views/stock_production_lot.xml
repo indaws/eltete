@@ -706,17 +706,13 @@
             <field name="arch" type="xml">
                 <form string="Color">
                     <sheet>
-			<group>
+                        <group>
 				<group>
                             		<field name='name' />
-					<field name='tipo' />
+					<field name='fecha' />
+					<field name='comenzar' />
+					<field name='total_terminado' />
 				</group>
-				<group>
-                            		<field name='fecha_inicio' />
-					<field name='fecha_fin' />
-				</group>
-			</group>
-                        <group>
 				<group>
                             		<field name='peso_cantonera' />
 					<field name='peso_perfilu' />
@@ -726,34 +722,15 @@
 					<field name='peso_solidboard' />
 					<field name='peso_pie' />
 					<field name='peso_flatboard' />
-					<br/>
-					<field name='peso_total_bueno' />
-				</group>
-				<group>
-                            		<field name='peso_cantonera_defectuoso' />
-					<field name='peso_perfilu_defectuoso' />
-					<field name='peso_slipsheet_defectuoso' />
-					<field name='peso_formato_defectuoso' />
-					<field name='peso_bobina_defectuoso' />
-					<field name='peso_solidboard_defectuoso' />
-					<field name='peso_pie_defectuoso' />
-					<field name='peso_flatboard_defectuoso' />
-					<br/>
-					<field name='peso_total_defectuoso' />
 				</group>
 			</group>
 						
 			<group>
-				<group>
-					<button name="actualizar_inventario" type="object" string="Comenzar" />
-				</group>
-				<group>
-					<field name='comenzar' />
-				</group>
+				<button name="actualizar_inventario" type="object" string="Procesar inventario" />
 			</group>
 							
 			<group>			
-				<field name="lotes_inventario_ids"  >
+				<field name="terminado_ids"  >
                                 	<tree string="Lotes" >
 						<field name="name"/>
                                     		<field name="referencia_id"/>
@@ -767,23 +744,7 @@
 						<field name="almacenado"/>
                                 	</tree>
                             	</field>   
-                        </group>  
-			<group>			
-				<field name="lotes_fecha_ids"  >
-                                	<tree string="Lotes" >
-						<field name="name"/>
-                                    		<field name="referencia_id"/>
-						<field name="unidades"/>
-						<field name="peso_neto"  sum="Peso Neto"/>
-						<field name="fecha_entrada"/>
-						<field name="fecha_salir"/>
-						<field name="comentario"/>
-						<field name="defectuoso"/>
-						<field name="inventariado"/>
-						<field name="almacenado"/>
-                                	</tree>
-                            	</field>   
-                        </group> 
+                        </group>                        
                     </sheet>
                 </form>
             </field>
@@ -796,8 +757,7 @@
             <field name="arch" type="xml">
                 <search string="Color">
                     <field name='name' />
-		    <field name='peso_total_bueno' />
-		    <field name='peso_total_defectuoso' />
+		    <field name='fecha' />
                 </search>
             </field>
         </record>
@@ -811,7 +771,7 @@
         </record>
         
         
-        <menuitem name="Consulta Inventario" parent="stock.menu_stock_inventory_control" id="menu_stock_production_inventario" action="action_stock_production_inventario" sequence="999"/>
+        <menuitem name="Realizar inventario" parent="stock.menu_stock_inventory_control" id="menu_stock_production_inventario" action="action_stock_production_inventario" sequence="999"/>
 
 
 
