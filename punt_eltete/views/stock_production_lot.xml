@@ -693,8 +693,8 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
                     <field name='name' />
-                    <field name='peso_bueno' />
-		    <field name='peso_defectuoso' />
+                    <field name='peso_total_bueno' />
+		    <field name='peso_total_defectuoso' />
                 </tree>
             </field>
         </record>
@@ -727,7 +727,7 @@
 					<field name='peso_pie' />
 					<field name='peso_flatboard' />
 					<br/>
-					<field name='peso_bueno' />
+					<field name='peso_total_bueno' />
 				</group>
 				<group>
                             		<field name='peso_cantonera_defectuoso' />
@@ -739,7 +739,7 @@
 					<field name='peso_pie_defectuoso' />
 					<field name='peso_flatboard_defectuoso' />
 					<br/>
-					<field name='peso_defectuoso' />
+					<field name='peso_total_defectuoso' />
 				</group>
 			</group>
 						
