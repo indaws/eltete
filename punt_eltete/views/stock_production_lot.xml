@@ -693,8 +693,8 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
                     <field name='name' />
-		    <field name='fecha' />
-                    <field name='total_terminado' />
+                    <field name='peso_bueno' />
+		    <field name='peso_defectuoso' />
                 </tree>
             </field>
         </record>
@@ -791,7 +791,6 @@
             <field name="arch" type="xml">
                 <search string="Color">
                     <field name='name' />
-		    <field name='fecha' />
                 </search>
             </field>
         </record>
