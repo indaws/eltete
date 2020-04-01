@@ -320,13 +320,16 @@ class StockProductionInventario(models.Model):
             record.comenzar = False
                     
     
-    @api.depends('name')
+    @api.depends('tipo')
     def _compute_lots(self):
-
         for record in self:
-            lotes1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
-            lotes2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
-            inventario_ids = lotes1 + lotes2
+            inventario_ids = None
+            
+            if record.tipo:
+                if record.tipo == '10':
+                    lotes1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
+                    lotes2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
+                    inventario_ids = lotes1 + lotes2
             
             record.lotes_inventario_ids = inventario_ids
 
