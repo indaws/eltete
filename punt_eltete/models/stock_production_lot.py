@@ -42,7 +42,7 @@ class StockProductionInventario(models.Model):
     peso_pie_defectuoso = fields.Integer(string="Peso Pie Pallet Defectuoso", readonly = True)
     peso_flatboard_defectuoso = fields.Integer(string="Peso Flat Board Defectuoso", readonly = True)
     
-    lotes_fecha_ids = fields.Many2many('stock.production.lot', string='Lotes Fecha')
+    lotes_fecha_ids = fields.Many2many('stock.production.lot', readonly = True, string='Lotes Fecha')
     lotes_inventario_ids = fields.Many2many('stock.production.lot', string='Lotes Inventario', compute='_compute_lots')
     
     @api.multi
@@ -165,7 +165,7 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
 
                         if lote.almacenado_fecha == True:  
-                            #lotes_fecha = lotes_fecha + lote
+                            lotes_fecha = lotes_fecha + lote
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
@@ -244,7 +244,7 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
                                     
                         if lote.almacenado_fecha == True:  
-                            #lotes_fecha = lotes_fecha + lote
+                            lotes_fecha = lotes_fecha + lote
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
@@ -286,7 +286,7 @@ class StockProductionInventario(models.Model):
             record.peso_total_bueno = total_terminado
             record.peso_total_defectuoso = total_terminado_defectuoso
             
-            #record.lotes_fecha_ids = lotes_fecha
+            record.lotes_fecha_ids = lotes_fecha
             record.comenzar = False
                     
     
