@@ -68,7 +68,7 @@ class StockProductionInventario(models.Model):
             peso_flatboard_defectuoso = 0
             total_terminado_defectuoso = 0
             
-            #lotes_fecha = None
+            lotes_fecha = None
             
             if record.tipo:
                 if record.tipo == '10':
@@ -165,7 +165,7 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
 
                         if lote.almacenado_fecha == True:  
-                            #lotes_fecha = lotes_fecha + lote
+                            lotes_fecha = lotes_fecha + lote
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
@@ -244,7 +244,7 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
                                     
                         if lote.almacenado_fecha == True:  
-                            #lotes_fecha = lotes_fecha + lote
+                            lotes_fecha = lotes_fecha + lote
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
@@ -286,7 +286,7 @@ class StockProductionInventario(models.Model):
             record.peso_total_bueno = total_terminado
             record.peso_total_defectuoso = total_terminado_defectuoso
             
-            #record.lotes_fecha_ids = lotes_fecha
+            record.lotes_fecha_ids = lotes_fecha
             record.comenzar = False
                     
     
