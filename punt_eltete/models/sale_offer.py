@@ -154,11 +154,18 @@ class sale_referencia_cliente(models.Model):
                     
                     if record.referencia_id.longitud < 200:
                         if int(record.ancho_pallet_cliente) > 0:
-                            ancho_pallet = int(record.ancho_pallet_cliente)
-                        und_paquete = 4000
-                        paquetes = 1
-                        fila_max = int(2000 / (4000 * pesoUnidad))
-                        fila_buena = int(1000 / (4000 * pesoUnidad)) + 1
+                            ancho_pallet = int(record.ancho_pallet_cliente
+                        #Modificación sierra
+                        und_paquete = 25
+                        if record.referencia_id.grosor_2 >= 6:
+                            und_paquete = 10
+                        elif record.referencia_id.grosor_2 >= 5:
+                            und_paquete = 15
+                        elif record.referencia_id.grosor_2 >= 4:
+                            und_paquete = 20
+                        paquetes = int(3000 / und_paquete)
+                        fila_max = int(2000 / (und_paquete * paquetes * pesoUnidad))
+                        fila_buena = int(1000 / (und_paquete * paquetes * pesoUnidad)) + 1
                     else:
                         #Calculamos paletizado
                         if record.paletizado_cliente == '2':
