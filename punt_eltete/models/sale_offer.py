@@ -154,7 +154,7 @@ class sale_referencia_cliente(models.Model):
                     
                     if record.referencia_id.longitud < 200:
                         if int(record.ancho_pallet_cliente) > 0:
-                            ancho_pallet = int(record.ancho_pallet_cliente
+                            ancho_pallet = int(record.ancho_pallet_cliente)
                         #Modificación sierra
                         und_paquete = 25
                         if record.referencia_id.grosor_2 >= 6:
