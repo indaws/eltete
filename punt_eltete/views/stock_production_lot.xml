@@ -811,7 +811,7 @@
         </record>
         
         
-        <menuitem name="Comenzar" parent="stock.menu_stock_inventory_control" id="menu_stock_production_inventario" action="action_stock_production_inventario" sequence="999"/>
+        <menuitem name="Consulta Inventario" parent="stock.menu_stock_inventory_control" id="menu_stock_production_inventario" action="action_stock_production_inventario" sequence="999"/>
 
 
 
