@@ -231,16 +231,8 @@ class StockProductionInventario(models.Model):
                         
                         if lote.fecha_entrada == None or lote.fecha_entrada == False:
                             lote.almacenado_fecha = False
-                        elif lote.fecha_entrada <= record.fecha_inicio:
-                            if lote.date_done == None or lote.date_done == False:
-                                lote.fecha_salir = None
-                                lote.almacenado_fecha = True
-                            else:
-                                lote.fecha_salir = lote.scheduled_date
-                                if lote.fecha_salir > record.fecha_fin:
-                                    lote.almacenado_fecha = True
-                                else:
-                                    lote.almacenado_fecha = False
+                        elif lote.fecha_entrada >= record.fecha_inicio and lote.fecha_entrada <= record.fecha_fin:
+                            lote.almacenado_fecha = True
                         else:
                             lote.almacenado_fecha = False
                                     
