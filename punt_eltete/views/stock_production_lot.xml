@@ -719,25 +719,25 @@
                         <group>
 				<group>
                             		<field name='peso_cantonera' />
-					<field name='peso_perfilu' />
+					<field name='peso_perfilu' attrs="{'invisible': [('tipo', '=', '100')]}" />
 					<field name='peso_slipsheet' />
-					<field name='peso_formato' />
-					<field name='peso_bobina' />
+					<field name='peso_formato' attrs="{'invisible': [('tipo', '=', '100')]}" />
+					<field name='peso_bobina' attrs="{'invisible': [('tipo', '=', '100')]}" />
 					<field name='peso_solidboard' />
-					<field name='peso_pie' />
-					<field name='peso_flatboard' />
+					<field name='peso_pie' attrs="{'invisible': [('tipo', '=', '100')]}" />
+					<field name='peso_flatboard' attrs="{'invisible': [('tipo', '=', '100')]}" />
 					<br/>
 					<field name='peso_total_bueno' />
 				</group>
 				<group>
                             		<field name='peso_cantonera_defectuoso' />
-					<field name='peso_perfilu_defectuoso' />
+					<field name='peso_perfilu_defectuoso' attrs="{'invisible': [('tipo', '=', '100')]}" />
 					<field name='peso_slipsheet_defectuoso' />
-					<field name='peso_formato_defectuoso' />
-					<field name='peso_bobina_defectuoso' />
+					<field name='peso_formato_defectuoso' attrs="{'invisible': [('tipo', '=', '100')]}" />
+					<field name='peso_bobina_defectuoso' attrs="{'invisible': [('tipo', '=', '100')]}" />
 					<field name='peso_solidboard_defectuoso' />
-					<field name='peso_pie_defectuoso' />
-					<field name='peso_flatboard_defectuoso' />
+					<field name='peso_pie_defectuoso' attrs="{'invisible': [('tipo', '=', '100')]}" />
+					<field name='peso_flatboard_defectuoso' attrs="{'invisible': [('tipo', '=', '100')]}" />
 					<br/>
 					<field name='peso_total_defectuoso' />
 				</group>
@@ -753,7 +753,7 @@
 			</group>
 							
 			<group>			
-				<field name="lotes_inventario_ids" attrs="{'invisible': [('tipo', '=', '100')]}" >
+				<field name="lotes_inventario_ids" attrs="{'invisible': [('tipo', '!=', '10')]}" >
                                 	<tree string="Lotes" >
 						<field name="name"/>
                                     		<field name="referencia_id"/>
@@ -769,7 +769,7 @@
                             	</field>   
                         </group>  
 			<group>			
-				<field name="lotes_fecha_ids" attrs="{'invisible': [('tipo', '!=', '100')]}" >
+				<field name="lotes_fecha_ids" attrs="{'invisible': [('tipo', '=', '10')]}" >
                                 	<tree string="Lotes" >
 						<field name="name"/>
                                     		<field name="referencia_id"/>
