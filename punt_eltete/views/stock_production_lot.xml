@@ -748,7 +748,7 @@
 			</group>
 							
 			<group>			
-				<field name="lotes_inventario_ids" attrs="{'invisible': [('tipo', '!=', '100')]}" >
+				<field name="lotes_inventario_ids" attrs="{'invisible': [('tipo', '=', '100')]}" >
                                 	<tree string="Lotes" >
 						<field name="name"/>
                                     		<field name="referencia_id"/>
