@@ -22,8 +22,8 @@ class StockProductionInventario(models.Model):
                ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     comenzar = fields.Boolean(string="Comenzar Inventario")
-    total_terminado = fields.Integer(string="Peso Producto Terminado", readonly = True)
-    total_terminado_defectuoso = fields.Integer(string="Peso Producto Terminado", readonly = True)
+    peso_total_bueno = fields.Integer(string="Kg Bueno", readonly = True)
+    peso_total_defectuoso = fields.Integer(string="Kg Defectuoso", readonly = True)
     
     peso_cantonera = fields.Integer(string="Cantonera", readonly = True)
     peso_perfilu = fields.Integer(string="Perfil U", readonly = True)
@@ -305,7 +305,6 @@ class StockProductionInventario(models.Model):
             record.peso_solidboard = peso_solidboard
             record.peso_pie = peso_pie
             record.peso_flatboard = peso_flatboard
-            record.total_terminado = total_terminado
             record.peso_cantonera_defectuoso = peso_cantonera_defectuoso
             record.peso_perfilu_defectuoso = peso_perfilu_defectuoso
             record.peso_slipsheet_defectuoso = peso_slipsheet_defectuoso
@@ -314,7 +313,8 @@ class StockProductionInventario(models.Model):
             record.peso_solidboard_defectuoso = peso_solidboard_defectuoso
             record.peso_pie_defectuoso = peso_pie_defectuoso
             record.peso_flatboard_defectuoso = peso_flatboard_defectuoso
-            record.total_terminado_defectuoso = total_terminado_defectuoso
+            record.peso_total_bueno = total_terminado
+            record.peso_total_defectuoso = total_terminado_defectuoso
             
             record.lotes_fecha_ids = lotes_fecha
             record.comenzar = False
