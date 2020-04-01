@@ -42,7 +42,7 @@ class StockProductionInventario(models.Model):
     peso_pie_defectuoso = fields.Integer(string="Pie Pallet Defectuoso", readonly = True)
     peso_flatboard_defectuoso = fields.Integer(string="Flat Board Defectuoso", readonly = True)
     
-    lotes_fecha_ids = fields.Many2many('stock.production.lot', string='Lotes Fecha', compute='_compute_lots')
+    lotes_fecha_ids = fields.Many2many('stock.production.lot', string='Lotes Fecha')
     lotes_inventario_ids = fields.Many2many('stock.production.lot', string='Lotes Inventario', compute='_compute_lots')
     
     
@@ -97,9 +97,9 @@ class StockProductionInventario(models.Model):
             peso_flatboard_defectuoso = 0
             total_terminado_defectuoso = 0
             
-            lotes_fecha = None
-
             """
+            lotes_fecha = None
+            
             if record.tipo:
                 if record.tipo == '10':
                     #Inventario producto terminado HOY
@@ -297,7 +297,6 @@ class StockProductionInventario(models.Model):
                                 else:
                                     peso_solidboard = peso_solidboard + lote.peso_neto
              
-            """
             record.peso_cantonera = peso_cantonera
             record.peso_perfilu = peso_perfilu
             record.peso_slipsheet = peso_slipsheet
@@ -319,7 +318,8 @@ class StockProductionInventario(models.Model):
             
             record.lotes_fecha_ids = lotes_fecha
             record.comenzar = False
-                    
+            """       
+    
     
     @api.depends('tipo')
     def _compute_lots(self):
