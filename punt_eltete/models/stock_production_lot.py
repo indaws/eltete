@@ -11,21 +11,68 @@ import time
 class StockProductionInventario(models.Model):
     _name = 'stock.production.inventario'
     
-    name = fields.Char(string="Nombre")
-    fecha = fields.Date(string="Fecha")
+    name = fields.Char(string="Nombre", readonly = True, compute = "_get_nombre")
+    fecha_inicio = fields.Date(string="Fecha Inicio")
+    fecha_fin = fields.Date(string="Fecha Fin")
+    TIPO_SEL = [ ('10', 'INVENTARIO PRODUCTO TERMINADO HOY'), 
+                ('11', 'INVENTARIO PRODUCTO TERMINADO FECHA'), 
+                ('20', 'INVENTARIO PAPEL HOY'), 
+                ('21', 'INVENTARIO PAPEL FECHA'), 
+               ('20', 'PRODUCCIÓN ENTRE FECHAS'), 
+               ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     comenzar = fields.Boolean(string="Comenzar Inventario")
     total_terminado = fields.Integer(string="Peso Producto Terminado", readonly = True)
+    total_terminado_defectuoso = fields.Integer(string="Peso Producto Terminado", readonly = True)
     
-    peso_cantonera = fields.Integer(string="Peso Cantonera", readonly = True)
-    peso_perfilu = fields.Integer(string="Peso Perfil U", readonly = True)
-    peso_slipsheet = fields.Integer(string="Peso Slip Sheet", readonly = True)
-    peso_formato = fields.Integer(string="Peso Formato", readonly = True)
-    peso_bobina = fields.Integer(string="Peso Bobina", readonly = True)
-    peso_solidboard = fields.Integer(string="Peso Solid Board", readonly = True)
-    peso_pie = fields.Integer(string="Peso Pie Pallet", readonly = True)
-    peso_flatboard = fields.Integer(string="Peso Flat Board", readonly = True)
+    peso_cantonera = fields.Integer(string="Cantonera", readonly = True)
+    peso_perfilu = fields.Integer(string="Perfil U", readonly = True)
+    peso_slipsheet = fields.Integer(string="Slip Sheet", readonly = True)
+    peso_formato = fields.Integer(string="Formato", readonly = True)
+    peso_bobina = fields.Integer(string="Bobina", readonly = True)
+    peso_solidboard = fields.Integer(string="Solid Board", readonly = True)
+    peso_pie = fields.Integer(string="Pie Pallet", readonly = True)
+    peso_flatboard = fields.Integer(string="Flat Board", readonly = True)
+    peso_cantonera_defectuoso = fields.Integer(string="Cantonera Defectuoso", readonly = True)
+    peso_perfilu_defectuoso = fields.Integer(string="Perfil U Defectuoso", readonly = True)
+    peso_slipsheet_defectuoso = fields.Integer(string="Slip Sheet Defectuoso", readonly = True)
+    peso_formato_defectuoso = fields.Integer(string="Formato Defectuoso", readonly = True)
+    peso_bobina_defectuoso = fields.Integer(string="Bobina Defectuoso", readonly = True)
+    peso_solidboard_defectuoso = fields.Integer(string="Solid Board Defectuoso", readonly = True)
+    peso_pie_defectuoso = fields.Integer(string="Pie Pallet Defectuoso", readonly = True)
+    peso_flatboard_defectuoso = fields.Integer(string="Flat Board Defectuoso", readonly = True)
     
-    terminado_ids = fields.Many2many('stock.production.lot', string='Producto Terminado', compute='_compute_lots')
+    lotes_fecha_ids = fields.Many2many('stock.production.lot', string='Lotes Fecha', compute='_compute_lots')
+    lotes_inventario_ids = fields.Many2many('stock.production.lot', string='Lotes Inventario', compute='_compute_lots')
+    
+    
+    
+    @api.depends('tipo', 'fecha_inicio', 'fecha_fin')
+    def _get_nombre(self):
+        for record in self:
+            nombre = ""
+            if record.tipo:
+                if tipo == '10':
+                    nombre = "Inventario Producto Terminado HOY"
+                elif tipo == '11':
+                    nombre = "Inventario Producto Terminado "
+                    if record.fecha_fin:
+                        nombre = nombre + str(fecha_fin)
+                if tipo == '20':
+                    nombre = "Inventario Papel HOY"
+                elid tipo == '21'
+                    nombre = "Inventario Papel "
+                    if record.fecha_fin:
+                        nombre = nombre + str(fecha_fin)
+                elid tipo == '100':
+                    nombre = "Producción entre "
+                    if record.fecha_inicio:
+                        nombre = nombre + str(fecha_inicio) + " y "
+                    if record.fecha_fin:
+                        nombre = nombre + str(fecha_fin) 
+            record.name = nombre
+    
+    
     
     @api.multi
     def actualizar_inventario(self):
@@ -40,41 +87,216 @@ class StockProductionInventario(models.Model):
             peso_flatboard = 0
             total_terminado = 0
             
-            for lote in self.env['stock.production.lot'].search([('unidades', '>', 0),]):
-                if record.comenzar == True:
-                    lote.inventariado = False
-                if lote.date_done == None or lote.date_done == False:
-                    lote.fecha_salir = None
-                    lote.almacenado = True
-                    
-                    if lote.is_cantonera == True:
-                        peso_cantonera = peso_cantonera + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                    if lote.is_perfilu == True:
-                        peso_perfilu = peso_perfilu + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                    if lote.is_slipsheet == True:
-                        peso_slipsheet = peso_slipsheet + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                    if lote.is_formato == True:
-                        peso_formato = peso_formato + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                    if lote.is_bobina == True:
-                        peso_bobina = peso_bobina + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                    if lote.is_solidboard == True:
-                        peso_solidboard = peso_solidboard + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                    if lote.is_pieballet == True:
-                        peso_pie = peso_pie + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                    if lote.is_flatboard == True:
-                        peso_flatboard = peso_flatboard + lote.peso_neto
-                        total_terminado = total_terminado + lote.peso_neto
-                else:
-                    lote.fecha_salir = lote.scheduled_date
-                    lote.almacenado = False
-                
+            peso_cantonera_defectuoso = 0
+            peso_perfilu_defectuoso = 0
+            peso_slipsheet_defectuoso = 0
+            peso_formato_defectuoso = 0
+            peso_bobina_defectuoso = 0
+            peso_solidboard_defectuoso = 0
+            peso_pie_defectuoso = 0
+            peso_flatboard_defectuoso = 0
+            total_terminado_defectuoso = 0
+            
+            lotes_fecha = None
+
+            if record.tipo:
+                if record.tipo == '10':
+                    #Inventario producto terminado HOY
+                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),]):
+                        if record.comenzar == True:
+                            lote.inventariado = False
+                            
+                        if lote.fecha_entrada == None or lote.fecha_entrada == False:
+                            lote.almacenado = False
+                        elif lote.date_done == None or lote.date_done == False:
+                            lote.fecha_salir = None
+                            lote.almacenado = True
+                        else:
+                            lote.fecha_salir = lote.scheduled_date
+                            lote.almacenado = False
+
+                        if lote.almacenado == True:
+                            
+                            if lote.is_cantonera == True:
+                                if lote.defectuoso == True:
+                                    peso_cantonera_defectuoso = peso_cantonera_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_cantonera = peso_cantonera + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_perfilu == True:
+                                if lote.defectuoso == True:
+                                    peso_perfilu_defectuoso = peso_perfilu_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_perfilu = peso_perfilu + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_slipsheet == True:
+                                if lote.defectuoso == True:
+                                    peso_slipsheet_defectuoso = peso_slipsheet_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_slipsheet = peso_slipsheet + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_formato == True:
+                                if lote.defectuoso == True:
+                                    peso_formato_defectuoso = peso_formato_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_formato = peso_formato + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_bobina == True:
+                                if lote.defectuoso == True:
+                                    peso_bobina_defectuoso = peso_bobina_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_bobina = peso_bobina + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_solidboard == True:
+                                if lote.defectuoso == True:
+                                    peso_solidboard_defectuoso = peso_solidboard_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_solidboard = peso_solidboard + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_pieballet == True:
+                                if lote.defectuoso == True:
+                                    peso_pie_defectuoso = peso_pie_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_pie = peso_pie + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_flatboard == True:
+                                if lote.defectuoso == True:
+                                    peso_flatboard_defectuoso = peso_flatboard_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_flatboard = peso_flatboard + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                                
+                elif record.tipo == '11' and record.fecha_fin:
+                    #Inventario Producto Terminado fecha
+                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),]):
+
+                        if lote.fecha_entrada == None or lote.fecha_entrada == False:
+                            lote.almacenado_fecha = False
+                        elif lote.fecha_entrada <= record.fecha_fin:
+                            if lote.date_done == None or lote.date_done == False:
+                                lote.fecha_salir = None
+                                lote.almacenado_fecha = True
+                            else:
+                                lote.fecha_salir = lote.scheduled_date
+                                if lote.fecha_salir > record.fecha_fin:
+                                    lote.almacenado_fecha = True
+                                else:
+                                    lote.almacenado_fecha = False
+                        else:
+                            lote.almacenado_fecha = False
+
+                        if lote.almacenado_fecha == True:  
+                            lotes_fecha = lotes_fecha + lote
+                            
+                            if lote.is_cantonera == True:
+                                if lote.defectuoso == True:
+                                    peso_cantonera_defectuoso = peso_cantonera_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_cantonera = peso_cantonera + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_perfilu == True:
+                                if lote.defectuoso == True:
+                                    peso_perfilu_defectuoso = peso_perfilu_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_perfilu = peso_perfilu + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_slipsheet == True:
+                                if lote.defectuoso == True:
+                                    peso_slipsheet_defectuoso = peso_slipsheet_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_slipsheet = peso_slipsheet + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_formato == True:
+                                if lote.defectuoso == True:
+                                    peso_formato_defectuoso = peso_formato_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_formato = peso_formato + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_bobina == True:
+                                if lote.defectuoso == True:
+                                    peso_bobina_defectuoso = peso_bobina_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_bobina = peso_bobina + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_solidboard == True:
+                                if lote.defectuoso == True:
+                                    peso_solidboard_defectuoso = peso_solidboard_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_solidboard = peso_solidboard + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_pieballet == True:
+                                if lote.defectuoso == True:
+                                    peso_pie_defectuoso = peso_pie_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_pie = peso_pie + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_flatboard == True:
+                                if lote.defectuoso == True:
+                                    peso_flatboard_defectuoso = peso_flatboard_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_flatboard = peso_flatboard + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                                    
+                elif record.tipo == '100' and record.fecha_inicio and record.fecha_fin:
+                    #Producción entre FECHAS
+                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),]):
+                        
+                        if lote.fecha_entrada == None or lote.fecha_entrada == False:
+                            lote.almacenado_fecha = False
+                        elif lote.fecha_entrada <= record.fecha_inicio:
+                            if lote.date_done == None or lote.date_done == False:
+                                lote.fecha_salir = None
+                                lote.almacenado_fecha = True
+                            else:
+                                lote.fecha_salir = lote.scheduled_date
+                                if lote.fecha_salir > record.fecha_fin:
+                                    lote.almacenado_fecha = True
+                                else:
+                                    lote.almacenado_fecha = False
+                        else:
+                            lote.almacenado_fecha = False
+                                    
+                        if lote.almacenado_fecha == True:  
+                            lotes_fecha = lotes_fecha + lote
+                            
+                            if lote.is_cantonera == True:
+                                if lote.defectuoso == True:
+                                    peso_cantonera_defectuoso = peso_cantonera_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_cantonera = peso_cantonera + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_slipsheet == True:
+                                if lote.defectuoso == True:
+                                    peso_slipsheet_defectuoso = peso_slipsheet_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_slipsheet = peso_slipsheet + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto
+                            if lote.is_solidboard == True:
+                                if lote.defectuoso == True:
+                                    peso_solidboard_defectuoso = peso_solidboard_defectuoso + lote.peso_neto
+                                    total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
+                                else:
+                                    peso_solidboard = peso_solidboard + lote.peso_neto
+                                    total_terminado = total_terminado + lote.peso_neto        
+
             record.peso_cantonera = peso_cantonera
             record.peso_perfilu = peso_perfilu
             record.peso_slipsheet = peso_slipsheet
@@ -84,19 +306,29 @@ class StockProductionInventario(models.Model):
             record.peso_pie = peso_pie
             record.peso_flatboard = peso_flatboard
             record.total_terminado = total_terminado
+            record.peso_cantonera_defectuoso = peso_cantonera_defectuoso
+            record.peso_perfilu_defectuoso = peso_perfilu_defectuoso
+            record.peso_slipsheet_defectuoso = peso_slipsheet_defectuoso
+            record.peso_formato_defectuoso = peso_formato_defectuoso
+            record.peso_bobina_defectuoso = peso_bobina_defectuoso
+            record.peso_solidboard_defectuoso = peso_solidboard_defectuoso
+            record.peso_pie_defectuoso = peso_pie_defectuoso
+            record.peso_flatboard_defectuoso = peso_flatboard_defectuoso
+            record.total_terminado_defectuoso = total_terminado_defectuoso
+            
+            record.lotes_fecha_ids = lotes_fecha
             record.comenzar = False
                     
-    
     
     @api.depends('name')
     def _compute_lots(self):
 
         for record in self:
-            terminado1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
-            terminado2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
-            terminado_ids = terminado1 + terminado2
+            lotes1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
+            lotes2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
+            inventario_ids = lotes1 + lotes2
             
-            record.terminado_ids = terminado_ids
+            record.lotes_inventario_ids = inventario_ids
 
 
 
@@ -287,6 +519,7 @@ class StockProductionLot(models.Model):
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
     almacenado = fields.Boolean('Almacenado')
+    almacenado_fecha = fields.Boolean('Almacenado Fecha)
     inventariado = fields.Boolean('Inventariado')
     #und_paquete = fields.Integer('Und paquete')
     comprado = fields.Boolean('Comprado')
