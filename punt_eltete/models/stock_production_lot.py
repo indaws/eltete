@@ -99,6 +99,7 @@ class StockProductionInventario(models.Model):
             
             lotes_fecha = None
 
+            """
             if record.tipo:
                 if record.tipo == '10':
                     #Inventario producto terminado HOY
@@ -295,8 +296,8 @@ class StockProductionInventario(models.Model):
                                     total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
                                 else:
                                     peso_solidboard = peso_solidboard + lote.peso_neto
-                                    total_terminado = total_terminado + lote.peso_neto        
-
+             
+            """
             record.peso_cantonera = peso_cantonera
             record.peso_perfilu = peso_perfilu
             record.peso_slipsheet = peso_slipsheet
