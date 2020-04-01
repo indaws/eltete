@@ -764,7 +764,7 @@
                             	</field>   
                         </group>  
 			<group>			
-				<field name="lotes_fecha_ids"  attrs="{'invisible': [('tipo', '=', '10')]}" />
+				<field name="lotes_fecha_ids" />
                                 	<tree string="Lotes" >
 						<field name="name"/>
                                     		<field name="referencia_id"/>
