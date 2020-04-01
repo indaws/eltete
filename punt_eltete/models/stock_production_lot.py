@@ -11,8 +11,7 @@ import time
 class StockProductionInventario(models.Model):
     _name = 'stock.production.inventario'
     
-    name = fields.Char(string="Nombre")
-    #name = fields.Char(string="Nombre", readonly = True, compute = "_get_nombre")
+    name = fields.Char(string="Nombre", readonly = True, compute = "_get_nombre")
     fecha_inicio = fields.Date(string="Fecha Inicio")
     fecha_fin = fields.Date(string="Fecha Fin")
     TIPO_SEL = [ ('10', 'INVENTARIO PRODUCTO TERMINADO HOY'), 
@@ -47,7 +46,30 @@ class StockProductionInventario(models.Model):
     lotes_inventario_ids = fields.Many2many('stock.production.lot', string='Lotes Inventario', compute='_compute_lots')
     
     
-    
+    @api.depends('tipo', 'fecha_inicio', 'fecha_fin')
+    def _get_nombre(self):
+        for record in self:
+            nombre = ""
+            if record.tipo:
+                if tipo == '10':
+                    nombre = "Inventario Producto Terminado HOY"
+                elif tipo == '11':
+                    nombre = "Inventario Producto Terminado "
+                    if record.fecha_fin:
+                        nombre = nombre + str(fecha_fin)
+                if tipo == '20':
+                    nombre = "Inventario Papel HOY"
+                elid tipo == '21'
+                    nombre = "Inventario Papel "
+                    if record.fecha_fin:
+                        nombre = nombre + str(fecha_fin)
+                elid tipo == '100':
+                    nombre = "Producción entre "
+                    if record.fecha_inicio:
+                        nombre = nombre + str(fecha_inicio) + " y "
+                    if record.fecha_fin:
+                        nombre = nombre + str(fecha_fin) 
+            record.name = nombre
     
     
     
@@ -75,7 +97,6 @@ class StockProductionInventario(models.Model):
             peso_flatboard_defectuoso = 0
             total_terminado_defectuoso = 0
             
-            """
             lotes_fecha = None
             
             if record.tipo:
@@ -296,7 +317,7 @@ class StockProductionInventario(models.Model):
             
             record.lotes_fecha_ids = lotes_fecha
             record.comenzar = False
-            """       
+   
     
     
     @api.depends('tipo')
