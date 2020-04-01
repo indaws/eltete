@@ -165,7 +165,6 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
 
                         if lote.almacenado_fecha == True:  
-                            lotes_fecha.append(lote)
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
@@ -224,6 +223,8 @@ class StockProductionInventario(models.Model):
                                     peso_flatboard = peso_flatboard + lote.peso_neto
                                     total_terminado = total_terminado + lote.peso_neto
                                     
+                    lotes_fecha = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('almacenado_fecha', '=', True),])
+                
                 elif record.tipo == '100' and record.fecha_inicio and record.fecha_fin:
                     #Producción entre FECHAS
                     for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),]):
@@ -244,7 +245,6 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
                                     
                         if lote.almacenado_fecha == True:  
-                            lotes_fecha.append(lote)
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
@@ -266,7 +266,9 @@ class StockProductionInventario(models.Model):
                                     total_terminado_defectuoso = total_terminado_defectuoso + lote.peso_neto
                                 else:
                                     peso_solidboard = peso_solidboard + lote.peso_neto
-             
+                                    
+                    lotes_fecha = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),('almacenado_fecha', '=', True),])
+                
             record.peso_cantonera = peso_cantonera
             record.peso_perfilu = peso_perfilu
             record.peso_slipsheet = peso_slipsheet
