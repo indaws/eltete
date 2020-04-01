@@ -12,9 +12,18 @@ class StockProductionInventario(models.Model):
     _name = 'stock.production.inventario'
     
     name = fields.Char(string="Nombre")
-    fecha = fields.Date(string="Fecha")
+    fecha_inicio = fields.Date(string="Fecha Inicio")
+    fecha_fin = fields.Date(string="Fecha Fin")
+    TIPO_SEL = [ ('10', 'INVENTARIO PRODUCTO TERMINADO HOY'), 
+                ('11', 'INVENTARIO PRODUCTO TERMINADO FECHA'), 
+                #('20', 'INVENTARIO PAPEL HOY'), 
+                #('21', 'INVENTARIO PAPEL FECHA'), 
+               ('20', 'PRODUCCIÓN ENTRE FECHAS'), 
+               ]
+    tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     comenzar = fields.Boolean(string="Comenzar Inventario")
-    total_terminado = fields.Integer(string="Peso Producto Terminado", readonly = True)
+    peso_total_bueno = fields.Integer(string="Peso Bueno", readonly = True)
+    peso_total_defectuoso = fields.Integer(string="Peso Defectuoso", readonly = True)
     
     peso_cantonera = fields.Integer(string="Peso Cantonera", readonly = True)
     peso_perfilu = fields.Integer(string="Peso Perfil U", readonly = True)
@@ -24,8 +33,17 @@ class StockProductionInventario(models.Model):
     peso_solidboard = fields.Integer(string="Peso Solid Board", readonly = True)
     peso_pie = fields.Integer(string="Peso Pie Pallet", readonly = True)
     peso_flatboard = fields.Integer(string="Peso Flat Board", readonly = True)
+    peso_cantonera_defectuoso = fields.Integer(string="Peso Cantonera Defectuoso", readonly = True)
+    peso_perfilu_defectuoso = fields.Integer(string="Peso Perfil U Defectuoso", readonly = True)
+    peso_slipsheet_defectuoso = fields.Integer(string="Peso Slip Sheet Defectuoso", readonly = True)
+    peso_formato_defectuoso = fields.Integer(string="Peso Formato Defectuoso", readonly = True)
+    peso_bobina_defectuoso = fields.Integer(string="Peso Bobina Defectuoso", readonly = True)
+    peso_solidboard_defectuoso = fields.Integer(string="Peso Solid Board Defectuoso", readonly = True)
+    peso_pie_defectuoso = fields.Integer(string="Peso Pie Pallet Defectuoso", readonly = True)
+    peso_flatboard_defectuoso = fields.Integer(string="Peso Flat Board Defectuoso", readonly = True)
     
-    terminado_ids = fields.Many2many('stock.production.lot', string='Producto Terminado', compute='_compute_lots')
+    lotes_fecha_ids = fields.Many2many('stock.production.lot', string='Lotes Fecha')
+    lotes_inventario_ids = fields.Many2many('stock.production.lot', string='Lotes Inventario', compute='_compute_lots')
     
     @api.multi
     def actualizar_inventario(self):
@@ -83,7 +101,7 @@ class StockProductionInventario(models.Model):
             record.peso_solidboard = peso_solidboard
             record.peso_pie = peso_pie
             record.peso_flatboard = peso_flatboard
-            record.total_terminado = total_terminado
+            record.peso_bueno = total_terminado
             record.comenzar = False
                     
     
@@ -92,11 +110,11 @@ class StockProductionInventario(models.Model):
     def _compute_lots(self):
 
         for record in self:
-            terminado1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
-            terminado2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
-            terminado_ids = terminado1 + terminado2
+            inventario1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
+            inventario2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
+            inventario = inventario1 + inventario2
             
-            record.terminado_ids = terminado_ids
+            record.lotes_inventario_ids = inventario
 
 
 
