@@ -18,7 +18,7 @@ class StockProductionInventario(models.Model):
                 ('11', 'INVENTARIO PRODUCTO TERMINADO FECHA'), 
                 #('20', 'INVENTARIO PAPEL HOY'), 
                 #('21', 'INVENTARIO PAPEL FECHA'), 
-               ('20', 'PRODUCCIÓN ENTRE FECHAS'), 
+               ('100', 'PRODUCCIÓN ENTRE FECHAS'), 
                ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     comenzar = fields.Boolean(string="Comenzar Inventario")
@@ -291,13 +291,15 @@ class StockProductionInventario(models.Model):
                     
     
     
-    @api.depends('name')
+    @api.depends('tipo')
     def _compute_lots(self):
-
         for record in self:
-            inventario1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
-            inventario2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
-            inventario = inventario1 + inventario2
+            inventario = None
+            if record.tipo:
+                if record.tipo == '10':
+                    inventario1 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', True),('inventariado', '=', False)])
+                    inventario2 = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('almacenado', '=', False),('inventariado', '=', True)])
+                    inventario = inventario1 + inventario2
             
             record.lotes_inventario_ids = inventario
 
