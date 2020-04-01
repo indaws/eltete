@@ -744,7 +744,12 @@
 			</group>
 						
 			<group>
-				<button name="actualizar_inventario" type="object" string="Procesar inventario" />
+				<group>
+					<button name="actualizar_inventario" type="object" string="Procesar inventario" />
+				</group>
+				<group>
+					<field name='comenzar' attrs="{'invisible': [('tipo', '!=', '10')]}" />
+				</group>
 			</group>
 							
 			<group>			
