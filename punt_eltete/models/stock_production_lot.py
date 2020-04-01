@@ -494,6 +494,7 @@ class StockProductionLot(models.Model):
     cantidad_4_num = fields.Float('Cantidad 4', digits = (12, 4), readonly = True, compute = "_get_cantidad")
     
     almacenado = fields.Boolean('Almacenado')
+    almacenado_fecha = fields.Boolean('Almacenado Fecha')
     inventariado = fields.Boolean('Inventariado')
     #und_paquete = fields.Integer('Und paquete')
     comprado = fields.Boolean('Comprado')
