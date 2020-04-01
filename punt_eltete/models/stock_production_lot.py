@@ -165,7 +165,7 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
 
                         if lote.almacenado_fecha == True:  
-                            lotes_fecha = lotes_fecha + lote
+                            lotes_fecha.append(lote)
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
@@ -244,7 +244,7 @@ class StockProductionInventario(models.Model):
                             lote.almacenado_fecha = False
                                     
                         if lote.almacenado_fecha == True:  
-                            lotes_fecha = lotes_fecha + lote
+                            lotes_fecha.append(lote)
                             
                             if lote.is_cantonera == True:
                                 if lote.defectuoso == True:
