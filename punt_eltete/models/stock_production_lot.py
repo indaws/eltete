@@ -570,7 +570,7 @@ class StockProductionLot(models.Model):
                 if letra == "-":
                     if orden == "":
                         guardar_orden = True
-                    elif pallet == "-":
+                    elif orden != "":
                         guardar_orden = False
                         guardar_pallet = True
                 elif letra == " ":
