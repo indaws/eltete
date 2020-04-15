@@ -104,6 +104,16 @@
             file="punt_eltete.report_purchase_order_llegada"
             name="punt_eltete.report_purchase_order_llegada"
         />
+        
+        
+        <report 
+            id="rep_stock_production_inventario"
+            string="Inventario"
+            model="stock.production.inventario" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_stock_production_inventario"
+            name="punt_eltete.report_stock_production_inventario"
+        />
 		
 		
 
