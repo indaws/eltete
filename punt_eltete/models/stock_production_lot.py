@@ -630,7 +630,7 @@ class StockProductionLot(models.Model):
             valor = 55
             impar = True
             while indice < len(barras_3_imagen):
-                numero = int(barras_3_imagen[indice, indice + 1])
+                numero = int(barras_3_imagen[indice:indice + 1])
                 if impar == True:
                     valor = valor + numero * 3
                     impar = False
