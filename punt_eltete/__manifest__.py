@@ -41,6 +41,7 @@
         "reports/qweb/report_purchase_order_normal.xml",
         "reports/qweb/report_purchase_order_ingles.xml",
         "reports/qweb/report_purchase_order_llegada.xml",
+        "reports/qweb/report_stock_production_inventario.xml",
         "reports/eltete_report.xml",
         
     ],
