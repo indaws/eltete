@@ -14,7 +14,7 @@
 		          <td><span t-field="doc.descripcion"/></td>
 		      </div>
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:40px; text-align:center; font-size:20pt; width:100%;">
-		          <td><img t-att-src="'/report/barcode/Code128/%s' % lot.referencia_id.name "/></td>
+		          <td><img t-att-src="'/report/barcode/Code128/%s' % lot.referencia_id.titulo "/></td>
 		      </div>
 		      <div class="float-left company_address" style="margin-bottom:20px; width:100%;">
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:50%;">
