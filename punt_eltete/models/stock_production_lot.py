@@ -566,7 +566,7 @@ class StockProductionLot(models.Model):
             pallet = ""
             indice = 0
             while indice < len(record.name):
-                letra = record.name[indice, indice + 1]
+                letra = record.name[indice:indice + 1]
                 if letra == "-":
                     if orden == "":
                         guardar_orden = True
