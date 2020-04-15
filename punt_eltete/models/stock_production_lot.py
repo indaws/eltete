@@ -559,6 +559,8 @@ class StockProductionLot(models.Model):
             barras_3_imagen = ""
             barras_3_texto = ""
             
+            """
+            
             #Buscamnos los datos en el name
             guardar_orden = False
             guardar_pallet = False
@@ -647,6 +649,7 @@ class StockProductionLot(models.Model):
             barras_3_imagen = barras_3_imagen + str(control)
             barras_3_texto = barras_3_texto + str(control)
 
+            """
             
             record.barras_1_imagen = barras_1_imagen
             record.barras_1_texto = barras_1_texto
