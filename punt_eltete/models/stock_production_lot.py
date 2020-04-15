@@ -583,8 +583,21 @@ class StockProductionLot(models.Model):
                 indice = indice + 1
                 
             #Barras 1
-            barras_1_imagen = "9191286481 37"
-            barras_1_texto = "(91)91286481(37)"
+            barras_1_imagen = "91"
+            barras_1_texto = "(91)"
+            #Añadimos el IPMS
+            if record.longitud == 710:
+                barras_1_imagen = barras_1_imagen + "91286481"
+                barras_1_texto = barras_1_texto + "91286481"
+            elif record.longitud == 805:
+                barras_1_imagen = barras_1_imagen + "91056758"
+                barras_1_texto = barras_1_texto + "91056758"
+            else:
+                barras_1_imagen = barras_1_imagen + "00000000"
+                barras_1_texto = barras_1_texto + "00000000"
+                
+            barras_1_imagen = barras_1_imagen + "37"
+            barras_1_texto = barras_1_texto + "(37)"
             #Añadimos las unidades (8 digitos)
             codigo = str(record.unidades)
             while len(codigo) < 8:
