@@ -578,7 +578,7 @@ class StockProductionLot(models.Model):
                 else:
                     if guardar_orden == True:
                         orden = orden + letra
-                    elif guarda_pallet == True:
+                    elif guardar_pallet == True:
                         pallet = pallet + letra       
                 indice = indice + 1
             
