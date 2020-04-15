@@ -19,7 +19,7 @@
                                   <strong>Duración: </strong><span t-field="doc.op_duracion"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                                  <strong>Máquina</strong><span t-field="doc.op_cantonera_maquina"/><br/>
+                                  <strong>Máquina: </strong><span t-field="doc.op_cantonera_maquina"/><br/>
 				  <strong>Pallet Inicio: </strong><span t-field="doc.lotes_inicio"/><br/>
                                   <strong>Metros Totales: </strong><span t-field="doc.op_metros"/><br/>
                               </div>
