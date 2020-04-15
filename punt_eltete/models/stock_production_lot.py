@@ -539,6 +539,126 @@ class StockProductionLot(models.Model):
     diametro = fields.Integer('Diámetro')
     gramaje = fields.Integer('Gramaje')
     tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios")
+    
+    barras_1_imagen = fields.Char('Barras 1 Imagen', readonly = True, compute = "_get_barras")
+    barras_1_texto = fields.Char('Barras 1 Texto', readonly = True, compute = "_get_barras")
+    barras_2_imagen = fields.Char('Barras 2 Imagen', readonly = True, compute = "_get_barras")
+    barras_2_texto = fields.Char('Barras 2 Texto', readonly = True, compute = "_get_barras")
+    barras_3_imagen = fields.Char('Barras 3 Imagen', readonly = True, compute = "_get_barras")
+    barras_3_texto = fields.Char('Barras 3 Texto', readonly = True, compute = "_get_barras")
+    
+    
+    
+    @api.depends('unidades')
+    def _get_barras(self):
+        for record in self:
+            barras_1_imagen = ""
+            barras_1_texto = ""
+            barras_2_imagen = ""
+            barras_2_texto = ""
+            barras_3_imagen = ""
+            barras_3_texto = ""
+            
+            """
+            
+            #Buscamnos los datos en el name
+            guardar_orden = False
+            guardar_pallet = False
+            orden = ""
+            pallet = ""
+            indice = 0
+            while indice < len(name):
+                letra = name[indice, indice + 1]
+                if letra == "-":
+                    if orden == "":
+                        guardar_orden = True
+                    elif pallet == "-":
+                        guardar_orden = False
+                        guardar_pallet = True
+                elif letra == " ":
+                    x = 0
+                else:
+                    if guardar_orden == True:
+                        orden = orden + letra
+                    elif guarda_pallet == True:
+                        pallet = pallet + letra       
+                indice = indice + 1
+                
+            #Barras 1
+            barras_1_imagen = "91"
+            barras_1_texto = "(91)"
+            #Añadimos el IPMS
+            if record.longitud == 710:
+                barras_1_imagen = barras_1_imagen + "91286481"
+                barras_1_texto = barras_1_texto + "91286481"
+            elif record.longitud == 805:
+                barras_1_imagen = barras_1_imagen + "91056758"
+                barras_1_texto = barras_1_texto + "91056758"
+            else:
+                barras_1_imagen = barras_1_imagen + "00000000"
+                barras_1_texto = barras_1_texto + "00000000"
+                
+            barras_1_imagen = barras_1_imagen + "37"
+            barras_1_texto = barras_1_texto + "(37)"
+            #Añadimos las unidades (8 digitos)
+            codigo = str(record.unidades)
+            while len(codigo) < 8:
+                codigo = "0" + codigo
+                
+            barras_1_imagen = barras_1_imagen + codigo
+            barras_1_texto = barras_1_texto + codigo
+            
+            #Barras 2
+            barras_2_imagen = "10ELBU"
+            barras_2_texto = "(10)ELBU"
+            #Insertamos la orden de produccion (max 10 digitos, mínimo 6)
+            while len(orden) < 6:
+                orden = "0" + orden
+            
+            barras_2_imagen = barras_2_imagen + orden + " 90EU"
+            barras_2_texto = barras_2_texto + orden + "(90)EU"
+            
+            #Barras 3
+            barras_3_imagen = "0018406608" + orden
+            barras_3_texto = "(00)18406608" + orden
+            #Insertamos número de pallet (maximo 3 digitos)
+            while len(pallet) < 3:
+                pallet = "0" + pallet
+            barras_3_imagen = barras_3_imagen + pallet
+            barras_3_texto = barras_3_texto + pallet
+            
+            #Codigo de control
+            indice = 10
+            valor = 55
+            impar = True
+            while indice < len(barras_3_imagen):
+                numero = int(barras_3_imagen[indice, indice + 1])
+                if impar == True:
+                    valor = valor + numero * 3
+                    impar = False
+                else:
+                    valor = valor + numero
+                    impar = True
+                indice = indice + 1
+            
+            decena_mayor = (int(valor / 10) + 1) * 10
+            control = decena_mayor - valor
+            if control == 10:
+                control = 0
+            
+            barras_3_imagen = barras_3_imagen + str(control)
+            barras_3_texto = barras_3_texto + str(control)
+
+            """
+            
+            record.barras_1_imagen = barras_1_imagen
+            record.barras_1_texto = barras_1_texto
+            record.barras_2_imagen = barras_2_imagen
+            record.barras_2_texto = barras_2_texto
+            record.barras_3_imagen = barras_3_imagen
+            record.barras_3_texto = barras_3_texto
+    
+    
 
     
     @api.depends('comprado', 'sale_order_line_id')
