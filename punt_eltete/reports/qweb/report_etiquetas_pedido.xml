@@ -7,14 +7,17 @@
             <t t-foreach="doc.lot_ids" t-as="lot">
               <t t-call="web.external_layout">
                   <div class="page">
-		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:64pt; width:100%;">
+		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:48pt; width:100%;">
 		          <td><span t-esc="lot.name"/></td>
 		      </div> 
-		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:32pt; width:100%;">
+		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:24pt; width:100%;">
 		          <td><span t-field="doc.descripcion"/></td>
 		      </div>
+		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:24pt; width:100%;">
+		          <td><img t-att-src="'/report/barcode/Code128/%s' % lot.product_id.referencia_id.orden "/></td>
+		      </div>
 		      <div class="float-left company_address" style="margin-bottom:20px; width:100%;">
-		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:50%;">
 		              <td><span t-field="lot.unidades"/><br/>unidades</td>
 			      <br/><br/>
 			      <td>
@@ -27,12 +30,12 @@
 		          </div>
 		      </div>
 		      <div class="float-left company_address" style="width:100%;">
-		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:50%;">
 			      <td>
 			          <span t-field="doc.order_id.partner_shipping_id.zip"/> <span t-field="doc.order_id.partner_shipping_id.city"/><br/>
 		              </td>
 		          </div>
-		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:50%;">
 		              <td>
 			          <span t-field="doc.order_id.partner_shipping_id.state_id"/><br/>
 				  <span t-field="doc.order_id.partner_shipping_id.country_id"/>
