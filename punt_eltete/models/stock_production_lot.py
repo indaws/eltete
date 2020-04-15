@@ -581,8 +581,6 @@ class StockProductionLot(models.Model):
                     elif guarda_pallet == True:
                         pallet = pallet + letra       
                 indice = indice + 1
-                
-            """
             
             #Barras 1
             barras_1_imagen = "91"
@@ -648,8 +646,6 @@ class StockProductionLot(models.Model):
             
             barras_3_imagen = barras_3_imagen + str(control)
             barras_3_texto = barras_3_texto + str(control)
-
-            """
             
             record.barras_1_imagen = barras_1_imagen
             record.barras_1_texto = barras_1_texto
