@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_stock_production_inventario">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.external_layout">
+                
+                <div class="page">
+                    
+                    
+
+                  <h3 style="color:black; font-size:14pt; text-align: center;"><strong>INVENTARIO </strong></h3>
+                  
+                  <t t-if="doc.tipo == '10'">
+                    <div style="padding:20px; font-size:12pt; width:100%; ">
+                          <table class="table table-sm">
+                              <thead style="color:#000;">
+                                  <tr style="color:#000;">
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Lote</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Unidades</th>
+									                    <th class="text-left" style="color:#000; font-size:10pt;">Peso neto</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Fecha entrada</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Fecha salida</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+              
+              
+                                  <t t-foreach="doc.lotes_inventario_ids" t-as="line">
+              
+                                     
+              
+                                      <tr>
+                                        <td style="font-size:10pt;"><span t-field="line.name"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.unidades"/></td>
+										                    <td style="font-size:10pt;"><span t-field="line.peso_neto"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.fecha_entrada"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.fecha_salir"/></td>
+                                      </tr>
+              
+                                      
+                                  </t>
+                              </tbody>
+                          </table>
+                        </div>
+                    
+                  </t>
+                  
+                  <t t-elif="doc.tipo == '20'">
+                    
+                      <div style="padding:20px; font-size:12pt; width:100%; ">
+                          <table class="table table-sm">
+                              <thead style="color:#000;">
+                                  <tr style="color:#000;">
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Lote</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Unidades</th>
+									                    <th class="text-left" style="color:#000; font-size:10pt;">Peso neto</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Fecha entrada</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Fecha salida</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+              
+              
+                                  <t t-foreach="doc.lotes_inventario_ids" t-as="line">
+              
+                                     
+              
+                                      <tr>
+                                        <td style="font-size:10pt;"><span t-field="line.name"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.unidades"/></td>
+										                    <td style="font-size:10pt;"><span t-field="line.peso_neto"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.fecha_entrada"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.fecha_salir"/></td>
+                                      </tr>
+              
+                                      
+                                  </t>
+                              </tbody>
+                          </table>
+                        </div>
+                    
+                  </t>
+                  
+                  <t t-else="">
+                    
+                    <div style="padding:20px; font-size:12pt; width:100%; ">
+                          <table class="table table-sm">
+                              <thead style="color:#000;">
+                                  <tr style="color:#000;">
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Lote</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Unidades</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Peso neto</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Fecha entrada</th>
+                                      <th class="text-left" style="color:#000; font-size:10pt;">Fecha salida</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+              
+              
+                                  <t t-foreach="doc.lotes_fecha_ids" t-as="line">
+              
+                                     
+              
+                                      <tr>
+                                        <td style="font-size:10pt;"><span t-field="line.name"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.unidades"/></td>
+										<td style="font-size:10pt;"><span t-field="line.peso_neto"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.fecha_entrada"/></td>
+                                        <td style="font-size:10pt;"><span t-field="line.fecha_salir"/></td>
+                                      </tr>
+              
+                                      
+                                  </t>
+                              </tbody>
+                          </table>
+                        </div>
+                    
+                  </t>
+                  
+                  
+						
+
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>
