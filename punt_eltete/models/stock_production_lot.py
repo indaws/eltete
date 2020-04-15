@@ -559,16 +559,14 @@ class StockProductionLot(models.Model):
             barras_3_imagen = ""
             barras_3_texto = ""
             
-            """
-            
             #Buscamnos los datos en el name
             guardar_orden = False
             guardar_pallet = False
             orden = ""
             pallet = ""
             indice = 0
-            while indice < len(name):
-                letra = name[indice, indice + 1]
+            while indice < len(record.name):
+                letra = record.name[indice, indice + 1]
                 if letra == "-":
                     if orden == "":
                         guardar_orden = True
@@ -584,6 +582,8 @@ class StockProductionLot(models.Model):
                         pallet = pallet + letra       
                 indice = indice + 1
                 
+            """
+            
             #Barras 1
             barras_1_imagen = "91"
             barras_1_texto = "(91)"
