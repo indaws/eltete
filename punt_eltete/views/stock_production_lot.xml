@@ -50,17 +50,12 @@
 		</group>
 		<group>
 		    <group>
+			<field name="barras_referencia"/>
 			<field name="comentario"/>
 			<field name="defectuoso"/>
 			<field name="peso_metro"/>
 		    </group>	
 		    <group>
-			<field name="barras_1_imagen"/>
-			<field name="barras_1_texto"/>
-			<field name="barras_2_imagen"/>
-			<field name="barras_2_texto"/>
-			<field name="barras_3_imagen"/>
-			<field name="barras_3_texto"/>
 		        <field name="descripcion"/>
 		    </group>
 		</group>
