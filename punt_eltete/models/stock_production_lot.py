@@ -546,6 +546,7 @@ class StockProductionLot(models.Model):
     barras_2_texto = fields.Char('Barras 2 Texto', readonly = True, compute = "_get_barras")
     barras_3_imagen = fields.Char('Barras 3 Imagen', readonly = True, compute = "_get_barras")
     barras_3_texto = fields.Char('Barras 3 Texto', readonly = True, compute = "_get_barras")
+    barras_referencia = fields.Char('Barras Referencia')
     
     
     
