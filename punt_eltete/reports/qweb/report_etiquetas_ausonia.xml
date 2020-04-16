@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-<template id="report_etiquetas_pedido">
+<template id="report_etiquetas_ausonia">
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="doc">
             <t t-foreach="doc.lot_ids" t-as="lot">
