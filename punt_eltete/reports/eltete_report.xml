@@ -57,6 +57,16 @@
             file="punt_eltete.report_etiquetas_pedido" 
             name="punt_eltete.report_etiquetas_pedido" 
         />
+	
+	
+		<report 
+            id="rep_sale_order_etiquetas_ausonia"
+            string="Etiquetas Ausonia"
+            model="sale.order.line" 
+            report_type="qweb-pdf"
+            file="punt_eltete.report_etiquetas_ausonia" 
+            name="punt_eltete.report_etiquetas_ausonia" 
+        />
         
         
         <report 
