@@ -547,12 +547,17 @@ class StockProductionLot(models.Model):
     barras_3_imagen = fields.Char('Barras 3 Imagen', readonly = True, compute = "_get_barras")
     barras_3_texto = fields.Char('Barras 3 Texto', readonly = True, compute = "_get_barras")
     barras_referencia = fields.Char('Barras Referencia')
-    
+    barras_referencia_hay = fields.Boolean('Barras Hay', readonly = True, compute = "_get_barras")
     
     
     @api.depends('unidades')
     def _get_barras(self):
         for record in self:
+            barras_referencia_hay = False
+            if record.barras_referencia:
+                barras_referencia_hay = True
+            record.barras_referencia_hay = barras_referencia_hay
+            
             barras_1_imagen = ""
             barras_1_texto = ""
             barras_2_imagen = ""
