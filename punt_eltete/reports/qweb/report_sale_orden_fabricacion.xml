@@ -43,10 +43,12 @@
                               </div>
                           
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
-                                  <strong>Tinta 1: </strong><span t-field="doc.op_tinta_1"/><br/>
+                                  <strong>Rodillo 1: </strong><span t-field="doc.op_rodillo_1"/><br/>
+				  <strong>Tinta 1: </strong><span t-field="doc.op_tinta_1"/><br/>
                                   <strong>Texto 1: </strong><span t-field="doc.op_texto_1"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+				  <strong>Rodillo 2: </strong><span t-field="doc.op_rodillo_2"/><br/>
                                   <strong>Tinta 2: </strong><span t-field="doc.op_tinta_2"/><br/>
                                   <strong>Texto 2: </strong><span t-field="doc.op_texto_2"/><br/>
                               </div> 
