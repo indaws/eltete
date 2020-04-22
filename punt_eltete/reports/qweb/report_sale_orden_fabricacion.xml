@@ -4,8 +4,8 @@
 <template id="report_orden_fabricacion">
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="doc">
-			<t t-if="doc.product_uom_qty &gt; 0">
-				
+	    <t t-if="doc.product_uom_qty &gt; 0">
+		<t t-call="web.external_layout">
 
                       <div class="page">
                           
@@ -113,7 +113,7 @@
                           </div>
                           
                       </div>
-
+		   </t>
               </t>
         </t>
     </t>
