@@ -445,7 +445,7 @@ class SaleOrderLine(models.Model):
             tinta_2 = ""
             texto_2 = ""
             if record.oferta_id.attribute_id.cantonera_cliche_id:
-                rodillo_1 = oferta_id.attribute_id.cantonera_cliche_id.rodillo
+                rodillo_1 = record.oferta_id.attribute_id.cantonera_cliche_id.rodillo
                 if record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id:
                     tinta_1 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id.name
                     tintero1 = True
