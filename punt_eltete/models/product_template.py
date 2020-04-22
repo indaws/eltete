@@ -1476,6 +1476,10 @@ class ProductCaracteristicaCliche(models.Model):
     texto_2 = fields.Char('Tinta 2 Texto')   
     proveedor = fields.Char('Proveedor')  
     image = fields.Binary('Imagen')
+    TIPO_RODILLO = [('400', '400'),   
+                    ('750', '750'),
+                    ]
+    rodillo = fields.Selection(selection = TIPO_RODILLO, string = 'Rodillo', required = True, default = '400')
     
       
     
