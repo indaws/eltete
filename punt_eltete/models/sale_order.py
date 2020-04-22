@@ -59,10 +59,9 @@ class SaleOrderLine(models.Model):
     op_superficie_ancho = fields.Char('Superficie Ancho', compute = "_get_produccion")
     op_interior_ancho = fields.Char('Interior Ancho', compute = "_get_produccion")
     op_interior_gramaje = fields.Char('Interior Gramaje', compute = "_get_produccion")
-    op_rodillo_1 = fields.Char('Rodillo 1', compute = "_get_produccion")
+    op_rodillo = fields.Char('Rodillo', compute = "_get_produccion")
     op_tinta_1 = fields.Char('Tinta 1', compute = "_get_produccion")
     op_texto_1 = fields.Char('Texto 1', compute = "_get_produccion")
-    op_rodillo_2 = fields.Char('Rodillo 2', compute = "_get_produccion")
     op_tinta_2 = fields.Char('Tinta 2', compute = "_get_produccion")
     op_texto_2 = fields.Char('Texto 2', compute = "_get_produccion")
     op_alas = fields.Char('Alas', compute = "_get_produccion")
@@ -436,8 +435,7 @@ class SaleOrderLine(models.Model):
             
             velocidad = 60
             
-            rodillo_1 = ""
-            rodillo_2 = ""
+            rodillo = ""
             tintero1 = False
             tintero2 = False
             tinta_1 = ""
@@ -445,7 +443,7 @@ class SaleOrderLine(models.Model):
             tinta_2 = ""
             texto_2 = ""
             if record.oferta_id.attribute_id.cantonera_cliche_id:
-                rodillo_1 = record.oferta_id.attribute_id.cantonera_cliche_id.rodillo
+                rodillo = record.oferta_id.attribute_id.cantonera_cliche_id.rodillo
                 if record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id:
                     tinta_1 = record.oferta_id.attribute_id.cantonera_cliche_id.tinta_1_id.name
                     tintero1 = True
@@ -467,10 +465,13 @@ class SaleOrderLine(models.Model):
                             texto_2 = record.oferta_id.attribute_id.cantonera_cliche_id.texto_2
             
             if record.oferta_id.attribute_id.reciclable_id and record.oferta_id.attribute_id.reciclable_id.number > 0:
-                if longitud_final >= 800:
-                    rodillo = "400 o 750"
-                elif longitud_final >= 400:
-                    rodillo = "400"
+                if rodillo == "":
+                    if longitud_final >= 800:
+                        rodillo = "400 o 750"
+                    elif longitud_final >= 400:
+                        rodillo = "400"
+                    else:
+                        rodillo = "400 o 750"
                     
                 if tintero1 == False:
                     texto_1 = record.oferta_id.attribute_id.reciclable_id.name
@@ -573,8 +574,7 @@ class SaleOrderLine(models.Model):
             record.op_superficie_ancho = superficie_ancho
             record.op_interior_ancho = interior_ancho
             record.op_interior_gramaje = interior_gramaje
-            record.op_rodillo_1 = rodillo_1
-            record.op_rodillo_2 = rodillo_2
+            record.op_rodillo = rodillo
             record.op_tinta_1 = tinta_1
             record.op_texto_1 = texto_1
             record.op_tinta_2 = tinta_2
