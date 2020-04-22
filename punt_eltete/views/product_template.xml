@@ -1238,6 +1238,7 @@
                             <field name="number"/>
                             <field name="name"/>
                             <field name="description"/>
+			    <field name="rodillo"/>
                             <field name="tinta_1_id"/>
                             <field name="texto_1"/>
                             <field name="tinta_2_id"/>
