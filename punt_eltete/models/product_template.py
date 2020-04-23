@@ -22,6 +22,7 @@ class ProductCategory(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Pallet?')
     is_varios = fields.Boolean('¿Es Varios?')
     is_flatboard = fields.Boolean('¿Es FlatBoard?')
+    is_pallet_carton = fields.Boolean('¿Es Pallet Carton?')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?')
     is_mprima_cola = fields.Boolean('¿Es mPrima Cola?')
     
@@ -306,7 +307,7 @@ class ProductCategory(models.Model):
         elif pie == '4':
             titulo = "60 x 90 x " + str(longitud)    
 
-        product_name = "PIE DE BALLET - " + titulo
+        product_name = "PIE DE PALLET - " + titulo
             
         referencia_id = self.env['product.referencia'].create({'name': product_name, 
                                                           'titulo': titulo, 
@@ -346,6 +347,33 @@ class ProductCategory(models.Model):
     
     
     
+    @api.multi
+    def create_prod_palletcarton(self, palletcarton):
+
+        #Buscamos
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('palletcarton', '=', palletcarton), ]):
+            return prod, None
+        
+        titulo = ""
+        if palletcarton == '1000x1200x100':
+            titulo = "1000 x 1200 x 100"
+        elif palletcarton == '800x1200x100':
+            titulo = "800 x 1200 x 100"
+        elif palletcarton == '800x600x100':
+            titulo = "800 x 600 x 100" 
+        elif palletcarton == '800x400x100':
+            titulo = "800 x 400 x 100"
+
+        product_name = "PALLET DE CARTÓN - " + titulo
+            
+        referencia_id = self.env['product.referencia'].create({'name': product_name, 
+                                                          'titulo': titulo, 
+                                                          'type_id': self.id, 
+                                                          'palletcarton': palletcarton,
+                                                         })
+        return referencia_id, None   
+
+
 
     @api.multi
     def create_mprima_papel(self, ancho, papel, fsc_tipo, fsc_valor):
@@ -430,6 +458,7 @@ class ProductReferencia(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='type_id.is_pieballet')
     is_varios = fields.Boolean('¿Es Varios?', related='type_id.is_varios')
     is_flatboard = fields.Boolean('¿Es Flat Board?', related='type_id.is_flatboard')
+    is_palletcarton = fields.Boolean('¿Es Pallet Carton?', related='type_id.is_palletcarton')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='type_id.is_mprima_papel')
     
      #ELIMINAR
@@ -442,6 +471,12 @@ class ProductReferencia(models.Model):
                ('4', 'Alto 60 sin Adhesivo'),
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
+    TIPO_PALLET = [('1000x1200x100', '1000 x 1200'), 
+               ('800x1200x100', '800 x 1200'),
+               ('800x600x100', '800 x 600'),                 
+               ('800x400x100', '800 x 400'), 
+               ]
+    palletcarton = fields.Selection(selection = TIPO_PALLET, string = 'Pallet Cartón')
     ala_1 = fields.Integer('Ala 1', readonly = True)
     ancho = fields.Integer('Ancho', readonly = True)
     ala_2 = fields.Integer('Ala 2', readonly = True)
@@ -603,7 +638,7 @@ class ProductReferencia(models.Model):
                     ordenado1 = ordenado1 + "060x"
                 if record.longitud < 1000:
                     ordenado1 = ordenado1 + "0"
-                ordenado1 + ordenado1 + str(record.longitud)
+                ordenado1 = ordenado1 + str(record.longitud)
            
             #Flat Board
             elif record.type_id.is_flatboard == True:
@@ -619,7 +654,19 @@ class ProductReferencia(models.Model):
                     ordenado1 = ordenado1 + "0"
                 ordenado1 = ordenado1 + str(record.longitud) + "x" + str(record.grosor_1)
             
-              
+            #Pallet de carton
+            elif record.type_id.is_palletcarton == True:
+                ordenado1 = "09-"
+                if record.palletcarton == "1000x1200x100":
+                    ordenado1 = ordenado1 + "1000x1200x100"
+                elif record.palletcarton == "800x1200x100":
+                    ordenado1 = ordenado1 + "0800x1200x100"
+                elif record.palletcarton == "600x1200x100":
+                    ordenado1 = ordenado1 + "0600x1200x100"
+                elif record.palletcarton == "400x1200x100":
+                    ordenado1 = ordenado1 + "0400x1200x100"
+            
+            
             #mPrima Papel
             elif record.type_id.is_mprima_papel == True:
                 ordenado1 = "50-PAPEL-"
@@ -791,11 +838,28 @@ class ProductReferencia(models.Model):
                 peso1 = int((record.grosor_1 * 1000 / 1.4 + 30) / 50) * 50
                 peso1 = peso1 * record.ancho / 1000
                 peso1 = peso1 / 1000
+                
+            #Pallet Carton
+            elif record.type_id.is_palletcarton == True:
+                peso1 = 0
+                #1.25 kg/m de pallrun
+                if record.palletcarton == "1000x1200x100":
+                    peso1 = 1.25 * 3 * 1.2
+                    peso1 = peso1 + 0.6 * 1 * 1.2
+                elif record.palletcarton == "800x1200x100":
+                    peso1 = 1.25 * 3 * 1.2
+                    peso1 = peso1 + 0.6 * 0.8 * 1.2
+                elif record.palletcarton == "800x600x100":
+                    peso1 = 1.25 * 3 * 0.6
+                    peso1 = peso1 + 0.6 * 0.8 * 0.6
+                elif record.palletcarton == "800x400x100":
+                    peso1 = 1.25 * 3 * 0.4
+                    peso1 = peso1 + 0.6 * 0.8 * 0.4
+                    
                         
             record.peso_metro = peso1
             
-    
-    
+
     
     @api.depends('type_id',)
     def _get_valores_referencia(self):
@@ -889,272 +953,12 @@ class ProductReferencia(models.Model):
             
 
     
-
-    
     
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
-    #attribute_id = fields.Many2one('sale.product.attribute', string="Atributo producto", readonly=True, )
-    #referencia_cliente_id = fields.Many2one('sale.referencia.cliente', string='Referencia cliente', store=True, related='attribute_id.referencia_cliente_id')
     referencia_id = fields.Many2one('product.referencia', string='Referencia')
 
-    """
-    is_cantonera = fields.Boolean('¿Es Cantonera?', related='categ_id.is_cantonera')
-    is_perfilu = fields.Boolean('¿Es Perfil U?', related='categ_id.is_perfilu')
-    is_slipsheet = fields.Boolean('¿Es Slip Sheet?', related='categ_id.is_slipsheet')
-    is_solidboard = fields.Boolean('¿Es Solid Board?', related='categ_id.is_solidboard')
-    is_formato = fields.Boolean('¿Es Formato?', related='categ_id.is_formato')
-    is_bobina = fields.Boolean('¿Es Bobina?', related='categ_id.is_bobina')
-    is_pieballet = fields.Boolean('¿Es Pie de Ballet?', related='categ_id.is_pieballet')
-    is_flatboard = fields.Boolean('¿Es FlatBoard?')
-    is_mprima_papel = fields.Boolean('¿Es mPrima Papel?', related='categ_id.is_mprima_papel')
-    is_varios = fields.Boolean('¿Es Varios?', related='categ_id.is_varios')
-    
-    ala_1 = fields.Integer('Ala 1')
-    ancho = fields.Integer('Ancho')
-    ala_2 = fields.Integer('Ala 2')
-    grosor_1 = fields.Float('Grosor 1', digits=(6,1))
-    grosor_2 = fields.Float('Grosor 2', digits=(8,2))
-    longitud = fields.Integer('Longitud')
-    interior = fields.Integer('Interior')
-    entrada_1 = fields.Char('Entrada 1')
-    entrada_2 = fields.Char('Entrada 2')
-    entrada_3 = fields.Char('Entrada 3')
-    entrada_4 = fields.Char('Entrada 4')
-    
-    ala_3 = fields.Integer('Solapa 3')
-    ala_4 = fields.Integer('Solapa 4')
-    
-    diametro = fields.Integer('Diámetro')
-    gramaje = fields.Integer('Gramaje')
-    
-    TIPO_PIE = [('1', 'Alto 100 con Adhesivo'), 
-               ('2', 'Alto 100 sin Adhesivo'),
-               ('3', 'Alto 60 con Adhesivo'),                 
-               ('4', 'Alto 60 sin Adhesivo'),
-               ]
-    pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
-    
-    PAPEL_SEL = [('0', 'Gordo Cartoncillo Gris'), 
-               ('1', 'Fino Test Marrón'), 
-               ('2', 'Fino Test Blanco Mate'), 
-               ('3', 'Fino Test Blanco Brillo'), 
-               ('4', 'Fino Test Negro'),
-               ('11', 'Fino Kraft Marrón'),
-               ('12', 'Fino Kraft Blanco Mate'),
-               ('13', 'Fino Kraft Blanco Brillo'),
-               ('20', 'Gordo Kraft Marrón'),
-               ]
-    papel = fields.Selection(selection = PAPEL_SEL, string = 'Tipo Papel')
-    FSC_SEL = [('0', 'NINGUNO'), 
-               ('1', 'FSC 100%'), 
-               ('2', 'FSC MIX CREDIT'),
-               ('3', 'FSC MIX %'),
-               ('4', 'FSC RECYCLED CREDIT'),                 
-               ('5', 'FSC RECYCLED %'), 
-               ('6', 'FSC CONTROLLED WOOD'), 
-               ]
-    fsc_tipo = fields.Selection(selection = FSC_SEL, string = 'Tipo FSC')
-    fsc_valor = fields.Integer('% FSC', default = 0)
-    
-    #varios
-    peso_metro_user = fields.Float('Peso Metro', digits = (10,4))
-    metros_unidad_user = fields.Float('Metros Unidad', digits = (10,4))
-    tipo_varios_id = fields.Many2one('product.caracteristica.varios', string="Tipo varios",)
-
-    #CAMPOS ATRIBUTOS
-    #CANTONERA COLOR
-    cantonera_color_id = fields.Many2one('product.caracteristica.cantonera.color', string="Cantonera Color")
-    cantonera_forma_id = fields.Many2one('product.caracteristica.cantonera.forma', string="Forma")
-    cantonera_especial_id = fields.Many2one('product.caracteristica.cantonera.especial', string="Especial")
-    cantonera_impresion_id = fields.Many2one('product.caracteristica.cantonera.impresion', string="Impresión")
-    #PERFILU
-    perfilu_color_id = fields.Many2one('product.caracteristica.perfilu.color', string="Perfil U Color")
-    #CANTONERA Y PERFILU
-    inglete_id = fields.Many2one('product.caracteristica.inglete', string = "Tipo Inglete")
-    inglete_num = fields.Integer('Numero de Ingletes')
-    #SOLID BOARD
-    plancha_color_id = fields.Many2one('product.caracteristica.planchacolor', string = "Color")
-    #FORMATO Y BOBINA
-    papel_calidad_id = fields.Many2one('product.caracteristica.papelcalidad', string = "Papel Calidad")
-    #SLIPSHEET, SOLIDBOARD Y FORMATO
-    troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
-    #TODOS
-    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
-    reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
-    
-    cantonera_1 = fields.Boolean('Cantonera 1', default = True)
-    cantonera_2 = fields.Boolean('Cantonera 2', default = True)
-    cantonera_3 = fields.Boolean('Cantonera 3', default = True)
-    cantonera_4 = fields.Boolean('Cantonera 4', default = True)
-    sierra = fields.Boolean('Sierra', default = True)
-    
-    #Alta de pallets
-    lotes_alta = fields.Char('Lotes')
-    fecha_entrada_lotes = fields.Char('Fecha de entrada')
-    
-    
-    
-    @api.multi
-    def create_product_referencia(self):
-        if not self.referencia_id:
-            
-            if self.categ_id.is_cantonera == True:
-            
-                if not self.ala_1 or self.ala_1 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ALA 1")
-                if not self.ala_2 or self.ala_2 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ALA 2")
-                if not self.grosor_2 or self.grosor_2 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
-                if not self.longitud or self.longitud <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
-                    
-                referencia_id, error = self.categ_id.create_prod_cantonera(self.ala_1, self.ala_2, self.grosor_2, self.longitud)
-
-                if not referencia_id:
-                    raise ValidationError(error)
-
-                self.referencia_id = referencia_id    
-                self.name = referencia_id.name
-
-                
-                
-            if self.categ_id.is_perfilu == True:
-            
-                if not self.ala_1 or self.ala_1 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ALA 1")
-                if not self.ancho or self.ancho <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ancho")
-                if not self.ala_2 or self.ala_2 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ALA 2")
-                if not self.grosor_2 or self.grosor_2 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
-                if not self.longitud or self.longitud <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
-                    
-                referencia_id, error = self.categ_id.create_prod_perfilu(self.ala_1, self.ancho, self.ala_2, self.grosor_2, self.longitud)
-
-                if not referencia_id:
-                    raise ValidationError(error)
-
-                self.referencia_id = referencia_id    
-                self.name = referencia_id.name
-                
-                
-                
-            if self.categ_id.is_slipsheet == True:
-                
-                if not self.ancho or self.ancho <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ANCHO")
-                if not self.grosor_1 or self.grosor_1 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
-                if not self.longitud or self.longitud <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
-                    
-                referencia_id, error = self.categ_id.create_prod_slipsheet(self.ala_1, self.ancho, self.ala_2, self.grosor_1, self.longitud, self.ala_3, self.ala_4)
-
-                if not referencia_id:
-                    raise ValidationError(error)
-                    
-                self.referencia_id = referencia_id
-                self.name = referencia_id.name
-                
-                
-                
-            if self.categ_id.is_solidboard == True:
-            
-                if not self.ancho or self.ancho <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ancho")
-                if not self.grosor_1 or self.grosor_1 <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en GROSOR")
-                if not self.longitud or self.longitud <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
-                    
-                referencia_id, error = self.categ_id.create_prod_solidboard(self.ancho, self.grosor_1, self.longitud)
-
-                if not referencia_id:
-                    raise ValidationError(error)
-
-                self.referencia_id = referencia_id
-                self.name = referencia_id.name
-
-                
-                
-            if self.categ_id.is_formato == True:
-            
-                if not self.ancho or self.ancho <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ancho")
-                if not self.gramaje or self.gramaje <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
-                if not self.longitud or self.longitud <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
-                    
-                referencia_id, error = self.categ_id.create_prod_formato(self.ancho, self.longitud, self.gramaje)
-
-                if not referencia_id:
-                    raise ValidationError(error)
-
-                self.referencia_id = referencia_id
-                self.name = referencia_id.name
-
-                
-                
-            if self.categ_id.is_bobina == True:
-            
-                if not self.ancho or self.ancho <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ancho")
-                if not self.gramaje or self.gramaje <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en GRAMAJE")
-                if not self.diametro or self.diametro <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en DIÁMETRO")
-                    
-                referencia_id, error = self.categ_id.create_prod_bobina(self.ancho, self.diametro, self.gramaje)
-                
-                if not referencia_id:
-                    raise ValidationError(error)
-                    
-                self.referencia_id = referencia_id
-                self.name = referencia_id.name
-                
-                
-                
-            if self.categ_id.is_pieballet == True:
-            
-                if not self.longitud or self.longitud <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en LONGITUD")
-                if not self.pie:
-                    raise ValidationError("Error: Hay que indicar un valor en PIE")
-                    
-                referencia_id, error = self.categ_id.create_prod_pieballet(self.longitud, self.pie)
- 
-                if not referencia_id:
-                    raise ValidationError(error)
-
-                self.referencia_id = referencia_id
-                self.name = referencia_id.name
-
-                
-  
-            if self.categ_id.is_mprima_papel == True:
-            
-                if not self.ancho or self.ancho <= 0:
-                    raise ValidationError("Error: Hay que indicar un valor en ANCHO")
-                if not self.papel:
-                    raise ValidationError("Error: Hay que indicar un valor en PAPEL")
-                if not self.fsc_tipo:
-                    raise ValidationError("Error: Hay que indicar un valor en FSC TIPO")
-                
-                referencia_id, error = self.categ_id.create_mprima_papel(self.ancho, self.papel, self.fsc_tipo, self.fsc_valor)
-                if not referencia_id:
-                    raise ValidationError(error)
-                self.referencia_id = referencia_id
-                self.name = referencia_id.name
-    """
-
-
-        
 
         
 ###############################
