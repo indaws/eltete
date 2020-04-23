@@ -207,7 +207,7 @@ class sale_referencia_cliente(models.Model):
                                 paquetes = paquetes - 1
                         #Columnas
                         elif paletizado == 2:
-                            undColumna = int(((ancho_pallet - 10) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.5))
+                            undColumna = int(((ancho_pallet - 15) / 4 - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.53))
                             paquetesColumna = 2
                             und_paquete = int(undColumna / paquetesColumna)
                             pesoPaquete = und_paquete * pesoUnidad
