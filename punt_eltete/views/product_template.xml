@@ -70,9 +70,10 @@
                 <field name="is_bobina" class="oe_inline"/>
                 <field name="is_pieballet" class="oe_inline"/>
                 <field name="is_varios" class="oe_inline"/>
-				<field name="is_flatboard" class="oe_inline"/>
+		<field name="is_flatboard" class="oe_inline"/>
+		<field name="is_palletcarton" class="oe_inline"/>
                 <field name="is_mprima_papel" class="oe_inline"/>
-				<field name="is_mprima_cola" class="oe_inline"/>
+		<field name="is_mprima_cola" class="oe_inline"/>
             </xpath>
         </field>
     </record>
@@ -124,6 +125,7 @@
                         <field name="is_bobina" invisible="1"/>
                         <field name="is_pieballet" invisible="1"/>
 			<field name="is_flatboard" invisible="1"/>
+			<field name="is_palletcarton" invisible="1"/>
                         <field name="is_mprima_papel" invisible="1"/>
                     </group>
                     
@@ -140,12 +142,13 @@
                         <field name='ala_4' attrs="{'invisible': [('is_slipsheet', '=', False)]}"/>
                         <field name='diametro'  attrs="{'invisible': [('is_bobina', '=', False)]}"/>
                         <field name='gramaje' attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),]}"/>
+			<field name='palletcarton'  attrs="{'invisible': [('is_palletcarton', '=', False)]}"/>
                         <field name='ancho_interior'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
                         <field name='ancho_superficie'  attrs="{'invisible': [('is_cantonera', '=', False)]}"/>
-						<field name='papel'  attrs="{'invisible': [('is_mprima_papel', '=', False)]}"/>
-						<field name='fsc_tipo'  attrs="{'invisible': [('is_mprima_papel', '=', False)]}"/>
-						<field name='fsc_valor'  attrs="{'invisible': [('is_mprima_papel', '=', False)]}"/>
-						<field name="comentario"/>
+			<field name='papel'  attrs="{'invisible': [('is_mprima_papel', '=', False)]}"/>
+			<field name='fsc_tipo'  attrs="{'invisible': [('is_mprima_papel', '=', False)]}"/>
+			<field name='fsc_valor'  attrs="{'invisible': [('is_mprima_papel', '=', False)]}"/>
+			<field name="comentario"/>
                     </group>
                     
                     <h3>Cálculos</h3>
