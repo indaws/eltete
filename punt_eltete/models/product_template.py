@@ -22,7 +22,7 @@ class ProductCategory(models.Model):
     is_pieballet = fields.Boolean('¿Es Pie de Pallet?')
     is_varios = fields.Boolean('¿Es Varios?')
     is_flatboard = fields.Boolean('¿Es FlatBoard?')
-    is_pallet_carton = fields.Boolean('¿Es Pallet Carton?')
+    is_palletcarton = fields.Boolean('¿Es Pallet Carton?')
     is_mprima_papel = fields.Boolean('¿Es mPrima Papel?')
     is_mprima_cola = fields.Boolean('¿Es mPrima Cola?')
     
@@ -351,7 +351,7 @@ class ProductCategory(models.Model):
     def create_prod_palletcarton(self, palletcarton):
 
         #Buscamos
-        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('palletcarton', '=', palletcarton), ]):
+        for prod in self.env['product.referencia'].search([('type_id', '=', self.id), ('pallet_carton', '=', palletcarton), ]):
             return prod, None
         
         titulo = ""
@@ -471,12 +471,12 @@ class ProductReferencia(models.Model):
                ('4', 'Alto 60 sin Adhesivo'),
                ]
     pie = fields.Selection(selection = TIPO_PIE, string = 'Tipo Pie')
-    TIPO_PALLET = [('1000x1200x100', '1000 x 1200'), 
+    TIPO_PALLETCARTON = [('1000x1200x100', '1000 x 1200'), 
                ('800x1200x100', '800 x 1200'),
                ('800x600x100', '800 x 600'),                 
                ('800x400x100', '800 x 400'), 
                ]
-    palletcarton = fields.Selection(selection = TIPO_PALLET, string = 'Pallet Cartón')
+    palletcarton = fields.Selection(selection = TIPO_PALLETCARTON, string = 'Pallet Cartón')
     ala_1 = fields.Integer('Ala 1', readonly = True)
     ancho = fields.Integer('Ancho', readonly = True)
     ala_2 = fields.Integer('Ala 2', readonly = True)
