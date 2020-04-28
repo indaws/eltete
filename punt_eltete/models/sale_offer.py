@@ -796,8 +796,8 @@ class sale_product_attribute(models.Model):
     
     #TODOS
     codigo_cliente = fields.Char('Codigo Cliente')
-    #fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
-    confsc = fields.Boolean('Con FSC', default = False)
+    fsc_id = fields.Many2one('product.caracteristica.fsc', string = "FSC")
+    #confsc = fields.Boolean('Con FSC', default = False)
     reciclable_id = fields.Many2one('product.caracteristica.reciclable', string = "Reciclable")
     
     
