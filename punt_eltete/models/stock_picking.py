@@ -38,7 +38,7 @@ class StockMove(models.Model):
             record.orden_fabricacion = orden_fabricacion
     
     
-    @api.depends('move_line_ids')
+    @api.depends('move_line_ids', 'sale_line_id')
     def _get_pesos(self):
         for record in self:
             peso_neto = 0
