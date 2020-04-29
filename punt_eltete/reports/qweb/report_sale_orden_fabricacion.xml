@@ -86,8 +86,8 @@
                               </div>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Paletizado: </strong><span t-field="doc.op_paletizado"/><br/>
-                                  <strong>Unidades Paquete: </strong><span t-field="doc.op_und_paquete"/><br/>
-                                  <strong>Paquetes Fila: </strong><span t-field="doc.op_paquetes_fila"/><br/>
+                                  <strong>Unidades Paquete: </strong><span t-field="doc.op_und_paquete"/> unidades / paquete<br/>
+                                  <strong>Paquetes Fila: </strong><span t-field="doc.op_paquetes_fila"/> paquetes /fila<br/>
                               </div> 
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
