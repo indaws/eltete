@@ -76,8 +76,8 @@ class SaleOrderLine(models.Model):
     op_ancho_pallet = fields.Char('Ancho Pallet', compute = "_get_produccion")  
     op_tipo_pallet = fields.Char('Tipo Pallet', compute = "_get_produccion")
     op_paletizado = fields.Char('Paletizado', compute = "_get_produccion")
-    op_und_paquete = fields.Char('Unidades Paquete', compute = "_get_produccion")
-    op_paquetes_fila= fields.Char('Paquetes Fila', compute = "_get_produccion")
+    op_und_paquete = fields.Integer('Unidades Paquete', compute = "_get_produccion")
+    op_paquetes_fila= fields.Integer('Paquetes Fila', compute = "_get_produccion")
     op_und_exactas = fields.Char('Unidades Exactas', compute = "_get_produccion")
     op_metros = fields.Char('Metros', compute = "_get_produccion")
     op_metros_num = fields.Integer('Metros', compute = "_get_produccion")
@@ -489,8 +489,10 @@ class SaleOrderLine(models.Model):
             paletizado = "Compacto (Normal)"
             if record.oferta_id.attribute_id.paletizado == 2:
                 paletizado = "Columnas" 
-            und_paquete = str(record.oferta_id.attribute_id.und_paquete) + " unidades / paquete"
-            paquetes_fila = str(record.oferta_id.attribute_id.paquetes_fila) + " paquetes / fila"
+            #und_paquete = str(record.oferta_id.attribute_id.und_paquete) + " unidades / paquete"
+            #paquetes_fila = str(record.oferta_id.attribute_id.paquetes_fila) + " paquetes / fila"
+            und_paquete = record.oferta_id.attribute_id.und_paquete
+            paquetes_fila = record.oferta_id.attribute_id.paquetes_fila
             
             und_exactas = ""
             if record.oferta_id.und_exactas == True:
