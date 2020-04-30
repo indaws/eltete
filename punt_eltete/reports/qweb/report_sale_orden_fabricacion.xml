@@ -111,6 +111,12 @@
 			      <strong>Sierra: </strong><br/>
                               <span t-field="doc.op_sierra"/><br/>
                           </div>
+			      
+			  <br/><br/>
+                          
+                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+                              <img t-att-src="doc.oferta_id.attribute_id.cantonera_cliche_id.image"/>
+                          </div>
                           
                       </div>
 		   </t>
