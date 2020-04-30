@@ -38,11 +38,11 @@
                                   <strong>Interior Ancho: </strong><span t-field="doc.op_interior_ancho"/><br/>
                                   <strong>Interior kg: </strong><span t-field="doc.op_peso_interior"/><br/>
                               </div>
-                          
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                              </div>
-                          
+
 			<t t-if="doc.op_rodillo != ''">
+			      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>
+				
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Rodillo: </strong><span t-field="doc.op_rodillo"/><br/>
 				  <strong>Tinta 1: </strong><span t-field="doc.op_tinta_1"/><br/>
