@@ -42,6 +42,7 @@
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
                               </div>
                           
+			<t t-if="doc.rodillo != ''">
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Rodillo: </strong><span t-field="doc.op_rodillo"/><br/>
 				  <strong>Tinta 1: </strong><span t-field="doc.op_tinta_1"/><br/>
@@ -52,7 +53,7 @@
                                   <strong>Tinta 2: </strong><span t-field="doc.op_tinta_2"/><br/>
                                   <strong>Texto 2: </strong><span t-field="doc.op_texto_2"/><br/>
                               </div> 
-                              
+			</t>
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
                               </div>
                               
@@ -108,16 +109,17 @@
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <strong>Comentario: </strong><br/>
                               <span t-field="doc.op_comentario"/><br/>
+			<t t-if="doc.sierra != ''">
 			      <strong>Sierra: </strong><br/>
                               <span t-field="doc.op_sierra"/><br/>
+			</t>
                           </div>
-			      
+			<t t-if="doc.rodillo != ''"> 
 			  <br/><br/>
-                          
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <img t-att-src="doc.oferta_id.attribute_id.cantonera_cliche_id.image"/>
                           </div>
-                          
+			</t>
                       </div>
 		   </t>
               </t>
