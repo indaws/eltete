@@ -371,8 +371,8 @@ class AccountInvoiceLine(models.Model):
             precinto_contenedor = ""
         
             for move in record.move_line_ids:
-                num_albaran = move.picking_id.name
-                fecha_albaran = move.picking_id.scheduled_date.date()                
+                num_albaran = num_albaran + move.picking_id.name + ", "
+                fecha_albaran = move.picking_id.scheduled_date.date()             
                 cantidad_1_num = cantidad_1_num + move.cantidad_1_num
                 cantidad_2_num = cantidad_2_num + move.cantidad_2_num
                 cantidad_3_num = cantidad_3_num + move.cantidad_3_num
