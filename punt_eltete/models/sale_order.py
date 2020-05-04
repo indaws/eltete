@@ -529,7 +529,7 @@ class SaleOrderLine(models.Model):
                 else:
                     und_total_sacos = record.und_pallet * record.num_pallets
                     sierra = sierra + "Paletizado en Cajas o Sacos - Total " + str(und_total_sacos) + " unidades"
-                paquetes_fila = "SIERRA"
+                paquetes_fila = 0
                 und_exactas = "SI"
                 
             alas = str(ala_1) + " x " + str(ala_2)
