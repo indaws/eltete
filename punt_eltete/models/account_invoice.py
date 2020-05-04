@@ -373,14 +373,14 @@ class AccountInvoiceLine(models.Model):
             for move in record.move_line_ids:
                 num_albaran = move.picking_id.name
                 fecha_albaran = move.picking_id.scheduled_date.date()                
-                cantidad_1_num = move.cantidad_1_num
-                cantidad_2_num = move.cantidad_2_num
-                cantidad_3_num = move.cantidad_3_num
-                cantidad_4_num = move.cantidad_4_num
-                num_pallets = move.num_pallets
-                unidades = move.unidades
-                peso_neto = move.peso_neto
-                peso_bruto = move.peso_bruto
+                cantidad_1_num = cantidad_1_num + move.cantidad_1_num
+                cantidad_2_num = cantidad_2_num + move.cantidad_2_num
+                cantidad_3_num = cantidad_3_num + move.cantidad_3_num
+                cantidad_4_num = cantidad_4_num + move.cantidad_4_num
+                num_pallets = num_pallets + move.num_pallets
+                unidades = unidades + move.unidades
+                peso_neto = peso_neto + move.peso_neto
+                peso_bruto = peso_bruto + move.peso_bruto
                 numero_contenedor = move.picking_id.numero_contenedor
                 precinto_contenedor = move.picking_id.precinto_contenedor
                 
