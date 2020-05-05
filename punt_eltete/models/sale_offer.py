@@ -1297,7 +1297,7 @@ class sale_offer_oferta(models.Model):
     pedido_peso = fields.Integer('Kilos Pedidos', compute = "_get_pedidos")
     
     
-    @api.depends('attribute_id')
+    @api.depends('partner_id')
     def _get_pedidos(self):
         for record in self:
             fecha = None
@@ -1305,7 +1305,7 @@ class sale_offer_oferta(models.Model):
             if record.partner_id:
                 for pedido in record.partner_id.sale_order_ids:
                     for linea in pedido.order_line:
-                        if linea.oferta_id == self:
+                        if linea.oferta_id.id == record.id:
                             fecha = pedido.fecha_entrega
                             peso = peso + linea.peso_neto
                 
