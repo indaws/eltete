@@ -279,7 +279,7 @@
                     <field name='state_id' />
                     <field name='cliente_final' />
 		    <field name='pedido_ultimo' />
-		    <field name='pedido_peso' />
+		    <field name='pedido_peso' sum="Kilos" />
 		    <field name='activa' />		
                 </tree>
             </field>
