@@ -1303,7 +1303,7 @@ class sale_offer_oferta(models.Model):
             fecha = None
             peso = 0
             if record.partner_id:
-                for pedido in record.partner_id.sale_order:
+                for pedido in record.partner_id.sale_order_ids:
                     for linea in pedido.order_line:
                         if linea.oferta_id == record.id:
                             fecha = pedido.fecha_entrega
