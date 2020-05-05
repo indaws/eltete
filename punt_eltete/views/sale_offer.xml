@@ -350,6 +350,8 @@
                     <field name="date"/>                    
                     <field name="state_id"/>
                     <field name='cliente_final' />
+		    <field name='pedido_ultimo' />
+		    <field name='pedido_peso' />
                 </search>
             </field>
         </record>
