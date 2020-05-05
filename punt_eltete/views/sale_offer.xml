@@ -278,6 +278,8 @@
                     <field name='name' />
                     <field name='state_id' />
                     <field name='cliente_final' />
+		    <field name='pedido_ultimo' />
+		    <field name='pedido_peso' />
 		    <field name='activa' />		
                 </tree>
             </field>
@@ -328,7 +330,6 @@
 				<field name='eton_user' />
 				<field name='emetro_calculado' />
 				<field name='eton_calculado' />
-
                             </group>
                         </group>
  
@@ -350,8 +351,6 @@
                     <field name="date"/>                    
                     <field name="state_id"/>
                     <field name='cliente_final' />
-		    <field name='pedido_ultimo' />
-		    <field name='pedido_peso' />
                 </search>
             </field>
         </record>
