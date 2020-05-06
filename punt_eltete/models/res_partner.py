@@ -9,8 +9,6 @@ class ResPartner(models.Model):
     special_conditions = fields.Text('Condiciones especiales')
     uploading_time = fields.Text('Horarios descarga')
     ice = fields.Char('ICE')
-    
-
     num_bailen = fields.Integer('Num Bailén')
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
@@ -21,8 +19,6 @@ class ResPartner(models.Model):
              ]
     carga = fields.Selection(selection=MOL, string='Carga', default='ML', )
 
-    
-    
     referencia_cliente_count = fields.Integer(compute='_compute_referencia_cliente_count', string='Referencia cliente Count')
     referencia_cliente_ids = fields.One2many('sale.referencia.cliente', 'partner_id', 'Referencias cliente')
     
@@ -41,6 +37,25 @@ class ResPartner(models.Model):
     def _compute_sale_cotizacion_count(self):
         self.sale_cotizacion_count = len(self.env['sale.cotizacion'].search([('partner_id', '=', self.id),]))
         
+    importe_riesgo = fields.Float('Importe Pedido', digits = (12, 2), compute='_get_riesgo')
+    
+    @api.depends('sale_order_ids')
+    def _get_riesgo(self):
+        for record in self:
+            importe_pedido = 0.0
+            importe_pagado = 0.0
+            
+            for pedido in record.sale_order_ids:
+                importe_pedido = importe_pedido + pedido.amount_total
+                
+            for factura in record.invoice_ids:
+                factura_total = factura.amount_total_signed
+                factura_no_pagado = factura.residual_signed
+                importe_pagado = importe_pagado + factura_total - factura_no_pagado
+                
+            importe_riesgo = importe_pedido - importe_pagado
+            record.importe_riesgo = importe_riesgo
+
     
     
 class partner_product_comments(models.Model):
