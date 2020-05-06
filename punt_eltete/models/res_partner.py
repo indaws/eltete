@@ -39,7 +39,7 @@ class ResPartner(models.Model):
         
     importe_pedido = fields.Float('Pedido sin facturar', digits = (12, 2), compute='_get_riesgo')
     importe_factura = fields.Float('Facturado sin Pagar', digits = (12, 2), compute='_get_riesgo')
-    importe_riesgo = fields.Float('Riesgo Actual', digits = (12, 2), compute='_get_riesgo')
+    importe_riesgo = fields.Float('Riesgo Disponible', digits = (12, 2), compute='_get_riesgo')
     
     @api.depends('sale_order_ids')
     def _get_riesgo(self):
