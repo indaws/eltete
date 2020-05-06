@@ -166,7 +166,8 @@ class AccountInvoice(models.Model):
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
                 peso_neto_mojado = peso_neto_mojado + line.peso_neto_mojado
-                peso_bruto_mojado = peso_bruto_mojado + ", " + str(line.peso_bruto_mojado)
+                bruto_mojado = int(line.peso_bruto * 1.05 / 10) * 10
+                peso_bruto_mojado = peso_bruto_mojado + ", " + str(bruto_mojado)
                 
             if peso_cantonera > 0:
                 eton_cantonera = int(1000 * importe_cantonera / peso_cantonera)
@@ -384,8 +385,6 @@ class AccountInvoiceLine(models.Model):
                 precinto_contenedor = move.picking_id.precinto_contenedor
                 peso_neto_mojado = peso_neto_mojado + move.peso_neto_mojado
                 peso_bruto_mojado = peso_bruto_mojado + move.peso_bruto_mojado
-            
-            peso_bruto_mojado = int(peso_bruto * 1.05 / 10) * 10
             
             if record.facturar == '5':
                 unidades = record.cantidad_5_num
