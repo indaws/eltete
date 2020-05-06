@@ -39,6 +39,7 @@ class ResPartner(models.Model):
         
     importe_pedido = fields.Float('Pedido sin facturar', digits = (12, 2), compute='_get_riesgo')
     importe_factura = fields.Float('Facturado sin Pagar', digits = (12, 2), compute='_get_riesgo')
+    importe_riesgo = fields.Float('Riesgo Actual', digits = (12, 2), compute='_get_riesgo')
     
     @api.depends('sale_order_ids')
     def _get_riesgo(self):
@@ -50,14 +51,17 @@ class ResPartner(models.Model):
                 if pedido.invoice_status != 'invoiced':
                     importe_pedido = importe_pedido + pedido.amount_total
             
-            record.importe_pedido = importe_pedido
-            
             for factura in record.invoice_ids:
                 factura_total = factura.amount_total_signed
                 factura_no_pagado = factura.residual_signed
                 importe_factura = importe_factura + factura_no_pagado
-                
+            
+            importe_total = importe_pedido + importe_factura
+            importe_riesgo = record.credit_limit - importe_total
+            
+            record.importe_pedido = importe_pedido
             record.importe_factura = importe_factura
+            record.importe_riesgo = importe_riesgo
 
     
     
