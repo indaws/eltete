@@ -16,6 +16,8 @@
 
 			<field name="team_id" position="after">
 				<field name="carrier_id" />
+				<field name="neto_mojado_user" />
+				<field name="bruto_mojado_user" />
 				<field name="numero_contenedor" />
 				<field name="precinto_contenedor" />
 				<field name="actualizar"/>
