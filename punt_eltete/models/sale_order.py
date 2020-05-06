@@ -809,6 +809,18 @@ class SaleOrder(models.Model):
     pendiente_facturar = fields.Float('Pendiente facturar', digits = (10, 2), readonly = True, compute="_get_pendiente_facturar")
     pendiente_cobrar = fields.Float('Pendiente cobrar', digits = (10, 2), readonly = True, compute="_get_pendiente_facturar")
     
+    importe_riesgo = fields.Float('RIESGO PERMITIDO', digits = (12, 2), readonly = True, compute="_get_riesgo")
+    
+    
+    
+    @api.depends('partner_id')
+    def _get_riesgo(self): 
+        for record in self: 
+            importe_riesgo = 0
+            if record.partner_id:
+                importe_riesgo = partner_id.importe_riesgo
+            record.importe_riesgo = importe_riesgo
+    
     
     @api.depends('invoice_ids', )
     def _get_pendiente_facturar(self):
