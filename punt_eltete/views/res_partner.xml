@@ -130,6 +130,7 @@
             
             <field name="vat" position="after">
                 <field name='ice' />
+                <field name='importe_riesgo' />
             </field>
             
             <field name="category_id" position="after">
