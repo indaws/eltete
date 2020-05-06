@@ -17,8 +17,8 @@
         <field name="arch" type="xml">
             <form string="Crear líneas de pedido">
                 <group>
-			<field name='importe_riesgo'/>
 			<group>
+				<field name='importe_riesgo'/>
 				<field name='referencia_cliente_id' domain="[('partner_id', '=', partner_id),]" options="{'no_create': True, 'no_create_edit':True}" />
 				<field name='attribute_id' domain="[('referencia_cliente_id', '=', referencia_cliente_id),('activa', '=', True)]" options="{'no_create': True, 'no_create_edit':True}"/>
 				<field name='oferta_id' domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" options="{'no_create': True, 'no_create_edit':True}"/>
