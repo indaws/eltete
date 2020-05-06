@@ -132,6 +132,7 @@
                 <field name='ice' />
                 <field name='importe_pedido' />
                 <field name='importe_factura' />
+                <field name='importe_riesgo' />
             </field>
             
             <field name="category_id" position="after">
