@@ -9,7 +9,7 @@ class AccountInvoice(models.Model):
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
-    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_num_pallets")
+    peso_bruto = fields.Char('Peso Bruto', readonly = True, compute = "_get_num_pallets")
     peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
     
@@ -100,7 +100,7 @@ class AccountInvoice(models.Model):
         for record in self:
             num_pallets = 0
             peso_neto = 0
-            peso_bruto = 0
+            peso_bruto = ""
             
             peso_neto_mojado = 0
             peso_bruto_mojado = 0
@@ -130,12 +130,8 @@ class AccountInvoice(models.Model):
             importe_flatboard = 0
             eton_flatboard = 0
             importe_varios = 0
-            
-            num_linea = 0
-            
-            for line in record.invoice_line_ids:
-                num_linea = num_linea + 1
-                
+
+            for line in record.invoice_line_ids:                
                 if line.product_id:
                     if line.product_id.type == 'product':
                         num_pallets = num_pallets + line.num_pallets
@@ -170,7 +166,7 @@ class AccountInvoice(models.Model):
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
                 peso_neto_mojado = peso_neto_mojado + line.peso_neto_mojado
-                peso_bruto_mojado = peso_bruto_mojado + line.peso_bruto_mojado
+                peso_bruto_mojado = peso_bruto_mojado + ", " + str(line.peso_bruto_mojado)
                 
             if peso_cantonera > 0:
                 eton_cantonera = int(1000 * importe_cantonera / peso_cantonera)
