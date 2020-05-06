@@ -818,7 +818,7 @@ class SaleOrder(models.Model):
         for record in self: 
             importe_riesgo = 0
             if record.partner_id:
-                importe_riesgo = partner_id.importe_riesgo
+                importe_riesgo = record.partner_id.importe_riesgo
             record.importe_riesgo = importe_riesgo
     
     
