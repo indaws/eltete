@@ -11,7 +11,7 @@ class AccountInvoice(models.Model):
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_num_pallets")
     peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
-    peso_bruto_mojado = fields.Char('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
+    peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
     
     importe_cantonera = fields.Float('Importe Cantonera', digits = (10, 2), readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantonera', readonly = True, compute = "_get_num_pallets")
@@ -103,7 +103,7 @@ class AccountInvoice(models.Model):
             peso_bruto = 0
             
             peso_neto_mojado = 0
-            peso_bruto_mojado = ""
+            peso_bruto_mojado = 0
             
             peso_cantonera = 0
             importe_cantonera = 0
@@ -167,7 +167,7 @@ class AccountInvoice(models.Model):
                 peso_bruto = peso_bruto + line.peso_bruto
                 peso_neto_mojado = peso_neto_mojado + line.peso_neto_mojado
                 bruto_mojado = int(line.peso_bruto * 1.05 / 10) * 10
-                peso_bruto_mojado = peso_bruto_mojado + ", " + str(bruto_mojado)
+                peso_bruto_mojado = peso_bruto_mojado + bruto_mojado
                 
             if peso_cantonera > 0:
                 eton_cantonera = int(1000 * importe_cantonera / peso_cantonera)
