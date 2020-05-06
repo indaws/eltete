@@ -133,6 +133,16 @@ class WizardSaleCreateLine(models.TransientModel):
     num_pallets = fields.Integer(string="Num pallets")
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     
+    importe_riesgo = fields.Float('RIESGO PERMITIDO', digits = (12, 2), readonly = True, compute="_get_riesgo")
+    
+
+    @api.depends('partner_id')
+    def _get_riesgo(self): 
+        for record in self: 
+            importe_riesgo = 0
+            if record.partner_id:
+                importe_riesgo = partner_id.importe_riesgo
+            record.importe_riesgo = importe_riesgo
    
     
     @api.multi
