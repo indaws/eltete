@@ -12,6 +12,8 @@ class AccountInvoice(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_num_pallets")
     peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
     peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
+    neto_mojado_user = fields.Integer('Neto User')
+    bruto_mojado_user = fields.Integer('Bruto User')
     
     importe_cantonera = fields.Float('Importe Cantonera', digits = (10, 2), readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantonera', readonly = True, compute = "_get_num_pallets")
@@ -95,7 +97,7 @@ class AccountInvoice(models.Model):
     
     
     
-    @api.depends('invoice_line_ids', 'invoice_line_ids.quantity')
+    @api.depends('invoice_line_ids', 'invoice_line_ids.quantity', 'neto_mojado_user', 'bruto_mojado_user')
     def _get_num_pallets(self):
         for record in self:
             num_pallets = 0
@@ -209,7 +211,13 @@ class AccountInvoice(models.Model):
                 peso_neto_mojado = peso_neto
                 peso_bruto_mojado = peso_bruto
             """
+            
+            if record.neto_mojado_user > 0:
+                peso_neto_mojado = record.neto_mojado_user
+            if record.bruto_mojado_user > 0:
+                peso_bruto_mojado = record.bruto_mojado_user
              
+            
             record.importe_cantonera = importe_cantonera
             record.peso_cantonera = peso_cantonera
             record.eton_cantonera = eton_cantonera
