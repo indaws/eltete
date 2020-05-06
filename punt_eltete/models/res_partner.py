@@ -37,25 +37,27 @@ class ResPartner(models.Model):
     def _compute_sale_cotizacion_count(self):
         self.sale_cotizacion_count = len(self.env['sale.cotizacion'].search([('partner_id', '=', self.id),]))
         
-    importe_riesgo = fields.Float('Importe Pedido', digits = (12, 2), compute='_get_riesgo')
+    importe_pedido = fields.Float('Pedido sin facturar', digits = (12, 2), compute='_get_riesgo')
+    importe_factura = fields.Float('Facturado sin Pagar', digits = (12, 2), compute='_get_riesgo')
     
     @api.depends('sale_order_ids')
     def _get_riesgo(self):
         for record in self:
             importe_pedido = 0.0
-            importe_pagado = 0.0
+            importe_factura = 0.0
             
             for pedido in record.sale_order_ids:
                 if pedido.invoice_status != 'invoiced':
                     importe_pedido = importe_pedido + pedido.amount_total
-                
+            
+            record.importe_pedido = importe_pedido
+            
             for factura in record.invoice_ids:
                 factura_total = factura.amount_total_signed
                 factura_no_pagado = factura.residual_signed
-                importe_pagado = importe_pagado + factura_total - factura_no_pagado
+                importe_factura = importe_factura + factura_no_pagado
                 
-            importe_riesgo = importe_pedido - importe_pagado
-            record.importe_riesgo = importe_riesgo
+            record.importe_factura = importe_factura
 
     
     
