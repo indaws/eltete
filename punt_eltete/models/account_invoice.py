@@ -9,9 +9,9 @@ class AccountInvoice(models.Model):
     
     num_pallets = fields.Integer('Num pallets', readonly = True, compute = "_get_num_pallets")
     peso_neto = fields.Integer('Peso Neto', readonly = True, compute = "_get_num_pallets")
-    peso_bruto = fields.Char('Peso Bruto', readonly = True, compute = "_get_num_pallets")
+    peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_num_pallets")
     peso_neto_mojado = fields.Integer('Peso Neto Mojado', readonly = True, compute = "_get_num_pallets")
-    peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
+    peso_bruto_mojado = fields.Char('Peso Bruto Mojado', readonly = True, compute = "_get_num_pallets")
     
     importe_cantonera = fields.Float('Importe Cantonera', digits = (10, 2), readonly = True, compute = "_get_num_pallets")
     peso_cantonera = fields.Integer('Peso Cantonera', readonly = True, compute = "_get_num_pallets")
