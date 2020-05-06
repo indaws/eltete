@@ -22,6 +22,8 @@
         
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="transporte"/>
+                <field name="neto_mojado_user" />
+				<field name="bruto_mojado_user" />
                 <field name="numero_contenedor"/>
                 <field name="precinto_contenedor"/>
             </xpath>            
