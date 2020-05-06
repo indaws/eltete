@@ -12,6 +12,8 @@ class StockMoveLine(models.Model):
 class StockMove(models.Model):
     _inherit = 'stock.move'
     
+    peso_neto_mojado = fields.Integer('Peso neto mojado', compute="_get_pesos")
+    peso_bruto_mojado = fields.Integer('Peso bruto mojado', compute="_get_pesos")
     
     peso_neto = fields.Integer('Peso neto', compute="_get_pesos")
     peso_bruto = fields.Integer('Peso bruto', compute="_get_pesos")
@@ -41,6 +43,8 @@ class StockMove(models.Model):
     @api.depends('move_line_ids', 'sale_line_id')
     def _get_pesos(self):
         for record in self:
+            peso_neto_mojado = 0
+            peso_bruto_mojado = 0
             peso_neto = 0
             peso_bruto = 0
             cantidad_1 = 0
@@ -65,6 +69,9 @@ class StockMove(models.Model):
             if num_pallets > 0 or record.sale_line_id.bultos == '2':
                 hay_lotes = True
                 
+            peso_neto_mojado = int(peso_neto * 1.05 / 10) * 10
+            peso_bruto_mojado = int(peso_bruto * 1.05 / 10) * 10
+            
             cantidad_1 = round(cantidad_1, 4)
             cantidad_2 = round(cantidad_2, 4)
             cantidad_3 = round(cantidad_3, 4)
@@ -85,6 +92,9 @@ class StockMove(models.Model):
             record.num_pallets = num_pallets
             record.unidades = unidades
             record.hay_lotes = hay_lotes
+            
+            record.peso_neto_mojado = peso_neto_mojado
+            record.peso_bruto_mojado = peso_bruto_mojado
 
 
 
@@ -108,15 +118,19 @@ class StockPicking(models.Model):
             num_pallets = 0
             peso_neto = 0
             peso_bruto = 0
+            peso_neto_mojado = 0
+            peso_bruto_mojado = 0
+            
             for line in record.move_lines:
                 if line.product_uom_qty > 0.0:
                     if line.sale_line_id.bultos == '1':
                         num_pallets = num_pallets + line.num_pallets
                     peso_neto = peso_neto + line.peso_neto
                     peso_bruto = peso_bruto + line.peso_bruto
+                    peso_neto_mojado = peso_neto_mojado + line.peso_neto_mojado
+                    peso_bruto_mojado = peso_bruto_mojado + line.peso_bruto_mojado
             
-            peso_neto_mojado = 0
-            peso_bruto_mojado = 0
+            """
             if peso_neto > 0:
                 divisor = 150000
                 peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
@@ -139,6 +153,8 @@ class StockPicking(models.Model):
                 else:
                     peso_neto_mojado = peso_neto
                     peso_bruto_mojado = peso_bruto
+            """
+            
             
             record.num_pallets = num_pallets
             record.peso_neto_total = peso_neto
