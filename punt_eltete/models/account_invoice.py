@@ -309,8 +309,8 @@ class AccountInvoiceLine(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_datos_albaran")
     numero_contenedor = fields.Char('Numero Contenedor', compute = "_get_datos_albaran")
     precinto_contenedor = fields.Char('Precinto Contenedor', compute = "_get_datos_albaran")
-    peso_neto_mojado = fields.Char('Peso Neto Mojado', compute = "_get_datos_albaran")
-    peso_bruto_mojado = fields.Char('Peso Bruto Mojado', compute = "_get_datos_albaran")
+    peso_neto_mojado = fields.Integer('Peso Neto Mojado', compute = "_get_datos_albaran")
+    peso_bruto_mojado = fields.Integer('Peso Bruto Mojado', compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", readonly = True, compute = "_get_datos_pedido")
