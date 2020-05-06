@@ -102,7 +102,7 @@ class AccountInvoice(models.Model):
             peso_neto = 0
             peso_bruto = 0
             
-            peso_neto_mojado = ""
+            peso_neto_mojado = 0
             peso_bruto_mojado = 0
             
             peso_cantonera = 0
