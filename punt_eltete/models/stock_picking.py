@@ -110,8 +110,10 @@ class StockPicking(models.Model):
     peso_bruto_total = fields.Integer('Peso bruto', compute="_get_num_pallets")
     peso_neto_mojado = fields.Integer('Peso neto Mojado', compute="_get_num_pallets")
     peso_bruto_mojado = fields.Integer('Peso bruto Mojado', compute="_get_num_pallets")
+    neto_mojado_user = fields.Integer('Neto User')
+    bruto_mojado_user = fields.Integer('Bruto User')
     
-    @api.depends('move_lines')
+    @api.depends('move_lines', 'neto_mojado_user', 'bruto_mojado_user')
     def _get_num_pallets(self):
     
         for record in self:
@@ -154,7 +156,10 @@ class StockPicking(models.Model):
                     peso_neto_mojado = peso_neto
                     peso_bruto_mojado = peso_bruto
             """
-            
+            if record.neto_mojado_user > 0:
+                peso_neto_mojado = record.neto_mojado_user
+            if record.bruto_mojado_user > 0:
+                peso_bruto_mojado = record.bruto_mojado_user   
             
             record.num_pallets = num_pallets
             record.peso_neto_total = peso_neto
