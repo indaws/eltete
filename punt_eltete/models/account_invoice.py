@@ -100,10 +100,10 @@ class AccountInvoice(models.Model):
         for record in self:
             num_pallets = 0
             peso_neto = 0
-            peso_bruto = ""
+            peso_bruto = 0
             
             peso_neto_mojado = 0
-            peso_bruto_mojado = 0
+            peso_bruto_mojado = ""
             
             peso_cantonera = 0
             importe_cantonera = 0
