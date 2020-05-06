@@ -133,20 +133,14 @@ class WizardSaleCreateLine(models.TransientModel):
     num_pallets = fields.Integer(string="Num pallets")
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     
-    importe_riesgo = fields.Float('RIESGO PERMITIDO', digits = (12, 2), readonly = True, compute="_get_riesgo")
+   
     
     @api.multi
     def add_lines_sale_order(self): 
         for record in self:
             record.sale_id.create_sale_order_line_referencia(record.product_id, record.lot_ids, record.referencia_cliente_id, record.attribute_id, record.oferta_id, record.num_pallets)
 
-   @api.multi
-    def _get_riesgo(self): 
-        for record in self: 
-            importe_riesgo = 0
-            if record.partner_id:
-                importe_riesgo = partner_id.importe_riesgo
-            record.importe_riesgo = importe_riesgo
+  
     
     
 class WizardPurchaseCreateLine(models.TransientModel):
