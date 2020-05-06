@@ -133,7 +133,7 @@ class WizardSaleCreateLine(models.TransientModel):
     num_pallets = fields.Integer(string="Num pallets")
     oferta_id = fields.Many2one('sale.offer.oferta', string="Oferta")
     
-    importe_riesgo = fields.Float('RIESGO PERMITIDO', digits=(12, 2), compute='_get_riesgo')
+    importe_riesgo = fields.Float('RIESGO PERMITIDO', digits = (12, 2), readonly = True, compute="_get_riesgo")
     
     @api.multi
     def add_lines_sale_order(self): 
