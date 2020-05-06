@@ -129,6 +129,7 @@
 				<field name="pedido_cliente"/>
 				<field name="fecha_entrega"/>
 				<field name="estado"/>
+				<field name='importe_riesgo'/>
 			</field>
             
 			<field name="confirmation_date" position="after">
