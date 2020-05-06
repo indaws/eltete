@@ -102,6 +102,9 @@ class AccountInvoice(models.Model):
             peso_neto = 0
             peso_bruto = 0
             
+            peso_neto_mojado = 0
+            peso_bruto_mojado = 0
+            
             peso_cantonera = 0
             importe_cantonera = 0
             eton_cantonera = 0
@@ -162,6 +165,8 @@ class AccountInvoice(models.Model):
 
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
+                peso_neto_mojado = peso_neto_mojado + line.peso_neto_mojado
+                peso_bruto_mojado = peso_bruto_mojado + line.peso_bruto_mojado
                 
             if peso_cantonera > 0:
                 eton_cantonera = int(1000 * importe_cantonera / peso_cantonera)
@@ -179,19 +184,8 @@ class AccountInvoice(models.Model):
                 eton_pie = int(1000 * importe_pie / peso_pie)
             if peso_flatboard > 0:
                 eton_flatboard = int(1000 * importe_flatboard / peso_flatboard)
-            """   
-            dir_data = dir_data + "invid=" + str(record.id) + "&invdt=" + str(record.date_invoice) + "&invim=" + str(record.amount_untaxed)
-            dir_data = dir_data + "&cakg=" + str(peso_cantonera) + "&caet=" + str(eton_cantonera)
-            dir_data = dir_data + "&pukg=" + str(peso_perfilu) + "&puet=" + str(eton_perfilu)
-            dir_data = dir_data + "&sskg=" + str(peso_slipsheet) + "&sset=" + str(eton_slipsheet)
-            dir_data = dir_data + "&ftkg=" + str(peso_formato) + "&ftet=" + str(eton_formato)
-            dir_data = dir_data + "&bbkg=" + str(peso_bobina) + "&bbet=" + str(eton_bobina)
-            dir_data = dir_data + "&sbkg=" + str(peso_solidboard) + "&sbet=" + str(eton_solidboard)
-            dir_data = dir_data + "&prkg=" + str(peso_pie) + "&pret=" + str(eton_pie)
-            dir_data = dir_data + "&fbkg=" + str(peso_flatboard) + "&fbet=" + str(eton_flatboard)
-            dir_data = dir_data + "&vsim=" + str(importe_varios)
+
             """
-            
             divisor = 150000
             peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
             peso_neto_mojado = int(peso_neto_mojado / 5) * 5
@@ -213,6 +207,7 @@ class AccountInvoice(models.Model):
             else:
                 peso_neto_mojado = peso_neto
                 peso_bruto_mojado = peso_bruto
+            """
              
             record.importe_cantonera = importe_cantonera
             record.peso_cantonera = peso_cantonera
@@ -314,6 +309,8 @@ class AccountInvoiceLine(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_datos_albaran")
     numero_contenedor = fields.Char('Numero Contenedor', compute = "_get_datos_albaran")
     precinto_contenedor = fields.Char('Precinto Contenedor', compute = "_get_datos_albaran")
+    peso_neto_mojado = fields.Char('Peso Neto Mojado', compute = "_get_datos_albaran")
+    peso_bruto_mojado = fields.Char('Peso Bruto Mojado', compute = "_get_datos_albaran")
     
     pedido_cliente = fields.Char('Pedido cliente', compute = "_get_datos_pedido")
     carrier_id = fields.Many2one('delivery.carrier', string="Método Entrega", readonly = True, compute = "_get_datos_pedido")
@@ -369,6 +366,8 @@ class AccountInvoiceLine(models.Model):
             peso_bruto = 0
             numero_contenedor = ""
             precinto_contenedor = ""
+            peso_neto_mojado = 0
+            peso_bruto_mojado = 0
         
             for move in record.move_line_ids:
                 num_albaran = num_albaran + move.picking_id.name + ", "
@@ -383,6 +382,8 @@ class AccountInvoiceLine(models.Model):
                 peso_bruto = peso_bruto + move.peso_bruto
                 numero_contenedor = move.picking_id.numero_contenedor
                 precinto_contenedor = move.picking_id.precinto_contenedor
+                peso_neto_mojado = peso_neto_mojado + move.picking_id.peso_neto_mojado
+                peso_bruto_mojado = peso_bruto_mojado + move.picking_id.peso_bruto_mojado
                 
             if record.facturar == '5':
                 unidades = record.cantidad_5_num
@@ -399,6 +400,8 @@ class AccountInvoiceLine(models.Model):
             record.peso_bruto = peso_bruto
             record.numero_contenedor = numero_contenedor
             record.precinto_contenedor = precinto_contenedor
+            record.peso_neto_mojado = peso_neto_mojado
+            record.peso_bruto_nojado = peso_bruto_mojado
             
             
     @api.depends('sale_line_ids')
