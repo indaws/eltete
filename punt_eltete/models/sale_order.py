@@ -5,6 +5,9 @@ from odoo import exceptions
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
+    
+    id_producto = fields.Integer("ID Producto", readonly = True, compute = "_get_id")
+    id_referencia = fields.Integer("ID Referencia", readonly = True, compute = "_get_id")
 
     lot_ids = fields.One2many('stock.production.lot', 'sale_order_line_id', string="Lotes", )
     
@@ -272,6 +275,22 @@ class SaleOrderLine(models.Model):
             'context': self.env.context,
         }
     
+    
+    @api.depends('product_id', 'oferta_id')
+    def _get_id(self):
+        for record in self:
+            id_producto = 0
+            id_referencia = 0
+            
+            if record.product_id:
+                id_producto = record.product_id.id
+            if record.oferta_id:
+                id_referencia = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.id
+                
+            record.id_producto = id_producto
+            record.id_referencia = id_referencia
+
+            
     
     @api.depends('lot_ids', 'num_pallets', 'estado_linea')
     def _get_und_lotes(self):
