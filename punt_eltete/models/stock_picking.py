@@ -56,15 +56,16 @@ class StockMove(models.Model):
             hay_lotes = False
             
             for line in record.move_line_ids:
-                peso_neto = peso_neto + line.lot_id.peso_neto
-                peso_bruto = peso_bruto + line.lot_id.peso_bruto
-                cantidad_1 = cantidad_1 + line.lot_id.cantidad_1_num
-                cantidad_2 = cantidad_2 + line.lot_id.cantidad_2_num
-                cantidad_3 = cantidad_3 + line.lot_id.cantidad_3_num
-                cantidad_4 = cantidad_4 + line.lot_id.cantidad_4_num
-                if line.lot_id:
-                    num_pallets = num_pallets + 1
-                unidades = unidades + line.lot_id.unidades
+                if line.qty_done == 1:
+                    peso_neto = peso_neto + line.lot_id.peso_neto
+                    peso_bruto = peso_bruto + line.lot_id.peso_bruto
+                    cantidad_1 = cantidad_1 + line.lot_id.cantidad_1_num
+                    cantidad_2 = cantidad_2 + line.lot_id.cantidad_2_num
+                    cantidad_3 = cantidad_3 + line.lot_id.cantidad_3_num
+                    cantidad_4 = cantidad_4 + line.lot_id.cantidad_4_num
+                    if line.lot_id:
+                        num_pallets = num_pallets + 1
+                    unidades = unidades + line.lot_id.unidades
               
             if num_pallets > 0 or record.sale_line_id.bultos == '2':
                 hay_lotes = True
