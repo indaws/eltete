@@ -544,7 +544,7 @@ class SaleOrderLine(models.Model):
                 p3 = 3300 + longitud_final
                 sierra = "Parámetro_1: " + str(longitud_final) + "   -   Parámetro_2: " + str(p2) + "   -   R_120: " + str(p3) + "<br/>"
                 if longitud_final >= 200:
-                    sierra = sierra + paquetes_fila + "   -   " + str(record.und_pallet) + " unidades / pallet" + "   -   " + str(record.num_pallets) + " pallets"
+                    sierra = sierra + str(paquetes_fila) + " paquetes/fila   -   " + str(record.und_pallet) + " unidades / pallet" + "   -   " + str(record.num_pallets) + " pallets"
                 else:
                     und_total_sacos = record.und_pallet * record.num_pallets
                     sierra = sierra + "Paletizado en Cajas o Sacos - Total " + str(und_total_sacos) + " unidades"
