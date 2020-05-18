@@ -965,8 +965,8 @@ class SaleOrder(models.Model):
                 peso_neto_mojado = peso_neto
                 peso_bruto_mojado = peso_bruto
             """
-            peso_neto_mojado = int(peso_neto * 1.07 / 10) * 10
-            peso_bruto_mojado = int(peso_bruto * 1.07 / 10) * 10
+            peso_neto_mojado = int(peso_neto * 1.05 / 10) * 10
+            peso_bruto_mojado = int(peso_bruto * 1.05 / 10) * 10
             
             if peso_neto > 0:
                 eton = eton / peso_neto
