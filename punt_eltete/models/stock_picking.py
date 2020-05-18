@@ -70,8 +70,8 @@ class StockMove(models.Model):
             if num_pallets > 0 or record.sale_line_id.bultos == '2':
                 hay_lotes = True
                 
-            peso_neto_mojado = int(peso_neto * 1.07 / 10) * 10
-            peso_bruto_mojado = int(peso_bruto * 1.07 / 10) * 10
+            peso_neto_mojado = int(peso_neto * 1.05 / 10) * 10
+            peso_bruto_mojado = int(peso_bruto * 1.05 / 10) * 10
             
             cantidad_1 = round(cantidad_1, 4)
             cantidad_2 = round(cantidad_2, 4)
