@@ -169,7 +169,7 @@ class AccountInvoice(models.Model):
                 peso_neto = peso_neto + line.peso_neto
                 peso_bruto = peso_bruto + line.peso_bruto
                 peso_neto_mojado = peso_neto_mojado + line.peso_neto_mojado
-                bruto_mojado = int(line.peso_bruto * 1.05 / 10) * 10
+                bruto_mojado = int(line.peso_bruto * 1.07 / 10) * 10
                 peso_bruto_mojado = peso_bruto_mojado + bruto_mojado
                 
             if peso_cantonera > 0:
