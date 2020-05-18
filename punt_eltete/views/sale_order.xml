@@ -138,8 +138,8 @@
 				<field name="fecha_cliente"/>
 				<field name="fecha_entrega_cliente"/>
 				<field name="fiscal_position_id"/>
-                		<field name="peso_neto"/>
-                		<field name="peso_bruto"/>
+                		<field name="peso_neto_mojado"/>
+                		<field name="peso_bruto_mojado"/>
 				<field name="actualizar"/>
 			</field>
                 
