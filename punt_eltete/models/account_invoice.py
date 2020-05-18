@@ -59,17 +59,18 @@ class AccountInvoice(models.Model):
     def create(self, values):
         res = super(AccountInvoice, self).create(values)
         for invoice in res:
-            for line in invoice.invoice_line_ids:
-                precio_unidad = 0
-                num_pallets = 0
-                if line.num_pallets > 0:
-                    precio_unidad = line.importe / line.num_pallets
-                    num_pallets = line.num_pallets
-                elif line.facturar == '5':
-                    precio_unidad = line.importe
-                    num_pallets = 1
-                line.price_unit = precio_unidad
-                line.quantity = num_pallets
+            if invoice.type == 'out_invoice':
+                for line in invoice.invoice_line_ids:
+                    precio_unidad = 0
+                    num_pallets = 0
+                    if line.num_pallets > 0:
+                        precio_unidad = line.importe / line.num_pallets
+                        num_pallets = line.num_pallets
+                    elif line.facturar == '5':
+                        precio_unidad = line.importe
+                        num_pallets = 1
+                    line.price_unit = precio_unidad
+                    line.quantity = num_pallets
         # here you can do accordingly
         return res
     
