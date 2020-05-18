@@ -220,6 +220,7 @@ class SaleOrderLine(models.Model):
     @api.multi
     def action_decrease_sequence(self):
         for record in self:
+            record.ordenar_secuencia_cantonera(self.record)
             if record.sequence_cantonera > 1:
                 new_sequence = record.sequence_cantonera - 1
                 for line in self.env['sale.order.line'].search([('product_id.categ_id.is_cantonera', '=', True), 
@@ -237,7 +238,7 @@ class SaleOrderLine(models.Model):
     @api.multi
     def action_increase_sequence(self):
         for record in self:
-        
+            record.ordenar_secuencia_cantonera(self.record)
             if len(self.env['sale.order.line'].search([('product_id.categ_id.is_cantonera', '=', True), 
                                                         ('incompleta', '=', True), 
                                                         ('estado_cantonera', '=', self.estado_cantonera),
