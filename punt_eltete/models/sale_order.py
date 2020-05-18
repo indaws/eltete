@@ -942,6 +942,7 @@ class SaleOrder(models.Model):
                 if line.codigo_cliente and len(line.codigo_cliente) > 0:
                     haycodigo = True
             
+            """
             divisor = 150000
             peso_neto_mojado = (1 + (peso_neto / divisor)) * peso_neto
             peso_neto_mojado = int(peso_neto_mojado / 5) * 5
@@ -963,6 +964,11 @@ class SaleOrder(models.Model):
             else:
                 peso_neto_mojado = peso_neto
                 peso_bruto_mojado = peso_bruto
+            """
+            peso_neto_mojado = peso_neto * 1.07
+            peso_neto_mojado = int(peso_neto_mojado / 10) * 10
+            peso_bruto_mojado = peso_bruto * 1.07
+            peso_bruto_mojado = int(peso_bruto_mojado / 10) * 10
             
             if peso_neto > 0:
                 eton = eton / peso_neto
