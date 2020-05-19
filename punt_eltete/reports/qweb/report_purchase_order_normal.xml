@@ -85,7 +85,7 @@
 							<tr class="border-black o_subtotal" style="">
 								<td style="color:#000;"><strong>Base Imponible</strong></td>
 								<td class="text-right" style="color:#000;">
-									<span t-field="doc.amount_untaxed"/>
+									<span t-field="doc.importe_pedido"/>
 								</td>
 							</tr>
 							<tr class="border-black o_subtotal" style="">
@@ -97,7 +97,7 @@
 							<tr class="border-black o_total">
 								<td style="color:#000;"><strong>Total</strong></td>
 								<td class="text-right" style="color:#000;">
-									<span t-field="doc.amount_total"/>
+									<span t-field="doc.importe_pedido"/>
 								</td>
 							</tr>
 						</table>
