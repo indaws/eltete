@@ -175,6 +175,23 @@ class PurchaseOrderLine(models.Model):
     
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
+    importe_pedido = fields.Float('Importe Pedido', digits = (10, 2), readonly = True, compute = "_get_importe")
+    importe_llegado = fields.Float('Importe Llegado', digits = (10, 2), readonly = True, compute = "_get_importe")
+    
+    
+    @api.depends('sale_line_id', 'product_id')
+    def _get_importe(self):
+        for record in self:
+            importe_pedido = 0
+            importe_llegado = 0
+            
+            for linea in self.order_line:
+                importe_pedido = importe_pedido + linea.importe_pedido
+                importe_llegado = importe_llegado = linea.importe_llegado
+            
+            record.importe_pedido = importe_pedido
+            record.importe_llegado = importe_llegado
+    
 
     @api.multi
     def create_purchase_order_line_referencia(self, cliente_id, sale_line_id, num_pallets):
