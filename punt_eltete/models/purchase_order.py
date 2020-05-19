@@ -177,20 +177,41 @@ class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
     importe_pedido = fields.Float('Importe Pedido', digits = (10, 2), readonly = True, compute = "_get_importe")
     importe_llegado = fields.Float('Importe Llegado', digits = (10, 2), readonly = True, compute = "_get_importe")
+    iva_pedido = fields.Float('IVA Pedido', digits = (10, 2), readonly = True, compute = "_get_importe")
+    iva_llegado = fields.Float('IVA Llegado', digits = (10, 2), readonly = True, compute = "_get_importe")
+    total_pedido = fields.Float('Total Pedido', digits = (10, 2), readonly = True, compute = "_get_total")
+    total_llegado = fields.Float('Total Llegado', digits = (10, 2), readonly = True, compute = "_get_total")
     
     
-    @api.depends('order_line')
+    @api.depends('importe_pedido', 'importe_llegado', 'iva_pedido', 'iva_llegado')
+    def _get_total(self):
+        for record in self:
+            total_pedido = importe_pedido
+            total_llegado = importe_llegado
+            
+            record.total_pedido = total_pedido
+            record.total_llegado = total_llegado
+    
+    
+    
+    @api.depends('order_line', 'partner_id')
     def _get_importe(self):
         for record in self:
             importe_pedido = 0
             importe_llegado = 0
+            iva_pedido = 0
+            iva_llegado = 0
             
             for linea in self.order_line:
                 importe_pedido = importe_pedido + linea.importe_pedido
                 importe_llegado = importe_llegado + linea.importe_llegado
+                
+            
             
             record.importe_pedido = importe_pedido
             record.importe_llegado = importe_llegado
+            record.iva_pedido = iva_pedido
+            record.iva_llegado = iva_llegado
 
             
     @api.multi
