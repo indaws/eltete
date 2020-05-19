@@ -75,7 +75,6 @@
 				<field name="importe_llegado" />
 				<field name="num_lotes" invisible="1" />
 				<field name="lot_ids" invisible="1" />
-				<field name="peso_neto" invisible="1" />
 				<field name="unidades" invisible="1" />
             </xpath>
 			
