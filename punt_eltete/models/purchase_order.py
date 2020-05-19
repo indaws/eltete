@@ -195,9 +195,9 @@ class PurchaseOrder(models.Model):
                 importe_llegado = importe_llegado + linea.importe_llegado
              
             #Comprobamos si tiene IVA
-            if record.partner_id.property_account_position_id.id == 1:
-                iva_pedido = 0.21 * importe_pedido
-                iva_llegado = 0.21 * importe_llegado
+            #if record.partner_id.property_account_position_id.id == 1:
+                #iva_pedido = 0.21 * importe_pedido
+                #iva_llegado = 0.21 * importe_llegado
 
             record.importe_pedido = importe_pedido
             record.importe_llegado = importe_llegado
