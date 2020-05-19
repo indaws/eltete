@@ -19,7 +19,8 @@ class PurchaseOrderLine(models.Model):
     comentario_proveedor = fields.Char('Comentario', readonly = True, compute = "_get_descripcion")
     tipo_unidad = fields.Char('Tipo', readonly = True, compute = "_get_descripcion")
     
-    precio_num = fields.Float('Precio', digits = (12,4), related='sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio', readonly = False)
+    precio_num = fields.Float('Precio', digits = (12,4))
+    precio_anterio = fields.Float('Precio Anterior', digits = (12, 4), related='sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio')
     num_pallets = fields.Integer('Num Pallets')
     kg_pedidos = fields.Float('Cantidad kg', digits = (12,4))
     importe_pedido = fields.Float('Importe Pedido', digits = (10, 2), readonly = True, compute = "_get_importe_pedido")
@@ -34,12 +35,9 @@ class PurchaseOrderLine(models.Model):
     #precio_ref = fields.Float('Precio Ref', related='sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio', readonly = False)
    
             
-    @api.onchange('num_pallets')
+    @api.onchange('precio_num')
     def _onchange_precio(self):
-        if self.product_id.categ_id.is_formato == True:
-            self.precio_num = 0.62
-        if self.product_id.categ_id.is_bobina == True:
-            self.precio_num = 0.56
+        self.sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.precio = self.precio_num
     
     
     
