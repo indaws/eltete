@@ -186,8 +186,8 @@ class PurchaseOrder(models.Model):
     @api.depends('importe_pedido', 'importe_llegado', 'iva_pedido', 'iva_llegado')
     def _get_total(self):
         for record in self:
-            total_pedido = importe_pedido
-            total_llegado = importe_llegado
+            total_pedido = record.importe_pedido + record.iva_pedido
+            total_llegado = record.importe_llegado + record.iva_llegado
             
             record.total_pedido = total_pedido
             record.total_llegado = total_llegado
