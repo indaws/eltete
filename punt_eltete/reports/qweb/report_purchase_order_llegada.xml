@@ -76,7 +76,7 @@
 										  <td style="text-align:center; width=10%;"><span t-field="line.cantidad"/></td>
 										  <td style="text-align:center; width=10%;"><span t-field="line.precio"/></td>-->
 
-										  <td class="text-right" style="width=14%;"><span t-field="line.importe"/> €</td>
+										  <td class="text-right" style="width=14%;"><span t-field="line.importe_llegado"/> €</td>
 
 										  
 
