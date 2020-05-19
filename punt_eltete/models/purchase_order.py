@@ -179,7 +179,7 @@ class PurchaseOrder(models.Model):
     importe_llegado = fields.Float('Importe Llegado', digits = (10, 2), readonly = True, compute = "_get_importe")
     
     
-    @api.depends('sale_line_id', 'product_id')
+    @api.depends('order_line')
     def _get_importe(self):
         for record in self:
             importe_pedido = 0
@@ -187,7 +187,7 @@ class PurchaseOrder(models.Model):
             
             for linea in self.order_line:
                 importe_pedido = importe_pedido + linea.importe_pedido
-                importe_llegado = importe_llegado = linea.importe_llegado
+                importe_llegado = importe_llegado + linea.importe_llegado
             
             record.importe_pedido = importe_pedido
             record.importe_llegado = importe_llegado
