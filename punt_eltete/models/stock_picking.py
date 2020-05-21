@@ -1,6 +1,6 @@
 ﻿
 from odoo import fields, models, api
-
+from odoo import exceptions
 
 
 class StockMoveLine(models.Model):
@@ -113,6 +113,36 @@ class StockPicking(models.Model):
     peso_bruto_mojado = fields.Integer('Peso bruto Mojado', compute="_get_num_pallets")
     neto_mojado_user = fields.Integer('Neto User')
     bruto_mojado_user = fields.Integer('Bruto User')
+    
+    
+    @api.multi
+    def validar_asignar_albaran_compra(self):
+        for record in self:
+        
+            #Comprobamos que todas las lineas tienen lote
+            for line in record.move_ids_without_package:
+                if line.purchase_line_id:
+                    if line.product_uom_qty != line.purchase_line_id.num_lotes:
+                        raise exceptions.ValidationError('Error: el número de lotes no coincide con el número de unidades')
+                        return None
+                else:
+                    raise exceptions.ValidationError('Error: esta función solo se puede utilizar en albaranes generados desde pedidos de compra')
+                    return None
+                    
+            #Asignamos líneas de fabricacion
+            for line in record.move_ids_without_package:
+                lista_id_lotes = []
+                for lote in line.purchase_line_id.lot_ids:
+                    lista_id_lotes.append(lote.id)
+                i=0
+                for move_line in line.move_line_ids:
+                    move_line.lot_id = lista_id_lotes[i]
+                    move_line.qty_done = move_line.product_uom_qty
+                    i=i+1
+                    
+            #Validamos
+            record.button_validate()
+                
     
     @api.depends('move_lines', 'neto_mojado_user', 'bruto_mojado_user')
     def _get_num_pallets(self):
