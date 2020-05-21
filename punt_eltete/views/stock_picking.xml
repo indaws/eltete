@@ -26,7 +26,15 @@
 				<field name="bruto_mojado_user" />
                 <field name="numero_contenedor"/>
                 <field name="precinto_contenedor"/>
-            </xpath>            
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+				<button string="Asignar lotes y confirmar" 
+						name="validar_asignar_albaran_compra" 
+						type="object" 
+                        attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"
+						class="oe_highlight"/>  
+             </xpath>            
             
         </field>
     </record>
