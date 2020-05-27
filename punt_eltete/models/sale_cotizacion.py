@@ -9,7 +9,8 @@ class sale_cotizacion(models.Model):
 
     name = fields.Char(string='Cotización', required=True, copy=False, readonly=True, index=True, default=lambda self: "/")
     
-    partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
+    partner_id = fields.Many2one('res.partner', string="Cliente")
+    lead_id = fields.Many2one('crm.lead', string="Oportunidad")
     date = fields.Date('Fecha', default=fields.Date.today(), required=True)
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
     #fecha_cliente = fields.Date('Fecha Cliente')
