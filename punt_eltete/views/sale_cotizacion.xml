@@ -9,6 +9,7 @@
                     <field name="name"/>
                     <field name="date"/>
                     <field name="partner_id"/>
+					<field name="lead_id"/>
                     <field name="user_id"/>                    
                     <field name="state_id"/>
                     <field name="country_id"/>
@@ -32,6 +33,7 @@
                         <group>
 							<field name="name"/>
 							<field name="partner_id"/>
+							<field name="lead_id"/>
                             <field name="date"/>
                             <field name="user_id"/>
 							<field name="country_id"/>
@@ -73,6 +75,7 @@
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>
+					<field name="lead_id"/>
                     <field name="date"/>
                 </search>
             </field>
