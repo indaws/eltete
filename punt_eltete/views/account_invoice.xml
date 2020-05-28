@@ -56,6 +56,26 @@
             
         </field>
     </record>
+    
+    <!-- VISTA FACTURAS DE PROVEEDOR -->
+    <record id="view_account_invoice_supplier_eltete_form" model="ir.ui.view">
+        <field name="name">account.invoice.supplier.eltete.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form"/>
+        <field name="arch" type="xml">
+        
+			<field name="reference" position="after">
+				<field name="importe_ajustado"/>
+			</field>
+            
+            <button name="action_invoice_draft" position="before">
+                <button name="ajustar_importe_factura" type="object" string="Ajustar importes" states="draft"/>
+            </button>
+
+			
+        </field>
+    </record>
+    
 	
 	
 	<!-- VISTA FACTURAS CLIENTES PESOS -->
