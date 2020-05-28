@@ -54,6 +54,24 @@ class AccountInvoice(models.Model):
     
     actualizar = fields.Boolean('Comprobada')
     
+    #Proveedor
+    importe_ajustado = fields.Float('Importe a ajustar', digits = (10, 2))
+    
+    @api.multi
+    def ajustar_importe_factura(self):
+        for record in self:
+            if record.state == 'draft' and record.type == 'in_invoice' and record.importe_ajustado > 0.0:
+                diferencia = record.amount_untaxed - record.importe_ajustado
+                
+                if diferencia != 0.0:
+                    for line in record.invoice_line_ids:
+                        importe_a_sumar = diferencia / line.quantity
+                        line.price_unit = line.price_unit - importe_a_sumar
+                        
+                        if record.amount_untaxed == record.importe_ajustado:
+                            break
+                        diferencia = record.amount_untaxed - record.importe_ajustado
+    
     
     @api.model
     def create(self, values):
