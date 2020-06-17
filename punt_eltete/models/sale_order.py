@@ -521,9 +521,11 @@ class SaleOrderLine(models.Model):
             if record.oferta_id.attribute_id.sierra == True:
                 num_cortes = int(2400 / longitud_final)
                 longitud = (longitud_final + 5) * num_cortes + 100
-                while longitud > 2400:
+                pesoSierra = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * longitud / 1000 * record.oferta_id.attribute_id.und_paquete
+                while longitud > 2400 or pesoSierra > 15:
                     num_cortes = num_cortes - 1
                     longitud = (longitud_final + 5) * num_cortes + 100
+                    pesoSierra = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * longitud / 1000 * record.oferta_id.attribute_id.und_paquete
                 if num_cortes > 0 and record.oferta_id.attribute_id.und_paquete > 0:
                     und_pallet = int(record.und_pallet * record.num_pallets / num_cortes / record.oferta_id.attribute_id.und_paquete) * record.oferta_id.attribute_id.und_paquete
                 while record.und_pallet > und_pallet * num_cortes:
