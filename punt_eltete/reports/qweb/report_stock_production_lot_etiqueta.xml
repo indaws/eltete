@@ -11,7 +11,7 @@
 		          <td><span t-esc="o.name"/></td>
 		      </div> 
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:32pt; width:100%;">
-		          <td><span t-field="o.sale_order_line_id.descripcion"/></td>
+		          <td><span t-field="o.descripcion"/></td>
 		      </div>
 		      <div class="float-left company_address" style="margin-bottom:20px; width:100%;">
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:32pt; width:50%;">
