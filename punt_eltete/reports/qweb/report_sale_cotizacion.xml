@@ -46,8 +46,9 @@
 
                                       <tr>
                                         <!--<td style="font-size:10pt;"><img t-if="line.troquelado_id.image" t-att-src="image_data_uri(line.troquelado_id.image)" class="float-left" style="max-height:50px"/></td>-->
-                                        <td style="font-size:10pt;"><span t-field="line.referencia_cliente_id.referencia_cliente_nombre"/> - <span t-field="line.attribute_id.name"/></td>
+                                        <!--<td style="font-size:10pt;"><span t-field="line.referencia_cliente_id.referencia_cliente_nombre"/> - <span t-field="line.attribute_id.name"/></td>-->
                                         <!--<td style="font-size:10pt;"><span t-field="line.cantonera_impresion_id.name"/></td>-->
+					<td style="font-size:10pt;"><span t-field="line.attribute_id.titulo"/></td>
 					<td style="font-size:10pt;"><span t-field="line.npallets"/></td>
                                         <!--<td style="font-size:10pt;"><span t-field="line.cantidad"/> <span t-field="line.cantidad_tipo"/></td>-->
 					<td style="font-size:10pt;"><span t-field="line.oferta_id.unidades"/></td>
