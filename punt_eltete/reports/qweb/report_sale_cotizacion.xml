@@ -30,10 +30,10 @@
                           <table class="table table-sm">
                               <thead style="color:#000;">
                                   <tr style="color:#000;">
-                                      <th class="text-left" style="color:#000;"></th>
+                                      <!--<th class="text-left" style="color:#000;"></th>-->
                                       <th class="text-left" style="color:#000; font-size:10pt;">Producto</th>
-                                      <th class="text-left" style="color:#000; font-size:10pt;">Impresión</th>
-									  <th class="text-left" style="color:#000; font-size:10pt;">Num pallets</th>
+                                      <!--<th class="text-left" style="color:#000; font-size:10pt;">Impresión</th>-->
+				      <th class="text-left" style="color:#000; font-size:10pt;">Num pallets</th>
                                       <th class="text-left" style="color:#000; font-size:10pt;">Uds pallet</th>
                                       <th class="text-left" style="color:#000; font-size:10pt;">Precio</th>
                                       
@@ -43,16 +43,14 @@
               
               
                                   <t t-foreach="doc.line_ids" t-as="line">
-              
-                                     
-              
+
                                       <tr>
-                                        <td style="font-size:10pt;"><img t-if="line.troquelado_id.image" t-att-src="image_data_uri(line.troquelado_id.image)" class="float-left" style="max-height:50px"/></td>
-                                        <td style="font-size:10pt;"><span t-field="line.referencia_cliente_id.name"/> - <span t-field="line.attribute_id.name"/></td>
-                                        <td style="font-size:10pt;"><span t-field="line.cantonera_impresion_id.name"/></td>
-										<td style="font-size:10pt;"><span t-field="line.npallets"/></td>
+                                        <!--<td style="font-size:10pt;"><img t-if="line.troquelado_id.image" t-att-src="image_data_uri(line.troquelado_id.image)" class="float-left" style="max-height:50px"/></td>-->
+                                        <td style="font-size:10pt;"><span t-field="line.referencia_cliente_id.referencia_cliente_nombre"/> - <span t-field="line.attribute_id.name"/></td>
+                                        <!--<td style="font-size:10pt;"><span t-field="line.cantonera_impresion_id.name"/></td>-->
+					<td style="font-size:10pt;"><span t-field="line.npallets"/></td>
                                         <!--<td style="font-size:10pt;"><span t-field="line.cantidad"/> <span t-field="line.cantidad_tipo"/></td>-->
-										<td style="font-size:10pt;"><span t-field="line.oferta_id.unidades"/></td>
+					<td style="font-size:10pt;"><span t-field="line.oferta_id.unidades"/></td>
                                         <td style="font-size:10pt;"><span t-field="line.precio"/> <span t-field="line.precio_tipo"/></td>
                                       </tr>
               
