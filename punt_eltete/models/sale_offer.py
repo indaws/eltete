@@ -1077,6 +1077,9 @@ class sale_product_attribute(models.Model):
             
             if nombre == '':
                 nombre = 'Nuevo'
+                
+            nombre = record.referencia_cliente_id.referencia_id.titulo + " " + nombre
+
             record.name = nombre
             record.titulo = titulo
             record.descripcion_proveedor = proveedor
