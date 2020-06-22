@@ -91,6 +91,7 @@ class SaleOrderLine(models.Model):
     op_comentario = fields.Char('Comentario', compute = "_get_produccion")
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
+    op_tipo_papel = fields.Char('Tipo Papel', compute = "_get_produccion")
     
     ESTADO_PRODUC_CANTONERA = [('0', 'SIN ASIGNAR'),    
                                ('1', 'LÍNEA 1'),
@@ -415,6 +416,11 @@ class SaleOrderLine(models.Model):
     @api.depends('oferta_id', 'und_pallet', 'num_pallets', 'lotes_inicio', 'lotes_fabricar')
     def _get_produccion(self):
         for record in self:
+            
+            op_tipo_papel = "PAPEL NORMAL"
+            if record.oferta_id.attribute_id.fsc_id:
+                op_tipo_papel = "PAPEL FSC - No se puede haber papel NORMAL en la máquina al fabricar esta orden"
+            record.op_tipo_papel = op_tipo_papel
             
             orden_fabricacion = str(record.order_id.id) + "-" + str(record.id)
             dir_qr = "http://bemecopack.es/jseb/qr_lote.php?orden="
