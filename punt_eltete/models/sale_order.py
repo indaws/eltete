@@ -47,7 +47,8 @@ class SaleOrderLine(models.Model):
     lotes_fabricar = fields.Integer('Lotes Fabricar', default = 1)
     lotes_inicio = fields.Integer('Lotes Inicio', default = 1)
     actualizar = fields.Boolean('Actualizar')
-    dir_qr = fields.Char('Dir QR', readonly = True, compute = "_get_produccion")
+    dir_qr = fields.Char('Dir QR Lote', readonly = True, compute = "_get_produccion")
+    dir_qr_orden = fields.Char('Dir QR Orden', readonly = True, compute = "_get_produccion")
     incompleta = fields.Boolean('Incompleta', readonly = True, store = True, compute = "_get_und_lotes")
     
     
@@ -411,7 +412,7 @@ class SaleOrderLine(models.Model):
             
            
     
-    @api.depends('oferta_id', 'und_pallet', 'num_pallets')
+    @api.depends('oferta_id', 'und_pallet', 'num_pallets', 'lotes_inicio', 'lotes_fabricar')
     def _get_produccion(self):
         for record in self:
             
@@ -420,7 +421,7 @@ class SaleOrderLine(models.Model):
             dir_qr = dir_qr + orden_fabricacion
             record.dir_qr = dir_qr
             record.orden_fabricacion = orden_fabricacion
-            
+
             maquina = ""
             if record.oferta_id.attribute_id.cantonera_1 == True:
                 maquina = maquina + "Línea 1, "
@@ -517,6 +518,8 @@ class SaleOrderLine(models.Model):
             und_exactas = ""
             if record.oferta_id.und_exactas == True:
                 und_exactas = "SI"
+                
+            peso_unidad = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * longitud_final / 1000
             
             if record.oferta_id.attribute_id.sierra == True:
                 num_cortes = int(2400 / longitud_final)
@@ -593,6 +596,17 @@ class SaleOrderLine(models.Model):
             if record.oferta_id.attribute_id.cantonera_especial_id:
                 especial = record.oferta_id.attribute_id.cantonera_especial_id.name
                 velocidad = velocidad - 20
+                
+            dir_qr_orden = "http://bemecopack.es/jseb/qr_orden.php?"
+            dir_qr_orden = disr_qr_orden + "&orden=" + orden_fabricacion
+            dir_qr_orden = disr_qr_orden + "&prod=1"
+            dir_qr_orden = disr_qr_orden + "&ala1=" + str(ala_1)
+            dir_qr_orden = disr_qr_orden + "&ala2=" + str(ala_2)
+            dir_qr_orden = disr_qr_orden + "&gros=" + str(grosor)
+            dir_qr_orden = disr_qr_orden + "&long1=" + str(longitud)
+            dir_qr_orden = disr_qr_orden + "&peso1=" + str(peso_unidad)
+            dir_qr_orden = disr_qr_orden + "&palini=" + str(record.lotes_inicio)
+            dir_qr_orden = disr_qr_orden + "&npal=" + str(record.lotes_fabricar)
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
