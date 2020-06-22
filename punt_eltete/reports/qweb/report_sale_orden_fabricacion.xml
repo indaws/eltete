@@ -13,14 +13,14 @@
 			      
                           <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <div class="float-left company_address" style="padding:5px; width:50%;">
+				  <strong>Orden de producción: </strong><span t-field="doc.orden_fabricacion"/><br/>
 				  <strong>Máquina: </strong><span t-field="doc.op_cantonera_maquina"/><br/>
 				  <strong>Pallet Inicio: </strong><span t-field="doc.lotes_inicio"/><br/>
                                   <strong>Metros Totales: </strong><span t-field="doc.op_metros"/><br/>
 				  <br/>
+				  <strong>Duración: </strong><span t-field="doc.op_duracion"/><br/>
                                   <strong>Pedido: </strong><span t-field="doc.order_id.name"/><br/>
-                                  <strong>Orden de producción: </strong><span t-field="doc.orden_fabricacion"/><br/>
                                   <strong>Cliente: </strong><span t-field="doc.order_id.partner_id.ref"/><br/>
-                                  <strong>Duración: </strong><span t-field="doc.op_duracion"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:5px; text-align: center; width:50%;">
                                   <td><img t-att-src="doc.dir_qr_orden"/></td> 
@@ -28,7 +28,8 @@
                           </div>
                           
                           <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-                              <div class="float-left company_address" style="padding:5px; width:50%;">
+			      <h4><span t-field="doc.op_tipo_papel"/></h4>
+			      <div class="float-left company_address" style="padding:5px; width:50%;">
                                   <strong>Superficie Color: </strong><span t-field="doc.op_superficie_color"/><br/>
                                   <strong>Superficie Ancho: </strong><span t-field="doc.op_superficie_ancho"/><br/>
                                   <strong>Superficie kg: </strong><span t-field="doc.op_peso_superficie"/><br/>
