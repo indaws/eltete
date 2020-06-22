@@ -7,7 +7,7 @@
 	    <t t-if="doc.product_uom_qty &gt; 0">
 		<t t-call="web.external_layout">
 			
-		      <div class="float-right company_address" style="top:0px; right:0px; padding:12px; margin:12px; font-size:12pt; width:30%; border: 3px solid #0c9c45; border-radius: 15px;">
+		      <div class="float-right company_address" style="position:absolute; top:-200px; right:0px; text-align: center; padding:12px; margin:12px; font-size:12pt; width:30%; border: 3px solid #0c9c45; border-radius: 15px;">
 			   <td><img t-att-src="doc.dir_qr_orden"/></td> 
 			   <td><span t-field="doc.orden_fabricacion"/></td> 
 		      </div>
@@ -16,14 +16,14 @@
                           
                           <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN CANTONERAS</strong></h3>
                           
-                          <div class="float-left company_address" style="font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Pedido: </strong><span t-field="doc.order_id.name"/><br/>
                                   <strong>Orden de producción: </strong><span t-field="doc.orden_fabricacion"/><br/>
                                   <strong>Cliente: </strong><span t-field="doc.order_id.partner_id.ref"/><br/>
                                   <strong>Duración: </strong><span t-field="doc.op_duracion"/><br/>
                               </div>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Máquina: </strong><span t-field="doc.op_cantonera_maquina"/><br/>
 				  <strong>Pallet Inicio: </strong><span t-field="doc.lotes_inicio"/><br/>
                                   <strong>Metros Totales: </strong><span t-field="doc.op_metros"/><br/>
@@ -32,28 +32,28 @@
                           
                           <!--<br/><br/>-->
                           
-                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                          <div class="float-left company_address" style="padding:12px; margin:0px 12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Superficie Color: </strong><span t-field="doc.op_superficie_color"/><br/>
                                   <strong>Superficie Ancho: </strong><span t-field="doc.op_superficie_ancho"/><br/>
                                   <strong>Superficie kg: </strong><span t-field="doc.op_peso_superficie"/><br/>
                               </div>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Interior Gramaje: </strong><span t-field="doc.op_interior_gramaje"/><br/>
                                   <strong>Interior Ancho: </strong><span t-field="doc.op_interior_ancho"/><br/>
                                   <strong>Interior kg: </strong><span t-field="doc.op_peso_interior"/><br/>
                               </div>
 
 			<t t-if="doc.op_rodillo != ''">
-			      <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                              </div>
+			      <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>-->
 				
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Rodillo: </strong><span t-field="doc.op_rodillo"/><br/>
 				  <strong>Tinta 1: </strong><span t-field="doc.op_tinta_1"/><br/>
                                   <strong>Texto 1: </strong><span t-field="doc.op_texto_1"/><br/>
                               </div>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
 				  <br/>
                                   <strong>Tinta 2: </strong><span t-field="doc.op_tinta_2"/><br/>
                                   <strong>Texto 2: </strong><span t-field="doc.op_texto_2"/><br/>
@@ -62,12 +62,12 @@
                               <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
                               </div>-->
                               
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Alas: </strong><span t-field="doc.op_alas"/><br/>
                                   <strong>Grosor: </strong><span t-field="doc.op_grosor"/><br/>
                                   <strong>Longitud: </strong><span t-field="doc.op_longitud"/><br/>
                               </div>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Tolerancia Alas: </strong><span t-field="doc.op_tolerancia_alas"/><br/>
                                   <strong>Tolerancia Grosor: </strong><span t-field="doc.op_tolerancia_grosor"/><br/>
                                   <strong>Tolerancia Longitud: </strong><span t-field="doc.op_tolerancia_longitud"/><br/>
@@ -76,21 +76,21 @@
                               <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
                               </div>-->
 				  
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Forma: </strong><span t-field="doc.op_forma"/><br/>
                               </div>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Especial: </strong><span t-field="doc.op_especial"/><br/>
                               </div> 
                               
                               <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
                               </div>-->
                               
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Ancho Pallet: </strong><span t-field="doc.op_ancho_pallet"/><br/>
                                   <strong>Tipo Pallet: </strong><span t-field="doc.op_tipo_pallet"/><br/>
                               </div>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Paletizado: </strong><span t-field="doc.op_paletizado"/><br/>
                                   <strong>Unidades Paquete: </strong><span t-field="doc.op_und_paquete"/> unidades / paquete<br/>
 				  <t t-if="doc.op_paquetes_fila != 0"> 
@@ -104,11 +104,11 @@
                               <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
                               </div>-->
                               
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Unidades Pallet: </strong><span t-field="doc.op_und_pallet"/><br/>
                                   <strong>Unidades Exactas: </strong><span t-field="doc.op_und_exactas"/><br/>
                               </div>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
+                              <div class="float-left company_address" style="padding:5px; font-size:12pt; width:50%;">
                                   <strong>Número Pallets: </strong><span t-field="doc.op_num_pallets"/><br/>
                               </div> 
                               
