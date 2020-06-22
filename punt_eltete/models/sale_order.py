@@ -419,7 +419,7 @@ class SaleOrderLine(models.Model):
             
             op_tipo_papel = "PAPEL NORMAL"
             if record.oferta_id.attribute_id.fsc_id:
-                op_tipo_papel = "PAPEL FSC - No se puede haber papel NORMAL en la máquina al fabricar esta orden"
+                op_tipo_papel = "PAPEL FSC - No se puede haber papel NORMAL en la máquina"
             record.op_tipo_papel = op_tipo_papel
             
             orden_fabricacion = str(record.order_id.id) + "-" + str(record.id)
