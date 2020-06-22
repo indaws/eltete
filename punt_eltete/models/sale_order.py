@@ -611,6 +611,11 @@ class SaleOrderLine(models.Model):
             dir_qr_orden = dir_qr_orden + "&gros=" + str(grosor)
             dir_qr_orden = dir_qr_orden + "&long1=" + str(longitud)
             dir_qr_orden = dir_qr_orden + "&peso1=" + str(round(precio_unidad, 4))
+            dir_qr_orden = dir_qr_orden + "&long2=" + str(longitud_final)
+            if record.oferta_id.attribute_id.fsc_id:
+                dir_qr_orden = dir_qr_orden + "&fsc=1"
+            else:
+                dir_qr_orden = dir_qr_orden + "&fsc=0"
             dir_qr_orden = dir_qr_orden + "&palini=" + str(record.lotes_inicio)
             dir_qr_orden = dir_qr_orden + "&npal=" + str(record.lotes_fabricar)
             record.dir_qr_orden = dir_qr_orden
