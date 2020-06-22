@@ -610,7 +610,7 @@ class SaleOrderLine(models.Model):
             dir_qr_orden = dir_qr_orden + "&ala2=" + str(ala_2)
             dir_qr_orden = dir_qr_orden + "&gros=" + str(grosor)
             dir_qr_orden = dir_qr_orden + "&long1=" + str(longitud)
-            dir_qr_orden = dir_qr_orden + "&peso1=" + str(peso_unidad)
+            dir_qr_orden = dir_qr_orden + "&peso1=" + str(round(precio_unidad, 4))
             dir_qr_orden = dir_qr_orden + "&palini=" + str(record.lotes_inicio)
             dir_qr_orden = dir_qr_orden + "&npal=" + str(record.lotes_fabricar)
             record.dir_qr_orden = dir_qr_orden
