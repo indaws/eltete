@@ -598,7 +598,7 @@ class SaleOrderLine(models.Model):
                 velocidad = velocidad - 20
                 
             dir_qr_orden = "http://bemecopack.es/jseb/qr_orden.php?"
-            dir_qr_orden = disr_qr_orden + "&orden=" + orden_fabricacion
+            dir_qr_orden = disr_qr_orden + "orden=" + orden_fabricacion
             dir_qr_orden = disr_qr_orden + "&prod=1"
             dir_qr_orden = disr_qr_orden + "&ala1=" + str(ala_1)
             dir_qr_orden = disr_qr_orden + "&ala2=" + str(ala_2)
