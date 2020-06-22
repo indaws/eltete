@@ -30,7 +30,7 @@
                               </div>
                           </div>
                           
-                          <br/><br/>
+                          <!--<br/><br/>-->
                           
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
@@ -59,8 +59,8 @@
                                   <strong>Texto 2: </strong><span t-field="doc.op_texto_2"/><br/>
                               </div> 
 			</t>
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                              </div>
+                              <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>-->
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Alas: </strong><span t-field="doc.op_alas"/><br/>
@@ -73,9 +73,9 @@
                                   <strong>Tolerancia Longitud: </strong><span t-field="doc.op_tolerancia_longitud"/><br/>
                               </div> 
                               
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                              </div>
-                              
+                              <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>-->
+				  
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Forma: </strong><span t-field="doc.op_forma"/><br/>
                               </div>
@@ -83,8 +83,8 @@
                                   <strong>Especial: </strong><span t-field="doc.op_especial"/><br/>
                               </div> 
                               
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                              </div>
+                              <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>-->
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Ancho Pallet: </strong><span t-field="doc.op_ancho_pallet"/><br/>
@@ -101,8 +101,8 @@
 				  </t>
                               </div> 
                               
-                              <div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
-                              </div>
+                              <!--<div class="float-left company_address" style="padding:10px; font-size:12pt; width:100%;">
+                              </div>-->
                               
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Unidades Pallet: </strong><span t-field="doc.op_und_pallet"/><br/>
@@ -114,7 +114,7 @@
                               
                           </div>
                           
-                          <br/><br/>
+                          <!--<br/><br/>-->
                           
                           <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <strong>Comentario: </strong><br/>
