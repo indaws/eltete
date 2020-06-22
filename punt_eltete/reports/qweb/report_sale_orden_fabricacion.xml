@@ -7,7 +7,7 @@
 	    <t t-if="doc.product_uom_qty &gt; 0">
 		<t t-call="web.external_layout">
 			
-		      <div class="float-right company_address" style="position:relative; top:0px; right:0px; padding:12px; margin:12px; font-size:12pt; width:30%; border: 3px solid #0c9c45; border-radius: 15px;">
+		      <div class="float-right company_address" style="top:0px; right:0px; padding:12px; margin:12px; font-size:12pt; width:30%; border: 3px solid #0c9c45; border-radius: 15px;">
 			   <td><img t-att-src="doc.dir_qr_orden"/></td> 
 			   <td><span t-field="doc.orden_fabricacion"/></td> 
 		      </div>
@@ -16,7 +16,7 @@
                           
                           <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN CANTONERAS</strong></h3>
                           
-                          <div class="float-left company_address" style="padding:12px; margin:12px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+                          <div class="float-left company_address" style="font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
                               <div class="float-left company_address" style="padding:10px; font-size:12pt; width:50%;">
                                   <strong>Pedido: </strong><span t-field="doc.order_id.name"/><br/>
                                   <strong>Orden de producción: </strong><span t-field="doc.orden_fabricacion"/><br/>
