@@ -28,7 +28,7 @@
                           </div>
                           
                           <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-			      <h4><span t-field="doc.op_tipo_papel"/></h4>
+			      <h3 style="color:black; font-size:14pt; text-align:center;"><strong><span t-field="doc.op_tipo_papel"/></strong></h3>
 			      <div class="float-left company_address" style="padding:5px; width:50%;">
                                   <strong>Superficie Color: </strong><span t-field="doc.op_superficie_color"/><br/>
                                   <strong>Superficie Ancho: </strong><span t-field="doc.op_superficie_ancho"/><br/>
