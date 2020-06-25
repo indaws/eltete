@@ -610,7 +610,7 @@ class SaleOrderLine(models.Model):
             dir_qr_orden = dir_qr_orden + "&ala2=" + str(ala_2)
             dir_qr_orden = dir_qr_orden + "&gros=" + str(grosor)
             dir_qr_orden = dir_qr_orden + "&long1=" + str(longitud)
-            dir_qr_orden = dir_qr_orden + "&peso1=" + str(round(peso_unidad, 4))
+            dir_qr_orden = dir_qr_orden + "&peso=" + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro)
             dir_qr_orden = dir_qr_orden + "&long2=" + str(longitud_final)
             if record.oferta_id.attribute_id.fsc_id:
                 dir_qr_orden = dir_qr_orden + "&fsc=1"
