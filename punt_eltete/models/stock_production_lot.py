@@ -602,7 +602,7 @@ class StockProductionLot(models.Model):
                 barras_1_imagen = barras_1_imagen + "00000000"
                 barras_1_texto = barras_1_texto + "00000000"
                 
-            barras_1_imagen = barras_1_imagen + "37"
+            barras_1_imagen = barras_1_imagen + " 37"
             barras_1_texto = barras_1_texto + "(37)"
             #Añadimos las unidades (8 digitos)
             codigo = str(record.unidades)
