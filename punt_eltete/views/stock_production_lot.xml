@@ -43,7 +43,7 @@
 		        <field name="fsc_nombre"/> 	
 		    </group>
 		    <group>
-			<field name="fsc_impreso"/>	
+				
 		    </group>
 		</group>
 		<group>
