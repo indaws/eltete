@@ -556,14 +556,11 @@ class StockProductionLot(models.Model):
     def _get_fsc(self):
         for record in self:
             fsc_nomre = ""
-            fsc_impreso = False
             direccion = 'http://bemecopack.es/jseb/dimefsc.php?pallet=' + record.name
             respuesta = requests.get(direccion)
-            
             fsc_nombre = respuesta.text
   
             record.fsc_nombre = fsc_nombre
-            record.fsc_impreso = fsc_impreso
     
     
     @api.depends('unidades')
