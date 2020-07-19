@@ -550,7 +550,7 @@ class StockProductionLot(models.Model):
     barras_referencia_hay = fields.Boolean('Barras Hay', readonly = True, compute = "_get_barras")
    
     fsc_nombre = fields.Char('FSC tipo', readonly = True, compute = "_get_fsc")
-    fsc_impreso = fields.Boolean('FSC impreso', readonly = True, compute = "_get_fsc")
+    
     
     @api.depends('name')
     def _get_fsc(self):
