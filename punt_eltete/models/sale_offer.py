@@ -1034,7 +1034,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + " " + record.fsc_id.description" " + 
+                            titulo = titulo + " " + record.fsc_id.description 
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
