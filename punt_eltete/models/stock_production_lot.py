@@ -560,7 +560,7 @@ class StockProductionLot(models.Model):
             direccion = 'http://bemecopack.es/jseb/dimefsc.php?pallet=' + record.name
             respuesta = requests.get(direccion)
             
-            fsc_nombre = str(respuesta)
+            fsc_nombre = respuesta.text
   
             record.fsc_nombre = fsc_nombre
             record.fsc_impreso = fsc_impreso
