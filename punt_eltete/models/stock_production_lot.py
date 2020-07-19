@@ -5,6 +5,7 @@ from odoo.addons import decimal_precision as dp
 
 from datetime import datetime
 import time
+import requests
 
 
 
@@ -547,38 +548,22 @@ class StockProductionLot(models.Model):
     barras_3_texto = fields.Char('Barras 3 Texto', readonly = True, compute = "_get_barras")
     barras_referencia = fields.Char('Barras Referencia')
     barras_referencia_hay = fields.Boolean('Barras Hay', readonly = True, compute = "_get_barras")
+   
+    fsc_nombre = fields.Char('FSC tipo', readonly = True, compute = "_get_fsc")
+    fsc_impreso = fields.Boolean('FSC impreso', readonly = True, compute = "_get_fsc")
     
-    fsc_vendido = fields.Boolean('Vendido con FSC')
-    TIPO_FSC = [('1', 'Ninguno'), 
-               ('2', 'FSC 100 %'),
-               ('3', 'FSC Mix Credit'),           
-               ('4', 'FSC Mix __%'),
-               ('5', 'FSC Recycled Credit'),
-               ('6', 'FSC Recycled __%'),
-               ('7', 'FSC Controlled Wood'),
-               ]
-    fsc_tipo = fields.Selection(selection = TIPO_FSC, string = 'Tipo FSC', default = '1')
-    fsc_valor = fields.Integer('% de FSC', default = 0)
-    fsc_nombre = fields.Char('FSC', readonly = True, compute = "_get_fsc")
-    
-    @api.depends('fsc_tipo', 'fsc_valor')
-    def _get_barras(self):
+    @api.depends('name')
+    def _get_fsc(self):
         for record in self:
             fsc_nomre = ""
-            if record.fsc_tipo == '1':
-                fsc_nombre = 'Ninguno'
-            elif record.fsc_tipo == '2':
-                fsc_nombre = 'FSC 100 %'
-            elif record.fsc_tipo == '3':
-                fsc_nombre = 'FSC Mix Credit'
-            elif record.fsc_tipo == '4':
-                fsc_nombre = 'FSC Mix ' + record.fsc_valor + ' %'
-            elif record.fsc_tipo == '5':
-                fsc_nombre = 'FSC Recycled Credit'
-            elif record.fsc_tipo == '6':
-                fsc_nombre = 'FSC Recycled ' + record.fsc_valor + ' %'
-            elif record.fsc_tipo == '7':
-                fsc_nombre = 'FSC Controlled Wood'
+            fsc_impreso = False
+            direccion = 'http://bemecopack.es/jseb/dimefsc.php?pallet=' + record.name
+            respuesta = requests.get(direccion)
+            
+            fsc_nombre = str(respuesta)
+  
+            record.fsc_nombre = fsc_nombre
+            record.fsc_impreso = fsc_impreso
     
     
     @api.depends('unidades')
