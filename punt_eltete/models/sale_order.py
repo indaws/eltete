@@ -121,6 +121,8 @@ class SaleOrderLine(models.Model):
     cliente_nombre = fields.Char('Cliente', compute = "_get_horas")
     fecha_entrega = fields.Char('Fecha entrega', compute = "_get_horas")
     
+    fsc_linea = fields.Char('FSC Línea', compute = "_get_fsc")
+    
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
         ('done', 'Green'),
@@ -278,6 +280,13 @@ class SaleOrderLine(models.Model):
             'context': self.env.context,
         }
     
+    @api.depends('product_id', 'oferta_id')
+    def _get_fsc(self):
+        for record in self:
+            fsc_linea = "Hola"
+            #Comprobamos todos los lotes de la linea y el tipo de fsc
+            
+            record.fsc_linea = fsc_linea
     
     @api.depends('product_id', 'oferta_id')
     def _get_id(self):
