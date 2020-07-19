@@ -167,9 +167,10 @@
 			<tree string="Producto">
 				<field name="name"/>
 				<field name="referencia_id"/>
+				<field name="fsc_nombre"/>
 				<field name="descripcion"/>
-				<field name="unidades"/>
 				<field name="comentario"/>
+				<field name="unidades"/>
 				<field name="peso_neto"  sum="Peso"/>
 				<field name="fecha_entrada"/>
 				<field name="defectuoso"/>
