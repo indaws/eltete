@@ -875,7 +875,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + record.fsc_id.description
+                            titulo = titulo + " " + record.fsc_id.description
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
@@ -928,7 +928,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + record.fsc_id.description
+                            titulo = titulo + " " + record.fsc_id.description
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
@@ -949,7 +949,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + record.fsc_id.description
+                            titulo = titulo + " " + record.fsc_id.description
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
@@ -980,7 +980,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + record.fsc_id.description
+                            titulo = titulo + " " + record.fsc_id.description
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
@@ -1007,7 +1007,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + record.fsc_id.description + "</br>"
+                            titulo = titulo + " " + record.fsc_id.description + "</br>"
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
@@ -1034,7 +1034,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + record.fsc_id.description
+                            titulo = titulo + " " + record.fsc_id.description" " + 
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
@@ -1061,7 +1061,7 @@ class sale_product_attribute(models.Model):
                     if record.fsc_id:
                         nombre = nombre + record.fsc_id.name + ", "
                         if record.fsc_id.description:
-                            titulo = titulo + record.fsc_id.description
+                            titulo = titulo + " " + record.fsc_id.description
                     
                     if record.referencia_cliente_nombre:
                         if record.referencia_cliente_nombre != "":
