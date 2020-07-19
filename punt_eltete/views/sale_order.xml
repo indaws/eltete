@@ -263,6 +263,7 @@
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="estado_linea" />
 				<field name="fsc_linea" />
+				<field name="fsc_venta" />
 		</group>
 		<group>		
 			<field name="lot_ids" widget="many2many" domain="[('disponible','=',True), ('product_id','=',product_id)]">
