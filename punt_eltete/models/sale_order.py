@@ -122,6 +122,8 @@ class SaleOrderLine(models.Model):
     fecha_entrega = fields.Char('Fecha entrega', compute = "_get_horas")
     
     fsc_linea = fields.Char('FSC Línea', compute = "_get_fsc")
+    fsc_valido = fields.Boolean('FSC Válido', compute = "_get_fsc")
+    fsc_venta = fields.Boolean('FSC Venta', default = False)
     
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
@@ -283,10 +285,29 @@ class SaleOrderLine(models.Model):
     @api.depends('product_id', 'oferta_id')
     def _get_fsc(self):
         for record in self:
-            fsc_linea = "Hola"
+            fsc_linea = ""
+            fsc_valido = True
             #Comprobamos todos los lotes de la linea y el tipo de fsc
+            for lote in record.lot_ids:
+                if fsc_linea == "":
+                    fsc_linea = lote.fsc_nombre
+                elif fsc_linea == "FSC Ninguno":
+                    fsc_linea = "FSC Ninguno"
+                elif lote.fsc_nombre == "FSC Ninguno":
+                    fsc_linea = "FSC Ninguno"
+                elif lote.fsc_nombre == fsc_linea:
+                    fsc_linea = lote.fsc_nombre
+                else:
+                    fsc_linea = "FSC Desconocido"
+            
+            if fsc_linea == "FSC Ninguno":
+                fsc_valido = False
+            elif fsc_linea == "FSC Desconocido":
+                fsc_valido = False
             
             record.fsc_linea = fsc_linea
+            record.fsc_valido = fsc_valido
+    
     
     @api.depends('product_id', 'oferta_id')
     def _get_id(self):
