@@ -24,6 +24,9 @@
 			</field>
 			
 			<xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_unit']" position="before">
+				<field name="fsc_nombre" />
+				<field name="fsc_venta" />
+				<field name="enlaces" />
 				<field name="peso_neto" />
 				<field name="num_albaran" />
             </xpath>
