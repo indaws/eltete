@@ -383,7 +383,7 @@ class AccountInvoiceLine(models.Model):
                 if sale_line_id.fsc_valido and sale_line_id.fsc_venta:
                     fsc_venta = True
                     for lote in sale_line_id.lot_ids:
-                        enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + record.fecha_albaran + "<br/>"
+                        enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + "<br/>"
                 
             record.fsc_nombre = fsc_nombre
             record.fsc_venta = fsc_venta
