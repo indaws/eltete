@@ -345,8 +345,28 @@ class AccountInvoiceLine(models.Model):
 
     cantidad = fields.Char('Cantidad', compute = "_get_importe")
     importe = fields.Float('Importe', digits = (10,2), readonly = True, compute = "_get_importe")
-
     
+    descripcion = fields.Html('Descripcion', readonly = True, compute = "_get_descripcion")
+    fsc_nombre = fields.Char('FSC Nombre', readonly = True, compute = "_get_descripcion")
+    fsc_venta = fields.Boolean('FSC Venta', readonly = True, compute = "_get_descripcion")
+
+    @api.depends('sale_line_ids')
+    def _get_descripcion(self):
+        for record in self:        
+            sale_line_id = None
+            for sale in record.sale_line_ids:
+                sale_line_id = sale
+
+            fsc_venta = False
+            if sale_line_id:
+                descripcion = sale_line_id.oferta_id.attribute_id.descripcion
+                fsc_nombre = sale_line_id.fsc_linea
+                if sale_line_id.fsc_valido and sale_line_id.fsc_venta:
+                    fsc_venta = True
+                
+            record.descripcion = descripcion
+            record.fsc_nombre = fsc_nombre
+            record.fsc_venta = fsc_venta
 
     @api.depends('precio_num', 'facturar', 'num_pallets', 'cantidad_1_num', 'cantidad_2_num', 'cantidad_3_num', 'cantidad_4_num', 'cantidad_5_num')
     def _get_importe(self):
