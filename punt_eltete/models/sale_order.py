@@ -447,9 +447,16 @@ class SaleOrderLine(models.Model):
     def _get_produccion(self):
         for record in self:
             
-            op_tipo_papel = "PAPEL NORMAL"
+            op_tipo_papel = "ORDEN NORMAL - Papel Normal, Mixto o Reciclado"
+            op_fsc = 0
             if record.oferta_id.attribute_id.fsc_id:
-                op_tipo_papel = "PAPEL FSC - No se puede haber papel NORMAL en la máquina"
+                op_fsc = record.oferta_id.attribute_id.fsc_id.number
+                if record.oferta_id.attribute_id.fsc_id.number == 1:
+                    op_tipo_papel = "ORDEN FSC - Papel Mixto o Reciclado"
+                elif record.oferta_id.attribute_id.fsc_id.number == 2:
+                    op_tipo_papel = "ORDEN MIXTO - Papel Mixto"
+                elif record.oferta_id.attribute_id.fsc_id.number == 2:
+                    op_tipo_papel = "ORDEN RECICLADO - Papel Reciclado"
             record.op_tipo_papel = op_tipo_papel
             
             orden_fabricacion = str(record.order_id.id) + "-" + str(record.id)
@@ -642,10 +649,7 @@ class SaleOrderLine(models.Model):
             dir_qr_orden = dir_qr_orden + "&long1=" + str(longitud)
             dir_qr_orden = dir_qr_orden + "&peso=" + str(round(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro, 4))
             dir_qr_orden = dir_qr_orden + "&long2=" + str(longitud_final)
-            if record.oferta_id.attribute_id.fsc_id:
-                dir_qr_orden = dir_qr_orden + "&fsc=1"
-            else:
-                dir_qr_orden = dir_qr_orden + "&fsc=0"
+            dir_qr_orden = dir_qr_orden + "&fsc=" + str(op_fsc)
             dir_qr_orden = dir_qr_orden + "&palini=" + str(record.lotes_inicio)
             dir_qr_orden = dir_qr_orden + "&npal=" + str(record.lotes_fabricar)
             record.dir_qr_orden = dir_qr_orden
