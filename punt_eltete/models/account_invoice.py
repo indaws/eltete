@@ -126,7 +126,7 @@ class AccountInvoice(models.Model):
                                 fsc_enlaces = fsc_enlaces + enlace + "<br/>"
                             
             record.fsc_venta = fsc_venta
-            record.fsc_enlaces = enlaces
+            record.fsc_enlaces = fsc_enlaces
 
     
     @api.depends('partner_id')
