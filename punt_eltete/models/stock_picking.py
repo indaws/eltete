@@ -106,6 +106,7 @@ class StockPicking(models.Model):
     num_pallets = fields.Integer('Num pallets', compute="_get_num_pallets")
     precinto_contenedor = fields.Char('Precinto Contenedor')
     numero_contenedor = fields.Char('Número Contenedor')
+    hay_contenedor = fields.Boolean('Contenedor', compute="_get_contenedor")
     transporte = fields.Char('Transporte')
     peso_neto_total = fields.Integer('Peso neto', compute="_get_num_pallets")
     peso_bruto_total = fields.Integer('Peso bruto', compute="_get_num_pallets")
@@ -142,7 +143,17 @@ class StockPicking(models.Model):
                     
             #Validamos
             record.button_validate()
+    
+    
+    @api.depends('precinto_contenedor')
+    def _get_contenedor(self):
+    
+        for record in self:
+            hay_contenedor = False
+            if record.precinto_contenedor != "":
+                hay_contenedor = True
                 
+            record.hay_contenedor = hay_contenedor
     
     @api.depends('move_lines', 'neto_mojado_user', 'bruto_mojado_user')
     def _get_num_pallets(self):
