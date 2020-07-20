@@ -12,7 +12,7 @@
 				<field name="importe_sin_descuento"/>
 				<field name="descuento_porcentaje"/>
 				<field name="importe_descuento"/>
-				<field name="enlaces" />
+				<field name="fsc_enlaces" />
 			</field>
 
 			<field name="team_id" position="after">
