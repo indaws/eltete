@@ -150,7 +150,7 @@ class StockPicking(models.Model):
     
         for record in self:
             hay_contenedor = False
-            if len(record.precinto_contenedor) > 0:
+            if record.precinto_contenedor:
                 hay_contenedor = True
                 
             record.hay_contenedor = hay_contenedor
