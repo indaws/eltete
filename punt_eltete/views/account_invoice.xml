@@ -55,6 +55,7 @@
         <field name="arch" type="xml">
 		
 		<field name="number" position="after">
+			<field name="fsc_venta"/>
 			<field name="comercial_bueno_id"/>
 		</field>	
 		
