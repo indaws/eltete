@@ -99,7 +99,7 @@ class AccountInvoice(models.Model):
     def _onchange_actualizar(self):
         for record in self:  
             fsc_venta = False
-            enlaces = ""
+            fsc_enlaces = ""
             
             for line in record.invoice_line_ids:
                 precio_unidad = 0
@@ -122,7 +122,8 @@ class AccountInvoice(models.Model):
                         venta_id = sale
                         if venta_id:
                             for lote in venta_id.lot_ids:
-                                enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + record.date_invoice + "<br/>"
+                                enlace = "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + str(record.date_invoice)
+                                fsc_enlaces = fsc_enlaces + enlace + "<br/>"
                             
             record.fsc_venta = fsc_venta
             record.fsc_enlaces = enlaces
