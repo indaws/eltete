@@ -121,7 +121,7 @@ class AccountInvoice(models.Model):
                     for sale in line.sale_line_ids:
                         venta_id = sale
                         if venta_id:
-                            for lote in sale_line_id.lot_ids:
+                            for lote in venta_id.lot_ids:
                                 enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + record.date_invoice + "<br/>"
                             
             record.fsc_venta = fsc_venta
