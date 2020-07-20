@@ -350,7 +350,7 @@ class AccountInvoiceLine(models.Model):
     fsc_venta = fields.Boolean('FSC Venta', readonly = True, compute = "_get_fsc")
     enlaces = fields.Html('Enlaces', readonly = True, compute = "_get_fsc")
 
-    @api.depends('sale_line_ids')
+    @api.depends('sale_line_ids', 'fecha_albaran')
     def _get_fsc(self):
         for record in self:        
             sale_line_id = None
@@ -364,7 +364,7 @@ class AccountInvoiceLine(models.Model):
                 if sale_line_id.fsc_valido and sale_line_id.fsc_venta:
                     fsc_venta = True
                     for lote in sale_line_id.lot_ids:
-                        enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + "<br/>"
+                        enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + record.fecha_albaran + "<br/>"
                 
             record.fsc_nombre = fsc_nombre
             record.fsc_venta = fsc_venta
