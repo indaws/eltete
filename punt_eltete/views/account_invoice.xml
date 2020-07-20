@@ -16,7 +16,7 @@
 		
 			<field name="sale_type_id" position="after">
 				<field name="fsc_venta" invisible='1'/>
-				<field name="fsc_enlaces" />			
+				<field name="fsc_enlaces" invisible='1' />			
 			</field>
 
 			<field name="team_id" position="after">
