@@ -113,8 +113,8 @@ class AccountInvoice(models.Model):
                 line.price_unit = precio_unidad
                 line.quantity = num_pallets
                 
-                if line.venta_fsc == True:
-                    venta_fsc = True
+                if line.fsc_venta == True:
+                    fsc_venta = True
                     
                     #Buscamos sus pallets
                     venta_id = None
@@ -124,8 +124,8 @@ class AccountInvoice(models.Model):
                             for lote in sale_line_id.lot_ids:
                                 enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + record.date_invoice + "<br/>"
                             
-            record.venta_fsc = venta_fsc
-            record.enlaces = enlaces
+            record.fsc_venta = fsc_venta
+            record.fsc_enlaces = enlaces
 
     
     @api.depends('partner_id')
