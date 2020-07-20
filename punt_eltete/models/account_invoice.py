@@ -53,6 +53,8 @@ class AccountInvoice(models.Model):
     comercial_bueno_id = fields.Many2one('res.users', string='Comercial Bueno', compute="_get_comercial")
     
     actualizar = fields.Boolean('Comprobada')
+    fsc_venta = fields.Boolean('FSC Venta', default = False)
+    fsc_enlaces = fields.Html('FSC Enlaces')
     
     #Proveedor
     importe_ajustado = fields.Float('Importe a ajustar', digits = (10, 2))
@@ -95,7 +97,10 @@ class AccountInvoice(models.Model):
     
     @api.onchange('actualizar')
     def _onchange_actualizar(self):
-        for record in self:            
+        for record in self:  
+            fsc_venta = False
+            enlaces = ""
+            
             for line in record.invoice_line_ids:
                 precio_unidad = 0
                 num_pallets = 0
@@ -107,7 +112,21 @@ class AccountInvoice(models.Model):
                     num_pallets = 1
                 line.price_unit = precio_unidad
                 line.quantity = num_pallets
-    
+                
+                if line.venta_fsc == True:
+                    venta_fsc = True
+                    
+                    #Buscamos sus pallets
+                    venta_id = None
+                    for sale in line.sale_line_ids:
+                        venta_id = sale
+                        if venta_id:
+                            for lote in sale_line_id.lot_ids:
+                                enlaces = enlaces + "http://bemecopack.es/jseb/ventafsc_vender.php?pallet=" + lote.name + "&fecha=" + record.date_invoice + "<br/>"
+                            
+            record.venta_fsc = venta_fsc
+            record.enlaces = enlaces
+
     
     @api.depends('partner_id')
     def _get_comercial(self):
