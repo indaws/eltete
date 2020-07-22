@@ -857,6 +857,8 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
+    direccion_entrega_id = fields.One2many('res.partner', string="Dirección Entrega 2", default="record.partner_id.entrega_principal_ids")
+    
     pedido_cliente = fields.Char('Número Pedido Cliente')
     fecha_entrega = fields.Date('Fecha Entrega Bemeco')
     fecha_cliente = fields.Date('Fecha del Pedido Cliente')
