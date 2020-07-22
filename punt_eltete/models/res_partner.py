@@ -13,7 +13,7 @@ class ResPartner(models.Model):
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
     
-    entrega_principal_id = fields.Many2one('res.partner', 'partner_id', string="Entrega Principal")
+    #entrega_principal_id = fields.Many2one('res.partner', 'partner_id', string="Entrega Principal")
     
     MOL = [('ML','MUELLE O LATERAL'),   
               ('SM','SOLO MUELLE'),
