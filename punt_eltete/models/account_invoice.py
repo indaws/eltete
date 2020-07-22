@@ -372,11 +372,12 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends('sale_line_ids', 'fecha_albaran')
     def _get_fsc(self):
-        for record in self:        
+        for record in self:   
             sale_line_id = None
             for sale in record.sale_line_ids:
                 sale_line_id = sale
 
+            fsc_nombre = ""
             fsc_venta = False
             enlaces = ""
             if sale_line_id:
