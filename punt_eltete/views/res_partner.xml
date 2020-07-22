@@ -137,6 +137,7 @@
             
             <field name="category_id" position="after">
                 <field name='num_bailen' />
+                <field name='entrega_principal_ids' />
             </field>
             
             <button name="toggle_active" position="before">
