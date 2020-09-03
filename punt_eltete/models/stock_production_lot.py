@@ -1091,7 +1091,7 @@ class StockProductionLot(models.Model):
 
     """
 
-    def carga_produccion(self):
+    def cargar_produccion(self):
         for record in self:
             direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
             respuesta_1 = requests.get(direccionNuevo)
