@@ -1097,46 +1097,46 @@ class StockProductionLot(models.Model):
             respuesta_1 = requests.get(direccionNuevo)
             respuesta = respuesta_1.text
             
-            pallet_id = 0;
-            pallet_nombre = 0
-            pallet_fecha = 0
-            pallet_unidades = 0
-            pallet_producto = 0
-            variable1 = 0
-            variable2 = 0
-            variable3 = 0
-            variable4 = 0
+            pallet_id = ""
+            pallet_nombre = ""
+            pallet_fecha = ""
+            pallet_unidades = ""
+            pallet_producto = ""
+            variable1 = ""
+            variable2 = ""
+            variable3 = ""
+            variable4 = ""
          
             ind = 1
             palabra = ""
             while ind < len(respuesta) - 1:
                 letra = respuesta[ind:ind + 1]
                 if letra == '|':
-                    if pallet_id == 0:
+                    if pallet_id == "":
                         pallet_id = palabra
                         palabra = ""
-                    elif pallet_nombre == 0:
+                    elif pallet_nombre == "":
                         pallet_nombre = palabra
-                        palabra = 0
-                    elif pallet_fecha == 0:
+                        palabra = ""
+                    elif pallet_fecha == "":
                         pallet_fecha = palabra
                         palabra = ""
-                    elif pallet_unidades == 0:
+                    elif pallet_unidades == "":
                         pallet_unidades = palabra
                         palabra = ""
-                    elif pallet_producto == 0:
+                    elif pallet_producto == "":
                         pallet_producto = palabra
                         palabra = ""
-                    elif variable1 == 0:
+                    elif variable1 == "":
                         variable1 = palabra
                         palabra = ""
-                    elif variable2 == 0:
+                    elif variable2 == "":
                         variable2 = palabra
                         palabra = ""
-                    elif variable3 == 0:
+                    elif variable3 == "":
                         variable3 = palabra
                         palabra = ""
-                    elif variable4 == 0:
+                    elif variable4 == "":
                         variable4 = palabra
                         palabra = ""
                 else:
