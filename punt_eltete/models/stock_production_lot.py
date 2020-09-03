@@ -1145,13 +1145,14 @@ class StockProductionLot(models.Model):
             
             if pallet_producto == 1:
                 #Es cantonera
-                record.name = pallet_nombre
-                record.is_cantonera = True
-                record.ala_1 = int(variable1)
-                record.ala_2 = int(variable2)
-                record.grosor_2 = float(variable3)
-                record.longitud = int(variable4)
-                record.unidades = int(pallet_unidades)
+                self.name = pallet_nombre
+                self.is_cantonera = True
+                self.ala_1 = int(variable1)
+                self.ala_2 = int(variable2)
+                self.grosor_2 = float(variable3)
+                self.longitud = int(variable4)
+                self.unidades = int(pallet_unidades)
+                self.fecha_entrada = pallet_fecha
     
     
     @api.multi
