@@ -1141,11 +1141,11 @@ class StockProductionLot(models.Model):
                 else:
                     palabra = palabra + str(letra)
                 ind = ind + 1
+
             
-            self.comentario = respuesta
+            self.comentario = pallet_producto
             
-            """
-            if pallet_producto == 1:
+            if pallet_producto == '1':
                 #Es cantonera
                 self.name = pallet_nombre
                 self.is_cantonera = True
@@ -1155,7 +1155,6 @@ class StockProductionLot(models.Model):
                 self.longitud = int(variable4)
                 self.unidades = int(pallet_unidades)
                 self.fecha_entrada = pallet_fecha
-            """
     
     
     @api.multi
