@@ -651,7 +651,8 @@ class SaleOrderLine(models.Model):
             dir_qr_orden = dir_qr_orden + "&long2=" + str(longitud_final)
             dir_qr_orden = dir_qr_orden + "&fsc=" + str(op_fsc)
             dir_qr_orden = dir_qr_orden + "&palini=" + str(record.lotes_inicio)
-            dir_qr_orden = dir_qr_orden + "&npal=" + str(record.lotes_fabricar)
+            dir_qr_orden = dir_qr_orden + "&npal=" + str(num_pallets)
+            dir_qr_orden = dir_qr_orden + "&npalm=" + str(record.lotes_fabricar)
             record.dir_qr_orden = dir_qr_orden
             
             record.op_cantonera_maquina = maquina
