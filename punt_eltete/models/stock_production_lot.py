@@ -1143,7 +1143,7 @@ class StockProductionLot(models.Model):
                 ind = ind + 1
 
             
-            self.comentario = pallet_producto
+            self.comentario = variable4
             
             if pallet_producto == '1':
                 #Es cantonera
