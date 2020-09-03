@@ -1091,6 +1091,24 @@ class StockProductionLot(models.Model):
     """
 
     @api.multi
+    def carga_produccion(self):
+        for record in self:
+            direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
+            respuesta_1 = requests.get(direccionNuevo)
+            respuesta = respuesta_1.text
+            
+            ind = 1
+            pallet_id = 0;
+            while ind < len(respuesta - 1):
+                letra = [ind:1]
+                if letra == '|':
+                    pallet_id = [0:ind]
+                ind = ind + 1
+            
+    
+    
+    
+    @api.multi
     def crear_sin_pedido(self):
         for record in self:
             record._crear_referencia()
