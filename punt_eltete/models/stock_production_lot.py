@@ -1143,7 +1143,7 @@ class StockProductionLot(models.Model):
                 ind = ind + 1
 
             
-            self.comentario = respuesta
+            #self.comentario = respuesta
             
             if pallet_producto == '1':
                 #Es cantonera
@@ -1161,13 +1161,13 @@ class StockProductionLot(models.Model):
     def crear_sin_pedido(self):
         for record in self:
             x = 1
-            #record._crear_referencia()
-            #record.product_id = record._crear_producto()
+            record._crear_referencia()
+            record.product_id = record._crear_producto()
 
     
     
     @api.multi
-    def _crear_referencia2(self):
+    def _crear_referencia(self):
     
         if self.type_id.is_varios == True:
             
@@ -1332,7 +1332,7 @@ class StockProductionLot(models.Model):
             
             
     @api.multi
-    def _crear_producto2(self):
+    def _crear_producto(self):
         for record in self:
             product_id = None
             for prod in self.env['product.template'].search([('referencia_id', '=', self.referencia_id.id),
