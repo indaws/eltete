@@ -493,13 +493,6 @@ class AccountInvoiceLine(models.Model):
             sale_line_id = None
             for sale in record.sale_line_ids:
                 sale_line_id = sale
-
-            descripcion = record.name
-            codigo_cliente = ""
-            precio_num = record.price_unit
-            precio = str(precio_num) + "€/unidad"
-            und_pedido = record.quantity
-            cantidad_5_num = 0
             
             if sale_line_id:                
                 codigo_cliente = sale_line_id.oferta_id.attribute_id.codigo_cliente
