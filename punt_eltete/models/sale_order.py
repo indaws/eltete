@@ -574,9 +574,9 @@ class SaleOrderLine(models.Model):
                     pesoSierra = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * longitud / 1000 * record.oferta_id.attribute_id.und_paquete
                 if num_cortes > 0 and record.oferta_id.attribute_id.und_paquete > 0:
                     und_pallet = int(record.und_pallet * record.num_pallets / num_cortes / record.oferta_id.attribute_id.und_paquete) * record.oferta_id.attribute_id.und_paquete
-                while record.und_pallet >= und_pallet * num_cortes:
+                while record.und_pallet > und_pallet * num_cortes:
                     und_pallet = und_pallet + record.oferta_id.attribute_id.und_paquete
-                und_pallet = und_pallet + record.oferta_id.attribute_id.und_paquete
+                #und_pallet = und_pallet + record.oferta_id.attribute_id.und_paquete
                 
                 peso_unidad = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro * longitud / 1000
                 num_pallets = 1
