@@ -1140,18 +1140,18 @@ class StockProductionLot(models.Model):
                         variable4 = palabra
                         palabra = ""
                 else:
-                    palabra = palabra + letra
+                    palabra = palabra + str(letra)
                 ind = ind + 1
             
             if pallet_producto == 1:
                 #Es cantonera
                 record.name = pallet_nombre
                 record.is_cantonera = True
-                record.ala_1 = variable1
-                record.ala_2 = variable2
-                record.grosor_2 = variable3
-                record.longitud = variable4
-                record.unidades = pallet_unidades
+                record.ala_1 = int(variable1)
+                record.ala_2 = int(variable2)
+                record.grosor_2 = float(variable3)
+                record.longitud = int(variable4)
+                record.unidades = int(pallet_unidades)
     
     
     @api.multi
