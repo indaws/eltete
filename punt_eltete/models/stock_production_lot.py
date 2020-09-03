@@ -1152,7 +1152,7 @@ class StockProductionLot(models.Model):
                 self.ala_1 = int(variable1)
                 self.ala_2 = int(variable2)
                 self.grosor_2 = float(variable3)
-                self.longitud = int(variable4)
+                #self.longitud = int(variable4)
                 self.unidades = int(pallet_unidades)
                 self.fecha_entrada = pallet_fecha
     
