@@ -1167,7 +1167,7 @@ class StockProductionLot(models.Model):
     
     
     @api.multi
-    def _crear_referencia(self):
+    def _crear_referencia2(self):
     
         if self.type_id.is_varios == True:
             
@@ -1332,7 +1332,7 @@ class StockProductionLot(models.Model):
             
             
     @api.multi
-    def _crear_producto(self):
+    def _crear_producto2(self):
         for record in self:
             product_id = None
             for prod in self.env['product.template'].search([('referencia_id', '=', self.referencia_id.id),
