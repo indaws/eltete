@@ -1160,6 +1160,7 @@ class StockProductionLot(models.Model):
     @api.multi
     def crear_sin_pedido(self):
         for record in self:
+            x = 1
             #record._crear_referencia()
             #record.product_id = record._crear_producto()
 
