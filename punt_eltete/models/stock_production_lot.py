@@ -707,6 +707,7 @@ class StockProductionLot(models.Model):
         if self.type_id.is_cantonera == True:
             self.comprado = False
             self.fabricat = True
+            self.comentario = str(self.type_id)
         if self.type_id.is_perfilu == True:
             self.comprado = True
             self.fabricat = False
@@ -1090,22 +1091,67 @@ class StockProductionLot(models.Model):
 
     """
 
-    """
     def carga_produccion(self):
         for record in self:
             direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
             respuesta_1 = requests.get(direccionNuevo)
             respuesta = respuesta_1.text
             
-            ind = 1
             pallet_id = 0;
-            while ind < len(respuesta - 1):
-                letra = [ind:1]
+            pallet_nombre = 0
+            pallet_fecha = 0
+            pallet_unidades = 0
+            pallet_producto = 0
+            variable1 = 0
+            variable2 = 0
+            variable3 = 0
+            variable4 = 0
+         
+            ind = 1
+            palabra = ""
+            while ind < len(respuesta) - 1:
+                letra = respuesta[ind:ind + 1]
                 if letra == '|':
-                    pallet_id = [0:ind]
+                    if pallet_id == 0:
+                        pallet_id = palabra
+                        palabra = ""
+                    elif pallet_nombre == 0:
+                        pallet_nombre = palabra
+                        palabra = 0
+                    elif pallet_fecha == 0:
+                        pallet_fecha = palabra
+                        palabra = ""
+                    elif pallet_unidades == 0:
+                        pallet_unidades = palabra
+                        palabra = ""
+                    elif pallet_producto == 0:
+                        pallet_producto = palabra
+                        palabra = ""
+                    elif variable1 == 0:
+                        variable1 = palabra
+                        palabra = ""
+                    elif variable2 == 0:
+                        variable2 = palabra
+                        palabra = ""
+                    elif variable3 == 0:
+                        variable3 = palabra
+                        palabra = ""
+                    elif variable4 == 0:
+                        variable4 = palabra
+                        palabra = ""
+                else:
+                    palabra = palabra + letra
                 ind = ind + 1
             
-    """
+            if pallet_producto == 1:
+                #Es cantonera
+                record.name = pallet_nombre
+                #record.type_id.is_cantonera = True
+                record.ala_1 = variable1
+                record.ala_2 = variable2
+                record.grosor_2 = variable3
+                record.longitud = variable4
+                record.unidades = pallet_unidades
     
     
     @api.multi
