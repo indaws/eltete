@@ -1146,7 +1146,7 @@ class StockProductionLot(models.Model):
             if pallet_producto == 1:
                 #Es cantonera
                 record.name = pallet_nombre
-                #record.type_id.is_cantonera = True
+                record.is_cantonera = True
                 record.ala_1 = variable1
                 record.ala_2 = variable2
                 record.grosor_2 = variable3
