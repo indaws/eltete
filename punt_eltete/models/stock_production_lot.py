@@ -1090,7 +1090,7 @@ class StockProductionLot(models.Model):
 
     """
 
-    @api.multi
+    """
     def carga_produccion(self):
         for record in self:
             direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
@@ -1105,7 +1105,7 @@ class StockProductionLot(models.Model):
                     pallet_id = [0:ind]
                 ind = ind + 1
             
-    
+    """
     
     
     @api.multi
