@@ -707,7 +707,6 @@ class StockProductionLot(models.Model):
         if self.type_id.is_cantonera == True:
             self.comprado = False
             self.fabricat = True
-            self.comentario = str(self.type_id)
         if self.type_id.is_perfilu == True:
             self.comprado = True
             self.fabricat = False
@@ -1143,6 +1142,9 @@ class StockProductionLot(models.Model):
                     palabra = palabra + str(letra)
                 ind = ind + 1
             
+            self.comentario = respuesta
+            
+            """
             if pallet_producto == 1:
                 #Es cantonera
                 self.name = pallet_nombre
@@ -1153,6 +1155,7 @@ class StockProductionLot(models.Model):
                 self.longitud = int(variable4)
                 self.unidades = int(pallet_unidades)
                 self.fecha_entrada = pallet_fecha
+            """
     
     
     @api.multi
