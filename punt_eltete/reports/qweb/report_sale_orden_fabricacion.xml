@@ -77,13 +77,19 @@
                               </div>
                               <div class="float-left company_address" style="padding:5px; width:50%;">
                                   <strong>Paletizado: </strong><span t-field="doc.op_paletizado"/><br/>
-                                  <strong>Unidades Paquete: </strong><span t-field="doc.op_und_paquete"/> unidades / paquete<br/>
+				  <t t-if="doc.bultos == '1'"> 
+                                  	<strong>Unidades Paquete: </strong><span t-field="doc.op_und_paquete"/> unidades / paquete<br/>
+				  </t>
+				  <t t-else="">
+                                      <strong>Unidades Paquete: </strong><span t-field="doc.op_und_pallet"/> unidades / paquete<br/>
+                                  </t>
+				      
 				  <t t-if="doc.op_paquetes_fila != 0"> 
                                   	<strong>Paquetes Fila: </strong><span t-field="doc.op_paquetes_fila"/> paquetes /fila<br/>
 				  </t>
-				  <t t-if="doc.op_paquetes_fila == 0"> 
-                                  	<strong>Paquetes Fila: </strong>PALETIZADO PARA SIERRA<br/>
-				  </t>
+				  <t t-else="">
+                                      <strong>Paquetes Fila: </strong>PALETIZADO PARA SIERRA<br/>
+                                  </t>
                               </div> 
  
                               <div class="float-left company_address" style="padding:5px; width:50%;">
