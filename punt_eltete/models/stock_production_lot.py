@@ -1155,6 +1155,17 @@ class StockProductionLot(models.Model):
                 self.longitud = int(variable4)
                 self.unidades = int(pallet_unidades)
                 self.fecha_entrada = pallet_fecha
+                
+            #cargamos descripcion
+            idlineapedido = 66
+            descripcion = None
+            for line in self.env['sale.order.line'].search([('id', '=', idlineapedido),]):
+                if line.descripcion and line.descripcion != '':
+                    descripcion = line.descripcion
+            self.descripcion = descripcion
+            
+            self.crear_sin_pedido()
+            
     
     
     @api.multi
