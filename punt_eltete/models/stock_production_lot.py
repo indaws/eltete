@@ -1147,8 +1147,13 @@ class StockProductionLot(models.Model):
             
             if pallet_producto == '1':
                 #Es cantonera
+                categid = None
+                for categ in self.env['product.category'].search([('product_type', '=', True),('is_cantonera', '=', True),]):
+                    categid = categ.id
+                    break
                 self.name = pallet_nombre
-                self.is_cantonera = True
+                #self.is_cantonera = True
+                self.type_id = categid
                 self.ala_1 = int(variable1)
                 self.ala_2 = int(variable2)
                 self.grosor_2 = float(variable3)
