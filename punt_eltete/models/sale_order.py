@@ -661,20 +661,20 @@ class SaleOrderLine(models.Model):
             if self.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
                 demanda = demanda + "&producto=1"
                 metros_pallet = und_pallet * longitud / 1000
-                demanda = demanda + "&mpal=" + metros_pallet
+                demanda = demanda + "&mpal=" + str(metros_pallet)
                 if record.estado_linea == '1':
-                    demanda = demanda + "&npal=" + num_pallets
+                    demanda = demanda + "&npal=" + str(num_pallets)
                 else:
                     demanda = demanda + "&npal=0"
-                demanda = demanda + "&ala1=" + ala_1
-                demanda = demanda + "&ala2=" + ala_2
-                demanda = demanda + "&grosor=" + grosor
+                demanda = demanda + "&ala1=" + str(ala_1)
+                demanda = demanda + "&ala2=" + str(ala_2)
+                demanda = demanda + "&grosor=" + str(grosor)
             
                 #if record.oferta_id.attribute_id.cantonera_color_id:
-                    #demanda = demanda + "&super=" + record.oferta_id.attribute_id.cantonera_color_id.familia
+                    #demanda = demanda + "&super=" + str(record.oferta_id.attribute_id.cantonera_color_id.familia)
                     
                 if record.oferta_id.attribute_id.fsc_id:
-                    demanda = demanda + "&fsc=" +  record.oferta_id.attribute_id.fsc_id.number
+                    demanda = demanda + "&fsc=" +  str(record.oferta_id.attribute_id.fsc_id.number)
                 else:
                     demanda = demanda + "&fsc=0"
                     
