@@ -13,11 +13,12 @@
 		      <div class="float-left company_address" style="padding:5px; margin-bottom:20px; text-align:center; font-size:24pt; width:100%;">
 		          <td><span t-field="doc.descripcion"/></td>
 		      </div>
-		      <t t-if="lot.barras_referencia_hay == True">
-			  <div class="float-left company_address" style="padding:5px; margin-bottom:30px; text-align:center; font-size:20pt; width:100%;">
-		              <td><img t-att-src="'/report/barcode/Code128/%s' % lot.barras_referencia "/></td>
+		      <t t-if="doc.order_id.haycodigo == True">
+                          <div class="float-left company_address" style="padding:5px; margin-bottom:30px; text-align:center; font-size:20pt; width:100%;">
+		              <td><img t-att-src="'/report/barcode/Code128/%s' % doc.oferta_id.attribute_id.codigo_cliente "/></td>
+			      <td><span t-field="doc.oferta_id.attribute_id.codigo_cliente"/></td>
 		      	  </div>
-		      </t>
+                      </t>
 		      <div class="float-left company_address" style="margin-bottom:20px; width:100%;">
 		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:24pt; width:50%;">
 		              <td><span t-field="lot.unidades"/><br/>unidades</td>
@@ -27,7 +28,7 @@
 				  <td><span t-field="doc.order_id.name"/></td>
 			      </td>
 		          </div> 
-		          <div class="float-left company_address" style="padding:5px; text-align:center; width:50%;">
+		          <div class="float-left company_address" style="padding:5px; text-align:center; font-size:16pt; width:50%;">
 		              <td><img t-att-src="lot.dir_qr"/></td>
 		          </div>
 		      </div>
