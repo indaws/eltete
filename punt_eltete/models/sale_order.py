@@ -659,7 +659,7 @@ class SaleOrderLine(models.Model):
             demanda = "http://bemecopack.es/jseb/papeldemanda.php?"
             demanda = demanda + "orden=" + record.orden_fabricacion
 
-            if self.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
+            if record.oferta_id and record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
                 demanda = demanda + "&producto=1"
                 metros_pallet = und_pallet * longitud / 1000
                 demanda = demanda + "&mpal=" + str(metros_pallet)
