@@ -1016,7 +1016,7 @@ class ProductCaracteristicaCantoneraColor(models.Model):
     name = fields.Char('Nombre Interno', required=True)
     number = fields.Integer('Número', required=True)
     description = fields.Char('Descripción para el Cliente')
-    
+    familia = fields.Integer('Familia', required=True)
     active = fields.Boolean('Activo', default = True)
     valido = fields.Boolean('Valido para Fabricar', default = False)
 
