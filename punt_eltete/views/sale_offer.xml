@@ -86,6 +86,7 @@
 				<field name="und_pallet_cliente"/>
 				<field name="alto_max_cliente"/>
 				<field name="peso_max_cliente"/>
+				<field name="jose"/>
 				<field name="comentario_paletizado"/>				
                             </group>
                         </group>
