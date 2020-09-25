@@ -105,6 +105,7 @@
 		    <field name="cantidad" />
 		    <field name="precio" />
 		    <field name="importe" />
+		    		<field name="op_demanda" invisible="1" />
 		    		<field name="tax_id" invisible="1" />
 		    		<field name="actualizar" invisible="1" />
 		    		<field name="name" invisible="1" />
