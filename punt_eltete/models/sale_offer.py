@@ -93,6 +93,7 @@ class sale_referencia_cliente(models.Model):
     precio_cliente = fields.Selection(selection = PRECIO_SEL, string = 'Facturar por:', required=True)
     
     comentario_referencia = fields.Text('Comentario común', related='referencia_id.comentario', readonly=False)
+    jose = fields.Boolean("Jose", default = False)
 
     #CALCULOS
     ocultar = fields.Boolean('Ocultar datos', default = True)
