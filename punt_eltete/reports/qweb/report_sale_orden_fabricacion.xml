@@ -31,13 +31,13 @@
 			      <h3 style="color:black; font-size:14pt; text-align:center;"><strong><span t-field="doc.op_tipo_papel"/></strong></h3>
 			      <div class="float-left company_address" style="padding:5px; width:50%;">
                                   <strong>Superficie Color: </strong><span t-field="doc.op_superficie_color"/><br/>
-                                  <strong>Superficie Ancho: </strong><span t-field="doc.op_superficie_ancho"/><br/>
                                   <strong>Superficie kg: </strong><span t-field="doc.op_peso_superficie"/><br/>
+				  <strong>Interior Gramaje: </strong><span t-field="doc.op_interior_gramaje"/><br/>
+                                  <strong>Interior kg: </strong><span t-field="doc.op_peso_interior"/><br/>
                               </div>
                               <div class="float-left company_address" style="padding:5px; width:50%;">
-                                  <strong>Interior Gramaje: </strong><span t-field="doc.op_interior_gramaje"/><br/>
-                                  <strong>Interior Ancho: </strong><span t-field="doc.op_interior_ancho"/><br/>
-                                  <strong>Interior kg: </strong><span t-field="doc.op_peso_interior"/><br/>
+                                  <strong>Papeles:</strong><br/>
+				  <span t-field="doc.op_demanda"/><br/>
                               </div>
 
 			<t t-if="doc.op_rodillo != ''">				
