@@ -365,8 +365,7 @@ class SaleOrderLine(models.Model):
     @api.onchange('lot_ids', 'num_pallets')
     def _onchange_lotes_fabricar(self):
         self.lotes_fabricar = self.num_pallets - len(self.lot_ids)
-    
-   
+
     
     @api.multi
     def procesar_fabricacion_linea(self):
@@ -455,7 +454,7 @@ class SaleOrderLine(models.Model):
                     op_tipo_papel = "ORDEN FSC - Papel Mixto o Reciclado"
                 elif record.oferta_id.attribute_id.fsc_id.number == 2:
                     op_tipo_papel = "ORDEN MIXTO - Papel Mixto"
-                elif record.oferta_id.attribute_id.fsc_id.number == 2:
+                elif record.oferta_id.attribute_id.fsc_id.number == 3:
                     op_tipo_papel = "ORDEN RECICLADO - Papel Reciclado"
             record.op_tipo_papel = op_tipo_papel
             
@@ -654,6 +653,31 @@ class SaleOrderLine(models.Model):
             dir_qr_orden = dir_qr_orden + "&npal=" + str(num_pallets)
             dir_qr_orden = dir_qr_orden + "&npalm=" + str(record.lotes_fabricar)
             record.dir_qr_orden = dir_qr_orden
+            
+            demanda = "http://bemecopack.es/jseb/papeldemanda.php?"
+            demanda = demanda + "orden=" + record.orden_fabricacion
+            demanda = demanda + "&mpal=" + metros_num
+            demanda = demanda + "&npal=" + record.lotes_fabricar
+        
+            if self.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
+                direccion = direccion + "&producto=1"
+                direccion = direccion + "&ala1=" + ala_1
+                direccion = direccion + "&ala2=" + ala_2
+                direccion = direccion + "&grosor=" + grosor
+            
+                if record.oferta_id.attribute_id.cantonera_color_id:
+                    direccion = direccion + "&super=" + "1"
+                    
+                if record.oferta_id.attribute_id.fsc_id:
+                    direccion = direccion + "&fsc=" +  record.oferta_id.attribute_id.fsc_id.number
+                else:
+                    direccion = direccion + "&fsc=0"
+                    
+                if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
+                    direccion = direccion + "&jose=1"
+            
+            op_demanda = ""
+            record.op_demanda = op_demanda
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
