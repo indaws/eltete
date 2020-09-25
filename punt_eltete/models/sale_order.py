@@ -670,16 +670,16 @@ class SaleOrderLine(models.Model):
                 direccion = direccion + "&ala2=" + ala_2
                 direccion = direccion + "&grosor=" + grosor
             
-                if record.oferta_id.attribute_id.cantonera_color_id:
-                    direccion = direccion + "&super=" + record.oferta_id.attribute_id.cantonera_color_id.familia
+                #if record.oferta_id.attribute_id.cantonera_color_id:
+                    #direccion = direccion + "&super=" + record.oferta_id.attribute_id.cantonera_color_id.familia
                     
                 if record.oferta_id.attribute_id.fsc_id:
                     direccion = direccion + "&fsc=" +  record.oferta_id.attribute_id.fsc_id.number
                 else:
                     direccion = direccion + "&fsc=0"
                     
-                if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
-                    direccion = direccion + "&jose=1"
+                #if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
+                    #direccion = direccion + "&jose=1"
             
             op_demanda = ""
             record.op_demanda = op_demanda
