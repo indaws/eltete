@@ -2,6 +2,7 @@ from odoo import fields, models, api
 import logging
 _logger = logging.getLogger(__name__)
 from odoo import exceptions
+import requests
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
