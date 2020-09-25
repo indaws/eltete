@@ -92,6 +92,7 @@ class SaleOrderLine(models.Model):
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
     op_tipo_papel = fields.Char('Tipo Papel', compute = "_get_produccion")
+    op_demanda = fields.Char('Demanda Papel', compute = "_get_produccion")
     
     ESTADO_PRODUC_CANTONERA = [('0', 'SIN ASIGNAR'),    
                                ('1', 'LÍNEA 1'),
@@ -656,17 +657,21 @@ class SaleOrderLine(models.Model):
             
             demanda = "http://bemecopack.es/jseb/papeldemanda.php?"
             demanda = demanda + "orden=" + record.orden_fabricacion
-            demanda = demanda + "&mpal=" + metros_num
-            demanda = demanda + "&npal=" + record.lotes_fabricar
-        
+
             if self.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
                 direccion = direccion + "&producto=1"
+                metros_pallet = und_pallet * longitud / 1000
+                demanda = demanda + "&mpal=" + metros_pallet
+                if record.estado_linea == '1':
+                    demanda = demanda + "&npal=" + num_pallets
+                else:
+                    demanda = demanda + "&npal=0"
                 direccion = direccion + "&ala1=" + ala_1
                 direccion = direccion + "&ala2=" + ala_2
                 direccion = direccion + "&grosor=" + grosor
             
                 if record.oferta_id.attribute_id.cantonera_color_id:
-                    direccion = direccion + "&super=" + "1"
+                    direccion = direccion + "&super=" + record.oferta_id.attribute_id.cantonera_color_id.familia
                     
                 if record.oferta_id.attribute_id.fsc_id:
                     direccion = direccion + "&fsc=" +  record.oferta_id.attribute_id.fsc_id.number
