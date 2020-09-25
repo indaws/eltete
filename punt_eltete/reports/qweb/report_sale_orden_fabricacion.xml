@@ -34,13 +34,14 @@
                                   	<strong>Superficie Color: </strong><span t-field="doc.op_superficie_color"/><br/>
                                   	<strong>Superficie kg: </strong><span t-field="doc.op_peso_superficie"/><br/>
 				  	<strong>Interior Gramaje: </strong><span t-field="doc.op_interior_gramaje"/><br/>
-                                  	<strong>Interior kg: </strong><span t-field="doc.op_peso_interior"/><br/>
+                                  	<strong>Interior kg: </strong><span t-field="doc.op_peso_interior"/>
                               	  </div>
                               	  <div class="float-left company_address" style="padding:5px; width:50%;">
                                   	<strong>Papeles:</strong><br/>
-				  	<span t-field="doc.op_demanda"/><br/>
+				  	<span t-field="doc.op_demanda"/>
 				  </div>
 			  </div>
+		          <br/>
 
 			<t t-if="doc.op_rodillo != ''">				
                               <div class="float-left company_address" style="padding:5px; width:50%;">
