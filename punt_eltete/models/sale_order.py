@@ -92,7 +92,7 @@ class SaleOrderLine(models.Model):
     op_forma = fields.Char('Forma', compute = "_get_produccion")
     op_especial = fields.Char('Especial', compute = "_get_produccion")
     op_tipo_papel = fields.Char('Tipo Papel', compute = "_get_produccion")
-    op_demanda = fields.Char('Demanda Papel', compute = "_get_produccion")
+    op_demanda = fields.Html('Demanda Papel', compute = "_get_produccion")
     
     ESTADO_PRODUC_CANTONERA = [('0', 'SIN ASIGNAR'),    
                                ('1', 'LÍNEA 1'),
@@ -670,19 +670,19 @@ class SaleOrderLine(models.Model):
                 demanda = demanda + "&ala2=" + str(ala_2)
                 demanda = demanda + "&grosor=" + str(grosor)
             
-                #if record.oferta_id.attribute_id.cantonera_color_id:
-                    #demanda = demanda + "&super=" + str(record.oferta_id.attribute_id.cantonera_color_id.familia)
+                if record.oferta_id.attribute_id.cantonera_color_id:
+                    demanda = demanda + "&super=" + str(record.oferta_id.attribute_id.cantonera_color_id.familia)
                     
                 if record.oferta_id.attribute_id.fsc_id:
                     demanda = demanda + "&fsc=" +  str(record.oferta_id.attribute_id.fsc_id.number)
                 else:
                     demanda = demanda + "&fsc=0"
                     
-                #if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
-                    #demanda = demanda + "&jose=1"
+                if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
+                    demanda = demanda + "&jose=1"
             
-            op_demanda = ""
-            record.op_demanda = op_demanda
+            respuesta = requests.get(demanda)
+            record.op_demanda = respuesta.text
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
