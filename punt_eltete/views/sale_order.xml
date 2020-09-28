@@ -271,6 +271,9 @@
 				<field name="fsc_linea" />
 				<field name="fsc_venta" />
 			</group>
+			<group>
+				<field name="op_demanda" />
+			</group>
 		</group>
 		<group>		
 			<field name="lot_ids" widget="many2many" domain="[('disponible','=',True), ('product_id','=',product_id)]">
