@@ -217,11 +217,13 @@ class PurchaseOrder(models.Model):
     @api.multi
     def create_purchase_order_line_referencia(self, cliente_id, sale_line_id, num_pallets, referencia_cliente_id, attribute_id, oferta_id):
         for record in self:
-        
-            if record.sale_line_id:
+            idLineaPedido = 0
+            
+            if sale_line_id != "" and sale_line_id != None:
                 referencia_cliente_id = sale_line_id.attribute_id.referencia_cliente_id
                 attribute_id = sale_line_id.attribute_id
                 oferta_id = sale_line_id.oferta_id
+                idLineaPedido = sale_line_id.id
         
             medida = -1
 
@@ -335,7 +337,7 @@ class PurchaseOrder(models.Model):
                                                 'attribute_id': attribute_id.id,
                                                 'oferta_id': oferta_id.id,
                                                 'product_id': product_id.product_variant_id.id,
-                                                'sale_line_id': sale_line_id.id,
+                                                'sale_line_id': idLineaPedido,
                                                })
             purchase_line._compute_tax_id()
     
