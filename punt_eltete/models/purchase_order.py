@@ -84,6 +84,14 @@ class PurchaseOrderLine(models.Model):
                     peso_neto_pallet = record.sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
                     peso_neto_pallet = peso_neto_pallet * record.sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.metros_unidad
                     peso_neto_pallet = peso_neto_pallet * und_pallet
+            elif record.oferta_id:
+                und_pallet = record.oferta_id.unidades
+                if record.oferta_id.attribute_id.titulo:
+                    descripcion_bemeco = record.sale_line_id.oferta_id.attribute_id.titulo
+                if record.oferta_id.attribute_id.descripcion_proveedor:
+                    descripcion_proveedor = record.sale_line_id.oferta_id.attribute_id.descripcion_proveedor
+                if record.oferta_id.attribute_id.comentario_proveedor:
+                    comentario_proveedor = record.oferta_id.attribute_id.comentario_proveedor
              
             if record.product_id.categ_id.is_mprima_papel == True or record.product_id.categ_id.is_mprima_cola == True:
                 tipo_unidad = "Kilo"
