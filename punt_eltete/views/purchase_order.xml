@@ -17,13 +17,19 @@
         <field name="arch" type="xml">
             <form string="Crear líneas de pedido">
                 <group>
-					<group>
-						<h3>Añadir líneas de pedido</h3>
-						<field name='partner_id' domain="[('customer', '=', True),('is_company', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" />
-						<field name='line_id' domain="[('order_partner_id', '=', partner_id),('incompleta', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" />
-						<field name='num_pallets' invisible = "1"/>
-					</group>
-				</group>
+			<group>
+				<h3>Añadir líneas de pedido</h3>
+				<field name='partner_id' domain="[('customer', '=', True),('is_company', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" />
+				<field name='line_id' domain="[('order_partner_id', '=', partner_id),('incompleta', '=', True)]" options="{'no_create': True, 'no_create_edit':True}" />
+				<field name='num_pallets' invisible = "1"/>
+			</group>
+			<group>
+				<h3>Pedido de Stock</h3>
+				<field name='referencia_cliente_id' domain="[('partner_id', '=', partner_id),]" options="{'no_create': True, 'no_create_edit':True}" />
+				<field name='attribute_id' domain="[('referencia_cliente_id', '=', referencia_cliente_id),('activa', '=', True)]" options="{'no_create': True, 'no_create_edit':True}"/>
+				<field name='oferta_id' domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" options="{'no_create': True, 'no_create_edit':True}"/>
+			</group>
+		</group>
 
                 <footer>
                     <button name="add_lines_purchase_order" type="object"
