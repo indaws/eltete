@@ -218,7 +218,7 @@ class PurchaseOrder(models.Model):
     def create_purchase_order_line_referencia(self, cliente_id, sale_line_id, num_pallets, referencia_cliente_id, attribute_id, oferta_id):
         for record in self:
         
-            if sale_line_id != None:
+            if record.sale_line_id:
                 referencia_cliente_id = sale_line_id.attribute_id.referencia_cliente_id
                 attribute_id = sale_line_id.attribute_id
                 oferta_id = sale_line_id.oferta_id
