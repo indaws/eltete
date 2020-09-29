@@ -215,13 +215,13 @@ class PurchaseOrder(models.Model):
 
             
     @api.multi
-    def create_purchase_order_line_referencia(self, cliente_id, sale_line_id, num_pallets):
+    def create_purchase_order_line_referencia(self, cliente_id, sale_line_id, num_pallets, referencia_cliente_id, attribute_id, oferta_id):
         for record in self:
         
-        
-            referencia_cliente_id = sale_line_id.attribute_id.referencia_cliente_id
-            attribute_id = sale_line_id.attribute_id
-            oferta_id = sale_line_id.oferta_id
+            if sale_line_id != None:
+                referencia_cliente_id = sale_line_id.attribute_id.referencia_cliente_id
+                attribute_id = sale_line_id.attribute_id
+                oferta_id = sale_line_id.oferta_id
         
             medida = -1
 
