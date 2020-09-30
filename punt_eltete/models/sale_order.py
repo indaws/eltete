@@ -683,11 +683,8 @@ class SaleOrderLine(models.Model):
                     demanda = demanda + "&jose=1"
             
             op_demanda = ""
-            try:
-                respuesta = requests.get(demanda)
-                op_demanda = respuesta.text
-            except requests.ConnectionError, e:
-                op_demanda = ""
+            respuesta = requests.get(demanda)
+            op_demanda = respuesta.text
         
             record.op_demanda = op_respuesta
             
