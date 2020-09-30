@@ -683,8 +683,11 @@ class SaleOrderLine(models.Model):
                     demanda = demanda + "&jose=1"
             
             op_demanda = ""
-            respuesta = requests.get(demanda)
-            op_demanda = respuesta.text
+            try:
+                respuesta = requests.get(demanda)
+                op_demanda = respuesta.text
+            except:
+                op_demanda = ""
         
             record.op_demanda = op_respuesta
             
