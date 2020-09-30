@@ -557,9 +557,12 @@ class StockProductionLot(models.Model):
         for record in self:
             fsc_nomre = ""
             direccion = 'http://bemecopack.es/jseb/dimefsc.php?pallet=' + record.name
-            respuesta = requests.get(direccion)
-            fsc_nombre = respuesta.text
-  
+            try:
+                respuesta = requests.get(direccion)
+                fsc_nombre = respuesta.text
+            except:
+                fsc_nombre = ""
+                
             record.fsc_nombre = fsc_nombre
     
     
