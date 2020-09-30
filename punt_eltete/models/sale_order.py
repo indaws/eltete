@@ -682,8 +682,14 @@ class SaleOrderLine(models.Model):
                 if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
                     demanda = demanda + "&jose=1"
             
-            respuesta = requests.get(demanda)
-            record.op_demanda = respuesta.text
+            op_demanda = ""
+            try:
+                respuesta = requests.get(demanda)
+                op_demanda = respuesta.text
+            except requests.ConnectionError, e:
+                op_demanda = ""
+        
+            record.op_demanda = op_respuesta
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
