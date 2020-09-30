@@ -689,7 +689,7 @@ class SaleOrderLine(models.Model):
             except:
                 op_demanda = ""
         
-            record.op_demanda = op_respuesta
+            record.op_demanda = op_demanda
             
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
