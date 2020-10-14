@@ -61,8 +61,8 @@ class ProductCategory(models.Model):
         sumaAlas = ala1 + ala2
         if sumaAlas < 60 or sumaAlas > 200:
              return None, "Error: La suma de las alas debe estar entre 60 y 200"
-        if grosor_2 >= 7 and sumaAlas < 140:
-            return None, "El grosor no puede ser superior a 7 si la suma de las alas es inferior a 140"
+        if grosor_2 > 8 and sumaAlas < 140:
+            return None, "El grosor no puede ser superior a 8 si la suma de las alas es inferior a 140"
         if grosor_2 >= 6 and sumaAlas < 100:
             return None, "El grosor no puede ser superior a 6 si la suma de las alas es inferior a 100"
         if grosor_2 >= 5 and sumaAlas < 70:
