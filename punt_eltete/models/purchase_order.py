@@ -227,6 +227,9 @@ class PurchaseOrder(models.Model):
         for record in self:
             idLineaPedido = 0
             
+            if referencia_cliente_id != "" and referencia_cliente_id != None:
+                referencia_cliente_id = referencia_cliente_id.id
+            
             if sale_line_id != "" and sale_line_id != None:
                 referencia_cliente_id = sale_line_id.attribute_id.referencia_cliente_id
                 attribute_id = sale_line_id.attribute_id
