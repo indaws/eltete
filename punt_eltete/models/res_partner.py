@@ -10,6 +10,7 @@ class ResPartner(models.Model):
     uploading_time = fields.Text('Horarios descarga')
     ice = fields.Char('ICE')
     num_bailen = fields.Integer('Num Bailén')
+    representante_legal = fields.HTML('Representante Legal')
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
     
