@@ -641,7 +641,7 @@ class SaleOrderLine(models.Model):
             tolerancia_grosor = ""
             tolerancia_longitud = ""
             alas = ""
-            hendido = ""
+            hendido = "NO"
             
             if record.oferta_id.attribute_id.is_cantonera == True:
                 alas = str(ala_1) + " x " + str(ala_2)
@@ -676,12 +676,12 @@ class SaleOrderLine(models.Model):
                 tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
                 
                 if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1 > 0:
-                    hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1)
+                    hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1) + " mm"
                 if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2 > 0:
-                    if hendido != "":
-                        hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
-                else:
-                    hendido = hendido + " y " + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
+                    if hendido == "NO":
+                        hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2) + " mm"
+                    else:
+                        hendido = hendido + " y " + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2) + " mm"
                 
             elif record.oferta_id.attribute_id.is_solidboard == True:
                 aux1 = interior_ancho - 7
@@ -697,12 +697,12 @@ class SaleOrderLine(models.Model):
                 tolerancia_longitud = str(aux1) + " - " + str(aux2)
 
                 if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1 > 0:
-                    hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1)
+                    hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1) + " mm"
                 if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2 > 0:
-                    if hendido != "":
-                        hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
-                else:
-                    hendido = hendido + " y " + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
+                    if hendido == "NO":
+                        hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2) + " mm"
+                    else:
+                        hendido = hendido + " y " + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2) + " mm"
 
                     
             metros = und_pallet * num_pallets * longitud / 1000
