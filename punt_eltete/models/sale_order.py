@@ -72,6 +72,7 @@ class SaleOrderLine(models.Model):
     op_alas = fields.Char('Alas', compute = "_get_produccion")
     op_grosor = fields.Char('Grosor', compute = "_get_produccion")
     op_longitud = fields.Char('Longitud', compute = "_get_produccion")
+    op_hendido = fields.Char('Hendido', compute = "_get_produccion")
     op_und_pallet = fields.Integer('Und Orden', compute = "_get_produccion")
     op_num_pallets = fields.Integer('Num Pallets', compute = "_get_produccion")
     op_sierra = fields.Html('Sierra', compute = "_get_produccion", store=True)
@@ -640,6 +641,7 @@ class SaleOrderLine(models.Model):
             tolerancia_grosor = ""
             tolerancia_longitud = ""
             alas = ""
+            hendido = ""
             
             if record.oferta_id.attribute_id.is_cantonera == True:
                 alas = str(ala_1) + " x " + str(ala_2)
@@ -673,6 +675,14 @@ class SaleOrderLine(models.Model):
                 aux2 = grosor + 0.1
                 tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
                 
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1 > 0:
+                    hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1)
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2 > 0:
+                    if hendido != "":
+                        hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
+                else:
+                    hendido = hendido + " y " + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
+                
             elif record.oferta_id.attribute_id.is_solidboard == True:
                 aux1 = interior_ancho - 7
                 aux2 = interior_ancho + 7
@@ -686,8 +696,15 @@ class SaleOrderLine(models.Model):
                 aux2 = longitud + 7
                 tolerancia_longitud = str(aux1) + " - " + str(aux2)
 
-                
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1 > 0:
+                    hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1)
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2 > 0:
+                    if hendido != "":
+                        hendido = str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
+                else:
+                    hendido = hendido + " y " + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2)
 
+                    
             metros = und_pallet * num_pallets * longitud / 1000
             peso_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram / 1000
             peso_interior = peso_interior * record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_interior / 1000
@@ -763,6 +780,7 @@ class SaleOrderLine(models.Model):
         
             record.op_demanda = op_demanda
             
+            recor.op_hendido = hendido
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
             record.op_superficie_ancho = superficie_ancho
