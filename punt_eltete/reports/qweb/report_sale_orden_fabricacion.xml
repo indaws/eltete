@@ -8,13 +8,13 @@
 		<t t-call="web.external_layout">
 			
                       <div class="page">
-                          <t t-if="doc.oferta_id.attribute_id.is_cantonera == True>
+                          <t t-if="doc.oferta_id.attribute_id.is_cantonera == 'True'">
                               <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN CANTONERAS</strong></h3>
 			  </t>
-			  <t t-if="doc.oferta_id.attribute_id.is_slipsheet == True>
+			  <t t-if="doc.oferta_id.attribute_id.is_slipsheet == 'True'">
                               <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN SLIP SHEETS</strong></h3>
 			  </t>
-			  <t t-if="doc.oferta_id.attribute_id.is_solidboard == True>
+			  <t t-if="doc.oferta_id.attribute_id.is_solidboard == 'True'">
                               <h3 style="color:black; font-size:14pt; text-align: center;"><strong>ORDEN DE PRODUCCIÓN SOLID BOARD</strong></h3>
 			  </t>
 			      
@@ -34,7 +34,7 @@
                               </div>
                           </div>
                           
-			  <t t-if="doc.oferta_id.attribute_id.is_cantonera == True>
+			  <t t-if="doc.oferta_id.attribute_id.is_cantonera == 'True'">
                           	<div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
 			            <h3 style="color:black; font-size:14pt; text-align:center;"><strong><span t-field="doc.op_tipo_papel"/></strong></h3>
 
@@ -125,7 +125,7 @@
 			  	    </div>
 				</t>
 			    </t>													      
-			    <t t-if="doc.oferta_id.attribute_id.is_slipsheet == True>
+			    <t t-if="doc.oferta_id.attribute_id.is_slipsheet == 'True'">
 				  <strong>SS</strong><br/>
 			    </t>   
                        </div>												      
