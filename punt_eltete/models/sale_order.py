@@ -655,9 +655,27 @@ class SaleOrderLine(models.Model):
                 aux2 = interior_ancho + 7
                 tolerancia_alas = str(aux1) + " - " + str(aux2)
                 
+                longitud = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+                longitud = longitud + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_3
+                longitud = longitud + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_4 
+                
                 aux1 = longitud - 7
                 aux2 = longitud + 7
                 tolerancia_longitud = str(aux1) + " - " + str(aux2)
+                
+            elif record.oferta_id.attribute_id.is_solidboard == True:
+                aux1 = interior_ancho - 7
+                aux2 = interior_ancho + 7
+                tolerancia_alas = str(aux1) + " - " + str(aux2)
+                
+                longitud = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+                longitud = longitud + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_3
+                longitud = longitud + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_4 
+                
+                aux1 = longitud - 7
+                aux2 = longitud + 7
+                tolerancia_longitud = str(aux1) + " - " + str(aux2)
+
                 
 
             metros = und_pallet * num_pallets * longitud / 1000
