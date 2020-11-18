@@ -467,14 +467,19 @@ class SaleOrderLine(models.Model):
             record.orden_fabricacion = orden_fabricacion
 
             maquina = ""
-            if record.oferta_id.attribute_id.cantonera_1 == True:
-                maquina = maquina + "Línea 1, "
-            if record.oferta_id.attribute_id.cantonera_2 == True:
-                maquina = maquina + "Línea 2, "
-            if record.oferta_id.attribute_id.cantonera_3 == True:
-                maquina = maquina + "Línea 3, "
-            if record.oferta_id.attribute_id.cantonera_4 == True:
-                maquina = maquina + "Línea 4, "
+            if record.oferta_id.attribute_id.is_cantonera == True:
+                if record.oferta_id.attribute_id.cantonera_1 == True:
+                    maquina = maquina + "Línea 1, "
+                if record.oferta_id.attribute_id.cantonera_2 == True:
+                    maquina = maquina + "Línea 2, "
+                if record.oferta_id.attribute_id.cantonera_3 == True:
+                    maquina = maquina + "Línea 3, "
+                if record.oferta_id.attribute_id.cantonera_4 == True:
+                    maquina = maquina + "Línea 4, "
+            elif record.oferta_id.attribute_id.is_slipsheet == True:
+                maquina = "Contracoladora 1"
+            elif record.oferta_id.attribute_id.is_solidboard == True:
+                maquina = "Contracoladora 1"
             
             superficie_color = ""
             if record.oferta_id.attribute_id.cantonera_color_id:
