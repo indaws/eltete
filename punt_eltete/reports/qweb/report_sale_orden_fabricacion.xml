@@ -149,7 +149,74 @@
                                   	    <strong>Tolerancia Largo: </strong><span t-field="doc.op_tolerancia_longitud"/><br/>
 				    	</div>
 			  	    </div>
-		          	    <br/>
+					
+				    <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+					<div class="float-left company_address" style="width:20%;">
+					    <strong>.</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>Ancho (mm)</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>Gramaje</strong>
+					</div>
+					<div class="float-left company_address" style="width:50%;">
+					    <strong>Referencia</strong>
+					</div>
+					    
+					<div class="float-left company_address" style="width:20%;">
+					    <strong>1</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:50%;">
+					    <strong>_</strong>
+					</div>
+					    
+					<div class="float-left company_address" style="width:20%;">
+					    <strong>2</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:50%;">
+					    <strong>_</strong>
+					</div>
+					    
+					<div class="float-left company_address" style="width:20%;">
+					    <strong>3</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:50%;">
+					    <strong>_</strong>
+					</div>
+					 
+					<div class="float-left company_address" style="width:20%;">
+					    <strong>4</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:30%;">
+					    <strong>_</strong>
+					</div>
+					<div class="float-left company_address" style="width:50%;">
+					    <strong>_</strong>
+					</div>    
+				    </div>
+					
 				    <div class="float-left company_address" style="width:100%;">
 				        <div class="float-left company_address" style="padding:5px; width:50%;">
                                   	    PALLET TRATADO
