@@ -132,10 +132,10 @@
 				    <div class="float-left company_address" style="width:100%;">
 				        <div class="float-left company_address" style="padding:5px; width:50%;">
                                   	    <strong>Ancho Papel: </strong><span t-field="doc.op_superficie_ancho"/><br/>
+					    <strong>Gramaje Papel: </strong><span t-field="doc.op_interior_gramaje"/><br/>
                               	    	</div>
                               	    	<div class="float-left company_address" style="padding:5px; width:50%;">
-					    <strong>Gramaje Papel: </strong><span t-field="doc.op_interior_gramaje"/><br/>
-					    <strong>kg Papel: </strong><span t-field="doc.op_peso_interior"/><br/>
+					    <strong>Metros Totales: </strong><span t-field="doc.op_metros"/><br/>
 				    	</div>
 			  	    </div>
 		          	    <br/>
