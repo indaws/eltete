@@ -150,7 +150,7 @@
 				    	</div>
 			  	    </div>
 					
-				    <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:80%; border: 3px solid #0c9c45; border-radius: 15px;" >
+				    <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
 					<div class="float-left company_address" style="width:10%;">
 					    <strong>.</strong>
 					</div>
