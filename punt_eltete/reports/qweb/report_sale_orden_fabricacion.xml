@@ -126,7 +126,48 @@
 				</t>
 			    </t>													      
 			    <t t-if="doc.oferta_id.attribute_id.is_slipsheet">
-				  <strong>SS</strong><br/>
+				<div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
+			            <h3 style="color:black; font-size:14pt; text-align:center;"><strong><span t-field="doc.op_tipo_papel"/></strong></h3>
+
+				    <div class="float-left company_address" style="width:100%;">
+				        <div class="float-left company_address" style="padding:5px; width:50%;">
+                                  	    <strong>Ancho Papel: </strong><span t-field="doc.op_superficie_ancho"/><br/>
+                              	    	</div>
+                              	    	<div class="float-left company_address" style="padding:5px; width:50%;">
+					    <strong>Gramaje Papel: </strong><span t-field="doc.op_interior_gramaje"/><br/>
+					    <strong>kg Papel: </strong><span t-field="doc.op_peso_interior"/><br/>
+				    	</div>
+			  	    </div>
+		          	    <br/>
+				    <div class="float-left company_address" style="width:100%;">
+				        <div class="float-left company_address" style="padding:5px; width:50%;">
+                                  	    <strong>Ancho: </strong><span t-field="doc.op_interior_ancho"/><br/>
+                                  	    <strong>Largo: </strong><span t-field="doc.op_longitud"/><br/>
+                              	    	</div>
+                              	    	<div class="float-left company_address" style="padding:5px; width:50%;">
+					    <strong>Tolerancia Ancho: </strong><span t-field="doc.op_tolerancia_alas"/><br/>
+                                  	    <strong>Tolerancia Largo: </strong><span t-field="doc.op_tolerancia_longitud"/><br/>
+				    	</div>
+			  	    </div>
+		          	    <br/>
+				    <div class="float-left company_address" style="width:100%;">
+				        <div class="float-left company_address" style="padding:5px; width:50%;">
+                                  	    PALLET TRATADO
+                              	    	</div>
+                              	    	<div class="float-left company_address" style="padding:5px; width:50%;">
+					    <strong>Tipo Pallet: </strong><span t-field="doc.op_tipo_pallet"/><br/>
+				    	</div>
+			  	    </div>
+		          	    <br/>
+				    <div class="float-left company_address" style="width:100%;">
+				        <div class="float-left company_address" style="padding:5px; width:50%;">
+                                  	    <strong>Unidades Pallet: </strong><span t-field="doc.op_und_pallet"/><br/>
+                              	        </div>
+                              	        <div class="float-left company_address" style="padding:5px; width:50%;">
+                                  	    <strong>Número Pallets: </strong><span t-field="doc.op_num_pallets"/><br/>
+                              	        </div> 
+				    </div>
+				</div>
 			    </t>   
                        </div>												      
 		   </t>
