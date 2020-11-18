@@ -780,7 +780,7 @@ class SaleOrderLine(models.Model):
         
             record.op_demanda = op_demanda
             
-            recor.op_hendido = hendido
+            record.op_hendido = hendido
             record.op_cantonera_maquina = maquina
             record.op_superficie_color = superficie_color
             record.op_superficie_ancho = superficie_ancho
