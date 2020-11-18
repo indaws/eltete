@@ -150,69 +150,69 @@
 				    	</div>
 			  	    </div>
 					
-				    <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-					<div class="float-left company_address" style="width:20%;">
+				    <div class="float-left company_address" style="padding:12px; margin:10px; font-size:12pt; width:80%; border: 3px solid #0c9c45; border-radius: 15px;" >
+					<div class="float-left company_address" style="width:10%;">
 					    <strong>.</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>Ancho (mm)</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>Gramaje</strong>
 					</div>
-					<div class="float-left company_address" style="width:50%;">
+					<div class="float-left company_address" style="width:40%;">
 					    <strong>Referencia</strong>
 					</div>
 					    
-					<div class="float-left company_address" style="width:20%;">
+					<div class="float-left company_address" style="width:10%;">
 					    <strong>1</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:50%;">
+					<div class="float-left company_address" style="width:40%;">
 					    <strong>_</strong>
 					</div>
 					    
-					<div class="float-left company_address" style="width:20%;">
+					<div class="float-left company_address" style="width:10%;">
 					    <strong>2</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:50%;">
+					<div class="float-left company_address" style="width:40%;">
 					    <strong>_</strong>
 					</div>
 					    
-					<div class="float-left company_address" style="width:20%;">
+					<div class="float-left company_address" style="width:10%;">
 					    <strong>3</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:50%;">
+					<div class="float-left company_address" style="width:40%;">
 					    <strong>_</strong>
 					</div>
 					 
-					<div class="float-left company_address" style="width:20%;">
+					<div class="float-left company_address" style="width:10%;">
 					    <strong>4</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:30%;">
+					<div class="float-left company_address" style="width:25%;">
 					    <strong>_</strong>
 					</div>
-					<div class="float-left company_address" style="width:50%;">
+					<div class="float-left company_address" style="width:40%;">
 					    <strong>_</strong>
 					</div>    
 				    </div>
