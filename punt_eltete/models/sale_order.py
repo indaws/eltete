@@ -484,15 +484,38 @@ class SaleOrderLine(models.Model):
             superficie_color = ""
             if record.oferta_id.attribute_id.cantonera_color_id:
                 superficie_color = record.oferta_id.attribute_id.cantonera_color_id.name
+                
             superficie_ancho = "" 
-            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie:
-                superficie_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
             interior_ancho = ""
-            if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior:
-                interior_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior 
-            aux1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
-            aux2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram + 100
-            interior_gramaje = str(aux1) + " - " + str(aux2)
+            interior_gramaje = ""
+            j_gram = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram
+            
+            if record.oferta_id.attribute_id.is_cantonera == True:
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie:
+                    superficie_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_superficie
+                if record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior:
+                    interior_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho_interior 
+                
+                aux2 = j_gram + 100
+                interior_gramaje = str(j_gram) + " - " + str(aux2)
+                    
+            elif record.oferta_id.attribute_id.is_slipsheet == True:
+                interior_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho
+                interior_ancho = interior_ancho + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
+                interior_ancho = interior_ancho + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2 
+                superficie_ancho = interior_ancho + 30
+                
+                aux2 = j_gram - 50
+                interior_gramaje = str(aux2) + " - " + str(j_gram)
+                
+            elif record.oferta_id.attribute_id.is_solidboard == True:
+                interior_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho
+                interior_ancho = interior_ancho + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
+                interior_ancho = interior_ancho + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
+                superficie_ancho = interior_ancho + 30
+                
+                aux2 = j_gram - 50
+                interior_gramaje = str(aux2) + " - " + str(j_gram)
             
             ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
             ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
@@ -606,20 +629,35 @@ class SaleOrderLine(models.Model):
                     sierra = sierra + "Paletizado en Cajas o Sacos - Total " + str(und_total_sacos) + " unidades"
                 paquetes_fila = 0
                 und_exactas = "SI"
+            
+            tolerancia_alas = ""
+            tolerancia_grosor = ""
+            tolerancia_longitud = ""
+            
+            if record.oferta_id.attribute_id.is_cantonera == True:
+                alas = str(ala_1) + " x " + str(ala_2)
+                aux1 = ala_1 - 2
+                aux2 = ala_1 + 2
+                tolerancia_alas = str(aux1) + " - " + str(aux2) + " x "
+                aux1 = ala_2 - 2
+                aux2 = ala_2 + 2
+                tolerancia_alas = tolerancia_alas + str(aux1) + " - " + str(aux2)
+                aux1 = grosor - 0.2
+                aux2 = grosor + 0.2
+                tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
+                aux1 = longitud - 5
+                aux2 = longitud + 5
+                tolerancia_longitud = str(aux1) + " - " + str(aux2)
+            
+            elif record.oferta_id.attribute_id.is_slipsheet == True:
+                aux1 = interior_ancho - 7
+                aux2 = interior_ancho + 7
+                tolerancia_alas = str(aux1) + " - " + str(aux2)
                 
-            alas = str(ala_1) + " x " + str(ala_2)
-            aux1 = ala_1 - 2
-            aux2 = ala_1 + 2
-            tolerancia_alas = str(aux1) + " - " + str(aux2) + " x "
-            aux1 = ala_2 - 2
-            aux2 = ala_2 + 2
-            tolerancia_alas = tolerancia_alas + str(aux1) + " - " + str(aux2)
-            aux1 = grosor - 0.2
-            aux2 = grosor + 0.2
-            tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
-            aux1 = longitud - 5
-            aux2 = longitud + 5
-            tolerancia_longitud = str(aux1) + " - " + str(aux2)
+                aux1 = longitud - 7
+                aux2 = longitud + 7
+                tolerancia_longitud = str(aux1) + " - " + str(aux2)
+                
 
             metros = und_pallet * num_pallets * longitud / 1000
             peso_interior = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.j_gram / 1000
