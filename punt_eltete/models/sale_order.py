@@ -633,6 +633,7 @@ class SaleOrderLine(models.Model):
             tolerancia_alas = ""
             tolerancia_grosor = ""
             tolerancia_longitud = ""
+            alas = ""
             
             if record.oferta_id.attribute_id.is_cantonera == True:
                 alas = str(ala_1) + " x " + str(ala_2)
