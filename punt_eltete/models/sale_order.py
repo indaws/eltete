@@ -519,7 +519,13 @@ class SaleOrderLine(models.Model):
             
             ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
             ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
+            
             grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_2
+            if record.oferta_id.attribute_id.is_slipsheet == True:
+                grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_1
+            elif record.oferta_id.attribute_id.is_solidboard == True:
+                grosor = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_1
+                
             longitud_final = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
             longitud = longitud_final
             und_pallet = record.und_pallet
@@ -662,6 +668,10 @@ class SaleOrderLine(models.Model):
                 aux1 = longitud - 7
                 aux2 = longitud + 7
                 tolerancia_longitud = str(aux1) + " - " + str(aux2)
+                
+                aux1 = grosor - 0.1
+                aux2 = grosor + 0.1
+                tolerancia_grosor = str(round(aux1, 2)) + " - " + str(round(aux2, 2))
                 
             elif record.oferta_id.attribute_id.is_solidboard == True:
                 aux1 = interior_ancho - 7
