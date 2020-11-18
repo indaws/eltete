@@ -746,18 +746,15 @@ class SaleOrderLine(models.Model):
                 dir_qr_orden = dir_qr_orden + "&npal=" + str(num_pallets)
                 dir_qr_orden = dir_qr_orden + "&npalm=" + str(record.lotes_fabricar)
                 
-            elif record.oferta_id.attribute_id.is_slipsheet == True: 
-                ala_3 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_3
-                ala_4 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_4
-                
+            elif record.oferta_id.attribute_id.is_slipsheet == True:                 
                 dir_qr_orden = dir_qr_orden + "orden=" + orden_fabricacion
                 dir_qr_orden = dir_qr_orden + "&prod=3"
                 dir_qr_orden = dir_qr_orden + "&ala1=" + str(ala_1)
-                dir_qr_orden = dir_qr_orden + "&ancho=" + str(ancho)
+                dir_qr_orden = dir_qr_orden + "&ancho=" + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho)
                 dir_qr_orden = dir_qr_orden + "&ala2=" + str(ala_2)
-                dir_qr_orden = dir_qr_orden + "&ala3=" + str(ala_3)
+                dir_qr_orden = dir_qr_orden + "&ala3=" + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_3)
                 dir_qr_orden = dir_qr_orden + "&long1=" + str(longitud)
-                dir_qr_orden = dir_qr_orden + "&ala4=" + str(ala_4)
+                dir_qr_orden = dir_qr_orden + "&ala4=" + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_4)
                 dir_qr_orden = dir_qr_orden + "&gros=" + str(grosor)
                 dir_qr_orden = dir_qr_orden + "&peso=" + str(round(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro, 4))
                 dir_qr_orden = dir_qr_orden + "&fsc=" + str(op_fsc)
@@ -767,7 +764,7 @@ class SaleOrderLine(models.Model):
             elif record.oferta_id.attribute_id.is_solidboard == True:
                 dir_qr_orden = dir_qr_orden + "orden=" + orden_fabricacion
                 dir_qr_orden = dir_qr_orden + "&prod=4"
-                dir_qr_orden = dir_qr_orden + "&ancho=" + str(ancho)
+                dir_qr_orden = dir_qr_orden + "&ancho=" + str(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho)
                 dir_qr_orden = dir_qr_orden + "&long1=" + str(longitud)
                 dir_qr_orden = dir_qr_orden + "&gros=" + str(grosor)
                 dir_qr_orden = dir_qr_orden + "&peso=" + str(round(record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro, 4))
