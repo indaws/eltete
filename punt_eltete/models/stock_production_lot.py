@@ -551,6 +551,14 @@ class StockProductionLot(models.Model):
    
     fsc_nombre = fields.Char('FSC tipo', readonly = True, compute = "_get_fsc")
     
+    idProducto = fields.Integer('ID Producto', readonly = True, compute = "_get_id_producto")
+    
+    @api.depends('product_id')
+    def _get_id_producto(self):
+        for record in self:
+            idProducto = record.product_id.id
+            record.idProducto = idProducto
+    
     
     @api.depends('name')
     def _get_fsc(self):
