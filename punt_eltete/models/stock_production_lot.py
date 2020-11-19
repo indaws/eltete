@@ -1103,9 +1103,12 @@ class StockProductionLot(models.Model):
 
     def cargar_produccion(self):
         for record in self:
-            direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
-            respuesta_1 = requests.get(direccionNuevo)
-            respuesta = respuesta_1.text
+            respuesta = ""
+            if record.product_id:
+                if record.product_id.id == 193:
+                    direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
+                    respuesta_1 = requests.get(direccionNuevo)
+                    respuesta = respuesta_1.text
             
             pallet_id = ""
             pallet_nombre = ""
