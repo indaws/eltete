@@ -98,7 +98,7 @@
                                 <field name='name' />
 				<field name='titulo' />
 				<field name='descripcion_proveedor' />
-				<field name='comentario_proveedor' />
+				<field name='gramaje' />
 				<field name='estado' />
 				<field name='activa' />
                             </tree>
@@ -177,7 +177,8 @@
                                 <field name='plancha_color_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_solidboard', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='papel_calidad_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_formato', '=', False),('is_bobina', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='troquelado_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),('is_formato', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
-                                
+                                <field name='gramaje_user' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_slipsheet', '=', False),('is_solidboard', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
+				    
                                 <field name="referencia_cliente_id" invisible="1"  />
                                 <field name="type_id"  invisible="1" />
                                 <field name="is_cantonera" invisible="1"/>
@@ -192,8 +193,8 @@
                             </group>
                             <group>
                                 <field name='codigo_cliente' attrs="{'readonly': [('no_editar', '=', True)]}"/>
-								<field name='fsc_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
-								<field name='reciclable_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+				<field name='fsc_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
+				<field name='reciclable_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
