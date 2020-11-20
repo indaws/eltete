@@ -794,6 +794,8 @@ class sale_product_attribute(models.Model):
     
     #SLIPSHEET, SOLIDBOARD Y FORMATO
     troquelado_id = fields.Many2one('product.caracteristica.troquelado', string = "Troquelado")
+    gramaje = fields.Integer('Gramaje', readonly = True, compute = "_get_gramaje")
+    gramaje_user = fields.Integer('Gramaje User')
     
     #TODOS
     codigo_cliente = fields.Char('Codigo Cliente')
@@ -838,6 +840,19 @@ class sale_product_attribute(models.Model):
     #OFERTA
     oferta_ids = fields.One2many('sale.offer.oferta', 'attribute_id', string="Ofertas", copy=True)
     
+    @api.depends('gramaje_user', 'referencia_cliente_id')
+    def _get_gramaje(self):
+        for record in self:
+            gramaje = 0
+            
+            if record.gramaje_user > 0:
+                gramaje = record.gramaje_user
+            elif record.referencia_cliente_id:
+                if record.referencia_cliente_id.referencia_id:
+                    gramaje = record.referencia_cliente_id.referencia_id.j_gram  
+            
+            record.gramaje = gramaje
+
     
     @api.depends('type_id', 'cantonera_color_id', 'cantonera_forma_id', 'cantonera_especial_id', 'inglete_num', 'inglete_id', 'perfilu_color_id', 'troquelado_id', 'papel_calidad_id', 'fsc_id', 'reciclable_id')
     def _get_titulo(self):
