@@ -505,7 +505,7 @@ class SaleOrderLine(models.Model):
                 interior_ancho = interior_ancho + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2 
                 superficie_ancho = interior_ancho + 30
 
-                interior_gramaje = record.oferta_id.attribute_id.gramaje + " g"
+                interior_gramaje = record.oferta_id.attribute_id.gramaje
                 
             elif record.oferta_id.attribute_id.is_solidboard == True:
                 interior_ancho = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho
@@ -513,7 +513,7 @@ class SaleOrderLine(models.Model):
                 interior_ancho = interior_ancho + record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
                 superficie_ancho = interior_ancho + 30
                 
-                interior_gramaje = record.oferta_id.attribute_id.gramaje + " g"
+                interior_gramaje = record.oferta_id.attribute_id.gramaje
             
             ala_1 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
             ala_2 = record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
