@@ -54,6 +54,7 @@ class StockMove(models.Model):
             num_pallets = 0
             unidades = 0
             hay_lotes = False
+            es_formato = False
             
             for line in record.move_line_ids:
                 if line.qty_done == 1:
@@ -66,12 +67,17 @@ class StockMove(models.Model):
                     if line.lot_id:
                         num_pallets = num_pallets + 1
                     unidades = unidades + line.lot_id.unidades
+                    if line.lot_id.user_peso_neto > 0:
+                        es_formato = True
               
             if num_pallets > 0 or record.sale_line_id.bultos == '2':
                 hay_lotes = True
                 
             peso_neto_mojado = int(peso_neto * 1.05 / 10) * 10
             peso_bruto_mojado = int(peso_bruto * 1.05 / 10) * 10
+            if es_formato:
+                peso_neto_mojado = peso_neto
+                peso_bruto_mojado = peso_bruto
             
             cantidad_1 = round(cantidad_1, 4)
             cantidad_2 = round(cantidad_2, 4)
