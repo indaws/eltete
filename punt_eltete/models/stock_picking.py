@@ -77,7 +77,7 @@ class StockMove(models.Model):
             peso_bruto_mojado = int(peso_bruto * 1.05 / 10) * 10
             if es_formato:
                 peso_neto_mojado = peso_neto
-                peso_bruto_mojado = peso_bruto
+                peso_bruto_mojado = int(peso_bruto / 10) * 10
             
             cantidad_1 = round(cantidad_1, 4)
             cantidad_2 = round(cantidad_2, 4)
