@@ -1103,7 +1103,7 @@ class StockProductionLot(models.Model):
     
     @api.onchange('unidades')
     def _onchange_unidades(self):
-        direccion = 'http://bemecopack.es/jseb/cambiar_unidades_pallet.php?nombre=' + self.name
+        direccion = 'http://bemecopack.es/jseb/cambiar_unidades_pallet.php?nombre=' + self.name + "&unidades=" + self.unidades
         try:
             respuesta_1 = requests.get(direccion)
             respuesta = respuesta_1.text
