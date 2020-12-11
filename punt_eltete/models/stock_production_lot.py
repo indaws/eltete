@@ -1100,6 +1100,17 @@ class StockProductionLot(models.Model):
             record.cambios_fabricacion = cambios_fabricacion
 
     """
+    
+    @api.onchange('unidades')
+    def _onchange_unidades(self):
+        direccion = 'http://bemecopack.es/jseb/cambiar_unidades_pallet.php?' + self.name
+        try:
+            respuesta_1 = requests.get(direccion)
+            respuesta = respuesta_1.text
+            self.unidades = respuesta
+        except:
+            x = 0
+
 
     def cargar_produccion(self):
         for record in self:
