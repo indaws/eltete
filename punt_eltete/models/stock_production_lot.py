@@ -1107,7 +1107,6 @@ class StockProductionLot(models.Model):
         try:
             respuesta_1 = requests.get(direccion)
             respuesta = respuesta_1.text
-            self.unidades = respuesta
         except:
             x = 0
 
