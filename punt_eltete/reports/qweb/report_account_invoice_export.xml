@@ -15,7 +15,7 @@
 
                     <div class="float-left company_address" style="padding:12px; font-size:12pt; width:35%; border: 3px solid #0c9c45; border-radius: 15px;" >
                       
-                          <strong><span t-if="o.type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')">Invoice</span>
+                          <strong><span t-if="o.type == 'out_invoice' and o.state in ('open', 'in_payment', 'paid')">Factura</span>
                           <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
                           <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
                           <span t-if="o.type == 'out_refund'">Credit Note</span>
@@ -23,19 +23,19 @@
                           <span t-if="o.type == 'in_invoice'">Vendor Bill</span>
                           <span t-field="o.number"/></strong><br/>
 
-                          <strong>Invoice Date: </strong><span t-field="o.date_invoice" t-options='{"format": "dd/MM/yyyy"}'/><br/>
-                          <strong>Customer Number: </strong><span t-field="o.partner_id.ref"/><br/>
-                          <strong>Order Number: </strong><span t-field="o.origin"/><br/>
+                          <strong>Fecha factura: </strong><span t-field="o.date_invoice" t-options='{"format": "dd/MM/yyyy"}'/><br/>
+                          <strong>Cliente: </strong><span t-field="o.partner_id.ref"/><br/>
+                          <strong>Origen: </strong><span t-field="o.origin"/><br/>
                           <!--<strong>Pedido cliente: </strong><span t-field="o.pedido_cliente"/><br/>-->
                     </div>
                     
                     <div class="float-left company_address" style="text-align:center; width:30%; padding:5px;">
-			    <img src="http://bemecopack.es/fsc_negro_ingles.png" style="width:100%;"/>  
-		     </div>
+			                     <img src="http://bemecopack.es/fsc_negro.png" style="width:100%;"/>  
+		                </div>
 
                     <div class="float-right company_address" style="padding:12px; font-size:10pt; width:35%; border: 3px solid #0c9c45; border-radius: 15px;" >
                 
-                          <strong>Delivery Address:</strong><br/>
+                          <strong>Dirección de entrega:</strong><br/>
                           <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                     
                     </div>
@@ -78,7 +78,7 @@
                         
                         <div class="float-left company_address" style="width:100%; 3px solid #0c9c45; text-align:center; text-decoration:underline; font-size:12pt; margin-top:15px" >
                             <div class="float-left company_address" style="width:30%;" >
-                                <span><strong>Description</strong></span>
+                                <span><strong>Descripción</strong></span>
                             </div>
                             
                             <div class="float-left company_address" style="width:70%;" >
@@ -86,16 +86,16 @@
                                     <span><strong>FSC</strong></span>
                                 </div>
                                 <div class="float-left company_address" style="width:19%;" >
-                                    <span><strong>Number pallets</strong></span>
+                                    <span><strong>Pallets</strong></span>
                                 </div>
                                 <div class="float-left company_address" style="width:19%;" >
-                                    <span><strong>Quantity</strong></span>
+                                    <span><strong>Cantidad</strong></span>
                                 </div>
                                 <div class="float-left company_address" style="width:19%;" >
-                                    <span><strong>Price</strong></span>
+                                    <span><strong>Precio</strong></span>
                                 </div>
                                 <div class="float-left company_address" style="width:19%;" >
-                                    <span><strong>Amount</strong></span>
+                                    <span><strong>Importe</strong></span>
                                 </div>
                             </div>
                         </div>
@@ -197,19 +197,19 @@
                     
                     <div class="float-right company_address"  style="font-size:10pt; width:100%; margin:10px;" >
                           <p style="font-size:10pt; text-align:center; ">
-                              Only materials described and identified as such are FSC® certified
+                              Sólo los materiales descritos e identificados como tal tienen certificado FSC®
                           </p>
                     </div>
                     
                     <div class="float-left company_address" style="width:60%;" >
 
                         <div class="float-left company_address" style="padding:10px 10px 0px 10px; font-size:12pt; width:100%; border: 3px solid #0c9c45; border-radius: 15px;" >
-                            <strong>Payment method: </strong><span t-field="o.payment_mode_id.name"/><br/>
-                            <strong>Payment terms: </strong><span t-field="o.payment_term_id.note"/><br/>
-                            <strong>Due Date: </strong><span t-field="o.multi_date_due"/><br/>
+                            <strong>Modo de pago: </strong><span t-field="o.payment_mode_id.name"/><br/>
+                            <strong>Plazo de pago: </strong><span t-field="o.payment_term_id.note"/><br/>
+                            <strong>Fecha de vencimiento: </strong><span t-field="o.multi_date_due"/><br/>
                             <t t-if="o.payment_mode_id and o.payment_mode_id.show_bank_account != 'no'">
                               <p t-foreach="o.partner_banks_to_show()" t-as="partner_bank">
-                                  <strong>Bank Account:</strong>
+                                  <strong>Cuenta bancaria:</strong>
                                   <t t-if="partner_bank.bank_id">
                                       <t t-esc="partner_bank.bank_id.name + ('' if not partner_bank.bank_id.bic else ' (' + partner_bank.bank_id.bic + ')')"/>
                                   </t>
@@ -225,15 +225,15 @@
                               </p>
                             </t>
                             <t t-if="o.mandate_id">
-                              <p><strong>Bank Account:</strong> <span t-field="o.mandate_id.partner_bank_id.acc_number"/></p>
+                              <p><strong>Cuenta bancaria:</strong> <span t-field="o.mandate_id.partner_bank_id.acc_number"/></p>
                             </t>
-                            <strong>Delivery Terms: </strong><span t-field="o.carrier_id"/><br/>
-                            <strong>Number of pallets: </strong><span t-field="o.num_pallets"/><br/>
+                            <strong>Condiciones de entrega: </strong><span t-field="o.carrier_id"/><br/>
+                            <strong>Número de pallets: </strong><span t-field="o.num_pallets"/><br/>
                             <t t-if="'Canarias' in o.fiscal_position_id.name">
-                                <strong>Net Weight: </strong><span t-field="o.peso_neto_mojado"/> kg<br/>
-    				<strong>Total Weight: </strong><span t-field="o.peso_bruto_mojado"/> kg<br/>
-    				<strong>Container Number: </strong><span t-field="o.numero_contenedor"/><br/>
-    				<strong>Container Seal: </strong><span t-field="o.precinto_contenedor"/>
+                                <strong>Peso Neto: </strong><span t-field="o.peso_neto_mojado"/> kg<br/>
+    						                <strong>Peso Bruto: </strong><span t-field="o.peso_bruto_mojado"/> kg<br/>
+    						                <strong>Número Contenedor: </strong><span t-field="o.numero_contenedor"/><br/>
+    						                <strong>Precinto Contenedor: </strong><span t-field="o.precinto_contenedor"/>
                             </t>
                             <br/><span t-field="o.partner_id.representante_legal"/>
                         </div>
@@ -341,9 +341,8 @@
                     </p>
                 </div>
             </t>
-
         </t>
-    </t>
 </template>
 </data>
 </openerp>
+        
