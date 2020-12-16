@@ -271,7 +271,7 @@
                                   
                                   
                                       <tr class="border-black o_subtotal" style="">
-                                          <td style="color:#000;"><strong>Base Imponible</strong></td>
+                                          <td style="color:#000;"><strong>Base</strong></td>
                                           <td class="text-right" style="color:#000;">
                                               <span t-field="o.amount_untaxed"/>
                                           </td>
