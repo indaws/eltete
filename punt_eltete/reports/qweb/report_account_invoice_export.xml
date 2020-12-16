@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data>
-<t t-name="account.report_invoice_document">
+<template id="report_account_invoice_export">
             <t t-call="web.external_layout">
                 <t t-set="o" t-value="o.with_context(lang=lang)"/>
 
@@ -342,5 +342,6 @@
                 </div>
             </t>
         </t>
+</template>
 </data>
 </openerp>
