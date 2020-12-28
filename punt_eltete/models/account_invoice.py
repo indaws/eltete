@@ -399,8 +399,7 @@ class AccountInvoiceLine(models.Model):
               
             if sale_line_id != None:
                 producto = 0
-                """
-                if sale_line_id.oferta_id.attribute_id.is_cantonera = True:
+                if sale_line_id.oferta_id.attribute_id.is_cantonera == True:
                     producto = 1                
                     ala1 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
                     ala2 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
@@ -415,7 +414,7 @@ class AccountInvoiceLine(models.Model):
                         superficie = sale_line_id.oferta_id.attribute_id.cantonera_color_id.id
                     
                     vendido = "producto=1" + "&ala1=" + str(ala1) + "&ala2=" + str(ala2) + "&grosor=" + str(grosor) + "&metros=" + str(metros) + "&super=" + str(superficie)
-            """
+
             record.vendido = vendido
     
     
