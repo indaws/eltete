@@ -148,11 +148,9 @@ class AccountInvoice(models.Model):
                         respuesta = respuesta1.text
                         
                         if respuesta != "OK":
-                            vendido = "FALLO"
+                            vendido = "NO"
                     except:
-                        vendido = "FALLO"
-                        
-                    vendido = enviar
+                        vendido = "NO"
        
             record.vendido = vendido            
             
