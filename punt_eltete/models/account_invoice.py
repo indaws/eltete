@@ -399,6 +399,7 @@ class AccountInvoiceLine(models.Model):
               
             if sale_line_id != None:
                 producto = 0
+                """
                 if sale_line_id.oferta_id.attribute_id.is_cantonera = True:
                     producto = 1                
                     ala1 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
@@ -410,7 +411,6 @@ class AccountInvoiceLine(models.Model):
                     metros = record.unidades * longitud / 1000
 
                     superficie = 0
-                    """
                     if sale_line_id.oferta_id.attribute_id.cantonera_color_id:
                         superficie = sale_line_id.oferta_id.attribute_id.cantonera_color_id.id
                     
