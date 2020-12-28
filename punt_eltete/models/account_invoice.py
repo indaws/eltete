@@ -56,6 +56,8 @@ class AccountInvoice(models.Model):
     fsc_venta = fields.Boolean('FSC Venta', default = False)
     fsc_enlaces = fields.Html('FSC Enlaces')
     
+    vendido = fields.Char('Vendido', readonly = True, compute = '_get_vendido') 
+
     #Proveedor
     importe_ajustado = fields.Float('Importe a ajustar', digits = (10, 2))
     
@@ -128,6 +130,21 @@ class AccountInvoice(models.Model):
             record.fsc_venta = fsc_venta
             record.fsc_enlaces = fsc_enlaces
 
+            
+            
+    @api.depends('invoice_line_ids')
+    def _get_vendido(self):
+        for record in self:
+            vendido = ""
+            for line in record.invoice_line_ids:
+                if line.vendido != "":
+                    if vendido != "":
+                        vendido = vendido + " - "
+                    vendido = vendido + line.vendido
+                    
+            record.vendido = vendido            
+            
+            
     
     @api.depends('partner_id')
     def _get_comercial(self):
@@ -369,7 +386,39 @@ class AccountInvoiceLine(models.Model):
     fsc_nombre = fields.Char('FSC Nombre', readonly = True, compute = "_get_fsc")
     fsc_venta = fields.Boolean('FSC Venta', readonly = True, compute = "_get_fsc")
     enlaces = fields.Html('Enlaces', readonly = True, compute = "_get_fsc")
+    
+    vendido = fields.Char('Vendido', readonly = True, compute = '_get_vendido')
 
+    @api.depends('sale_line_ids', 'unidades')
+    def _get_vendido(self):
+        for record in self:
+            vendido = ""
+            sale_line_id = None
+            for sale in record.sale_line_ids:
+                sale_line_id = sale
+                
+            if sale_line_id != None:
+                producto = 0
+                if sale_line_id.oferta_id.attribute_id.is_cantonera = True:
+                    producto = 1                
+                    ala1 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
+                    ala2 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
+                    grosor = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_2
+                    
+                    longitud = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+                    #peso = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.peso_metro
+                    metros = record.unidades * longitud / 1000
+
+                    superficie = 0
+                    if sale_line_id.oferta_id.attribute_id.cantonera_color_id:
+                        superficie = sale_line_id.oferta_id.attribute_id.cantonera_color_id.id
+                    
+                    vendido = "producto=1" + "&ala1=" + str(ala1) + "&ala2=" + str(ala2) + "&grosor=" + str(grosor) + "&metros=" + str(metros) + "&super=" + str(superficie)
+
+            record.vendido = vendido
+    
+    
+    
     @api.depends('sale_line_ids', 'fecha_albaran')
     def _get_fsc(self):
         for record in self:   
