@@ -151,6 +151,8 @@ class AccountInvoice(models.Model):
                             vendido = "FALLO"
                     except:
                         vendido = "FALLO"
+                        
+                    vendido = enviar
        
             record.vendido = vendido            
             
