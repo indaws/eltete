@@ -396,7 +396,8 @@ class AccountInvoiceLine(models.Model):
             sale_line_id = None
             for sale in record.sale_line_ids:
                 sale_line_id = sale
-                
+              
+            """
             if sale_line_id != None:
                 producto = 0
                 if sale_line_id.oferta_id.attribute_id.is_cantonera = True:
@@ -414,7 +415,7 @@ class AccountInvoiceLine(models.Model):
                         superficie = sale_line_id.oferta_id.attribute_id.cantonera_color_id.id
                     
                     vendido = "producto=1" + "&ala1=" + str(ala1) + "&ala2=" + str(ala2) + "&grosor=" + str(grosor) + "&metros=" + str(metros) + "&super=" + str(superficie)
-
+            """
             record.vendido = vendido
     
     
