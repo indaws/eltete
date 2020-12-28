@@ -136,11 +136,11 @@ class AccountInvoice(models.Model):
     def _get_vendido(self):
         for record in self:
             vendido = ""
-            for line in record.invoice_line_ids:
-                if line.vendido != "":
-                    if vendido != "":
-                        vendido = vendido + " - "
-                    vendido = vendido + line.vendido + "&fecha=" + record.date_invoice
+            #for line in record.invoice_line_ids:
+                #if line.vendido != "":
+                    #if vendido != "":
+                        #vendido = vendido + " - "
+                    #vendido = vendido + line.vendido + "&fecha=" + record.date_invoice
                     
             record.vendido = vendido            
             
