@@ -140,7 +140,7 @@ class AccountInvoice(models.Model):
                 if line.vendido != "":
                     if vendido != "":
                         vendido = vendido + " - "
-                    vendido = vendido + line.vendido + "&fecha=" + record.date_invoice
+                    vendido = vendido + line.vendido + "&fecha=" + str(record.date_invoice)
                     
             record.vendido = vendido            
             
