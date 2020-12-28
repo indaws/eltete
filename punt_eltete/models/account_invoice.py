@@ -1,6 +1,8 @@
 from odoo import fields, models, api
 import logging
 _logger = logging.getLogger(__name__)
+from odoo import exceptions
+import requests
 
 
 
@@ -56,7 +58,7 @@ class AccountInvoice(models.Model):
     fsc_venta = fields.Boolean('FSC Venta', default = False)
     fsc_enlaces = fields.Html('FSC Enlaces')
     
-    vendido = fields.Char('Vendido', readonly = True, compute = '_get_vendido') 
+    vendido = fields.Char('DATA', readonly = True, compute = '_get_vendido') 
 
     #Proveedor
     importe_ajustado = fields.Float('Importe a ajustar', digits = (10, 2))
@@ -135,13 +137,21 @@ class AccountInvoice(models.Model):
     @api.depends('invoice_line_ids')
     def _get_vendido(self):
         for record in self:
-            vendido = ""
+            vendido = "OK"
+            direccion = "http://bemecopack.es/jseb/ventaodoo.php?"
+            
             for line in record.invoice_line_ids:
                 if line.vendido != "":
-                    if vendido != "":
-                        vendido = vendido + " - "
-                    vendido = vendido + line.vendido + "&fecha=" + str(record.date_invoice)
-                    
+                    enviar = direccion + line.vendido + "&fecha=" + str(record.date_invoice) + "&linea=" + str(record.id)
+                    try:
+                        respuesta1 = requests.get(enviar)
+                        respuesta = respuesta1.text
+                        
+                        if respuesta != "OK":
+                            vendido = "FALLO"
+                    except:
+                        vendido = "FALLO"
+       
             record.vendido = vendido            
             
             
