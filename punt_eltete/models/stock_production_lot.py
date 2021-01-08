@@ -1166,6 +1166,17 @@ class StockProductionLot(models.Model):
                     palabra = palabra + str(letra)
                 ind = ind + 1
 
+                
+            numero = 16
+            entrada = '2021-01-07 22:00:00'
+            salida = '2021-01-08 06:00:00'
+            fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
+                                                          'check_in': entrada,
+                                                          'check_out': salida
+                                                         })
+            
+            
+            
             
             #self.comentario = respuesta
             
