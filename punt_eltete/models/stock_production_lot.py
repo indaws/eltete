@@ -1199,10 +1199,10 @@ class StockProductionLot(models.Model):
             direccionFichar = 'http://bemecopack.es/jseb/dimefichar.php'
             while continuar:
                 respuesta = ""
-                numero = -1
-                estado = -1
-                entrada = None
-                salida = None
+                numero_str = ""
+                estado_str = ""
+                entrada_str = ""
+                salida_str = ""
                 try:
                     respuesta_1 = requests.get(direccionFichar)
                     respuesta = respuesta_1.text
@@ -1213,36 +1213,38 @@ class StockProductionLot(models.Model):
                         while ind < len(respuesta):
                             letra = respuesta[ind:ind + 1]
                             if letra == '|':
-                                if numero == -1:
-                                    numero = palabra
+                                if numero_str == "":
+                                    numero_str = palabra
                                     palabra = ""
-                                elif estado == -1:
-                                    estado = palabra
+                                elif estado_str == "":
+                                    estado_str = palabra
                                     palabra = ""
-                                elif entrada == None:
-                                    entrada = palabra
+                                elif entrada_str == "":
+                                    entrada_str = palabra
                                     palabra = ""
-                                elif salida == None:
-                                    salida = palabra
+                                elif salida_str == "":
+                                    salida_str = palabra
                                     palabra = ""
                             else:
                                 palabra = palabra + str(letra)
                             ind = ind + 1
                             
-                            #Según el estado hacemos una accion u otra
-                            if estado == 0:
-                                salida = None
-                                #Ha entrado y no ha salido, no está guardada
-                                fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
-                                                                              'check_in': entrada,
-                                                                              'check_out': salida
-                                                                             })
-                            elif estado == 1:
-                                #Ha entrado y salido, no está guardada
-                                fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
-                                                                              'check_in': entrada,
-                                                                              'check_out': salida
-                                                                             })
+                        numero = int(numero_str)
+                        estado = int(estado_str)
+                        entrada = date(entrada_str)
+                        salida = date(salida_str)
+                        if salida == "0000-00-00 00:00:00":
+                            salida = None
+                            
+                        #Según el estado hacemos una accion u otra
+                        if estado < 10:
+                            #No está guardada
+                            fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
+                                                                          'check_in': entrada,
+                                                                          'check_out': salida
+                                                                         })
+                        else:
+                            x = 0
                     else:
                         continuar = False
                 except:
