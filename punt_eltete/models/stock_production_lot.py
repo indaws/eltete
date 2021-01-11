@@ -1166,19 +1166,6 @@ class StockProductionLot(models.Model):
                     palabra = palabra + str(letra)
                 ind = ind + 1
 
-                
-            numero = 16
-            entrada = '2021-01-07 22:00:00'
-            salida = '2021-01-08 06:00:00'
-            """
-            fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
-                                                          'check_in': entrada,
-                                                          'check_out': salida
-                                                         })
-            """
-            
-            
-            
             #self.comentario = respuesta
             
             if pallet_producto == '1':
@@ -1207,8 +1194,61 @@ class StockProductionLot(models.Model):
             
             self.crear_sin_pedido()
             
-    
-    
+            #Cargamos los fichajes
+            continuar = True
+            direccionFichar = 'http://bemecopack.es/jseb/dimefichar.php'
+            while continuar:
+                respuesta = ""
+                numero = -1
+                estado = -1
+                entrada = None
+                salida = None
+                try:
+                    respuesta_1 = requests.get(direccionFichar)
+                    respuesta = respuesta_1.text
+                    
+                    if len(respuesta) > 1:
+                        ind = 1
+                        palabra = ""
+                        while ind < len(respuesta):
+                            letra = respuesta[ind:ind + 1]
+                            if letra == '|':
+                                if numero == -1:
+                                    numero = palabra
+                                    palabra = ""
+                                elif estado == -1:
+                                    estado = palabra
+                                    palabra = ""
+                                elif entrada == None:
+                                    entrada = palabra
+                                    palabra = ""
+                                elif salida == None:
+                                    salida = palabra
+                                    palabra = ""
+                            else:
+                                palabra = palabra + str(letra)
+                            ind = ind + 1
+                            
+                            #Según el estado hacemos una accion u otra
+                            if estado == 0:
+                                salida = None
+                                #Ha entrado y no ha salido, no está guardada
+                                fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
+                                                                              'check_in': entrada,
+                                                                              'check_out': salida
+                                                                             })
+                            elif estado == 1:
+                                #Ha entrado y salido, no está guardada
+                                fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
+                                                                              'check_in': entrada,
+                                                                              'check_out': salida
+                                                                             })
+                    else:
+                        continuar = False
+                except:
+                    continuar = False
+                
+            
     @api.multi
     def crear_sin_pedido(self):
         for record in self:
