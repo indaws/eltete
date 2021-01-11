@@ -1237,13 +1237,21 @@ class StockProductionLot(models.Model):
                             salida = None
                             
                         #Según el estado hacemos una accion u otra
-                        if estado < 10:
-                            #No está guardada
+                        if estado == 0:
+                            #No está guardada, es entrada
                             fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
                                                                           'check_in': entrada,
                                                                           'check_out': salida
                                                                          })
-                        else:
+                        elif estado == 1:
+                            #No está guardada, es salida
+                            fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
+                                                                          'check_in': entrada,
+                                                                          'check_out': salida
+                                                                         })
+                        elif estado == 11:
+                            #Si está guardada, es salida
+                            #Buscamos y actualizamos
                             x = 0
                     else:
                         continuar = False
