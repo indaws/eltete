@@ -1228,7 +1228,8 @@ class StockProductionLot(models.Model):
                             else:
                                 palabra = palabra + str(letra)
                             ind = ind + 1
-                            
+                        
+                        self.comentario = numero_str + " - " + estado_str + " - " + estrada_str + " - " + salida_str
                         numero = int(numero_str)
                         estado = int(estado_str)
                         entrada = date(entrada_str)
