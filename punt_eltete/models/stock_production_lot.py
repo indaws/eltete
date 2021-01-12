@@ -1197,7 +1197,7 @@ class StockProductionLot(models.Model):
             #Cargamos los fichajes
             continuar = True
             direccionFichar = 'http://bemecopack.es/jseb/dimefichar.php'
-            while continuar:
+            while continuar == True:
                 respuesta = ""
                 numero_str = ""
                 estado_str = ""
