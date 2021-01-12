@@ -1219,27 +1219,29 @@ class StockProductionLot(models.Model):
                                 if numero_str == "":
                                     numero_str = palabra
                                     palabra = ""
-                                    comentario = comentario + " numero " + numero_str
+                                    #comentario = comentario + " numero " + numero_str
                                 elif estado_str == "":
                                     estado_str = palabra
                                     palabra = ""
-                                    comentario = comentario + " estado " + estado_str
+                                    #comentario = comentario + " estado " + estado_str
                                 elif entrada_str == "":
                                     entrada_str = palabra
                                     palabra = ""
-                                    comentario = comentario + " entrada " + entrada_str
+                                    #comentario = comentario + " entrada " + entrada_str
                                 elif salida_str == "":
                                     salida_str = palabra
                                     palabra = ""
-                                    comentario = comentario + " salida " + salida_str
+                                    #comentario = comentario + " salida " + salida_str
                             else:
                                 palabra = palabra + str(letra)
                             ind = ind + 1
+                            
+                        comentario = numero_str + " " + estado_str + " " + entrada_str + " " + salida_str
                         
-                        numero = int(numero_str)
-                        estado = int(estado_str)
-                        entrada = date(entrada_str)
-                        salida = date(salida_str)
+                        numero = numero_str
+                        estado = estado_str
+                        entrada = entrada_str
+                        salida = salida_str
                         if salida == "0000-00-00 00:00:00":
                             salida = None
                             
