@@ -1206,13 +1206,10 @@ class StockProductionLot(models.Model):
                     respuesta = ""
                     respuesta_1 = requests.get(direccionFichar)
                     respuesta = respuesta_1.text
-                    self.comentario = "conectado"
                     
                     if len(respuesta) == 0:
                         continuar = False
-                        self.comentario = "Len 0"
                     else:
-                        self.comentario = respuesta
                         ind = 1
                         palabra = ""
                         while ind < len(respuesta):
@@ -1234,7 +1231,7 @@ class StockProductionLot(models.Model):
                                 palabra = palabra + str(letra)
                             ind = ind + 1
                         
-                        self.comentario = numero_str + " - " + estado_str + " - " + estrada_str + " - " + salida_str
+                        self.comentario = "palabras " + numero_str + " - " + estado_str + " - " + estrada_str + " - " + salida_str
                         numero = int(numero_str)
                         estado = int(estado_str)
                         entrada = date(entrada_str)
