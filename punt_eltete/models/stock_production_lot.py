@@ -1251,8 +1251,15 @@ class StockProductionLot(models.Model):
                                                                          })
                         elif estado == 11:
                             #Si está guardada, es salida
-                            #Buscamos y actualizamos
-                            x = 0
+                            fichaje_id = None
+                            for fichaje in self.env['hr.attendance'].search([('employee_id', '=', 'numero'),
+                                                                          ('check_in', '=', 'entrada'),
+                                                                          ('check_out', '=', 'None')
+                                                                         ]):
+                                fichaje_id = fichaje
+                            if fichaje_id != None:
+                                #Actualizamos la hora
+                                x = 0
                     else:
                         continuar = False
                 except:
