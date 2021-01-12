@@ -1238,27 +1238,29 @@ class StockProductionLot(models.Model):
                             
                         comentario = numero_str + " " + estado_str + " " + entrada_str + " " + salida_str
                         
-                        numero = numero_str
-                        estado = estado_str
+                        numero = int(numero_str)
                         entrada = entrada_str
                         salida = salida_str
                         if salida == "0000-00-00 00:00:00":
                             salida = None
                             
                         #Según el estado hacemos una accion u otra
-                        if estado == 0:
+                        if estado_str == "0":
+                            comentario = comentario + " estado 0"
                             #No está guardada, es entrada
                             fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
                                                                           'check_in': entrada,
                                                                           'check_out': salida
                                                                          })
-                        elif estado == 1:
+                        elif estado_str == "1":
+                            comentario = comentario + " estado 1"
                             #No está guardada, es salida
                             fichaje_id = self.env['hr.attendance'].create({'employee_id': numero, 
                                                                           'check_in': entrada,
                                                                           'check_out': salida
                                                                          })
-                        elif estado == 11:
+                        elif estado_str == "11":
+                            comentario = comentario + " estado 11"
                             #Si está guardada, es salida
                             fichaje_id = None
                             for fichaje in self.env['hr.attendance'].search([('employee_id', '=', 'numero'),
