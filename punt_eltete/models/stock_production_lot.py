@@ -1195,6 +1195,7 @@ class StockProductionLot(models.Model):
             #Cargamos los fichajes
             continuar = True
             direccionFichar = 'http://bemecopack.es/jseb/dimefichar.php'
+            self.comentario = "Preparado"
             while continuar == True:
                 respuesta = ""
                 numero_str = ""
@@ -1205,10 +1206,13 @@ class StockProductionLot(models.Model):
                     respuesta = ""
                     respuesta_1 = requests.get(direccionFichar)
                     respuesta = respuesta_1.text
+                    self.comentario = "conectado"
                     
                     if len(respuesta) == 0:
                         continuar = False
+                        self.comentario = "Len 0"
                     else:
+                        self.comentario = respuesta
                         ind = 1
                         palabra = ""
                         while ind < len(respuesta):
@@ -1264,7 +1268,7 @@ class StockProductionLot(models.Model):
                                 x = 0
                 except:
                     continuar = False
-                    self.comentario = "Fallo"
+                    #self.comentario = "Fallo"
                     
             self.crear_sin_pedido()        
                 
