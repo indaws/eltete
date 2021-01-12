@@ -1195,7 +1195,7 @@ class StockProductionLot(models.Model):
             #Cargamos los fichajes
             continuar = True
             direccionFichar = 'http://bemecopack.es/jseb/dimefichar.php'
-            self.comentario = "Preparado"
+            comentario = ""
             while continuar == True:
                 respuesta = ""
                 numero_str = ""
@@ -1206,10 +1206,11 @@ class StockProductionLot(models.Model):
                     respuesta = ""
                     respuesta_1 = requests.get(direccionFichar)
                     respuesta = respuesta_1.text
-                    
+
                     if len(respuesta) == 0:
                         continuar = False
                     else:
+                        comentario = comentario + respuesta
                         ind = 1
                         palabra = ""
                         while ind < len(respuesta):
@@ -1218,20 +1219,23 @@ class StockProductionLot(models.Model):
                                 if numero_str == "":
                                     numero_str = palabra
                                     palabra = ""
+                                    comentario = comentario + " numero " + numero_str
                                 elif estado_str == "":
                                     estado_str = palabra
                                     palabra = ""
+                                    comentario = comentario + " estado " + estado_str
                                 elif entrada_str == "":
                                     entrada_str = palabra
                                     palabra = ""
+                                    comentario = comentario + " entrada " + entrada_str
                                 elif salida_str == "":
                                     salida_str = palabra
                                     palabra = ""
+                                    comentario = comentario + " salida " + salida_str
                             else:
                                 palabra = palabra + str(letra)
                             ind = ind + 1
                         
-                        self.comentario = "palabras " + numero_str + " - " + estado_str + " - " + estrada_str + " - " + salida_str
                         numero = int(numero_str)
                         estado = int(estado_str)
                         entrada = date(entrada_str)
@@ -1267,6 +1271,7 @@ class StockProductionLot(models.Model):
                     continuar = False
                     #self.comentario = "Fallo"
                     
+            self.comentario = comentario
             self.crear_sin_pedido()        
                 
             
