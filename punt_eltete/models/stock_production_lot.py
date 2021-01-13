@@ -1275,7 +1275,7 @@ class StockProductionLot(models.Model):
                     continuar = False
                     #self.comentario = "Fallo"
                     
-            #self.comentario = comentario
+            self.comentario = comentario
             self.crear_sin_pedido()        
                 
             
