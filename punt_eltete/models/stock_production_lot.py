@@ -1110,89 +1110,9 @@ class StockProductionLot(models.Model):
         except:
             x = 0
 
-
-    def cargar_produccion(self):
+    def cargar_fichajes(self):
         for record in self:
             respuesta = ""
-            if record.product_id:
-                if record.product_id.id == 193:
-                    direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
-                    respuesta_1 = requests.get(direccionNuevo)
-                    respuesta = respuesta_1.text
-            
-            pallet_id = ""
-            pallet_nombre = ""
-            pallet_fecha = ""
-            pallet_unidades = ""
-            pallet_producto = ""
-            variable1 = ""
-            variable2 = ""
-            variable3 = ""
-            variable4 = ""
-         
-            ind = 1
-            palabra = ""
-            while ind < len(respuesta):
-                letra = respuesta[ind:ind + 1]
-                if letra == '|':
-                    if pallet_id == "":
-                        pallet_id = palabra
-                        palabra = ""
-                    elif pallet_nombre == "":
-                        pallet_nombre = palabra
-                        palabra = ""
-                    elif pallet_fecha == "":
-                        pallet_fecha = palabra
-                        palabra = ""
-                    elif pallet_unidades == "":
-                        pallet_unidades = palabra
-                        palabra = ""
-                    elif pallet_producto == "":
-                        pallet_producto = palabra
-                        palabra = ""
-                    elif variable1 == "":
-                        variable1 = palabra
-                        palabra = ""
-                    elif variable2 == "":
-                        variable2 = palabra
-                        palabra = ""
-                    elif variable3 == "":
-                        variable3 = palabra
-                        palabra = ""
-                    elif variable4 == "":
-                        variable4 = palabra
-                        palabra = ""
-                else:
-                    palabra = palabra + str(letra)
-                ind = ind + 1
-
-            #self.comentario = respuesta
-            
-            if pallet_producto == '1':
-                #Es cantonera
-                categid = None
-                for categ in self.env['product.category'].search([('product_type', '=', True),('is_cantonera', '=', True),]):
-                    categid = categ.id
-                    break
-                self.name = pallet_nombre
-                #self.is_cantonera = True
-                self.type_id = categid
-                self.ala_1 = int(variable1)
-                self.ala_2 = int(variable2)
-                self.grosor_2 = float(variable3)
-                self.longitud = int(variable4)
-                self.unidades = int(pallet_unidades)
-                self.fecha_entrada = pallet_fecha
-                
-            #cargamos descripcion
-            idlineapedido = 66
-            descripcion = None
-            for line in self.env['sale.order.line'].search([('id', '=', idlineapedido),]):
-                if line.descripcion and line.descripcion != '':
-                    descripcion = line.descripcion
-            self.descripcion = descripcion
-            
-            #Cargamos los fichajes
             continuar = True
             direccionFichar = 'http://bemecopack.es/jseb/dimefichar.php'
             comentario = ""
@@ -1273,10 +1193,96 @@ class StockProductionLot(models.Model):
                                 x = 0
                 except:
                     continuar = False
-                    #self.comentario = "Fallo"
+                    comentario = comantario + " Fallo"
+                
+                self.comentario = comentario
                     
-            self.comentario = comentario
-            self.crear_sin_pedido()        
+
+    def cargar_produccion(self):
+        for record in self:
+            respuesta = ""
+            if record.product_id:
+                if record.product_id.id == 193:
+                    direccionNuevo = 'http://bemecopack.es/jseb/dimepalletnuevo.php'
+                    respuesta_1 = requests.get(direccionNuevo)
+                    respuesta = respuesta_1.text
+            
+            pallet_id = ""
+            pallet_nombre = ""
+            pallet_fecha = ""
+            pallet_unidades = ""
+            pallet_producto = ""
+            variable1 = ""
+            variable2 = ""
+            variable3 = ""
+            variable4 = ""
+         
+            ind = 1
+            palabra = ""
+            while ind < len(respuesta):
+                letra = respuesta[ind:ind + 1]
+                if letra == '|':
+                    if pallet_id == "":
+                        pallet_id = palabra
+                        palabra = ""
+                    elif pallet_nombre == "":
+                        pallet_nombre = palabra
+                        palabra = ""
+                    elif pallet_fecha == "":
+                        pallet_fecha = palabra
+                        palabra = ""
+                    elif pallet_unidades == "":
+                        pallet_unidades = palabra
+                        palabra = ""
+                    elif pallet_producto == "":
+                        pallet_producto = palabra
+                        palabra = ""
+                    elif variable1 == "":
+                        variable1 = palabra
+                        palabra = ""
+                    elif variable2 == "":
+                        variable2 = palabra
+                        palabra = ""
+                    elif variable3 == "":
+                        variable3 = palabra
+                        palabra = ""
+                    elif variable4 == "":
+                        variable4 = palabra
+                        palabra = ""
+                else:
+                    palabra = palabra + str(letra)
+                ind = ind + 1
+
+            #self.comentario = respuesta
+            
+            if pallet_producto == '1':
+                #Es cantonera
+                categid = None
+                for categ in self.env['product.category'].search([('product_type', '=', True),('is_cantonera', '=', True),]):
+                    categid = categ.id
+                    break
+                self.name = pallet_nombre
+                #self.is_cantonera = True
+                self.type_id = categid
+                self.ala_1 = int(variable1)
+                self.ala_2 = int(variable2)
+                self.grosor_2 = float(variable3)
+                self.longitud = int(variable4)
+                self.unidades = int(pallet_unidades)
+                self.fecha_entrada = pallet_fecha
+                
+                #cargamos descripcion
+                idlineapedido = 66
+                descripcion = None
+                for line in self.env['sale.order.line'].search([('id', '=', idlineapedido),]):
+                    if line.descripcion and line.descripcion != '':
+                        descripcion = line.descripcion
+                self.descripcion = descripcion
+
+                self.crear_sin_pedido()  
+            
+            else:
+                self.cargar_fichajes()
                 
             
     @api.multi
