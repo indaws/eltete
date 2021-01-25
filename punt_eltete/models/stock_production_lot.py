@@ -1156,7 +1156,7 @@ class StockProductionLot(models.Model):
                                 palabra = palabra + str(letra)
                             ind = ind + 1
                             
-                        comentario = numero_str + " " + estado_str + " " + entrada_str + " " + salida_str
+                        comentario = comentario + numero_str
                         
                         numero = int(numero_str)
                         entrada = entrada_str
@@ -1191,9 +1191,11 @@ class StockProductionLot(models.Model):
                             if fichaje_id != None:
                                 #Actualizamos la hora
                                 x = 0
+                            
+                        comentario = comentario + " OK, "
                 except:
                     continuar = False
-                    comentario = comantario + " Fallo"
+                    comentario = comentario + " Fallo, "
                 
                 self.comentario = comentario
                     
