@@ -1130,7 +1130,7 @@ class StockProductionLot(models.Model):
                     if len(respuesta) == 0:
                         continuar = False
                     else:
-                        comentario = comentario + respuesta
+                        #comentario = comentario + respuesta
                         ind = 1
                         palabra = ""
                         while ind < len(respuesta):
