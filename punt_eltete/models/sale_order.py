@@ -881,7 +881,7 @@ class SaleOrderLine(models.Model):
             elif record.fila_vinculada_id:
                 if len(record.fila_vinculada_id.lot_ids) < record.fila_vinculada_id.num_pallets:
                     #und_pallet = record.fila_vinculada_id.und_pallet * record.fila_vinculada_id.num_pallets
-                    und_pallet = 1000
+                    und_pallet = record.fila_vinculada_id.und_pallet
                 else:
                     und_pallet = record.fila_vinculada_id.und_lotes
             else:
