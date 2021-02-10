@@ -19,6 +19,8 @@
                 <group>
                     <field name="partner_id"/>
                     <field name="user_id"/>
+                    <field name="invoice_status"/>
+                    
                     <field name="date"/>
                     <field name="state_id"/>
                     <field name="country_id"/>
