@@ -883,7 +883,9 @@ class SaleOrderLine(models.Model):
                     longitud = record.fila_vinculada_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
                     und_pallet = int(longitud / 800)
                     if und_pallet == 0:
-                        und_pallet = 1                  
+                        und_pallet = 1
+                        
+                    und_pallet = und_pallet * record.fila_vinculada_id.num_pallets
                 
                 elif len(record.fila_vinculada_id.lot_ids) < record.fila_vinculada_id.num_pallets:
                     #und_pallet = record.fila_vinculada_id.und_pallet * record.fila_vinculada_id.num_pallets
