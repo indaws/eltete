@@ -879,6 +879,12 @@ class SaleOrderLine(models.Model):
             if record.und_user > 0:
                 und_pallet = record.und_user
             elif record.fila_vinculada_id:
+                if record.oferta_id.attribute_id.contar_pallet == True:
+                    longitud = record.fila_vinculada_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+                    und_pallet = int(longitud / 800)
+                    if und_pallet == 0:
+                        und_pallet = 1                  
+                
                 if len(record.fila_vinculada_id.lot_ids) < record.fila_vinculada_id.num_pallets:
                     #und_pallet = record.fila_vinculada_id.und_pallet * record.fila_vinculada_id.num_pallets
                     if record.fila_vinculada_id.oferta_id:
