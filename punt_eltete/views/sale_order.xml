@@ -125,7 +125,13 @@
            		 </xpath>
             
 		
-			<field name="partner_shipping_id" position="after">
+			<field name="partner_shipping_id" position="replace">
+                <field name="partner_shipping_id"
+                       domain="[('parent_id','=', partner_id)]"
+                       groups="sale.group_delivery_invoice_address"
+                       context="{'default_type':'delivery'}"
+                       options="{'no_create': True, 'no_create_edit':True, 'always_reload': True}"/>
+
 				<field name="provincia_id"/>
 				<field name="pedido_cliente"/>
 				<field name="fecha_entrega"/>

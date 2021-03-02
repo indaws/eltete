@@ -41,12 +41,6 @@
         </field>
     </record>
 
-
-
-	
-    
-
-
     <record id="view_purchase_order_eltete_form" model="ir.ui.view">
         <field name="name">purchase.order.eltete.form</field>
         <field name="model">purchase.order</field>
@@ -90,8 +84,6 @@
             
         </field>
     </record>
-	
-	
 	
 	<record id="view_purchase_order_line_eltete_form" model="ir.ui.view">
         <field name="name">purchase.order.line.eltete.form</field>
@@ -137,7 +129,25 @@
         </field>
     </record>
     
-    
+    <record id="purchase.act_res_partner_2_supplier_invoices" model="ir.actions.act_window">
+            <field name="name">Facturas de proveedor</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="domain">[('type','=','in_invoice')]</field>
+			<field name="view_id" ref="account.invoice_supplier_tree"/>
+            <field name="context">{'search_default_partner_id': active_id, 'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Record a new vendor bill
+                </p><p>
+                    Vendors bills can be pre-generated based on purchase
+                    orders or receipts. This allows you to control bills
+                    you receive from your vendor according to the draft
+                    document in Odoo.
+                </p>
+            </field>
+        </record>
     
     
 </odoo>
