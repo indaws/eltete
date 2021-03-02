@@ -1094,8 +1094,8 @@ class sale_product_attribute(models.Model):
             
             if nombre == '':
                 nombre = 'Nuevo'
-                
-            nombre = record.referencia_cliente_id.referencia_id.titulo + " " + nombre
+
+            #nombre = record.referencia_cliente_id.referencia_id.titulo + " " + nombre
 
             record.name = nombre
             record.titulo = titulo
@@ -1313,11 +1313,14 @@ class sale_offer_oferta(models.Model):
     
     estado = fields.Char('Estado', compute = "_get_estado")
     
-    pedido_ultimo = fields.Date('Ultimo Pedido', compute = "_get_pedidos")
-    pedido_peso = fields.Integer('Kilos Pedidos', compute = "_get_pedidos")
+    pedido_ultimo = fields.Date('Ultimo Pedido', compute="_get_pedidos",
+                                store=True)
+    pedido_peso = fields.Integer('Kilos Pedidos', compute="_get_pedidos",
+                                 store=True)
     
     
-    @api.depends('partner_id')
+    @api.depends('partner_id',
+                 'partner_id.sale_order_ids.state')
     def _get_pedidos(self):
         for record in self:
             fecha = None

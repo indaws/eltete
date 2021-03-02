@@ -16,7 +16,8 @@
         "product",
         "sale_stock",
         "account",
-        "stock_picking_invoice_link"
+        "stock_picking_invoice_link",
+        "mrp"
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -31,6 +32,7 @@
         "views/stock_picking.xml",
         "views/purchase_order.xml",
         "views/crm_lead.xml",
+        "views/mrp_views.xml",
         "reports/qweb/report_sale_cotizacion.xml",
         "reports/qweb/report_sale_orden_fabricacion.xml",
         "reports/qweb/report_sale_order_export.xml",
@@ -44,6 +46,7 @@
         "reports/qweb/report_purchase_order_ingles.xml",
         "reports/qweb/report_purchase_order_llegada.xml",
         "reports/qweb/report_stock_production_inventario.xml",
+        "reports/qweb/report_mrp_orden_fabricacion.xml",
         "reports/eltete_report.xml",
         
     ],

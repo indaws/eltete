@@ -11,3 +11,4 @@ from . import stock_picking
 from . import account_invoice
 from . import purchase_order
 from . import crm_lead
+from . import mrp

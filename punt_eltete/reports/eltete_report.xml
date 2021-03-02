@@ -124,7 +124,15 @@
             file="punt_eltete.report_stock_production_inventario"
             name="punt_eltete.report_stock_production_inventario"
         />
-		
+
+        <report
+            id="rep_mrp_cotizacion"
+            string="Orden de fabricación"
+            model="mrp.production"
+            report_type="qweb-pdf"
+            file="punt_eltete.report_mrp_orden_fabricacion"
+            name="punt_eltete.report_mrp_orden_fabricacion"
+        />
 		
 
     </data>
