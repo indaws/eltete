@@ -195,7 +195,8 @@
                                 <field name='codigo_cliente' attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name='fsc_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
 				<field name='reciclable_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False)], 'readonly': [('no_editar', '=', True)]}"/>
-                                <field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
+                                <field name='contar_pallet' />
+				<field name='inglete_id' options="{'no_create': True, 'no_create_edit':True}" attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='inglete_num' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                                 <field name='inglete_texto' attrs="{'invisible': [('is_cantonera', '=', False),('is_perfilu', '=', False),], 'readonly': [('no_editar', '=', True)]}"/>
                             	<field name='comentario_proveedor' />

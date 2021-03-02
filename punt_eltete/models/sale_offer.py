@@ -825,6 +825,7 @@ class sale_product_attribute(models.Model):
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', readonly = True, string = "Pallet especial")
     und_paquete = fields.Integer('Und Paquete', readonly = True)
     paquetes_fila = fields.Integer('Paquetes Fila', readonly = True)
+    contar_pallet = fields.Boolean('Contar pallet')
     
 
     @api.onchange('referencia_cliente_id')
