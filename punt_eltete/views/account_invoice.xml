@@ -25,6 +25,7 @@
 				<field name="bruto_mojado_user" />
 				<field name="numero_contenedor" />
 				<field name="precinto_contenedor" />
+				<field name="vendido"/>
 				<field name="actualizar"/>
 			</field>
 		
@@ -112,7 +113,6 @@
 		<field name="partner_id"/>
 		<field name="date_invoice"/>
 		<field name="comercial_bueno_id"/>
-		<field name="vendido"/>
 		<field name="importe_cantonera" sum="Importe Cantonera"/>
 		<field name="peso_cantonera" sum="Peso Cantonera"/>
 		<field name="eton_cantonera"/>
