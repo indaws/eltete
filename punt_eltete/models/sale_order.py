@@ -771,31 +771,24 @@ class SaleOrderLine(models.Model):
             
             record.dir_qr_orden = dir_qr_orden
             
-            demanda = "http://bemecopack.es/jseb/papeldemanda.php?"
+            demanda = "http://bemecopack.es/jseb/pedido.php?"
             demanda = demanda + "orden=" + record.orden_fabricacion
 
             if record.oferta_id and record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
                 demanda = demanda + "&producto=1"
-                metros_pallet = und_pallet * longitud / 1000
-                demanda = demanda + "&mpal=" + str(metros_pallet)
-                if record.estado_linea == '1':
-                    demanda = demanda + "&npal=" + str(num_pallets)
-                else:
-                    demanda = demanda + "&npal=0"
                 demanda = demanda + "&ala1=" + str(ala_1)
                 demanda = demanda + "&ala2=" + str(ala_2)
                 demanda = demanda + "&grosor=" + str(grosor)
-            
-                if record.oferta_id.attribute_id.cantonera_color_id:
-                    demanda = demanda + "&super=" + str(record.oferta_id.attribute_id.cantonera_color_id.familia)
-                    
-                if record.oferta_id.attribute_id.fsc_id:
-                    demanda = demanda + "&fsc=" +  str(record.oferta_id.attribute_id.fsc_id.number)
-                else:
-                    demanda = demanda + "&fsc=0"
-                    
+                metros_pallet = und_pallet * longitud / 1000 * record.lotes_fabricar
+                if record.estado_linea != '1':
+                    metros_pallet = 0
+                demanda = demanda + "&metros=" + str(metros_pallet)
+                color_demanda = record.oferta_id.attribute_id.cantonera_color_id.id
+                demanda = demanda + "&color=" + str(color_demanda)
                 if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
                     demanda = demanda + "&jose=1"
+                else:
+                    demanda = demanda + "&jose=0"
             
             op_demanda = ""
             try:
