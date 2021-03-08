@@ -315,7 +315,6 @@
         <field name="arch" type="xml">
         
             <field name="order_partner_id" position="after">
-		    		<field name="lotes_fabricar"/>
 				<field name="und_pallet"/>
 				<field name="num_pallets"/>
 				<field name="cantidad"/>
