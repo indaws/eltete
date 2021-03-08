@@ -772,7 +772,7 @@ class SaleOrderLine(models.Model):
             record.dir_qr_orden = dir_qr_orden
             
             demanda = "http://bemecopack.es/jseb/pedido.php?"
-            demanda = demanda + "orden=" + record.orden_fabricacion
+            demanda = demanda + "orden=" + record.id
 
             if record.oferta_id and record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
                 demanda = demanda + "&producto=1"
