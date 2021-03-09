@@ -67,6 +67,7 @@ class sale_referencia_cliente(models.Model):
     
     PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
                       ('2', 'Columnas'),
+                      ('3', '2 Columnas'),
                       ]
     paletizado_cliente = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado Cliente', default = '1')
     
@@ -171,12 +172,15 @@ class sale_referencia_cliente(models.Model):
                         #Calculamos paletizado
                         if record.paletizado_cliente == '2':
                             paletizado = 2
-                            if record.und_paquete_cliente > 0:     
-                                paletizado = 1
-                            elif record.und_pallet_cliente > 0:     
-                                paletizado = 1
+                        elif record.paletizado_cliente == '3':
+                            paletizado = 3
+                            
+                        if record.und_paquete_cliente > 0:     
+                            paletizado = 1
+                        elif record.und_pallet_cliente > 0:     
+                            paletizado = 1
                         #Calculamos ancho pallet   
-                        if paletizado == 2:
+                        if paletizado == 2 or paletizado == 3:
                             ancho_pallet = 1150
                         if record.contenedor == True and record.referencia_id.longitud > 2300:
                             ancho_pallet = 1000
@@ -216,7 +220,18 @@ class sale_referencia_cliente(models.Model):
                                 paquetesColumna = paquetesColumna + 1
                                 und_paquete = int(undColumna / paquetesColumna)
                                 pesoPaquete = und_paquete * pesoUnidad
-                            paquetes = paquetesColumna * 4  
+                            paquetes = paquetesColumna * 4 
+                        #2 columnas
+                        elif paletizado == 3:
+                            undColumna = int(((ancho_pallet - 5) / 2 - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.53))
+                            paquetesColumna = 3
+                            und_paquete = int(undColumna / paquetesColumna)
+                            pesoPaquete = und_paquete * pesoUnidad
+                            while pesoPaquete > 20:
+                                paquetesColumna = paquetesColumna + 1
+                                und_paquete = int(undColumna / paquetesColumna)
+                                pesoPaquete = und_paquete * pesoUnidad
+                            paquetes = paquetesColumna * 4 
                             
                         #Dobles, Triples
                         repetido = 1
