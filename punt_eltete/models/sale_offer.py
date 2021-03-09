@@ -66,8 +66,8 @@ class sale_referencia_cliente(models.Model):
     pallet_especial_id = fields.Many2one('product.caracteristica.pallet.especial', string = "Pallet especial")
     
     PALETIZADO_SEL = [('1', 'Compacto (Normal)'),                 
-                      ('2', 'Columnas'),
-                      ('3', '2 Columnas'),
+                      ('2', '4 Columnas'),
+                      ('3', '2 Columnas LIDL'),
                       ]
     paletizado_cliente = fields.Selection(selection = PALETIZADO_SEL, string = 'Paletizado Cliente', default = '1')
     
