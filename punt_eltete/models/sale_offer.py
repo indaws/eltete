@@ -224,14 +224,14 @@ class sale_referencia_cliente(models.Model):
                         #2 columnas
                         elif paletizado == 3:
                             undColumna = int(((ancho_pallet - 5) / 2 - 0.7071 * mediaAlas) / (record.referencia_id.grosor_2 * 1.53))
-                            paquetesColumna = 3
+                            paquetesColumna = 4
                             und_paquete = int(undColumna / paquetesColumna)
                             pesoPaquete = und_paquete * pesoUnidad
                             while pesoPaquete > 20:
                                 paquetesColumna = paquetesColumna + 1
                                 und_paquete = int(undColumna / paquetesColumna)
                                 pesoPaquete = und_paquete * pesoUnidad
-                            paquetes = paquetesColumna * 4 
+                            paquetes = paquetesColumna * 2 
                             
                         #Dobles, Triples
                         repetido = 1
