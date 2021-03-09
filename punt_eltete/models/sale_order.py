@@ -585,7 +585,9 @@ class SaleOrderLine(models.Model):
                 tipo_pallet = "Pallet de Madera"
             paletizado = "Compacto (Normal)"
             if record.oferta_id.attribute_id.paletizado == 2:
-                paletizado = "Columnas" 
+                paletizado = "4 Columnas" 
+            elif record.oferta_id.attribute_id.paletizado == 3:
+                paletizado = '2 Columnas'
             #und_paquete = str(record.oferta_id.attribute_id.und_paquete) + " unidades / paquete"
             #paquetes_fila = str(record.oferta_id.attribute_id.paquetes_fila) + " paquetes / fila"
             und_paquete = record.oferta_id.attribute_id.und_paquete
