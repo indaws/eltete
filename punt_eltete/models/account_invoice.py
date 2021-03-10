@@ -424,6 +424,25 @@ class AccountInvoiceLine(models.Model):
                         superficie = sale_line_id.oferta_id.attribute_id.cantonera_color_id.id
                     
                     vendido = "producto=1" + "&ala1=" + str(ala1) + "&ala2=" + str(ala2) + "&grosor=" + str(grosor) + "&metros=" + str(metros) + "&super=" + str(superficie)
+                
+                elif sale_line_id.oferta_id.attribute_id.is_slipsheet == True:
+                    producto = 3
+                    
+                    ala1 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_1
+                    ancho = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ancho
+                    ala2 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_2
+                    
+                    ala3 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_3
+                    longitud = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.longitud
+                    ala4 = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.ala_4
+                    
+                    grosor = sale_line_id.oferta_id.attribute_id.referencia_cliente_id.referencia_id.grosor_1
+                    
+                    unidades = record.unidades
+                    
+                    vendido = "producto=3" + "&ala1=" + str(ala1) + "&ancho=" + str(ancho) + "&ala2=" + str(ala2)
+                    vendido = vendido + "&ala3=" + str(ala3) + "&longitud=" + str(longitud) + "&ala4=" + str(ala4)
+                    vendido = vendido + "&grosor=" + str(grosor) + "&unidades=" + str(unidades)
 
             record.vendido = vendido
     
