@@ -113,7 +113,6 @@
 		<field name="partner_id"/>
 		<field name="date_invoice"/>
 		<field name="comercial_bueno_id"/>
-		<field name="vendido"/>
 		<field name="importe_cantonera" sum="Importe Cantonera"/>
 		<field name="peso_cantonera" sum="Peso Cantonera"/>
 		<field name="eton_cantonera"/>
