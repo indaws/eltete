@@ -48,7 +48,7 @@
                               	    	<div class="float-left company_address" style="padding:5px; width:50%;">
                                   	    <strong>Papeles:</strong><br/>
 				  	    Superficie:<span t-field="doc.op_superficie_ancho"/><br/>
-					    Interior:<span t-field="doc.op_interior_ancho"/>
+					    <span t-field="doc.op_demanda"/>
 				    	</div>
 			  	    </div>
 		          	    <br/>
