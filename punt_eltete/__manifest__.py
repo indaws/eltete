@@ -17,6 +17,7 @@
         "sale_stock",
         "account",
         "stock_picking_invoice_link",
+        "delivery",
         "mrp"
     ],
     "data": [

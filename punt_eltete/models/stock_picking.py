@@ -104,8 +104,6 @@ class StockMove(models.Model):
             record.peso_bruto_mojado = peso_bruto_mojado
 
 
-
-            
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
     
@@ -121,7 +119,16 @@ class StockPicking(models.Model):
     neto_mojado_user = fields.Integer('Neto User')
     bruto_mojado_user = fields.Integer('Bruto User')
     
-    
+    @api.multi
+    def _add_delivery_cost_to_so(self):
+        self.ensure_one()
+        # No pasamos el coste al pedido (programado en el core)
+        return True
+        sale_order = self.sale_id
+        if sale_order.invoice_shipping_on_delivery:
+            carrier_price = self.carrier_price * (1.0 + (float(self.carrier_id.margin) / 100.0))
+            sale_order._create_delivery_line(self.carrier_id, carrier_price)
+
     @api.multi
     def validar_asignar_albaran_compra(self):
         for record in self:
