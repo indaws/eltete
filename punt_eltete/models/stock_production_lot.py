@@ -264,7 +264,7 @@ class StockProductionInventario(models.Model):
                     lotes_fecha = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),('almacenado_fecha', '=', True),])
                 
                 #diferencias de inventario
-                elif record.tipo == '200' and record.fecha_inicio and record.fecha_fin:
+                elif record.tipo == '200' and record.fecha_fin:
                     
                     record.fecha_inicio = '2020-12-31'
                     
