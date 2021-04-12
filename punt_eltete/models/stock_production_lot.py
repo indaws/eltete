@@ -289,10 +289,8 @@ class StockProductionInventario(models.Model):
                                     lote.almacenado_fecha = False
                                     
                             except:
-                                continuar = False
-                                comentario = comentario + " Fallo de conexion"
-                                lote.almacenado_fecha = True
-                                lote.comentario = lote.comentario + " Fallo "
+                                lote.almacenado_fecha = False
+                                
                                     
                     lotes_fecha = self.env['stock.production.lot'].search([('is_cantonera', '=', True),('almacenado_fecha', '=', True),])
                 
