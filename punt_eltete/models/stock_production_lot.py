@@ -287,7 +287,7 @@ class StockProductionInventario(models.Model):
                                 lote.almacenado_fecha = True
                                 lote.comentario = lote.comentario + " Fallo "
                                     
-                    lotes_fecha = self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fecha_entrada', '>', '2020-12-31'),])
+                    lotes_fecha = self.env['stock.production.lot'].search([('almacenado_fecha', '=', True),])
                 
                 
                 
