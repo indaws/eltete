@@ -271,7 +271,9 @@ class StockProductionInventario(models.Model):
                     #Producción entre FECHAS
                     for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True)]):
                         
-                        if lote.fecha_entrada == None or lote.fecha_entrada == False:
+                        if lote.unidades == 0:
+                            lote.almacenado_fecha = False
+                        elif lote.fecha_entrada == None or lote.fecha_entrada == False:
                             lote.almacenado_fecha = True
                         elif lote.fecha_entrada >= record.fecha_inicio and lote.fecha_entrada <= record.fecha_fin:
                             lote.almacenado_fecha = True
