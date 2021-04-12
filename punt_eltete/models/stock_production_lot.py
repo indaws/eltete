@@ -20,7 +20,7 @@ class StockProductionInventario(models.Model):
                 #('20', 'INVENTARIO PAPEL HOY'), 
                 #('21', 'INVENTARIO PAPEL FECHA'), 
                ('100', 'PRODUCCIÓN ENTRE FECHAS'), 
-               ('200', 'BUSCAR ERRORES ENTRE FECHAS'),
+               ('200', 'PALLETS NO FABRICADOS DESDE 01-01-2021'),
                ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     comenzar = fields.Boolean(string="Comenzar Inventario")
@@ -269,7 +269,7 @@ class StockProductionInventario(models.Model):
                     #Producción entre FECHAS
                     for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True),('lote.fecha_entrada', '>', '2021-01-01'),]):
                         
-                        lote.almacenado = True
+                        lote.almacenado_fecha = True
                                        
                         if lote.almacenado_fecha == True:  
                             #Comprobamos si en el programa de papel existe
