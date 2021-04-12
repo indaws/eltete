@@ -728,6 +728,7 @@
 				</group>
 				<group>
                             		<field name='fecha_inicio' attrs="{'invisible': [('tipo', '!=', '100')]}" />
+					<field name='fecha_inicio' attrs="{'invisible': [('tipo', '!=', '200')]}" />
 					<field name='fecha_fin' attrs="{'invisible': [('tipo', '=', '10')]}" />
 				</group>
 			</group>
