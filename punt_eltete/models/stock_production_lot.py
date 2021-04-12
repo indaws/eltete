@@ -267,9 +267,14 @@ class StockProductionInventario(models.Model):
                 elif record.tipo == '200' and record.fecha_inicio and record.fecha_fin:
                     
                     #Producción entre FECHAS
-                    for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fecha_entrada', '>', '2020-12-31'),]):
+                    for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True)]):
                         
-                        lote.almacenado_fecha = True
+                        if lote.fecha_entrada == None or lote.fecha_entrada == False:
+                            lote.almacenado_fecha = True
+                        elif lote.fecha_entrada >= '2020-12-31' and lote.fecha_entrada <= record.fecha_fin:
+                            lote.almacenado_fecha = True
+                        else:
+                            lote.almacenado_fecha = False
                                        
                         if lote.almacenado_fecha == True:  
                             #Comprobamos si en el programa de papel existe
@@ -287,7 +292,7 @@ class StockProductionInventario(models.Model):
                                 lote.almacenado_fecha = True
                                 lote.comentario = lote.comentario + " Fallo "
                                     
-                    lotes_fecha = self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fecha_entrada', '>', '2020-12-31'),('almacenado_fecha', '=', True),])
+                    lotes_fecha = self.env['stock.production.lot'].search([('is_cantonera', '=', True),('almacenado_fecha', '=', True),])
                 
                 
                 
