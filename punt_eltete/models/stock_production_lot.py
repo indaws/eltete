@@ -20,7 +20,7 @@ class StockProductionInventario(models.Model):
                 #('20', 'INVENTARIO PAPEL HOY'), 
                 #('21', 'INVENTARIO PAPEL FECHA'), 
                ('100', 'PRODUCCIÓN ENTRE FECHAS'), 
-               ('200', 'DIFERENCIA PRODUCCIÓN ENTRE FECHAS'),
+               ('200', 'BUSCAR ERRORES ENTRE FECHAS'),
                ]
     tipo = fields.Selection(selection = TIPO_SEL, string = 'Tipo', required = True)
     comenzar = fields.Boolean(string="Comenzar Inventario")
@@ -267,15 +267,10 @@ class StockProductionInventario(models.Model):
                 elif record.tipo == '200' and record.fecha_inicio and record.fecha_fin:
                     
                     #Producción entre FECHAS
-                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),]):
+                    for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True),('lote.fecha_entrada', '>', '2021-01-01'),]):
                         
-                        if lote.fecha_entrada == None or lote.fecha_entrada == False:
-                            lote.almacenado_fecha = False
-                        elif lote.fecha_entrada >= record.fecha_inicio and lote.fecha_entrada <= record.fecha_fin:
-                            lote.almacenado_fecha = True
-                        else:
-                            lote.almacenado_fecha = False
-                                        
+                        lote.almacenado = True
+                                       
                         if lote.almacenado_fecha == True:  
                             #Comprobamos si en el programa de papel existe
                             try:
@@ -292,7 +287,7 @@ class StockProductionInventario(models.Model):
                                 lote.almacenado_fecha = True
                                 lote.comentario = lote.comentario + " Fallo "
                                     
-                    lotes_fecha = self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),('almacenado_fecha', '=', True),])
+                    lotes_fecha = self.env['stock.production.lot'].search([('is_cantonera', '=', True),('lote.fecha_entrada', '>', '2021-01-01'),])
                 
                 
                 
