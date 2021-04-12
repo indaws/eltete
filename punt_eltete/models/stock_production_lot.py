@@ -267,7 +267,7 @@ class StockProductionInventario(models.Model):
                 elif record.tipo == '200' and record.fecha_inicio and record.fecha_fin:
                     
                     #Producción entre FECHAS
-                    for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fecha_entrada', '>', 2020-12-31),]):
+                    for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fecha_entrada', '>', '2020-12-31'),]):
                         
                         lote.almacenado_fecha = True
                                        
@@ -287,7 +287,7 @@ class StockProductionInventario(models.Model):
                                 lote.almacenado_fecha = True
                                 lote.comentario = lote.comentario + " Fallo "
                                     
-                    lotes_fecha = self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fecha_entrada', '>', 2020-12-31),])
+                    lotes_fecha = self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fecha_entrada', '>', '2020-12-31'),])
                 
                 
                 
