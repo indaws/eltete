@@ -801,9 +801,13 @@ class ProductReferencia(models.Model):
                     peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
                 elif sumaAlas == 200:
                     peso1 = 1250
-                #Añadido
-                elif sumaAlas <= 240:
-                    peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+                #Eliminado
+                #elif sumaAlas <= 240:
+                    #peso1 = sumaAlas * 1250 / 200
+                    #peso1 = (1250 - 1125) / (200 - 180) * (sumaAlas - 180) + 1125
+                else:
+                    peso1 = sumaAlas * 1250 / 200
+                    
                 peso1 = int(peso1 * record.grosor_2)
                 peso1 = peso1 / 10000
                 
