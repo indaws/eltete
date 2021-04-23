@@ -102,12 +102,12 @@ class ProductCategory(models.Model):
          
     @api.multi
     def create_prod_perfilu(self, ala1, ancho, ala2, grosor_2, longitud):
-        if ala1 < 18 or ala1 > 70:
-            return None, "Error: Ala1 debe estar entre 18 y 70"
+        if ala1 < 18 or ala1 > 90:
+            return None, "Error: Ala1 debe estar entre 18 y 90"
         if ancho < 16 or ancho > 125:
             return None, "Error: ancho debe estar entre 16 y 125"
-        if ala2 < 18 or ala2 > 70:
-            return None, "Error: Ala2 debe estar entre 18 y 70"
+        if ala2 < 18 or ala2 > 90:
+            return None, "Error: Ala2 debe estar entre 18 y 90"
         if grosor_2 < 1.5 or grosor_2 > 5.5:
             return None, "Error: Grosor debe estar entre 1.5 y 5.5"
         if longitud < 300 or longitud > 6000:
