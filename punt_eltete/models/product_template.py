@@ -102,20 +102,20 @@ class ProductCategory(models.Model):
          
     @api.multi
     def create_prod_perfilu(self, ala1, ancho, ala2, grosor_2, longitud):
-        if ala1 < 18 or ala1 > 90:
-            return None, "Error: Ala1 debe estar entre 18 y 90"
-        if ancho < 16 or ancho > 125:
-            return None, "Error: ancho debe estar entre 16 y 125"
-        if ala2 < 18 or ala2 > 90:
-            return None, "Error: Ala2 debe estar entre 18 y 90"
+        if ala1 < 18 or ala1 > 95:
+            return None, "Error: Ala1 debe estar entre 18 y 95"
+        if ancho < 16 or ancho > 150:
+            return None, "Error: ancho debe estar entre 16 y 150"
+        if ala2 < 18 or ala2 > 95:
+            return None, "Error: Ala2 debe estar entre 18 y 95"
         if grosor_2 < 1.5 or grosor_2 > 5.5:
             return None, "Error: Grosor debe estar entre 1.5 y 5.5"
         if longitud < 300 or longitud > 6000:
             return None, "Error: Logitud debe estar entre 300 y 6000"
             
         sumaAlas = ala1 + ancho + ala2
-        if sumaAlas < 60 or sumaAlas > 240:
-             return None, "Error: La suma de alas mas el ancho debe estar entre 60 y 240"
+        if sumaAlas < 60 or sumaAlas > 340:
+             return None, "Error: La suma de alas mas el ancho debe estar entre 60 y 340"
         
         if ala2 > ala1:
             aux = ala1
