@@ -12,18 +12,9 @@ class ResPartner(models.Model):
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
     TIPO_CLIENTE_SEL = [('0','Sin Tipo'),
-                        ('1','Especial 660'),
-                        ('2','Camión Completo 700'),
-                        ('3','Agricultura 740'),
-                        ('4','Medio Camión 740'),
-                        ('5','Distribuidor Grande 780'),
-                        ('6','Distribuidor Mediano 820'),
-                        ('7','Distribuidor Pequeño 860'),
-                        ('7','Cliente Final Grande 820'), 
-                        ('8','Cliente Final Mediano 900'), 
-                        ('9','Cliente Final Pequeño 980'),
+                        
                         ]
-    clase_cliente = fields.Selection(selection=TIPO_CLIENTE_SEL, string='Tipo Cliente', default='0', )
+    clase_cliente = fields.Selection(selection=TIPO_CLIENTE_SEL, string='Clase Cliente', default='0', )
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
     
