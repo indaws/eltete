@@ -3,9 +3,9 @@ from odoo import fields, models, api
 
 AGRUPADO = [('0','Sin Tipo'),
             ('1','Especial 660'),
-            ('2','Camión Completo 700'),
+            ('2','Camion Completo 700'),
             ('3','Agricultura 740'),
-            ('4','Medio Camión 740'),
+            ('4','Medio Camion 740'),
             ('11','Distribuidor Grande 780'),
             ('12','Distribuidor Mediano 820'),
             ('13','Distribuidor Pequeño 860'),
@@ -24,7 +24,7 @@ class ResPartner(models.Model):
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
     
-    #grupo_cliente = fields.Selection(selection=AGRUPADO,string = 'Clase Cliente',default = '0')
+    grupo_cliente = fields.Selection(selection=AGRUPADO,string = 'Clase Cliente',default = '0')
     
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
