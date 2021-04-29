@@ -22,7 +22,7 @@ class ResPartner(models.Model):
                 ('14','Cliente Final Grande 820'), 
                 ('15','Cliente Final Mediano 900'), 
                 ('16','Cliente Final Pequeño 980')]
-    grupo_cliente = fields.Selection(selection = AGRUPADO, string = 'Clase Cliente', default = '0')
+    #grupo_cliente = fields.Selection(selection = AGRUPADO, string = 'Clase Cliente', default = '0')
     
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
