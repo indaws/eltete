@@ -133,7 +133,7 @@
                 <field name='importe_pedido' />
                 <field name='importe_factura' />
                 <field name='importe_riesgo' />
-                <field name='clase_riesgo' />
+                <field name='grupo_cliente' />
             </field>
             
             <field name="category_id" position="after">
