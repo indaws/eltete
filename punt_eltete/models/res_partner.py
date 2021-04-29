@@ -1,6 +1,18 @@
 ﻿
 from odoo import fields, models, api
 
+AGRUPADO = [('0','Sin Tipo'),
+            ('1','Especial 660'),
+            ('2','Camión Completo 700'),
+            ('3','Agricultura 740'),
+            ('4','Medio Camión 740'),
+            ('11','Distribuidor Grande 780'),
+            ('12','Distribuidor Mediano 820'),
+            ('13','Distribuidor Pequeño 860'),
+            ('14','Cliente Final Grande 820'), 
+            ('15','Cliente Final Mediano 900'), 
+            ('16','Cliente Final Pequeño 980'),
+           ]
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -11,18 +23,12 @@ class ResPartner(models.Model):
     ice = fields.Char('ICE')
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
-    AGRUPADO = [('0','Sin Tipo'),
-                ('1','Especial 660'),
-                ('2','Camión Completo 700'),
-                ('3','Agricultura 740'),
-                ('4','Medio Camión 740'),
-                ('11','Distribuidor Grande 780'),
-                ('12','Distribuidor Mediano 820'),
-                ('13','Distribuidor Pequeño 860'),
-                ('14','Cliente Final Grande 820'), 
-                ('15','Cliente Final Mediano 900'), 
-                ('16','Cliente Final Pequeño 980')]
-    #grupo_cliente = fields.Selection(selection = AGRUPADO, string = 'Clase Cliente', default = '0')
+    
+    clase_cliente = fields.Selection(        
+        selection=AGRUPADO,        
+        string = 'Clase Cliente',        
+        default = '0'   
+    )
     
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
