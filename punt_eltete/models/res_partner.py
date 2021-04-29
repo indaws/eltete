@@ -24,7 +24,7 @@ class ResPartner(models.Model):
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
     
-    grupo_cliente = fields.Selection(selection=AGRUPADO,string = 'Clase Cliente',default = '0')
+    #grupo_cliente = fields.Selection(selection=AGRUPADO,string = 'Clase Cliente',default = '0')
     
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
