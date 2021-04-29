@@ -12,7 +12,7 @@ class ResPartner(models.Model):
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
     TIPO_CLIENTE_SEL = [('0','Sin Tipo'),
-                        ('1','Cliente Especial 650),
+                        ('1','Cliente Especial 650'),
                         ('2','Camión Completo 700'),
                         ('3','Agricultura 740'),
                         ('4','Medio Camión 740'),
