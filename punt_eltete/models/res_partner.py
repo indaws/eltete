@@ -11,7 +11,7 @@ class ResPartner(models.Model):
     ice = fields.Char('ICE')
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
-    CLASE_SEL = [('0','Sin Tipo'),
+    AGRUPADO = [('0','Sin Tipo'),
                 ('1','Especial 660'),
                 ('2','Camión Completo 700'),
                 ('3','Agricultura 740'),
@@ -21,9 +21,8 @@ class ResPartner(models.Model):
                 ('13','Distribuidor Pequeño 860'),
                 ('14','Cliente Final Grande 820'), 
                 ('15','Cliente Final Mediano 900'), 
-                ('16','Cliente Final Pequeño 980'),
-                ]
-    #clase_cliente = fields.Selection(selection = CLASE_SEL, string = 'Clase Cliente', default = '0')
+                ('16','Cliente Final Pequeño 980')]
+    clase_cliente = fields.Selection(selection = AGRUPADO, string = 'Clase Cliente', default = '0')
     
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
