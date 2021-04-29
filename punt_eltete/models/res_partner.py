@@ -11,6 +11,17 @@ class ResPartner(models.Model):
     ice = fields.Char('ICE')
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
+    TIPO_CLIENTE_SEL = [('0','Sin Tipo'),
+                        ('1','Cliente Especial 650),
+                        ('2','Camión Completo 700'),
+                        ('3','Agricultura 740'),
+                        ('4','Medio Camión 740'),
+                        ('5','Distribuidor Mediano 820'),
+                        ('6','Distribuidor Pequeño 900'),
+                        ('7','Cliente Final Mediano 900'), 
+                        ('8','Cliente Final Pequeño 980'),
+                        ]
+    tipo_cliente = fields.Selection(selection=TIPO_CLIENTE_SEL, string='Tipo Cliente', default='0', )
     
     prod_comment_ids = fields.One2many('partner.product.comments', 'partner_id', string="Observaciones productos")
     
