@@ -66,7 +66,7 @@ class ResPartner(models.Model):
             importe_factura = 0.0
             
             for pedido in record.sale_order_ids:
-                if pedido.invoice_status != 'invoiced':
+                if pedido.estado != '4':
                     importe_pedido = importe_pedido + pedido.amount_total
             
             for factura in record.invoice_ids:
