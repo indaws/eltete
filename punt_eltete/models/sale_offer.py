@@ -73,6 +73,7 @@ class sale_referencia_cliente(models.Model):
     
     ANCHO_PALLET_SEL = [('1200', '1200'),     
                         ('1150', '1150'),
+                        ('1100', '1100'),
                         ('1000', '1000'),
                         ('800', '800'), 
                         ]
