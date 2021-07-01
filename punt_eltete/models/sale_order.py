@@ -785,6 +785,8 @@ class SaleOrderLine(models.Model):
                 metros_pallet = und_pallet * longitud / 1000 * record.lotes_fabricar
                 if record.estado_linea != '1':
                     metros_pallet = 0
+                if record.lotes_fabricar == 0:
+                    metros_pallet = 0
                 demanda = demanda + "&metros=" + str(metros_pallet)
                 color_demanda = record.oferta_id.attribute_id.cantonera_color_id.id
                 demanda = demanda + "&color=" + str(color_demanda)
