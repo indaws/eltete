@@ -774,19 +774,21 @@ class SaleOrderLine(models.Model):
             record.dir_qr_orden = dir_qr_orden
             
             demanda = "http://bemecopack.es/jseb/pedido.php?"
-            demanda = demanda + "orden=" + str(record.id)
+            demanda = demanda + "nombre=" + orden_fabricacion
 
             if record.oferta_id and record.oferta_id.attribute_id.referencia_cliente_id.referencia_id.is_cantonera == True:
                 demanda = demanda + "&producto=1"
                 demanda = demanda + "&ala1=" + str(ala_1)
                 demanda = demanda + "&ala2=" + str(ala_2)
                 demanda = demanda + "&grosor=" + str(grosor)
+                demanda = demanda + "&longitud=" + str(longitud)
                 metros_pallet = und_pallet * longitud / 1000 * record.lotes_fabricar
                 if record.estado_linea != '1':
                     metros_pallet = 0
                 demanda = demanda + "&metros=" + str(metros_pallet)
                 color_demanda = record.oferta_id.attribute_id.cantonera_color_id.id
                 demanda = demanda + "&color=" + str(color_demanda)
+                demanda = demanda + "&fsc=" + str(op_fsc)
                 if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
                     demanda = demanda + "&jose=1"
                 else:
