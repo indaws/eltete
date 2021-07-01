@@ -108,16 +108,15 @@
 		    <field name="cantidad" />
 		    <field name="precio" />
 		    <field name="importe" />
-		    		<field name="op_demanda" invisible="1" />
-		    		<field name="tax_id" invisible="1" />
-		    		<field name="actualizar" invisible="1" />
-		    		<field name="name" invisible="1" />
-		    		<field name="product_qty" invisible="1" />
-		    		<field name="product_uom_qty" invisible="1" />
-		    		<field name="price_unit"  invisible="1" />
-				<field name="no_editar" invisible="1" />
-				<field name="lotes_fabricar" invisible="1" />
-				<field name="lot_ids" invisible="1" />
+		    <field name="tax_id" invisible="1" />
+		    <field name="actualizar" invisible="1" />
+		    <field name="name" invisible="1" />
+		    <field name="product_qty" invisible="1" />
+		    <field name="product_uom_qty" invisible="1" />
+		    <field name="price_unit"  invisible="1" />
+			<field name="no_editar" invisible="1" />
+			<field name="lotes_fabricar" invisible="1" />
+			<field name="lot_ids" invisible="1" />
             </xpath>
 		
 			<xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
