@@ -791,6 +791,14 @@ class SaleOrderLine(models.Model):
                 color_demanda = record.oferta_id.attribute_id.cantonera_color_id.id
                 demanda = demanda + "&color=" + str(color_demanda)
                 demanda = demanda + "&fsc=" + str(op_fsc)
+                fecha_entrega = "3000-12-31"
+                if record.order_id.fecha_entrega:
+                    fecha_entrega = record.order_id.fecha_entrega
+                elif record.order_id.fecha_entrega_cliente:
+                    fecha_entrega = record.order_id.fecha_entrega_cliente
+                demanda = demanda + "&entrega=" + fecha_entrega
+                demanda = demanda + "&inicio=" + record.lotes_inicio
+                
                 if record.oferta_id.attribute_id.referencia_cliente_id.jose == True:
                     demanda = demanda + "&jose=1"
                 else:
