@@ -23,6 +23,8 @@ class ResPartner(models.Model):
     ice = fields.Char('ICE')
     num_bailen = fields.Integer('Num Bailén')
     representante_legal = fields.Html('Representante Legal')
+    eton_cantonera = fields.Integer('Cantonera €/t')
+    eton_slipsheet = fields.Integer('Slip Sheet €/t')
     
     #grupo_cliente = fields.Selection(selection=AGRUPADO,string = 'Clase Cliente',default = '0')
     
