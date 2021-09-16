@@ -133,6 +133,7 @@
                 <field name='importe_pedido' />
                 <field name='importe_factura' />
                 <field name='importe_riesgo' />
+                <field name='subida_texto' />
                 <field name='eton_cantonera' />
                 <field name='eton_slipsheet' />
             </field>
