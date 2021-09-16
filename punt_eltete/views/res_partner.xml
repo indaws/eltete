@@ -133,7 +133,8 @@
                 <field name='importe_pedido' />
                 <field name='importe_factura' />
                 <field name='importe_riesgo' />
-                
+                <field name='eton_cantonera' />
+                <field name='eton_slipsheet' />
             </field>
             
             <field name="category_id" position="after">
