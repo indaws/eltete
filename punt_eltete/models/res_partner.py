@@ -25,7 +25,6 @@ class ResPartner(models.Model):
     representante_legal = fields.Html('Representante Legal')
     eton_cantonera = fields.Integer('Cantonera €/t')
     eton_slipsheet = fields.Integer('SlipSheet €/t')
-    subida_texto = fields.Text('Subida')
     
     #grupo_cliente = fields.Selection(selection=AGRUPADO,string = 'Clase Cliente',default = '0')
     
