@@ -504,6 +504,7 @@ class StockProductionLot(models.Model):
     peso_bruto = fields.Integer('Peso Bruto', readonly = True, compute = "_get_peso")
     user_peso_bruto = fields.Float('User Peso Bruto', digits=(10, 2))
     user_peso_neto = fields.Float('User Peso Neto', digits=(10, 2))
+    user_peso_troquelado = fields.Integer('Peso Troquelado')
     peso_metro = fields.Float('Peso Metro', readonly = True, digits=(12, 4), compute = "_get_peso" )
     
     imprimir_etiqueta = fields.Boolean('Imprimir Etiqueta', compute = "_get_etiqueta")
