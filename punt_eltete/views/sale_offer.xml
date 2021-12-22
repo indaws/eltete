@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
                 <tree string="Producto">
                     <field name="name"/>
+		    <field name="activa"/>
                     <field name="comentario_paletizado"/>
                     <field name="partner_id"/>
                     <field name="user_id"/>                    
