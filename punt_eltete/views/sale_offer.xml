@@ -35,7 +35,8 @@
                             <field name="user_id"/>
                             <field name="date" invisible="1"/>
                             <field name="type_id" domain="[('product_type','=',True)]" options="{'no_create': True, 'no_create_edit':True}"  attrs="{'readonly': [('state', '!=', 'BOR')]}"/>
-							<field name="precio_cliente"/>
+			    <field name="precio_cliente"/>
+			    <field name="activa"/>
                             <field name="is_cantonera" invisible="1"/>
                             <field name="is_perfilu" invisible="1"/>
                             <field name="is_slipsheet" invisible="1"/>
