@@ -10,6 +10,8 @@ class sale_referencia_cliente(models.Model):
     name = fields.Char(string='Título', compute="_get_name", store=True) ##POR DEFERCTO EL TITULO, no el name
     referencia_cliente_nombre = fields.Char(string='Ref cliente nombre')
     
+    activa = fields.Boolean("Activa", default = True)
+    
     partner_id = fields.Many2one('res.partner', string="Cliente", required=True)
     user_id = fields.Many2one('res.users', string="Comercial", default=lambda self: self.env.user, required=True)
     date = fields.Date('Fecha', default=fields.Date.today(), required=True, copy=False)
