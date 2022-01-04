@@ -1255,6 +1255,10 @@ class StockProductionLot(models.Model):
             variable2 = ""
             variable3 = ""
             variable4 = ""
+            variable5 = ""
+            variable6 = ""
+            variable7 = ""
+            variable8 = ""
          
             ind = 1
             palabra = ""
@@ -1288,6 +1292,18 @@ class StockProductionLot(models.Model):
                     elif variable4 == "":
                         variable4 = palabra
                         palabra = ""
+                    elif variable5 == "":
+                        variable5 = palabra
+                        palabra = ""
+                    elif variable6 == "":
+                        variable6 = palabra
+                        palabra = ""
+                    elif variable7 == "":
+                        variable7 = palabra
+                        palabra = ""
+                    elif variable8 == "":
+                        variable8 = palabra
+                        palabra = ""
                 else:
                     palabra = palabra + str(letra)
                 ind = ind + 1
@@ -1317,6 +1333,38 @@ class StockProductionLot(models.Model):
                     if line.descripcion and line.descripcion != '':
                         descripcion = line.descripcion
                 self.descripcion = descripcion
+
+                self.crear_sin_pedido()  
+                
+            elif pallet_producto == '3':
+                #Es Slip Sheet
+                categid = None
+                for categ in self.env['product.category'].search([('product_type', '=', True),('is_slipsheet', '=', True),]):
+                    categid = categ.id
+                    break
+                self.name = pallet_nombre
+                #self.is_slipsheet = True
+                self.type_id = categid
+                self.ala_1 = int(variable1)
+                self.ancho = int(variable2)
+                self.ala_2 = int(variable3)
+                self.ala_3 = int(variable4)
+                self.longitud = int(variable5)
+                self.ala_4 = int(variable6)
+                self.grosor_1 = float(variable7)
+                self.unidades = int(pallet_unidades)
+                self.fecha_entrada = pallet_fecha
+                self.user_peso_neto = int(variable8)
+                
+                #cargamos descripcion
+                """
+                idlineapedido = 66
+                descripcion = None
+                for line in self.env['sale.order.line'].search([('id', '=', idlineapedido),]):
+                    if line.descripcion and line.descripcion != '':
+                        descripcion = line.descripcion
+                self.descripcion = descripcion
+                """
 
                 self.crear_sin_pedido()  
             
