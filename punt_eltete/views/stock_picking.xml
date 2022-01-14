@@ -27,7 +27,7 @@
                 <field name="numero_contenedor"/>
                 <field name="precinto_contenedor"/>
             </xpath>
-	    <xpath expr="//field[@name='origininvoice_ids']" position="after">
+	    <xpath expr="//field[@name='invoice_ids']" position="after">
                 <field name="special_conditions"/>
             </xpath>
 
