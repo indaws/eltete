@@ -118,6 +118,12 @@ class StockPicking(models.Model):
     peso_bruto_mojado = fields.Integer('Peso bruto Mojado', compute="_get_num_pallets")
     neto_mojado_user = fields.Integer('Neto User')
     bruto_mojado_user = fields.Integer('Bruto User')
+    special_conditions = fields.Char('Condiciones Especiales', compute="_get_special_conditions")
+    
+    @api.depends('precinto_contenedor')
+    def _get_special_conditions(self):
+        for record in self:
+            record.condiciones_especiales = partner_id.special_conditions
     
     @api.multi
     def _add_delivery_cost_to_so(self):
