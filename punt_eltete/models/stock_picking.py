@@ -123,7 +123,7 @@ class StockPicking(models.Model):
     @api.depends('precinto_contenedor')
     def _get_special_conditions(self):
         for record in self:
-            record.condiciones_especiales = record.partner_id.special_conditions
+            record.special_conditions = record.partner_id.special_conditions
     
     @api.multi
     def _add_delivery_cost_to_so(self):
