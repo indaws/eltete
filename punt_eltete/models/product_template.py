@@ -71,6 +71,8 @@ class ProductCategory(models.Model):
             return None, "Error: Ala no puede ser superior a la longitud"
         if ala2 > longitud:
             return None, "Error: Ala no puede ser superior a la longitud"
+        if sumaAlas > 180 and longitud < 300:
+            return None, "Error: David dice que en Sierra no se puede"
             
         if ala2 > ala1:
             aux = ala1
