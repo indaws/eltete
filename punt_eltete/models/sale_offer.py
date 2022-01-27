@@ -1177,7 +1177,10 @@ class sale_product_attribute(models.Model):
 
                 #Cantonera
                 if record.type_id.is_cantonera == True:
-                    if record.referencia_cliente_id.longitud < 500:
+                    alas = record.referencia_cliente_id.ala_1 + record.referencia_cliente.ala_2
+                    if alas <= 100 and record.referencia_cliente_id.longitud < 500:
+                        sierra = True
+                    elif alas > 100 and record.referencia_cliente_id.longitud < 300:
                         sierra = True
 
                     
