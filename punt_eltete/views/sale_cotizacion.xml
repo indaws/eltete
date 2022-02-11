@@ -113,7 +113,7 @@
                     <group>
                         <field name="cotizacion_id"/>
                         <field name="partner_id"/>                        
-                        <field name="referencia_cliente_id" domain="[('partner_id', '=', partner_id)]" />
+                        <field name="referencia_cliente_id" domain="[('partner_id', '=', partner_id), ('activa', '=', 'True')]" />
                         <field name="attribute_id" domain="[('referencia_cliente_id', '=', referencia_cliente_id), ('activa', '=', 'True')]"/>
                         <field name="oferta_ids" domain="[('attribute_id', '=', attribute_id), ('activa', '=', 'True')]" widget="many2many_tags"/>
                     </group>
