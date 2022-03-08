@@ -75,7 +75,7 @@ class StockProductionInventario(models.Model):
             if record.tipo:
                 if record.tipo == '10':
                     #Inventario producto terminado HOY
-                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),]):
+                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('fabricat', '=', True),]):
                         if record.comenzar == True:
                             lote.inventariado = False
                             
@@ -149,7 +149,7 @@ class StockProductionInventario(models.Model):
                                 
                 elif record.tipo == '11' and record.fecha_fin:
                     #Inventario Producto Terminado fecha
-                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),]):
+                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('fabricat', '=', True),]):
 
                         if lote.fecha_entrada == None or lote.fecha_entrada == False:
                             lote.almacenado_fecha = False
@@ -229,7 +229,7 @@ class StockProductionInventario(models.Model):
                 
                 elif record.tipo == '100' and record.fecha_inicio and record.fecha_fin:
                     #Producción entre FECHAS
-                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),]):
+                    for lote in self.env['stock.production.lot'].search([('is_mprima_papel', '=', False),('is_varios', '=', False),('is_perfilu', '=', False),('is_formato', '=', False),('is_bobina', '=', False),('is_pieballet', '=', False),('is_flatboard', '=', False),('fabricat', '=', True),]):
                         
                         if lote.fecha_entrada == None or lote.fecha_entrada == False:
                             lote.almacenado_fecha = False
@@ -269,7 +269,7 @@ class StockProductionInventario(models.Model):
                     record.fecha_inicio = '2020-12-31'
                     
                     #Producción entre FECHAS
-                    for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True)]):
+                    for lote in self.env['stock.production.lot'].search([('is_cantonera', '=', True),('fabricat', '=', True),]):
                         
                         if lote.unidades == 0:
                             lote.almacenado_fecha = False
