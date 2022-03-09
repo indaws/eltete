@@ -659,6 +659,9 @@ class StockProductionLot(models.Model):
             elif record.longitud == 805:
                 barras_1_imagen = barras_1_imagen + "91056758"
                 barras_1_texto = barras_1_texto + "91056758"
+            elif record.longitud == 915:
+                barras_1_imagen = barras_1_imagen + "99871741"
+                barras_1_texto = barras_1_texto + "99871741"
             else:
                 barras_1_imagen = barras_1_imagen + "00000000"
                 barras_1_texto = barras_1_texto + "00000000"
