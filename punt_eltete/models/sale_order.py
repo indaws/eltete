@@ -135,7 +135,7 @@ class SaleOrderLine(models.Model):
     
     complemento_plastico = fields.Char('Plástico', compute = "_get_complementos")
     complemento_reciclable = fields.Char('Reciclable', compute = "_get_complementos")
-    complemento_portes = fields.Char('Portes', digits = compute = "_get_complementos")
+    complemento_portes = fields.Char('Portes', compute = "_get_complementos")
     complemento_urgente = fields.Char('Urgente', compute = "_get_complementos")
     
     complemento_texto = fields.Char('prueba', default = "")
