@@ -167,14 +167,14 @@ class SaleOrderLine(models.Model):
             valor = 0
         self.complemento_portes_num = valor
     
-    """
+
     def _get_complementos(self):
         for record in self:
             record.complemento_plastico = str(record.complemento_plastico_num) + " €/pallet"
             record.complemento_reciclable = str(record.complemento_reciclable_num) + " €/pallet"
             record.complemento_portes = str(record.complemento_portes_num) + " €/pallet"
             record.complemento_urgente = str(record.complemento_urgente_num) + " €/pallet"
-    """
+
 
     
     kanban_state = fields.Selection([
