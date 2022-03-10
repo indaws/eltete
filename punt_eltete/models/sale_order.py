@@ -992,29 +992,6 @@ class SaleOrderLine(models.Model):
                 precio = str(precio_num) + " €/unidad"
                 peso_neto = 0
                 peso_bruto = 0
-                
-            #Transporte
-            if record.oferta_id.attribute_id.referencia_cliente_id.is_varios == True:
-                if record.oferta_id.attribute_id.referencia_cliente_id.tipo_varios_id:
-                    # Zona 1
-                    if record.oferta_id.attribute_id.referencia_cliente_id.tipo_varios_id.number == 101:
-                        if record.num_pallets == 1 or record.num_pallets == 2:
-                            precio_num = 75
-                        elif record.num_pallets == 3:
-                            precio_num = 60
-                        elif record.num_pallets >= 4 and record.num_pallets <= 5:
-                            precio_num = 50
-                        elif record.num_pallets >= 6 and record.num_pallets <= 7:
-                            precio_num = 40
-                        elif record.num_pallets >= 8 and record.num_pallets <= 9:
-                            precio_num = 35
-                        elif record.num_pallets >= 10 and record.num_pallets <= 11:
-                            precio_num = 35
-                        elif record.num_pallets >= 12:
-                            precio_num = 30
-                            
-                        precio = str(precio_num) + " €/unidad"
-                        
             
             importe = precio_num * cantidad_num
             
