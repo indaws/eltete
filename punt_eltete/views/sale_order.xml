@@ -97,13 +97,16 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="before">
                 <field name="order_partner_id" invisible="1" />
 		    <field name="order_id" invisible="1"/>
+		    <field name="product_id" invisible="1" />
                     <field name="descripcion" />
-		    <field name="aclaracion" />
+		    <field name="complemento_texto" />
 		    <field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
+		    <field name="complemento_plastico_num" />
+		    <field name="complemento_reciclable_num" />
+		    <field name="complemento_portes_num" />
+		    <field name="complemento_urgente_num" />
 		    <field name="bultos" />
-		    <field name="fila_vinculada_id" domain="[('order_id', '=', order_id)]"/>
-		    <field name="estado_linea" />	
-		    <field name="und_user" invisible="1" />
+		    <field name="fila_vinculada_id" domain="[('order_id', '=', order_id)]"/>	
 		    <field name="und_pallet" />
 		    <field name="cantidad" />
 		    <field name="precio" />
@@ -272,8 +275,10 @@
 			</group>
 			<group>
 				<field name="descripcion" />
+				<field name="product_id" />
 				<field name="attribute_id" domain="[('partner_id', '=', order_partner_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 				<field name="oferta_id" domain="[('attribute_id', '=', attribute_id),('activa', '=', True)]" attrs="{'readonly': [('no_editar', '=', True)]}"/>
+				<field name="aclaracion" />
 			</group>
 			<group>
 				<field name="fsc_linea" />
