@@ -128,13 +128,12 @@ class SaleOrderLine(models.Model):
     fsc_valido = fields.Boolean('FSC Válido', compute = "_get_fsc")
     fsc_venta = fields.Boolean('FSC Venta', default = False)
     
-    
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
         ('done', 'Green'),
         ('blocked', 'Red')], string='Kanban State',
         copy=False, default='normal')
-        /pallet
+        
         
     
     @api.onchange('estado_cantonera',)
