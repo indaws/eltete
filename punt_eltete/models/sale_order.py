@@ -150,11 +150,15 @@ class SaleOrderLine(models.Model):
                 
         # Calculamos complementos
         direccion = "http://bemecopack.es/jseb/slip/complemento_portes.php?"
-        entrega_pais = self.order_id.partner_shipping_id.country_id.id
-        entrega_zip = self.order_id.partner_shipping_id.zip
+        entrega_pais = 0
+        entrega_zip = 0
+        if self.order_id.partner_shipping_id:
+            entrega_pais = self.order_id.partner_shipping_id.country_id.id
+            entrega_zip = self.order_id.partner_shipping_id.zip
         direccion = direccion + "pais=" + str(entrega_pais) + "&zip=" + str(entrega_zip) + "&npal=" + str(npal_pedido)
         
         self.complemento_texto = direccion
+        
         valor = 0
         try:
             respuesta = requests.get(direccion)
@@ -162,13 +166,15 @@ class SaleOrderLine(models.Model):
         except:
             valor = 0
         self.complemento_portes_num = valor
-        
+    
+    """
     def _get_complementos(self):
         for record in self:
             record.complemento_plastico = str(record.complemento_plastico_num) + " €/pallet"
             record.complemento_reciclable = str(record.complemento_reciclable_num) + " €/pallet"
             record.complemento_portes = str(record.complemento_portes_num) + " €/pallet"
             record.complemento_urgente = str(record.complemento_urgente_num) + " €/pallet"
+    """
 
     
     kanban_state = fields.Selection([
