@@ -97,7 +97,7 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='qty_delivered']" position="before">
                 <field name="order_partner_id" invisible="1" />
 		    <field name="order_id" invisible="1"/>
-		    <field name="product_id" invisible="1" />
+		    <field name="product_id" />
                     <field name="descripcion" />
 		    <field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 		    
