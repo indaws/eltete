@@ -128,55 +128,6 @@ class SaleOrderLine(models.Model):
     fsc_valido = fields.Boolean('FSC Válido', compute = "_get_fsc")
     fsc_venta = fields.Boolean('FSC Venta', default = False)
     
-    complemento_plastico_num = fields.Float('Plástico', digits = (10,2), default = 0)
-    complemento_reciclable_num = fields.Float('Reciclable', digits = (10,2), default = 0)
-    complemento_portes_num = fields.Float('Portes', digits = (10,2), default = 0)
-    complemento_urgente_num = fields.Float('Urgente', digits = (10,2), default = 0)
-    
-    #complemento_plastico = fields.Char('Plástico', compute = "_get_complementos")
-    #complemento_reciclable = fields.Char('Reciclable', compute = "_get_complementos")
-    #complemento_portes = fields.Char('Portes', compute = "_get_complementos")
-    #complemento_urgente = fields.Char('Urgente', compute = "_get_complementos")
-    
-    complemento_texto = fields.Char('prueba', default = "")
-    
-    @api.onchange('num_pallets')
-    def _onchange_numero_pallets(self):
-        # Calculamos los pallets que hay
-        npal_pedido = 0
-        for line in self.order_id.order_line:
-            if line.descripcion and len(line.descripcion) > 0 and line.bultos == '1':
-                npal_pedido = npal_pedido + line.num_pallets
-                
-        # Calculamos complementos
-        direccion = "http://bemecopack.es/jseb/slip/complemento_portes.php?"
-        entrega_pais = 0
-        entrega_zip = 0
-        if self.order_id.partner_shipping_id:
-            entrega_pais = self.order_id.partner_shipping_id.country_id.id
-            entrega_zip = self.order_id.partner_shipping_id.zip
-        direccion = direccion + "pais=" + str(entrega_pais) + "&zip=" + str(entrega_zip) + "&npal=" + str(npal_pedido)
-        
-        self.complemento_texto = direccion
-        
-        valor = 0
-        try:
-            respuesta = requests.get(direccion)
-            valor = int(respuesta.text)
-        except:
-            valor = 0
-        self.complemento_portes_num = valor
-    
-    """
-    def _get_complementos(self):
-        for record in self:
-            record.complemento_plastico = str(record.complemento_plastico_num) + " €/pallet"
-            record.complemento_reciclable = str(record.complemento_reciclable_num) + " €/pallet"
-            record.complemento_portes = str(record.complemento_portes_num) + " €/pallet"
-            record.complemento_urgente = str(record.complemento_urgente_num) + " €/pallet"
-    """
-
-
     
     kanban_state = fields.Selection([
         ('normal', 'Grey'),
