@@ -100,10 +100,7 @@
 		    <field name="product_id" invisible="1" />
                     <field name="descripcion" />
 		    <field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
-		    <field name="complemento_plastico" />
-		    <field name="complemento_reciclable" />
-		    <field name="complemento_portes" />
-		    <field name="complemento_urgente" />
+		    
 		    <field name="und_pallet" />
 		    <field name="cantidad" />
 		    <field name="precio" />
