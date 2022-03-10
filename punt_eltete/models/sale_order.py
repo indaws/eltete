@@ -149,12 +149,13 @@ class SaleOrderLine(models.Model):
         direccion = direccion + "pais=" + str(entrega_pais) + "provincia=" + str(entrega_provincia) + "npal=" + str(npal_pedido)
         
         self.complemento_texto = direccion
-        #valor = 0
-        #try:
-            #respuesta = requests.get(direccion)
-            #valor = int(respuesta.text)
-        #except:
-            #valor = 0
+        valor = 0
+        try:
+            respuesta = requests.get(direccion)
+            valor = int(respuesta.text)
+        except:
+            valor = 0
+        self.complemento_portes_num = valor
         
 
     
