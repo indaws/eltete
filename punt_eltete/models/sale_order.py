@@ -133,10 +133,10 @@ class SaleOrderLine(models.Model):
     complemento_portes_num = fields.Float('Portes', digits = (10,2), default = 0)
     complemento_urgente_num = fields.Float('Urgente', digits = (10,2), default = 0)
     
-    complemento_plastico = fields.Char('Plástico', compute = "_get_complementos")
-    complemento_reciclable = fields.Char('Reciclable', compute = "_get_complementos")
-    complemento_portes = fields.Char('Portes', compute = "_get_complementos")
-    complemento_urgente = fields.Char('Urgente', compute = "_get_complementos")
+    #complemento_plastico = fields.Char('Plástico', compute = "_get_complementos")
+    #complemento_reciclable = fields.Char('Reciclable', compute = "_get_complementos")
+    #complemento_portes = fields.Char('Portes', compute = "_get_complementos")
+    3complemento_urgente = fields.Char('Urgente', compute = "_get_complementos")
     
     complemento_texto = fields.Char('prueba', default = "")
     
@@ -167,13 +167,14 @@ class SaleOrderLine(models.Model):
             valor = 0
         self.complemento_portes_num = valor
     
-
+    """
     def _get_complementos(self):
         for record in self:
             record.complemento_plastico = str(record.complemento_plastico_num) + " €/pallet"
             record.complemento_reciclable = str(record.complemento_reciclable_num) + " €/pallet"
             record.complemento_portes = str(record.complemento_portes_num) + " €/pallet"
             record.complemento_urgente = str(record.complemento_urgente_num) + " €/pallet"
+    """
 
 
     
