@@ -144,7 +144,7 @@ class SaleOrderLine(models.Model):
                 
         # Calculamos complementos
         direccion = "http://bemecopack.es/jseb/slip/complemento_portes.php?"
-        entrega_pais = self.order_id.partner_shipping_id.country_id
+        entrega_pais = self.order_id.partner_shipping_id.country_id.id
         entrega_provincia = self.order_id.partner_shipping_id.zip
         direccion = direccion + "pais=" + str(entrega_pais) + "provincia=" + str(entrega_provincia) + "npal=" + str(npal_pedido)
         
