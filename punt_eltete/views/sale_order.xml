@@ -99,7 +99,6 @@
 		    <field name="order_id" invisible="1"/>
 		    <field name="product_id" invisible="1" />
                     <field name="descripcion" />
-		    <field name="complemento_texto" />
 		    <field name="num_pallets" attrs="{'readonly': [('no_editar', '=', True)]}"/>
 		    <field name="complemento_plastico_num" />
 		    <field name="complemento_reciclable_num" />
