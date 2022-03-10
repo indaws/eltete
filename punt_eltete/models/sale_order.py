@@ -4,8 +4,6 @@ _logger = logging.getLogger(__name__)
 from odoo import exceptions
 import requests
 
-# Hola
-
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
