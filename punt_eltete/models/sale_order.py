@@ -131,7 +131,13 @@ class SaleOrderLine(models.Model):
     complemento_plastico_num = fields.Float('Plástico', digits = (10,2), default = 0)
     complemento_reciclable_num = fields.Float('Reciclable', digits = (10,2), default = 0)
     complemento_portes_num = fields.Float('Portes', digits = (10,2), default = 0)
-    complemento_urgente_num = fields.Float('Portes', digits = (10,2), default = 0)
+    complemento_urgente_num = fields.Float('Urgente', digits = (10,2), default = 0)
+    
+    complemento_plastico = fields.Char('Plástico', compute = "_get_complementos")
+    complemento_reciclable = fields.Char('Reciclable', compute = "_get_complementos")
+    complemento_portes = fields.Char('Portes', digits = compute = "_get_complementos")
+    complemento_urgente = fields.Char('Urgente', compute = "_get_complementos")
+    
     complemento_texto = fields.Char('prueba', default = "")
     
     @api.onchange('num_pallets')
@@ -157,6 +163,12 @@ class SaleOrderLine(models.Model):
             valor = 0
         self.complemento_portes_num = valor
         
+    def _get_complementos(self):
+        for record in self:
+            record.complemento_plastico = str(record.complemento_plastico_num) + " €/pallet"
+            record.complemento_reciclable = str(record.complemento_reciclable_num) + " €/pallet"
+            record.complemento_portes = str(record.complemento_portes_num) + " €/pallet"
+            record.complemento_urgente = str(record.complemento_urgente_num) + " €/pallet"
 
     
     kanban_state = fields.Selection([
@@ -164,7 +176,7 @@ class SaleOrderLine(models.Model):
         ('done', 'Green'),
         ('blocked', 'Red')], string='Kanban State',
         copy=False, default='normal')
-        
+        /pallet
         
     
     @api.onchange('estado_cantonera',)
